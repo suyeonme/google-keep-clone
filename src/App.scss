@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+.App {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    background-color: white;
+    min-height: 100vh;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    img { width: 100%; }
+}
+
+// TEST
+.notes {
+    width: 100%;
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 15px;
+    grid-auto-rows: minmax(180px, auto);
+    grid-auto-flow: dense;
+}
