@@ -32,6 +32,6 @@ button {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 15px;
-    grid-auto-rows: minmax(180px, auto);
+    grid-auto-rows: minmax(min-cotent, auto);
     grid-auto-flow: dense;
 }
