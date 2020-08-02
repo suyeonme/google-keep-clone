@@ -24,14 +24,3 @@ button {
 
     img { width: 100%; }
 }
-
-// TEST
-.notes {
-    width: 100%;
-    padding: 0 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-gap: 15px;
-    grid-auto-rows: minmax(min-cotent, auto);
-    grid-auto-flow: dense;
-}
