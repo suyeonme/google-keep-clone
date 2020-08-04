@@ -1,10 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './Note.scss';
 
-import Icon from '../../../icons/trash-can.svg'
+import Toolbar from './Toolbar/Toolbar';
 
 const Note = props => {   
-    const btnRef = useRef();
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Note on hover
+    const onHover = () => setIsHovered(true);
+    const onUnHover = () => setIsHovered(false);
 
     const truncateText = p => {
         let text;
@@ -12,8 +16,8 @@ const Note = props => {
         return text;
     };
 
-    const onClickNote = e => {
-        if (e.target !== btnRef.current) props.selected(props.id);
+    const onClickNote = (e) => {
+        if (e.target.nodeName !== 'IMG') props.selected(props.id);
     };
 
     const onRemoveNote = () => {
@@ -29,17 +33,15 @@ const Note = props => {
         content = <p>{truncateText(props.content)}</p>;
     };
     
-    /// Class
+    // Class
     let classes = `Note`;
     if (props.checkIndex) classes = `Note Clicked`;
 
     return(
-        <div className={classes} onClick={onClickNote}>
+        <div className={classes} onClick={onClickNote} onMouseEnter={onHover} onMouseLeave={onUnHover}>
             <h1>{props.title}</h1>
             { content }
-            <button onClick={onRemoveNote}>
-                <img src={Icon} alt="Delete Icon" ref={btnRef} />
-            </button>
+            { isHovered && <Toolbar removed={onRemoveNote} /> }
         </div>
     );
 };

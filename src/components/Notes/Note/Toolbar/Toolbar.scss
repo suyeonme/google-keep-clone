@@ -1,0 +1,18 @@
+.Toolbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    img { 
+        width: 15px;
+        height: 15px;
+    }
+
+    &__tools {
+        img { margin-right: 15px; }
+    }
+
+    button { background-color: transparent ;}
+}
+
+//transition: background-color .218s ease-in-out,box-shadow .218s ease-in-out;
