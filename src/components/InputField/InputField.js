@@ -1,61 +1,3 @@
-/* import React, { useState } from 'react';
-import './InputField.scss';
-
-import Icon from '../../icons/plus.svg';
-
-const InputField = props => {
-    const [note, setNote] = useState({title: '', content: ''});
-    const [isClicked, setIsClicked] = useState(false);
-
-    const updateNoteHandler = e => {
-        const {name, value} = e.target;
-        setNote({...note, [name]: value});
-    };
-
-    const submitNoteHandler = e => {
-        e.preventDefault();
-        props.onAddNote(note);
-        setNote({ title: '', content: ''}); // Clear input 
-        setIsClicked(!isClicked);
-    };
-
-    const onClickHandler = () => {
-        setIsClicked(!isClicked);
-    };
-
-    return(
-        <>
-            <form className="InputField" >
-                <input 
-                    name="title" 
-                    type="text" 
-                    placeholder="Title" 
-                    onChange={updateNoteHandler} 
-                    onClick={onClickHandler}
-                    value={note.title}
-                    autoComplete="off"
-                    />
-                {
-                    isClicked && 
-                    <textarea 
-                    name="content" 
-                    placeholder="Take a note..." 
-                    rows="2" 
-                    onChange={updateNoteHandler} 
-                    value={note.content}></textarea>
-                }
-                { isClicked &&
-                <button onClick={submitNoteHandler}>
-                    <img src={Icon} alt="Add Button"/>
-                </button>
-                }
-            </form>
-        </>
-    );
-};
-
-export default InputField; */
-
 import React, { useState } from 'react';
 import './InputField.scss';
 
@@ -63,6 +5,7 @@ import Icon from '../../icons/plus.svg';
 
 const InputField = props => {
     const [note, setNote] = useState({title: '', content: ''});
+    const [expandInput, setExpandInput] = useState(false); 
 
     const updateNoteHandler = e => {
         const {name, value} = e.target;
@@ -73,30 +16,43 @@ const InputField = props => {
         e.preventDefault();
         props.onAddNote(note);
         setNote({ title: '', content: ''}); // Clear input 
+        onFoldInput();
+    };
+
+    const onFoldInput = () => {
+        setExpandInput(false);
+    };
+
+    const onUnfoldInput = e => {
+        e.stopPropagation();
+        setExpandInput(true);
     };
 
     return(
-        <div className="InputField" onClick={props.closed}>
-            <form>
+        <div className="InputField" onClick={onFoldInput}>
+            <form onClick={onUnfoldInput}>
                 <input 
                     name="title" 
                     type="text" 
                     placeholder="Title" 
-                    onChange={updateNoteHandler} 
                     value={note.title}
                     autoComplete="off"
-                    onClick={props.show}
+                    onChange={updateNoteHandler} 
+                    //onClick={onUnfoldInput} 
                     />
                 {
-                    props.isClicked && 
+                    expandInput && 
                     <textarea 
                     name="content" 
                     placeholder="Take a note..." 
                     rows="2" 
                     onChange={updateNoteHandler} 
-                    value={note.content}></textarea>
+                    value={note.content}
+                    //onClick={onUnfoldInput} 
+
+                    />
                 }
-                { props.isClicked &&
+                { expandInput &&
                 <button onClick={submitNoteHandler}>
                     <img src={Icon} alt="Add Button"/>
                 </button>
