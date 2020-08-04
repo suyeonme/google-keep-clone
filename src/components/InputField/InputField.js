@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './InputField.scss';
 
 import Icon from '../../icons/plus.svg';
@@ -6,6 +6,7 @@ import Icon from '../../icons/plus.svg';
 const InputField = props => {
     const [note, setNote] = useState({title: '', content: ''});
     const [expandInput, setExpandInput] = useState(false); 
+    const addBtnRef = useRef();
 
     const updateNoteHandler = e => {
         const {name, value} = e.target;
@@ -16,7 +17,6 @@ const InputField = props => {
         e.preventDefault();
         props.onAddNote(note);
         setNote({ title: '', content: ''}); // Clear input 
-        onFoldInput();
     };
 
     const onFoldInput = () => {
@@ -24,22 +24,22 @@ const InputField = props => {
     };
 
     const onUnfoldInput = e => {
-        e.stopPropagation();
-        setExpandInput(true);
+        if (e.target !== addBtnRef.current) {
+            e.stopPropagation();
+            setExpandInput(true);
+        }
     };
 
     return(
         <div className="InputField" onClick={onFoldInput}>
-            <form onClick={onUnfoldInput}>
+            <form onClick={onUnfoldInput} >
                 <input 
                     name="title" 
                     type="text" 
                     placeholder="Title" 
                     value={note.title}
                     autoComplete="off"
-                    onChange={updateNoteHandler} 
-                    //onClick={onUnfoldInput} 
-                    />
+                    onChange={updateNoteHandler} />
                 {
                     expandInput && 
                     <textarea 
@@ -47,14 +47,11 @@ const InputField = props => {
                     placeholder="Take a note..." 
                     rows="2" 
                     onChange={updateNoteHandler} 
-                    value={note.content}
-                    //onClick={onUnfoldInput} 
-
-                    />
+                    value={note.content} />
                 }
                 { expandInput &&
                 <button onClick={submitNoteHandler}>
-                    <img src={Icon} alt="Add Button"/>
+                    <img src={Icon} alt="Add Button" ref={addBtnRef}/>
                 </button>
                 }
             </form>
