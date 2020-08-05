@@ -1,6 +1,8 @@
 .Toolbar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    line-height: 0;
     width: 100%;
     margin-top: 20px;
     cursor: default !important;
@@ -11,31 +13,14 @@
         cursor: pointer;
     }
 
-    &__tools {
-        cursor: default !important;
+    div { cursor: default !important; } 
+    button { background-color: transparent; }
 
-        img { margin-right: 25px;}
+    &__tool { margin-right: 25px; }
+
+    &__saveBtn {
+        font-weight: 600;
+        margin-right: 25px;
+        font-size: 1.5rem;
     }
-
-    button { background-color: transparent ;}
-}
-
-// Animation
-.show-enter { opacity: 0; }
-.show-enter-active {
-    animation: show .3s ease-out;
-}
-//.show-exit { opacity: 1; }
-.show-exit-active {
-    //animation: hide .3s ease-out;
-}
-
-@keyframes show { 
-    from { opacity: 0; } 
-    to { opacity: 1; }
-}
-
-@keyframes hide {
-    from { opacity: 1; } 
-    to { opacity: 0; }
 }

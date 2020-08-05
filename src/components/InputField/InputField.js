@@ -8,22 +8,24 @@ const InputField = props => {
     const [expandInput, setExpandInput] = useState(false); 
     const addBtnRef = useRef();
 
-    const updateNoteHandler = e => {
+    const handleUpdateNote = e => {
         const {name, value} = e.target;
         setNote({...note, [name]: value});
     };
 
-    const submitNoteHandler = e => {
+    const handleSubmitNote = e => {
         e.preventDefault();
         props.onAddNote(note);
-        setNote({ title: '', content: ''}); // Clear input 
+
+        // CLEAR INPUT
+        setNote({ title: '', content: ''}); 
     };
 
-    const onFoldInput = () => {
+    const handleFoldInput = () => {
         setExpandInput(false);
     };
 
-    const onUnfoldInput = e => {
+    const handleUnFoldInput = e => {
         if (e.target !== addBtnRef.current) {
             e.stopPropagation();
             setExpandInput(true);
@@ -31,26 +33,26 @@ const InputField = props => {
     };
 
     return(
-        <div className="InputField" onClick={onFoldInput}>
-            <form onClick={onUnfoldInput} >
+        <div className="InputField" onClick={handleFoldInput}>
+            <form onClick={handleUnFoldInput} >
                 <input 
                     name="title" 
                     type="text" 
                     placeholder="Title" 
                     value={note.title}
                     autoComplete="off"
-                    onChange={updateNoteHandler} />
+                    onChange={handleUpdateNote} />
                 {
                     expandInput && 
                     <textarea 
                     name="content" 
                     placeholder="Take a note..." 
                     rows="2" 
-                    onChange={updateNoteHandler} 
+                    onChange={handleUpdateNote} 
                     value={note.content} />
                 }
                 { expandInput &&
-                <button onClick={submitNoteHandler}>
+                <button onClick={handleSubmitNote}>
                     <img src={Icon} alt="Add Button" ref={addBtnRef}/>
                 </button>
                 }

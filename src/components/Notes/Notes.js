@@ -5,15 +5,15 @@ import Note from './Note/Note';
 import './Note/Note.scss';
 
 const Notes = props => {
-    const [showBackdrop, setShowBackdrop] = useState(false); // Backdrop
+    const [showBackdrop, setShowBackdrop] = useState(false); 
     const [isSelected, setIsSelected] = useState(null); // Select each note for styling
 
-    const onSelectNote = index => {
+    const handleSelectNote = index => {
         setIsSelected(index);
         setShowBackdrop(true)
     };
     
-    const onUnSelectNote = () => {
+    const handleUnSelectNote = () => {
         setIsSelected(null);
         setShowBackdrop(false);
     };
@@ -24,15 +24,15 @@ const Notes = props => {
             id={index}
             key={index} 
             checkIndex={isSelected === index} 
-            selected={onSelectNote}
-            removeNote={props.onRemove}  
-            removeBackdrop={onUnSelectNote} />
+            onSelect={handleSelectNote}
+            onRemoveNote={props.onRemove}  
+            onRemoveBackdrop={handleUnSelectNote} />
     );
 
     return (
         <div className="Notes">
             {notes}
-            <Backdrop onClick={onUnSelectNote} onShow={showBackdrop} />
+            <Backdrop onClick={handleUnSelectNote} onShow={showBackdrop} />
         </div>
     );
 };

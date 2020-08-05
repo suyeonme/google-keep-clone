@@ -1,6 +1,5 @@
 import React from 'react';
 import './Toolbar.scss';
-import { CSSTransition } from 'react-transition-group';
 
 import TranshCanIcon from '../../../../icons/trash-can.svg'
 import PaintIcon from '../../../../icons/paintbrush.svg';
@@ -10,27 +9,22 @@ const Toolbar = props => {
     ////////// arial-label 
 
     const icons = [
-        {icon: PaintIcon, alt: 'Change Color Button', ariaLabel: 'Change Color'},
-        {icon: PictureIcon, alt: 'Add Picture Button', ariaLabel: 'Add Picture'}
+        {icon: PaintIcon, alt: 'Change Color Button'},
+        {icon: PictureIcon, alt: 'Add Picture Button'}
     ];
 
     return(
-        <CSSTransition
-        in={props.onHover}
-        timeout={300}
-        classNames="show"
-        unmountOnExit>
             <div className="Toolbar">
-                <div className="Toolbar__tools">
-                    {icons.map((icon, i) => <img  src={icon.icon} alt={icon.alt} key={i}/>)}
+                <div>
+                    { icons.map((icon, i) => <img src={icon.icon} alt={icon.alt} key={i} className="Toolbar__tool"/>) }
                 </div>
-                <div className="Toolbar__btn">
-                    <button onClick={props.removed} aria-label="Delete">
+                <div>
+                    { props.onExpand && <button className="Toolbar__saveBtn">Save</button> }
+                    <button onClick={props.onRemove}>
                         <img src={TranshCanIcon} alt="Delete Button" />
                     </button> 
                 </div>
             </div>
-        </CSSTransition>
     );
 };
 

@@ -12,20 +12,20 @@ import Footer from './components/Footer/Footer';
 function App() {
   const [notes, setNotes] = useState([]);
 
-  const onAddNote = note => {
+  const handleAddNote = note => {
     if(note.title !== '' && note.content !== '') setNotes([...notes, note]); 
   };
 
-  const onRemoveNote = id => {
-    const filteredNotes = notes.filter((noteItem, i) => i !== id);
+  const handleRemoveNote = id => {
+    const filteredNotes = notes.filter((_, i) => i !== id);
     setNotes(filteredNotes);
   };
     
   return (
     <div className="App">
       <Header />
-      <InputField  onAddNote={onAddNote}  />
-      <Notes noteList={notes} onRemove={onRemoveNote} />
+      <InputField  onAddNote={handleAddNote}  />
+      <Notes noteList={notes} onRemove={handleRemoveNote} />
       <Footer />
     </div>
   );

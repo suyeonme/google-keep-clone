@@ -9,22 +9,22 @@ const Note = props => {
     const handlerHover = () => setIsHovered(true);
     const handlerUnHover = () => setIsHovered(false);
 
+    const handleExpandNote = (e) => {
+        if (e.target.nodeName !== 'IMG') props.onSelect(props.id);  
+    };
+
+    const handleDeleteNote = () => {
+        props.onRemoveNote(props.id)
+        props.onRemoveBackdrop();
+    };
+
     const truncateText = p => {
         let text;
         (p.length > 120) ?  text =  p.substr(0, 120) + '...' : text = p;
         return text;
     };
 
-    const onClickNote = (e) => {
-        if (e.target.nodeName !== 'IMG') props.selected(props.id);
-    };
-
-    const onRemoveNote = () => {
-        props.removeNote(props.id)
-        props.removeBackdrop();
-    };
-
-    // Content 
+    // CONTENT
     let content;
     if (props.checkIndex) {
         content = props.content;
@@ -32,14 +32,14 @@ const Note = props => {
         content = truncateText(props.content);
     };
     
-    // Class
+    // DEFINE CLASS
     let classes = `Note`;
     if (props.checkIndex) classes = `Note clicked`;
 
     return(
         <div 
         className={classes} 
-        onClick={onClickNote} 
+        onClick={handleExpandNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>
             <h1 
@@ -52,7 +52,8 @@ const Note = props => {
             spellCheck="true">
                 { content }
             </div>
-            <Toolbar removed={onRemoveNote} onHover={isHovered} />
+            { isHovered && <Toolbar onRemove={handleDeleteNote} onExpand={props.checkIndex} /> }
+            
         </div>
     );
 };
