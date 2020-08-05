@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './Note.scss';
 
 import Toolbar from './Toolbar/Toolbar';
@@ -6,9 +6,8 @@ import Toolbar from './Toolbar/Toolbar';
 const Note = props => {   
     const [isHovered, setIsHovered] = useState(false);
 
-    // Note on hover
-    const onHover = () => setIsHovered(true);
-    const onUnHover = () => setIsHovered(false);
+    const handlerHover = () => setIsHovered(true);
+    const handlerUnHover = () => setIsHovered(false);
 
     const truncateText = p => {
         let text;
@@ -28,20 +27,32 @@ const Note = props => {
     // Content 
     let content;
     if (props.checkIndex) {
-        content = <p suppressContentEditableWarning={true} contentEditable="true">{props.content}</p>;
+        content = props.content;
     } else {
-        content = <p>{truncateText(props.content)}</p>;
+        content = truncateText(props.content);
     };
     
     // Class
     let classes = `Note`;
-    if (props.checkIndex) classes = `Note Clicked`;
+    if (props.checkIndex) classes = `Note clicked`;
 
     return(
-        <div className={classes} onClick={onClickNote} onMouseEnter={onHover} onMouseLeave={onUnHover}>
-            <h1>{props.title}</h1>
-            { content }
-            { isHovered && <Toolbar removed={onRemoveNote} /> }
+        <div 
+        className={classes} 
+        onClick={onClickNote} 
+        onMouseEnter={handlerHover} 
+        onMouseLeave={handlerUnHover}>
+            <h1 
+            contentEditable="true" 
+            suppressContentEditableWarning={true} // Check 
+            spellCheck="true">{props.title}</h1>
+            <div 
+            contentEditable="true" 
+            suppressContentEditableWarning={true}
+            spellCheck="true">
+                { content }
+            </div>
+            <Toolbar removed={onRemoveNote} onHover={isHovered} />
         </div>
     );
 };

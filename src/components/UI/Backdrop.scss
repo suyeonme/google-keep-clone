@@ -4,7 +4,21 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #e5e5e5;;
+    background-color: #e5e5e5;
     opacity: .75;
     z-index: 100;
+}
+
+// Animation
+.showBackdrop-enter-active { animation: appear .3s ease-out; }
+.showBackdrop-exit-active { animation: leave .3s ease-out; }
+
+@keyframes appear {
+    from { opacity: 0; }
+    to { opacity: .75; }
+}
+
+@keyframes leave {
+    from { opacity: .75; }
+    to { opacity: 0; }
 }

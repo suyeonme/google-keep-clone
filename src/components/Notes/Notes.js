@@ -32,10 +32,11 @@ const Notes = props => {
     return (
         <div className="Notes">
             {notes}
-            {showBackdrop && <Backdrop clicked={onUnSelectNote}/>}
+            <Backdrop onClick={onUnSelectNote} onShow={showBackdrop} />
         </div>
     );
 };
 
 export default Notes;
+
 

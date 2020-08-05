@@ -1,3 +1,4 @@
+// Note
 .Note{
     padding: 10px;
     border-radius: 8px;
@@ -7,9 +8,7 @@
     word-wrap: break-word;
     cursor: pointer;
 
-    &:hover {
-        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
-    }
+    &:hover { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
 
     h1 {
         font-size: 1.5rem;
@@ -17,21 +16,41 @@
         margin-bottom: 1rem;
     }
 
-    p { 
+    div {
         font-size: 1.4rem; 
-        padding-bottom: 20px;
+        white-space: pre-wrap;
     }
 }
 
-.Clicked {
+.clicked {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 45%;
+    width: 42%;
     z-index: 500;
+    padding: 15px;
+    cursor: default;
+    animation: popUp .3s ease-out;
+    
+    h1, div { cursor: text;  }
+    h1 { font-size: 2.2rem; }
+    div { font-size: 1.7rem; }
 }
 
+@keyframes popUp {
+    from {
+        opacity: 0;
+        transform: scale(.4);
+        transform: translate(-50%, -50%);
+    } to {
+        opacity: 1;
+        transform: scale(1);
+        transform: translate(-50%, -50%);
+    }
+}
+
+// Notes
 .Notes {
     width: 100%;
     padding: 0 40px;
@@ -43,3 +62,6 @@
 }
 
 [contenteditable] { outline: 0px solid transparent; }
+
+
+
