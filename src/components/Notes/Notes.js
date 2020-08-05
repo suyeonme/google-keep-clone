@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Backdrop from '../UI/Backdrop';
 import Note from './Note/Note';
 import './Note/Note.scss';
 
 const Notes = props => {
+    // GLOBAL NOTES STATE
+    const notes = useSelector(state => state.notes);
+
     const [showBackdrop, setShowBackdrop] = useState(false); 
     const [isSelected, setIsSelected] = useState(null); // Select each note for styling
 
@@ -18,20 +22,20 @@ const Notes = props => {
         setShowBackdrop(false);
     };
 
-    const notes = props.noteList.map((note, index) => <Note 
+    const noteList = notes.map((note, index) => <Note 
             title={note.title} 
             content={note.content} 
             id={index}
             key={index} 
+            
             checkIndex={isSelected === index} 
             onSelect={handleSelectNote}
-            onRemoveNote={props.onRemove}  
             onRemoveBackdrop={handleUnSelectNote} />
     );
 
     return (
         <div className="Notes">
-            {notes}
+            {noteList}
             <Backdrop onClick={handleUnSelectNote} onShow={showBackdrop} />
         </div>
     );

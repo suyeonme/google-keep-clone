@@ -1,12 +1,17 @@
 import React from 'react';
-import './Toolbar.scss';
+import { useDispatch } from 'react-redux';
 
+import './Toolbar.scss';
 import TranshCanIcon from '../../../../icons/trash-can.svg'
 import PaintIcon from '../../../../icons/paintbrush.svg';
 import PictureIcon from '../../../../icons/picture.svg';
 
 const Toolbar = props => {   
-    ////////// arial-label 
+    const dispatch = useDispatch();
+    
+    const handleRemoveNote = () => {
+
+    };
 
     const icons = [
         {icon: PaintIcon, alt: 'Change Color Button'},

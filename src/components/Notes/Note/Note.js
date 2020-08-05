@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import './Note.scss';
+import { useDispatch } from 'react-redux';
+import { deleteNote } from '../../../store/actions/notes';
 
+import './Note.scss';
 import Toolbar from './Toolbar/Toolbar';
 
 const Note = props => {   
+    const dispatch = useDispatch();
+
+    const handleDeleteNote = () => {
+        dispatch(deleteNote(props.id))
+        //props.onRemoveNote(props.id)
+        props.onRemoveBackdrop();
+    };
+
     const [isHovered, setIsHovered] = useState(false);
 
     const handlerHover = () => setIsHovered(true);
@@ -13,10 +23,7 @@ const Note = props => {
         if (e.target.nodeName !== 'IMG') props.onSelect(props.id);  
     };
 
-    const handleDeleteNote = () => {
-        props.onRemoveNote(props.id)
-        props.onRemoveBackdrop();
-    };
+
 
     const truncateText = p => {
         let text;
