@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { saveNote } from '../../store/actions/notes';
 
@@ -8,7 +8,6 @@ import Icon from '../../icons/plus.svg';
 const InputField = props => {
     const [note, setNote] = useState({title: '', content: ''});
     const [expandInput, setExpandInput] = useState(false); 
-    const addBtnRef = useRef();
 
     const dispatch = useDispatch();
 
@@ -31,7 +30,7 @@ const InputField = props => {
     };
 
     const handleUnFoldInput = e => {
-        if (e.target !== addBtnRef.current) {
+        if (e.target.nodeName !== 'IMG') {
             e.stopPropagation();
             setExpandInput(true);
         }
@@ -39,7 +38,7 @@ const InputField = props => {
 
     return(
         <div className="InputField" onClick={handleFoldInput}>
-            <form onClick={handleUnFoldInput} >
+            <form onClick={handleUnFoldInput}>
                 <input 
                     name="title" 
                     type="text" 
@@ -58,7 +57,7 @@ const InputField = props => {
                 }
                 { expandInput &&
                 <button onClick={() => handleSaveNote(note)}>
-                    <img src={Icon} alt="Add Button" ref={addBtnRef}/>
+                    <img src={Icon} alt="Add Button" />
                 </button>
                 }
             </form>

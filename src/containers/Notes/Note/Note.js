@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteNote, selectNote } from '../../../store/actions/notes';
+import { deleteNote, selectNote, saveNote } from '../../../store/actions/notes';
 
+import contentEditable from '../../../components/ContentEditable/ContentEditable';
 import './Note.scss';
-import Toolbar from './Toolbar/Toolbar';
+import Toolbar from '../../../components/Toolbar/Toolbar';
+import ContentEditable from '../../../components/ContentEditable/ContentEditable';
 
 const Note = props => {   
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
+    const isSelected = useSelector(state => state.isSelected);
     const dispatch = useDispatch();
 
     const [isHovered, setIsHovered] = useState(false);
@@ -29,35 +32,28 @@ const Note = props => {
 
     // CONTENT
     let content;
-    if (props.checkIndex) {
-        content = props.content;
-    } else {
+    if (!isSelected) {
         content = truncateText(props.content);
-    };
+    } else {
+        content = props.content;
+    }
     
     // DEFINE CLASS
     let classes = `Note`;
     if (selectedNoteIndex === props.id) classes = `Note clicked`;
 
     return(
+        
         <div 
         className={classes} 
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>
-            <h1 
-            contentEditable="true" 
-            suppressContentEditableWarning={true} // Check 
-            spellCheck="true">{props.title}</h1>
-            <div 
-            contentEditable="true" 
-            suppressContentEditableWarning={true}
-            spellCheck="true">
-                { content }
-            </div>
+            <ContentEditable title={props.title} content={props.content} />
             { isHovered && <Toolbar onRemove={handleDeleteNote} onExpand={selectedNoteIndex === props.id} /> }
         </div>
     );
 };
 
 export default Note;
+

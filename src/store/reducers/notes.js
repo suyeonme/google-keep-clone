@@ -1,5 +1,4 @@
-
-//////// ADD Action Type
+import * as actions from '../actions/actionsTypes';
 
 // STORE
 const initialState = {
@@ -11,25 +10,25 @@ const initialState = {
 // REDUCER
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SAVE_NOTE':
+        case actions.SAVE_NOTE:
             return {
                 ...state,
                 notes: state.notes.concat(action.payload)
             };
-        case 'DELETE_NOTE':
+        case actions.DELETE_NOTE:
             return {
                 ...state,
                 notes: state.notes.filter((_, index) => index !== action.payload),
                 selectedNoteIndex: null,
                 isSelected: false 
             }
-        case 'SELECT_NOTE':
+        case actions.SELECT_NOTE:
             return { 
                 ...state,
                 selectedNoteIndex: action.payload,
                 isSelected: true
             }
-        case 'UNSELECT_NOTE':
+        case actions.UNSELECT_NOTE:
         return { 
             ...state,
             selectedNoteIndex: null,

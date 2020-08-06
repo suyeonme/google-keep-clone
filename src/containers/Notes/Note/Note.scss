@@ -10,13 +10,13 @@
 
     &:hover { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
 
-    h1 {
+    &__title {
         font-size: 1.5rem;
         text-align: center;
         margin-bottom: 1rem;
     }
 
-    div {
+    &__content {
         font-size: 1.4rem; 
         white-space: pre-wrap;
     }

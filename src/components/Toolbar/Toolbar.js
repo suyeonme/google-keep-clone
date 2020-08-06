@@ -1,9 +1,9 @@
 import React from 'react';
 
 import './Toolbar.scss';
-import TranshCanIcon from '../../../../icons/trash-can.svg'
-import PaintIcon from '../../../../icons/paintbrush.svg';
-import PictureIcon from '../../../../icons/picture.svg';
+import TranshCanIcon from '../../icons/trash-can.svg'
+import PaintIcon from '../../icons/paintbrush.svg';
+import PictureIcon from '../../icons/picture.svg';
 
 const Toolbar = props => {   
     const icons = [
