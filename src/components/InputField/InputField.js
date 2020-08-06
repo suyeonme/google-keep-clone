@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { saveNote, deleteNote } from '../../store/actions/notes';
+import { saveNote } from '../../store/actions/notes';
 
 import './InputField.scss';
 import Icon from '../../icons/plus.svg';

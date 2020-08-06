@@ -18,3 +18,9 @@ export const selectNote = index => {
         payload: index
     };
 };
+
+export const unSelectNote = index => {
+    return {
+        type: 'UNSELECT_NOTE'
+    };
+};
