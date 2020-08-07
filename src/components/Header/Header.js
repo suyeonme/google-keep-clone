@@ -7,7 +7,7 @@ const Header = props => {
     return(
         <div className="Header">
             <img src={Logo} alt="Logo"/>
-            <h3>Keeper</h3>
+            <h3>Keep</h3>
         </div>
     );
 };

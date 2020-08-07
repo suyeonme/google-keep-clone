@@ -3,10 +3,12 @@
     border-radius: 8px;
     border: 1px solid rgba(66, 66, 66, .2);
     background-color: #fff;
-    position: relative;
     word-wrap: break-word;
     white-space: pre-wrap;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
 
     &:hover {  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
 
@@ -16,7 +18,10 @@
         text-align: center;
     }
 
-    &__content { font-size: 1.2rem; }
+    &__content { 
+        font-size: 1.2rem; 
+        margin-bottom: auto;
+    }
 }
 
 .clicked {

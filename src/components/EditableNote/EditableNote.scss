@@ -3,6 +3,10 @@
 .EditableNote {    
     cursor: text;
 
+    max-height: 70vh;
+    height: auto;
+    overflow: auto;
+
     &__title {
         font-size: 2.2rem;
         font-weight: 500;

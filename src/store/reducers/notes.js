@@ -44,6 +44,8 @@ const reducer = (state = initialState, action) => {
             }
         case actions.UPDATE_EDITED_NOTE:
             const oldNotes = state.notes.filter(note => note.id !== state.editedNote.id);
+            // Delete note having same id -> Add edited note 
+            // When something is changed, re-render as new content
             return { 
                 ...state,
                 notes: oldNotes.concat(state.editedNote),

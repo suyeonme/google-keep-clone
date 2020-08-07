@@ -9,7 +9,6 @@ import EditableNote from '../../../components/EditableNote/EditableNote';
 const Note = props => {   
     // GLOBAL
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
-    const isSelected = useSelector(state => state.isSelected);
     const dispatch = useDispatch();
 
     // LOCAL
@@ -45,19 +44,14 @@ const Note = props => {
             <div className="Note__content">{truncateText(props.content)}</div></>
     };
 
-    // DEFINE CLASS
-    let classes = `Note`;
-    if (selectedNoteIndex === props.id) classes = `Note clicked`;
-
-    return(
-        
+    return (
         <div 
-        className={classes} 
+        className={selectedNoteIndex === props.id ? `Note clicked` : `Note`}
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>
             { noteDetail }
-            { isHovered && <Toolbar onRemove={handleDeleteNote} onExpand={selectedNoteIndex === props.id} /> }
+            <Toolbar onRemove={handleDeleteNote} onHover={isHovered}/> 
         </div>
     );
 };

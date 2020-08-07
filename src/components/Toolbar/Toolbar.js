@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { useDispatch } from 'react-redux';
 import { updateEditedNote } from '../../store/actions/notes';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import './Toolbar.scss';
 import TranshCanIcon from '../../icons/trash-can.svg'
@@ -12,28 +12,56 @@ const Toolbar = props => {
     const dispatch = useDispatch();
 
     const handleUpdateEditedNote = () => {
+        // Update only when content is changed, otherwise keep its content.
         dispatch(updateEditedNote());
     };
-    
+
     const icons = [
-        {icon: PaintIcon, alt: 'Change Color Button'},
-        {icon: PictureIcon, alt: 'Add Picture Button'}
+        {icon: PaintIcon, alt: 'Change Color Button', ariaLabel: 'Change Color'},
+        {icon: PictureIcon, alt: 'Add Picture Button',  ariaLabel: 'Add Picture'}
     ];
 
     return(
-            <div className="Toolbar">
+            <div className={props.onHover ? `Toolbar hover` : `Toolbar`}>
                 <div>
-                    { icons.map((icon, i) => <img src={icon.icon} alt={icon.alt} key={i} className="Toolbar__tool"/>) }
+                    { icons.map((icon, i) => <Tooltip 
+                    title={icon.ariaLabel} 
+                    aria-label={icon.ariaLabel} 
+                    key={i} 
+                    arrow>
+                        <img 
+                        className="Toolbar__tool" 
+                        src={icon.icon} 
+                        alt={icon.alt} /> 
+                    </Tooltip> 
+                    )}
                 </div>
                 <div>
-                    { props.onExpand && <button className="Toolbar__saveBtn" onClick={handleUpdateEditedNote}>Save</button> }
-                    <button onClick={props.onRemove}>
-                        <img src={TranshCanIcon} alt="Delete Button" />
-                    </button> 
+                    <Tooltip 
+                    title="Save" 
+                    aria-label="Save" 
+                    arrow>
+                        <button 
+                        className="Toolbar__saveBtn" 
+                        onClick={handleUpdateEditedNote}>Save</button> 
+                    </Tooltip>
+                    <Tooltip 
+                    title="Delete" 
+                    aria-label="Delete" 
+                    arrow>
+                        <button onClick={props.onRemove}>
+                            <img 
+                            src={TranshCanIcon} 
+                            alt="Delete Button" />
+                        </button> 
+                    </Tooltip>
                 </div>
-            </div>
+        </div>
     );
 };
 
 export default Toolbar;
+
+
+
 

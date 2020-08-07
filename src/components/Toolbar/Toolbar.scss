@@ -5,6 +5,8 @@
     line-height: 0;
     width: 100%;
     margin-top: 20px;
+    opacity: 0;
+    transition: opacity .3s ease-out;
 
     img { 
         width: 15px;
@@ -16,8 +18,9 @@
     &__tool { margin-right: 25px; }
 
     &__saveBtn {
-        font-weight: 600;
         margin-right: 25px;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 }
+
+.hover { opacity: 1; }
