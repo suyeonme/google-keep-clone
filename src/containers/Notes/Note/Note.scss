@@ -9,17 +9,6 @@
     cursor: pointer;
 
     &:hover { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
-
-    &__title {
-        font-size: 1.5rem;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-
-    &__content {
-        font-size: 1.4rem; 
-        white-space: pre-wrap;
-    }
 }
 
 .clicked {
@@ -32,10 +21,11 @@
     padding: 15px;
     cursor: default;
     animation: popUp .3s ease-out;
+    white-space: pre;
     
-    h1, div { cursor: text;  }
-    h1 { font-size: 2.2rem; }
-    div { font-size: 1.7rem; }
+    //h1, div { cursor: text;  }
+    //h1 { font-size: 2.2rem; }
+    //div { font-size: 1.7rem; }
 }
 
 @keyframes popUp {
@@ -60,8 +50,6 @@
     grid-auto-rows: minmax(min-cotent, auto);
     grid-auto-flow: dense;
 }
-
-[contenteditable] { outline: 0px solid transparent; }
 
 
 

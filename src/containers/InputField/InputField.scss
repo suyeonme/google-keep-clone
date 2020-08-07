@@ -21,10 +21,12 @@
             border: none;
             outline: none;
             font-family: inherit;
-            font-weight: 600;
+            font-weight: 500;
         }
     
-        input { font-size: 1.6rem; }
+        input { 
+            font-size: 1.6rem; 
+        }
 
         textarea {
             resize: none;
