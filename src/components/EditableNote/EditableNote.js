@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { saveEditedNote } from '../../store/actions/notes';
 
-const ContentEditable = props => {
-    const [editedNote, setEditedNote] = useState({title: '', content: ''});
+const EditableNote = props => {
+    const [editedNote, setEditedNote] = useState({title: '', content: '', id: props.id});
     const dispatch = useDispatch();
 
     const handleChangeTitle = e => {
@@ -35,8 +35,4 @@ const ContentEditable = props => {
     );
 };
 
-export default ContentEditable;
-
-
-
-
+export default EditableNote;

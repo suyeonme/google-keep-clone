@@ -14,14 +14,14 @@ export const deleteNote = id => {
     };
 };
 
-export const selectNote = index => {
+export const selectNote = id => {
     return {
         type: actions.SELECT_NOTE,
-        payload: index
+        payload: id
     };
 };
 
-export const unSelectNote = index => {
+export const unSelectNote = () => {
     return {
         type: actions.UNSELECT_NOTE
     };
@@ -35,9 +35,8 @@ export const saveEditedNote = editedNote => {
     };
 };
 
-export const updateEditedNote = editedNote => {
+export const updateEditedNote = () => {
     return {
         type: actions.UPDATE_EDITED_NOTE,
-        payload: editedNote
     };
 };

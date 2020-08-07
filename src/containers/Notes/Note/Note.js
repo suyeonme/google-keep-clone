@@ -4,7 +4,7 @@ import { deleteNote, selectNote } from '../../../store/actions/notes';
 
 import './Note.scss';
 import Toolbar from '../../../components/Toolbar/Toolbar';
-import ContentEditable from '../../../components/ContentEditable/ContentEditable';
+import EditableNote from '../../../components/EditableNote/EditableNote';
 
 const Note = props => {   
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
@@ -20,7 +20,7 @@ const Note = props => {
     };
 
     const handleSelectNote = e => {
-        if (e.target.nodeName !== 'IMG') dispatch(selectNote(props.id));
+        if (e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') dispatch(selectNote(props.id));
     };
 
     const truncateText = p => {
@@ -48,7 +48,10 @@ const Note = props => {
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>
-            <ContentEditable title={props.title} content={content} />
+            <EditableNote 
+            title={props.title} 
+            content={content}
+            id={props.id} />
             { isHovered && <Toolbar onRemove={handleDeleteNote} onExpand={selectedNoteIndex === props.id} /> }
         </div>
     );
