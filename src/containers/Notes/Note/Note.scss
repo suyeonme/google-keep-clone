@@ -1,4 +1,3 @@
-// Note
 .Note{
     padding: 10px;
     border-radius: 8px;
@@ -6,9 +5,18 @@
     background-color: #fff;
     position: relative;
     word-wrap: break-word;
+    white-space: pre-wrap;
     cursor: pointer;
 
-    &:hover { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
+    &:hover {  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
+
+    &__title {
+        font-weight: 500;
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    &__content { font-size: 1.2rem; }
 }
 
 .clicked {
@@ -21,11 +29,6 @@
     padding: 15px;
     cursor: default;
     animation: popUp .3s ease-out;
-    white-space: pre;
-    
-    //h1, div { cursor: text;  }
-    //h1 { font-size: 2.2rem; }
-    //div { font-size: 1.7rem; }
 }
 
 @keyframes popUp {
@@ -40,16 +43,7 @@
     }
 }
 
-// Notes
-.Notes {
-    width: 100%;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-gap: 15px;
-    grid-auto-rows: minmax(min-cotent, auto);
-    grid-auto-flow: dense;
-}
+
 
 
 

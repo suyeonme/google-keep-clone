@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Note from './Note/Note';
 import Backdrop from '../../components/UI/Backdrop';
-import './Note/Note.scss';
+import './Notes.scss';
 
 const Notes = props => {
 
