@@ -26,3 +26,18 @@ export const unSelectNote = index => {
         type: actions.UNSELECT_NOTE
     };
 };
+
+// Edited Note
+export const saveEditedNote = editedNote => {
+    return {
+        type: actions.SAVE_EDITED_NOTE,
+        payload: editedNote
+    };
+};
+
+export const updateEditedNote = editedNote => {
+    return {
+        type: actions.UPDATE_EDITED_NOTE,
+        payload: editedNote
+    };
+};

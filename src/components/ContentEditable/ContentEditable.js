@@ -1,12 +1,20 @@
-import React, { useState, useDispatch } from 'react';
-import { saveNote } from '../../store/actions/notes';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { saveEditedNote } from '../../store/actions/notes';
 
 const ContentEditable = props => {
-    const [note, setNote] = useState({title: '', content: ''});
+    const [editedNote, setEditedNote] = useState({title: '', content: ''});
+    const dispatch = useDispatch();
 
-    const handleChangeTitle = e => setNote({ ...note, title: e.target.textContent });
-    const handleChangeContent = e => setNote({ ...note, content: e.target.textContent });
-    console.log(note);
+    const handleChangeTitle = e => {
+        setEditedNote({ ...editedNote, title: e.target.textContent });
+        dispatch(saveEditedNote(editedNote));
+    };
+
+    const handleChangeContent = e => {
+        setEditedNote({ ...editedNote, content: e.target.textContent });
+        dispatch(saveEditedNote(editedNote));
+    };
 
     return(
         <div>

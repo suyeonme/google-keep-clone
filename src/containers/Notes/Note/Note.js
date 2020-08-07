@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteNote, selectNote, saveNote } from '../../../store/actions/notes';
+import { deleteNote, selectNote } from '../../../store/actions/notes';
 
-import contentEditable from '../../../components/ContentEditable/ContentEditable';
 import './Note.scss';
 import Toolbar from '../../../components/Toolbar/Toolbar';
 import ContentEditable from '../../../components/ContentEditable/ContentEditable';
@@ -49,7 +48,7 @@ const Note = props => {
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>
-            <ContentEditable title={props.title} content={props.content} />
+            <ContentEditable title={props.title} content={content} />
             { isHovered && <Toolbar onRemove={handleDeleteNote} onExpand={selectedNoteIndex === props.id} /> }
         </div>
     );
