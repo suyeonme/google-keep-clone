@@ -12,7 +12,7 @@ const EditableNote = props => {
         dispatch(saveEditedNote(editedNote));
     }, [dispatch, editedNote]);
 
-    const getValue = e => {
+    const handleUpdateNote= e => {
         const value = e.target.innerText;
         const name = e.target.id;
         setEditedNote({ ...editedNote, [name]: value});
@@ -25,7 +25,7 @@ const EditableNote = props => {
             <div
             className="EditableNote__title"
             id="title"
-            onInput={getValue}
+            onInput={handleUpdateNote}
             placeholder="Title"
             contentEditable
             suppressContentEditableWarning={true}
@@ -33,7 +33,7 @@ const EditableNote = props => {
             <div
             className="EditableNote__content"
             id="content"
-            onInput={getValue}
+            onInput={handleUpdateNote}
             placeholder="Note"
             contentEditable
             suppressContentEditableWarning={true}

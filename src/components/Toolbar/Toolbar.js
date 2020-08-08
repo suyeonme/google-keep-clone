@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEditedNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -7,9 +7,13 @@ import './Toolbar.scss';
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
+import ColorPalette from '../ColorPalette/ColorPalette';
 
 const Toolbar = props => {  
+    const [hoverColorPalette, sethoverColorPalette] = useState(false);
+
     const editedNote = useSelector(state => state.editedNote);
+
     const dispatch = useDispatch();
 
     const icons = [
@@ -19,6 +23,10 @@ const Toolbar = props => {
 
     const handleUpdateEditedNote = () => {
         if (editedNote !== null) dispatch(updateEditedNote());
+    };
+
+    const handleColorPalette = label => {
+        if (label === 'Change Color') sethoverColorPalette(!hoverColorPalette);
     };
 
     return(
@@ -32,7 +40,10 @@ const Toolbar = props => {
                         <img 
                         className="Toolbar__tool" 
                         src={icon.icon} 
-                        alt={icon.alt} /> 
+                        alt={icon.alt}
+                        onMouseEnter={() => handleColorPalette(icon.ariaLabel)} 
+                        onMouseLeave={() => handleColorPalette(icon.ariaLabel)}
+                        /> 
                     </Tooltip> 
                     )}
                 </div>
@@ -56,6 +67,7 @@ const Toolbar = props => {
                         </button> 
                     </Tooltip>
                 </div>
+                { hoverColorPalette && <ColorPalette /> }
         </div>
     );
 };
