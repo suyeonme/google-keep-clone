@@ -7,19 +7,19 @@
     margin-top: 20px;
     opacity: 0;
     transition: opacity .3s ease-out;
+    padding: 3px;
 
     img { 
         width: 15px;
         height: 15px;
     }
 
-    button { background-color: transparent; }
+    button { 
+        background-color: transparent; 
+        padding: 10px;
+        border-radius: 50%;
 
-    &__tool { margin-right: 25px; }
-
-    &__saveBtn {
-        margin-right: 25px;
-        font-size: 1.4rem;
+        &:hover {  background-color: #E9EAEA; }
     }
 }
 

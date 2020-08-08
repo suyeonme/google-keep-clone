@@ -1,5 +1,5 @@
 .Note{
-    padding: 10px;
+    //padding: 10px 5px 5px 10px;
     border-radius: 8px;
     border: 1px solid rgba(66, 66, 66, .2);
     background-color: #fff;
@@ -8,14 +8,18 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    position: relative; // TEST
+    position: relative; 
 
     &:hover {  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
+
+    &__title,
+    &__content {
+        padding: 10px 10px 0 10px;
+    }
 
     &__title {
         font-weight: 500;
         font-size: 1.6rem;
-        margin-bottom: .7rem;
     }
 
     &__content { 

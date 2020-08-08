@@ -14,7 +14,10 @@ const ColorPalette = props => {
     ];
 
     return (
-        <div className="ColorPalette">
+        <div 
+        className="ColorPalette" 
+        onMouseEnter={props.onHover}
+        onMouseLeave={props.onUnHover}>
             { colors.map((color, index) => <button 
             style={{ backgroundColor: color }} 
             key={index} />

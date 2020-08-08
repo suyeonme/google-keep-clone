@@ -7,6 +7,7 @@ import './Toolbar.scss';
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
+import SaveIcon from '../../icons/save.svg';
 import ColorPalette from '../ColorPalette/ColorPalette';
 
 const Toolbar = props => {  
@@ -25,9 +26,9 @@ const Toolbar = props => {
         if (editedNote !== null) dispatch(updateEditedNote());
     };
 
-    const handleColorPalette = label => {
-        if (label === 'Change Color') sethoverColorPalette(!hoverColorPalette);
-    };
+    const handleShowColorPalette = () => sethoverColorPalette(true);
+    
+    const handleHideColorPalette = () => sethoverColorPalette(false);
 
     return(
             <div className={props.onHover ? `Toolbar hover` : `Toolbar`}>
@@ -37,13 +38,13 @@ const Toolbar = props => {
                     aria-label={icon.ariaLabel} 
                     key={i} 
                     arrow>
-                        <img 
-                        className="Toolbar__tool" 
-                        src={icon.icon} 
-                        alt={icon.alt}
-                        onMouseEnter={() => handleColorPalette(icon.ariaLabel)} 
-                        onMouseLeave={() => handleColorPalette(icon.ariaLabel)}
-                        /> 
+                        <button
+                        onMouseEnter={ icon.ariaLabel === 'Change Color' ? handleShowColorPalette : null} 
+                        onMouseLeave={ icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null}>
+                            <img 
+                            src={icon.icon} 
+                            alt={icon.alt} /> 
+                        </button>
                     </Tooltip> 
                     )}
                 </div>
@@ -52,9 +53,11 @@ const Toolbar = props => {
                     title="Save" 
                     aria-label="Save" 
                     arrow>
-                        <button 
-                        className="Toolbar__saveBtn" 
-                        onClick={handleUpdateEditedNote}>Save</button> 
+                        <button onClick={handleUpdateEditedNote}>
+                            <img 
+                            src={SaveIcon} 
+                            alt="Save Button" />
+                        </button> 
                     </Tooltip>
                     <Tooltip 
                     title="Delete" 
@@ -67,7 +70,9 @@ const Toolbar = props => {
                         </button> 
                     </Tooltip>
                 </div>
-                { hoverColorPalette && <ColorPalette /> }
+                { hoverColorPalette && <ColorPalette  
+                    onUnHover={handleHideColorPalette} 
+                    onHover={handleShowColorPalette}/> }
         </div>
     );
 };
