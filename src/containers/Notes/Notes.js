@@ -6,8 +6,6 @@ import Backdrop from '../../components/UI/Backdrop';
 import './Notes.scss';
 
 const Notes = props => {
-
-    // GLOBAL NOTES STATE
     const notes = useSelector(state => state.notes);
 
     const noteList = notes.map(note => <Note 

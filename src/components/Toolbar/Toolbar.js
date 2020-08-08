@@ -11,15 +11,15 @@ import PictureIcon from '../../icons/picture.svg';
 const Toolbar = props => {  
     const dispatch = useDispatch();
 
-    const handleUpdateEditedNote = () => {
-        // Update only when content is changed, otherwise keep its content.
-        dispatch(updateEditedNote());
-    };
-
     const icons = [
         {icon: PaintIcon, alt: 'Change Color Button', ariaLabel: 'Change Color'},
         {icon: PictureIcon, alt: 'Add Picture Button',  ariaLabel: 'Add Picture'}
     ];
+
+    const handleUpdateEditedNote = () => {
+        // Update only when content is changed, otherwise keep its content.
+        dispatch(updateEditedNote());
+    };
 
     return(
             <div className={props.onHover ? `Toolbar hover` : `Toolbar`}>

@@ -15,7 +15,9 @@ const Backdrop = props => {
         timeout={300}
         unmountOnExit
         classNames="showBackdrop">
-            <div className="Backdrop" onClick={() => dispatch(unSelectNote())} />
+            <div 
+            className="Backdrop" 
+            onClick={() => dispatch(unSelectNote())} />
         </CSSTransition>
     );
 };
