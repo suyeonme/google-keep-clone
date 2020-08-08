@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import './EditableNote.scss';
-import { saveEditedNote } from '../../store/actions/notes';
+import { saveEditedNote } from '../../../store/actions/notes';
 
 const EditableNote = props => {
     const [editedNote, setEditedNote] = useState({ title: props.title, content: props.content, id: props.id });
@@ -10,7 +10,7 @@ const EditableNote = props => {
 
     useEffect(() => {
         dispatch(saveEditedNote(editedNote));
-    }, [editedNote]);
+    }, [dispatch, editedNote]);
 
     const getValue = e => {
         const value = e.target.innerText;

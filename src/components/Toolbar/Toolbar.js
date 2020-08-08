@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateEditedNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -9,6 +9,7 @@ import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
 
 const Toolbar = props => {  
+    const editedNote = useSelector(state => state.editedNote);
     const dispatch = useDispatch();
 
     const icons = [
@@ -17,8 +18,7 @@ const Toolbar = props => {
     ];
 
     const handleUpdateEditedNote = () => {
-        // Update only when content is changed, otherwise keep its content.
-        dispatch(updateEditedNote());
+        if (editedNote !== null) dispatch(updateEditedNote());
     };
 
     return(
@@ -61,7 +61,4 @@ const Toolbar = props => {
 };
 
 export default Toolbar;
-
-
-
 

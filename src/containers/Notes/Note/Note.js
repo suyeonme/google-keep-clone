@@ -4,7 +4,7 @@ import { deleteNote, selectNote } from '../../../store/actions/notes';
 
 import './Note.scss';
 import Toolbar from '../../../components/Toolbar/Toolbar';
-import EditableNote from '../../../components/EditableNote/EditableNote';
+import EditableNote from '../EditableNote/EditableNote';
 
 const Note = props => {   
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
