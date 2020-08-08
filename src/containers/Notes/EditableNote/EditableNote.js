@@ -26,6 +26,7 @@ const EditableNote = props => {
             className="EditableNote__title"
             id="title"
             onInput={getValue}
+            placeholder="Title"
             contentEditable
             suppressContentEditableWarning={true}
             >{props.title}</div>
@@ -33,6 +34,7 @@ const EditableNote = props => {
             className="EditableNote__content"
             id="content"
             onInput={getValue}
+            placeholder="Note"
             contentEditable
             suppressContentEditableWarning={true}
             >{props.content}</div>

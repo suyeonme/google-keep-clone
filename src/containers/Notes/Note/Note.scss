@@ -6,7 +6,6 @@
     word-wrap: break-word;
     white-space: pre-wrap;
     cursor: pointer;
-
     display: flex;
     flex-direction: column;
 
@@ -15,12 +14,13 @@
     &__title {
         font-weight: 500;
         font-size: 1.6rem;
-        text-align: center;
+        margin-bottom: .7rem;
     }
 
     &__content { 
-        font-size: 1.2rem; 
+        font-size: 1.5rem; 
         margin-bottom: auto;
+        line-height: 1.5;
     }
 }
 
