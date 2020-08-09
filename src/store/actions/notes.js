@@ -1,5 +1,6 @@
 import * as actions from './actionsTypes';
 
+// NOTE
 export const saveNote = note => {
     return {
         type: actions.SAVE_NOTE,
@@ -27,7 +28,14 @@ export const unSelectNote = () => {
     };
 };
 
-// Edited Note
+export const changeColorNote = color => {
+    return {
+        type: actions.CHANGE_COLOR_NOTE,
+        payload: color
+    };
+};
+
+// EDITED NOTE
 export const saveEditedNote = editedNote => {
     return {
         type: actions.SAVE_EDITED_NOTE,
@@ -40,3 +48,4 @@ export const updateEditedNote = () => {
         type: actions.UPDATE_EDITED_NOTE,
     };
 };
+

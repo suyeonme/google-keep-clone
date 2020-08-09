@@ -5,7 +5,8 @@ const initialState = {
     notes: [],
     selectedNoteIndex: null,
     isSelected: false,
-    editedNote: null
+    editedNote: null,
+    color: '#fff'
 };
 
 // REDUCER
@@ -37,6 +38,11 @@ const reducer = (state = initialState, action) => {
                 isSelected: false,
                 editedNote: null
             }
+        case actions.CHANGE_COLOR_NOTE:
+            return { 
+                ...state,
+                color: action.payload
+            }
         case actions.SAVE_EDITED_NOTE:
             return { 
                 ...state,
@@ -44,9 +50,6 @@ const reducer = (state = initialState, action) => {
             }
         case actions.UPDATE_EDITED_NOTE:
             const oldNotes = state.notes.filter(note => note.id !== state.editedNote.id);
-            // When old note and edited note is the same
-            // Anti pattern 
-            // There is no edited note
             return { 
                 ...state,
                 notes: oldNotes.concat(state.editedNote),

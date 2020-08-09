@@ -1,5 +1,5 @@
 .ColorPalette {
-    width: 130px;
+    max-width: 128px;
     padding: .5rem;
     position: absolute;
     bottom: 33px;
@@ -8,8 +8,18 @@
     background-color: white;
 
     button {
-        padding: 1.3rem;
+        width: 25px;
+        height: 25px;
+        border: 1.5px solid transparent;
         border-radius: 50%;
         margin: .2rem;
+
+        &:hover { border: 1.5px solid #5F6367; }
+
+        &:first-child {
+            border: 1.5px solid #E7EAED;
+
+            &:hover { border: 1.5px solid #5F6367; }
+        }
     }
 }

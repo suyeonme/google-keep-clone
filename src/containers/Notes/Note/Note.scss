@@ -1,20 +1,19 @@
 .Note{
-    //padding: 10px 5px 5px 10px;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
     border-radius: 8px;
     border: 1px solid rgba(66, 66, 66, .2);
-    background-color: #fff;
     word-wrap: break-word;
     white-space: pre-wrap;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    position: relative; 
+    transition: background-color .3s ease-in;
 
     &:hover {  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
 
     &__title,
     &__content {
-        padding: 10px 10px 0 10px;
+        padding: 12px 12px 0 12px;
     }
 
     &__title {
@@ -36,7 +35,6 @@
     transform: translate(-50%, -50%);
     width: 42%;
     z-index: 500;
-    padding: 15px;
     cursor: default;
     animation: popUp .3s ease-out;
 }

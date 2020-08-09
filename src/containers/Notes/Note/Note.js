@@ -8,6 +8,7 @@ import EditableNote from '../EditableNote/EditableNote';
 
 const Note = props => {   
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
+    const color = useSelector(state => state.color);
 
     const dispatch = useDispatch();
 
@@ -49,6 +50,7 @@ const Note = props => {
     return (
         <div 
         className={selectedNoteIndex === props.id ? `Note clicked` : `Note`}
+        style={{ backgroundColor: color }}
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}>

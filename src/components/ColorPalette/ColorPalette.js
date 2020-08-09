@@ -1,7 +1,12 @@
 import React  from 'react';
+import { useDispatch } from 'react-redux';
+
+import { changeColorNote } from '../../store/actions/notes'; 
 import './ColorPalette.scss';
 
 const ColorPalette = props => {
+    const dispatch = useDispatch();
+
     const colors = [
         '#fff',
         '#d9adad',
@@ -10,7 +15,7 @@ const ColorPalette = props => {
         '#e3dfc8',
         '#eebb4d',
         '#99b898',
-        '#24a19c',
+        '#c26565',
     ];
 
     return (
@@ -20,7 +25,8 @@ const ColorPalette = props => {
         onMouseLeave={props.onUnHover}>
             { colors.map((color, index) => <button 
             style={{ backgroundColor: color }} 
-            key={index} />
+            key={index}
+            onClick={() => dispatch(changeColorNote(color))} />
             )}
         </div>
     );
