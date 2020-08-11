@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteNote, selectNote } from '../../../store/actions/notes';
 
-import { NoteContainer, NoteTitle, NoteContent } from './NoteElements';
+import NoteDetail from './NoteDetail';
+import { NoteContainer } from './NoteElements';
 import Toolbar from '../../../components/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 
@@ -39,20 +40,16 @@ const Note = props => {
         content={props.content}
         id={props.id} />;
     } else {
-        noteDetail =  ( <>
-            <NoteTitle>{props.title}</NoteTitle>
-            <NoteContent>{truncateText(props.content)}</NoteContent>
-            </>
-        );
+        noteDetail = <NoteDetail title={props.title} content={props.content}/>
     };
 
     return (
         <NoteContainer
         clicked={selectedNoteIndex === props.id }
-        color={color}
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
-        onMouseLeave={handlerUnHover}> 
+        onMouseLeave={handlerUnHover}
+        color={color}> 
             { noteDetail }
             <Toolbar 
             onRemove={handleDeleteNote} 
@@ -62,3 +59,5 @@ const Note = props => {
 };
 
 export default Note;
+
+

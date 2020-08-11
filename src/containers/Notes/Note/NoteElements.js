@@ -27,14 +27,19 @@ export const NoteContainer = styled.div`
         &:hover {  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); }
 
         ${({ clicked }) => clicked && css`
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 42%;
-        z-index: 500;
-        cursor: default;
-        animation: ${popup} .3s ease-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 42%;
+            z-index: 500;
+            cursor: default;
+            max-height: 70vh;
+            height: auto;
+            overflow: auto;
+            padding: 12px 12px 0 12px;
+            outline: 0px solid transparent;
+            animation: ${popup} .3s ease-out;
         `}
 `;
 
@@ -42,6 +47,10 @@ export const NoteTitle = styled.div`
     font-weight: 500;
     font-size: 1.6rem;
     padding: 12px 12px 0 12px;
+
+    ${({ clicked }) => clicked && css`
+
+        `}
 `;
 
 export const NoteContent = styled.div`
@@ -50,3 +59,4 @@ export const NoteContent = styled.div`
     line-height: 1.5;
     padding: 12px 12px 0 12px;
 `;
+

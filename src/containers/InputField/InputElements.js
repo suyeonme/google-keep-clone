@@ -40,6 +40,5 @@ export const InputBtn = styled.button`
     height: 20px;
     background-color: #fff;
     margin-left: auto;
-    curosr: default;
 `;
 

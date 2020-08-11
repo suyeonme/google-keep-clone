@@ -35,3 +35,4 @@ const NotesContainer = styled.div`
 `;
 
 export default Notes;
+

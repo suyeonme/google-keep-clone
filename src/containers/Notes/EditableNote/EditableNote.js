@@ -45,19 +45,12 @@ const EditableNote = props => {
 // Styles
 const EditNote = styled.div`
     cursor: text;
-    max-height: 70vh;
-    height: auto;
-    overflow: auto;
-
-    padding: 12px 12px 0 12px;
-    outline: 0px solid transparent;
 `;
 
 const EditNoteTitle = styled.div`
     font-size: 2.2rem;
     font-weight: 500;
     margin-bottom: 1rem;
-
     padding: 12px 12px 0 12px;
     outline: 0px solid transparent;
 
@@ -70,7 +63,6 @@ const EditNoteTitle = styled.div`
 const EditNoteContent = styled.div`
     font-size: 1.7rem; 
     line-height: 1.5;
-
     padding: 12px 12px 0 12px;
     outline: 0px solid transparent;
 
@@ -81,6 +73,7 @@ const EditNoteContent = styled.div`
 `;
 
 export default EditableNote;
+
 
 
 
