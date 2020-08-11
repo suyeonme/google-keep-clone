@@ -25,31 +25,32 @@ const Note = props => {
         if (e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') dispatch(selectNote(props.id));
     };
 
-    const truncateText = p => {
-        let text;
-        (p.length > 120) ?  text =  p.substr(0, 120) + '...' : text = p;
-        return text;
-    };
-
     // NOTE DETAIL
     let noteDetail;
 
     if (selectedNoteIndex !== null) {
         noteDetail = <EditableNote 
+        id={props.id} 
         title={props.title} 
         content={props.content}
-        id={props.id} />;
+        clicked={selectedNoteIndex === props.id ? 1 : 0}  
+        />;
     } else {
-        noteDetail = <NoteDetail title={props.title} content={props.content}/>
+        noteDetail = <NoteDetail 
+        title={props.title} 
+        content={props.content} 
+        clicked={selectedNoteIndex === props.id ? 1 : 0} 
+        />
     };
 
     return (
         <NoteContainer
-        clicked={selectedNoteIndex === props.id }
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover}
-        color={color}> 
+        color={color}
+        clicked={selectedNoteIndex === props.id ? 1 : 0}
+        > 
             { noteDetail }
             <Toolbar 
             onRemove={handleDeleteNote} 

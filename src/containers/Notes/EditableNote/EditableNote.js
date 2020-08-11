@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditedNote } from '../../../store/actions/notes';
 
 const EditableNote = props => {
@@ -22,22 +23,24 @@ const EditableNote = props => {
     return(
         <EditNote
         spellCheck="true">
-            <EditNoteTitle
+            <NoteTitle
             id="title"
             placeholder="Title"
+            clicked={props.clicked}
             onInput={handleUpdateNote}
             contentEditable
             suppressContentEditableWarning={true}>
-            {props.title}
-            </EditNoteTitle>
-            <EditNoteContent
+                {props.title}
+            </NoteTitle>
+            <NoteContent
             id="content"
             placeholder="Note"
+            clicked={props.clicked}
             onInput={handleUpdateNote}
             contentEditable
             suppressContentEditableWarning={true}>
-            {props.content}
-            </EditNoteContent>
+                {props.content}
+            </NoteContent>
         </EditNote>
     );
 };
@@ -45,31 +48,6 @@ const EditableNote = props => {
 // Styles
 const EditNote = styled.div`
     cursor: text;
-`;
-
-const EditNoteTitle = styled.div`
-    font-size: 2.2rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    padding: 12px 12px 0 12px;
-    outline: 0px solid transparent;
-
-    &:empty::before{
-        content:attr(placeholder);
-        color:#80868A;
-    }
-`;
-
-const EditNoteContent = styled.div`
-    font-size: 1.7rem; 
-    line-height: 1.5;
-    padding: 12px 12px 0 12px;
-    outline: 0px solid transparent;
-
-    &:empty::before{
-        content:attr(placeholder);
-        color:#80868A;
-    }
 `;
 
 export default EditableNote;

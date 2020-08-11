@@ -9,11 +9,10 @@ const NoteDetail = props => {
     };
 
     return ( 
-    <div>
-        <NoteTitle>{props.title}</NoteTitle>
-        <NoteContent>{truncateText(props.content)}</NoteContent>
-    </div>
-
+        <div clicked={props.clicked}>
+            <NoteTitle>{props.title}</NoteTitle>
+            <NoteContent>{truncateText(props.content)}</NoteContent>
+        </div>
     );
 };
 

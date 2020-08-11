@@ -37,20 +37,24 @@ export const NoteContainer = styled.div`
             max-height: 70vh;
             height: auto;
             overflow: auto;
-            padding: 12px 12px 0 12px;
-            outline: 0px solid transparent;
             animation: ${popup} .3s ease-out;
         `}
 `;
 
 export const NoteTitle = styled.div`
-    font-weight: 500;
     font-size: 1.6rem;
+    font-weight: 500;
     padding: 12px 12px 0 12px;
 
-    ${({ clicked }) => clicked && css`
+    ${({ clicked }) => clicked && `
+        font-size: 2.2rem;
+        outline: 0px solid transparent;
 
-        `}
+        &:empty::before{
+            content:attr(placeholder);
+            color:#80868A;
+        }   
+    `}
 `;
 
 export const NoteContent = styled.div`
@@ -58,5 +62,15 @@ export const NoteContent = styled.div`
     margin-bottom: auto;
     line-height: 1.5;
     padding: 12px 12px 0 12px;
+
+    ${({ clicked }) => clicked && `
+        font-size: 1.7rem; 
+        outline: 0px solid transparent;
+
+        &:empty::before{
+            content:attr(placeholder);
+            color:#80868A;
+        }  
+    `}
 `;
 
