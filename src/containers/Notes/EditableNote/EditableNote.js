@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
-import './EditableNote.scss';
 import { saveEditedNote } from '../../../store/actions/notes';
 
 const EditableNote = props => {
     const [editedNote, setEditedNote] = useState({ title: props.title, content: props.content, id: props.id });
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,27 +20,67 @@ const EditableNote = props => {
     };
 
     return(
-        <div 
-        className="EditableNote" 
+        <EditNote
         spellCheck="true">
-            <div
-            className="EditableNote__title"
+            <EditNoteTitle
             id="title"
-            onInput={handleUpdateNote}
             placeholder="Title"
-            contentEditable
-            suppressContentEditableWarning={true}
-            >{props.title}</div>
-            <div
-            className="EditableNote__content"
-            id="content"
             onInput={handleUpdateNote}
-            placeholder="Note"
             contentEditable
-            suppressContentEditableWarning={true}
-            >{props.content}</div>
-        </div>
+            suppressContentEditableWarning={true}>
+            {props.title}
+            </EditNoteTitle>
+            <EditNoteContent
+            id="content"
+            placeholder="Note"
+            onInput={handleUpdateNote}
+            contentEditable
+            suppressContentEditableWarning={true}>
+            {props.content}
+            </EditNoteContent>
+        </EditNote>
     );
 };
 
+// Styles
+const EditNote = styled.div`
+    cursor: text;
+    max-height: 70vh;
+    height: auto;
+    overflow: auto;
+
+    padding: 12px 12px 0 12px;
+    outline: 0px solid transparent;
+`;
+
+const EditNoteTitle = styled.div`
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+
+    padding: 12px 12px 0 12px;
+    outline: 0px solid transparent;
+
+    &:empty::before{
+        content:attr(placeholder);
+        color:#80868A;
+    }
+`;
+
+const EditNoteContent = styled.div`
+    font-size: 1.7rem; 
+    line-height: 1.5;
+
+    padding: 12px 12px 0 12px;
+    outline: 0px solid transparent;
+
+    &:empty::before{
+        content:attr(placeholder);
+        color:#80868A;
+    }
+`;
+
 export default EditableNote;
+
+
+

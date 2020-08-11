@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { saveNote } from '../../store/actions/notes';
 import uniqid from 'uniqid';
 import Tooltip from '@material-ui/core/Tooltip';
+import styled from 'styled-components';
 
-import './InputField.scss';
+import { saveNote } from '../../store/actions/notes';
+import { InputForm, InputTextArea, Input, InputBtn } from './InputElements';
 import Icon from '../../icons/plus.svg';
 
 const InputField = props => {
@@ -39,18 +40,17 @@ const InputField = props => {
     };
 
     return(
-        <div className="InputField" onClick={handleFoldInput}>
-            <form onClick={handleUnFoldInput}>
-                <input 
+        <InputContainer onClick={handleFoldInput}>
+            <InputForm onClick={handleUnFoldInput}>
+                <Input 
                     name="title" 
                     type="text" 
                     placeholder="Title" 
                     value={note.title}
                     autoComplete="off"
                     onChange={handleUpdateNote} />
-                {
-                    expandInput && 
-                    <textarea 
+                { expandInput && 
+                    <InputTextArea 
                     name="content" 
                     placeholder="Take a note..." 
                     rows="2" 
@@ -59,15 +59,20 @@ const InputField = props => {
                 }
                 { expandInput &&
                 <Tooltip title="Add" aria-label="add" arrow>
-                    <button onClick={() => handleSaveNote(note)}>
+                    <InputBtn onClick={() => handleSaveNote(note)}>
                         <img src={Icon} alt="Add Button" />
-                    </button>
+                    </InputBtn>
                 </Tooltip>
                 }
-            </form>
-        </div>
+            </InputForm>
+        </InputContainer>
     );
 };
+
+// Style
+const InputContainer = styled.div`
+    width: 100%;
+`;
 
 export default InputField;
 

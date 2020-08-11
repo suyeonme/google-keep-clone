@@ -1,6 +1,5 @@
 import React  from 'react';
 
-import './App.scss'
 import Header from './components/Header/Header';
 import InputField from './containers/InputField/InputField';
 import Notes from './containers/Notes/Notes';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 
 import { unSelectNote } from '../../store/actions/notes';
-import { CSSTransition } from 'react-transition-group';
-import './Backdrop.scss';
 
 const Backdrop = props => {
     const isSelected = useSelector(state => state.isSelected);
@@ -11,16 +11,31 @@ const Backdrop = props => {
 
     return (
         <CSSTransition
+        classNames="fade"
         in={isSelected}
         timeout={300}
-        unmountOnExit
-        classNames="showBackdrop">
-            <div 
-            className="Backdrop" 
-            onClick={() => dispatch(unSelectNote())} />
+        unmountOnExit>
+            <Overlay onClick={() => dispatch(unSelectNote())} />
         </CSSTransition>
     );
 };
 
-export default Backdrop;
+// Styles
+const Overlay = styled.div`
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #e5e5e5;
+    opacity: .75;
+    transition: opacity .3s ease-out;
 
+    &.fade-enter { opacity: 0; }
+    &.fade-enter-active { opacity: .75; }
+    &.fade-exit { opacity: .75; }
+    &.fade-exit-active { opacity: 0; }
+`;
+
+export default Backdrop;

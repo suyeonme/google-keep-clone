@@ -5,6 +5,7 @@ import App from './App';
 import { createStore } from 'redux';
 import reducer from './store/reducers/notes';
 import { Provider } from 'react-redux';
+import './index.css';
 
 const store = createStore(
     reducer,

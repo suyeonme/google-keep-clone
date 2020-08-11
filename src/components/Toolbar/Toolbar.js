@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEditedNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
+import styled from 'styled-components';
 
-import './Toolbar.scss';
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
@@ -31,20 +31,20 @@ const Toolbar = props => {
     const handleHideColorPalette = () => sethoverColorPalette(false);
 
     return(
-            <div className={props.onHover ? `Toolbar hover` : `Toolbar`}>
+            <ToolbarContainer hoverd={props.onHover}>
                 <div>
                     { icons.map((icon, i) => <Tooltip 
                     title={icon.ariaLabel} 
                     aria-label={icon.ariaLabel} 
                     key={i} 
                     arrow>
-                        <button
+                        <ToolbarBtn
                         onMouseEnter={ icon.ariaLabel === 'Change Color' ? handleShowColorPalette : null} 
                         onMouseLeave={ icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null}>
-                            <img 
+                            <ToolbarIcon
                             src={icon.icon} 
                             alt={icon.alt} /> 
-                        </button>
+                        </ToolbarBtn>
                     </Tooltip> 
                     )}
                 </div>
@@ -53,31 +53,68 @@ const Toolbar = props => {
                     title="Save" 
                     aria-label="Save" 
                     arrow>
-                        <button onClick={handleUpdateEditedNote}>
-                            <img 
+                        <ToolbarBtn onClick={handleUpdateEditedNote}>
+                            <ToolbarIcon 
                             src={SaveIcon} 
                             alt="Save Button" />
-                        </button> 
+                        </ToolbarBtn> 
                     </Tooltip>
                     <Tooltip 
                     title="Delete" 
                     aria-label="Delete" 
                     arrow>
-                        <button onClick={props.onRemove}>
-                            <img 
+                        <ToolbarBtn onClick={props.onRemove}>
+                            <ToolbarIcon 
                             src={TranshCanIcon} 
                             alt="Delete Button" />
-                        </button> 
+                        </ToolbarBtn> 
                     </Tooltip>
                 </div>
                 { hoverColorPalette && <ColorPalette  
                     onUnHover={handleHideColorPalette} 
                     onHover={handleShowColorPalette}/> }
-        </div>
+        </ToolbarContainer>
     );
 };
 
+// Styles
+const ToolbarContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px;
+    margin-top: 20px;
+    line-height: 0;
+    opacity: ${props => props.hoverd ? 1 : 0};
+    transition: opacity .3s ease-out;
+`;
+
+const ToolbarIcon = styled.img`
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+`;
+
+const ToolbarBtn = styled.button`
+        position: relative;
+        background-color: transparent; 
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+
+        &:hover {  
+            opacity: .87;
+            background-color: rgba(95,99,104,0.157);
+        }
+`;
+
 export default Toolbar;
+
+
 
 
 

@@ -2,7 +2,7 @@ import React  from 'react';
 import { useDispatch } from 'react-redux';
 
 import { changeColorNote } from '../../store/actions/notes'; 
-import './ColorPalette.scss';
+import styled from 'styled-components';
 
 const ColorPalette = props => {
     const dispatch = useDispatch();
@@ -19,8 +19,7 @@ const ColorPalette = props => {
     ];
 
     return (
-        <div 
-        className="ColorPalette" 
+        <ColorPaletteContainer
         onMouseEnter={props.onHover}
         onMouseLeave={props.onUnHover}>
             { colors.map((color, index) => <button 
@@ -28,8 +27,35 @@ const ColorPalette = props => {
             key={index}
             onClick={() => dispatch(changeColorNote(color))} />
             )}
-        </div>
+        </ColorPaletteContainer>
     );
 };
+
+// Styles
+const ColorPaletteContainer = styled.div`
+    max-width: 128px;
+    padding: .5rem;
+    position: absolute;
+    bottom: 33px;
+    left: 8px;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+    background-color: white;
+
+    button {
+        width: 25px;
+        height: 25px;
+        border: 1.5px solid transparent;
+        border-radius: 50%;
+        margin: .2rem;
+
+        &:hover { border: 1.5px solid #5F6367; }
+
+        &:first-child {
+            border: 1.5px solid #E7EAED;
+
+            &:hover { border: 1.5px solid #5F6367; }
+        }
+    }
+`;
 
 export default ColorPalette;

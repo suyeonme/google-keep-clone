@@ -1,15 +1,23 @@
 import React from 'react';
-import './Header.scss';
+import styled from 'styled-components';
 
-import Logo from '../../icons/light.svg';
+import Logo from './Logo';
 
 const Header = props => {
     return(
-        <div className="Header">
-            <img src={Logo} alt="Logo"/>
-            <h3>Keep</h3>
-        </div>
+        <HeaderContainer>
+            <Logo />
+        </HeaderContainer>
     );
 };
+
+const HeaderContainer = styled.div`
+    width: 100%;
+    min-height: 9vh;
+    background-color: inherit;
+    border-bottom: 1px solid rgba(66, 66, 66, .2);
+    display: flex;
+    align-items: center;
+`;
 
 export default Header;
