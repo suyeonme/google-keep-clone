@@ -16,6 +16,7 @@ export const NoteContainer = styled.div`
         position: relative; 
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         border-radius: 8px;
         border: 1px solid rgba(66, 66, 66, .2);
         word-wrap: break-word;
