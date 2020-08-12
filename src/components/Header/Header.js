@@ -3,14 +3,6 @@ import styled from 'styled-components';
 
 import Logo from './Logo';
 
-const Header = props => {
-    return(
-        <HeaderContainer>
-            <Logo />
-        </HeaderContainer>
-    );
-};
-
 const HeaderContainer = styled.div`
     width: 100%;
     min-height: 9vh;
@@ -19,5 +11,13 @@ const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
 `;
+
+const Header = props => {
+    return(
+        <HeaderContainer>
+            <Logo />
+        </HeaderContainer>
+    );
+};
 
 export default Header;

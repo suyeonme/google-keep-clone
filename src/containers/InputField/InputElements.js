@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const InputForm = styled.form`
+    position: relative;
     width: 40%;
     height: auto;
     display: flex;

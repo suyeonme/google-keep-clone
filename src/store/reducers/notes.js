@@ -78,6 +78,7 @@ import * as actions from '../actions/actionsTypes';
 const initialState = {
     notes: [],
     selectedNote: null,
+    isSelected: false,
     editedNote: null,
     bgColor: '#fff'
 };
@@ -95,18 +96,26 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 notes: state.notes.filter(note => note.id !== action.payload),
                 selectedNote: null,
-                editedNote: null
+                editedNote: null,
+                isSelected: false
             }
         case actions.SELECT_NOTE:
             return { 
                 ...state,
-                selectedNote: action.payload
+                selectedNote: action.payload,
+                isSelected: true
             }
         case actions.UNSELECT_NOTE:
             return { 
                 ...state,
                 selectedNote: null,
-                editedNote: null
+                editedNote: null,
+                isSelected: false
+            }
+        case actions.GET_NOTE_ID: 
+            return { 
+                ...state,
+                selectedNote: action.payload
             }
         case actions.CHANGE_COLOR_NOTE:
             return { 
@@ -116,7 +125,7 @@ const reducer = (state = initialState, action) => {
         case actions.SAVE_EDITED_NOTE:
             return { 
                 ...state,
-                editedNote: action.payload
+                editedNote: action.payload,
             }
         case actions.UPDATE_EDITED_NOTE:
             const oldNotes = state.notes.filter(note => note.id !== state.editedNote.id);
@@ -124,7 +133,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 notes: oldNotes.concat(state.editedNote),
                 selectedNote: null,
-                editedNote: null
+                editedNote: null,
+                isSelected: false
             }
         default:
             return state;

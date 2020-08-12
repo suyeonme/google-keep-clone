@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEditedNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
-import styled from 'styled-components';
 
+import { ToolbarContainer, ToolbarIcon, ToolbarBtn } from './ToolbarElements';
 import PlusIcon from '../../icons/plus.svg'
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
@@ -21,13 +21,9 @@ const Toolbar = props => {
     ];
 
     const dispatch = useDispatch();
-
-    const handleUpdateEditedNote = () => {
-        if (editedNote !== null) dispatch(updateEditedNote());
-    };
-
-    const handleShowColorPalette = () => sethoverColorPalette(true);
+    const handleUpdateEditedNote = () => (editedNote !== null) && dispatch(updateEditedNote());
     
+    const handleShowColorPalette = () => sethoverColorPalette(true);
     const handleHideColorPalette = () => sethoverColorPalette(false);
 
     return(
@@ -50,15 +46,18 @@ const Toolbar = props => {
                     )}
                 </div>
                 
-                { 
-                    props.isInputField ? 
+                { props.isInputField ? 
                     <div>
                         <Tooltip 
                         title="Add" 
                         aria-label="add" 
                         arrow>
-                            <ToolbarBtn onClick={props.clicked}>
-                                <ToolbarIcon src={PlusIcon} alt="Add Button" />
+                            <ToolbarBtn onClick={e => e.preventDefault()}>
+                                <ToolbarIcon 
+                                id="addBtn"
+                                src={PlusIcon} 
+                                alt="Add Button"
+                                onClick={props.clicked} />
                             </ToolbarBtn>
                         </Tooltip>
                     </div>
@@ -70,66 +69,37 @@ const Toolbar = props => {
                         arrow>
                             <ToolbarBtn onClick={handleUpdateEditedNote}>
                                 <ToolbarIcon 
+                                id="saveBtn" 
                                 src={SaveIcon} 
-                                alt="Save Button" />
+                                alt="Save Button" 
+                                />
                             </ToolbarBtn> 
                         </Tooltip>
                         <Tooltip 
                         title="Delete" 
                         aria-label="Delete" 
                         arrow>
-                            <ToolbarBtn onClick={props.onRemove}>
+                            <ToolbarBtn 
+                            id="deleteBtn"
+                            onClick={props.onRemove}>
                                 <ToolbarIcon 
                                 src={TranshCanIcon} 
-                                alt="Delete Button" />
+                                alt="Delete Button" 
+                                />
                             </ToolbarBtn> 
                         </Tooltip>
                     </div>
                 }
                 
                 { hoverColorPalette && <ColorPalette  
+                    isInputField={props.isInputField}
                     onUnHover={handleHideColorPalette} 
                     onHover={handleShowColorPalette}
-                    id={props.id} // Here
-                    /> }
+                    /> 
+                }
         </ToolbarContainer>
     );
 };
-
-// Styles
-const ToolbarContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2px;
-    margin-top: 20px;
-    line-height: 0;
-    opacity: ${props => props.hoverd ? 1 : 0};
-    transition: opacity .3s ease-out;
-`;
-
-const ToolbarIcon = styled.img`
-        width: 15px;
-        height: 15px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-`;
-
-const ToolbarBtn = styled.button`
-        position: relative;
-        background-color: transparent; 
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
-
-        &:hover {  
-            opacity: .87;
-            background-color: rgba(95,99,104,0.157);
-        }
-`;
 
 export default Toolbar;
 

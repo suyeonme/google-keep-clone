@@ -32,7 +32,7 @@ const InputField = props => {
     };
 
     const handleUnFoldInput = e => {
-        if (e.target.nodeName !== 'IMG') {
+        if (e.target.id !== 'addBtn') {
             e.stopPropagation();
             setExpandInput(true);
         }

@@ -89,6 +89,13 @@ export const unSelectNote = () => {
     };
 };
 
+export const getNoteId = id => {
+    return {
+        type: actions.SELECT_NOTE,
+        payload: id
+    };
+};
+
 export const changeColorNote = color => {
     return {
         type: actions.CHANGE_COLOR_NOTE,
