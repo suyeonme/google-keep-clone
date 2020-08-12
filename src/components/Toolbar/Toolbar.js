@@ -4,6 +4,7 @@ import { updateEditedNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
 import styled from 'styled-components';
 
+import PlusIcon from '../../icons/plus.svg'
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
@@ -12,15 +13,14 @@ import ColorPalette from '../ColorPalette/ColorPalette';
 
 const Toolbar = props => {  
     const [hoverColorPalette, sethoverColorPalette] = useState(false);
-
     const editedNote = useSelector(state => state.editedNote);
-
-    const dispatch = useDispatch();
 
     const icons = [
         {icon: PaintIcon, alt: 'Change Color Button', ariaLabel: 'Change Color'},
         {icon: PictureIcon, alt: 'Add Picture Button',  ariaLabel: 'Add Picture'}
     ];
+
+    const dispatch = useDispatch();
 
     const handleUpdateEditedNote = () => {
         if (editedNote !== null) dispatch(updateEditedNote());
@@ -43,36 +43,55 @@ const Toolbar = props => {
                         onMouseLeave={ icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null}>
                             <ToolbarIcon
                             src={icon.icon} 
-                            alt={icon.alt} /> 
+                            alt={icon.alt}
+                            /> 
                         </ToolbarBtn>
                     </Tooltip> 
                     )}
                 </div>
-                <div>
-                    <Tooltip 
-                    title="Save" 
-                    aria-label="Save" 
-                    arrow>
-                        <ToolbarBtn onClick={handleUpdateEditedNote}>
-                            <ToolbarIcon 
-                            src={SaveIcon} 
-                            alt="Save Button" />
-                        </ToolbarBtn> 
-                    </Tooltip>
-                    <Tooltip 
-                    title="Delete" 
-                    aria-label="Delete" 
-                    arrow>
-                        <ToolbarBtn onClick={props.onRemove}>
-                            <ToolbarIcon 
-                            src={TranshCanIcon} 
-                            alt="Delete Button" />
-                        </ToolbarBtn> 
-                    </Tooltip>
-                </div>
+                
+                { 
+                    props.isInputField ? 
+                    <div>
+                        <Tooltip 
+                        title="Add" 
+                        aria-label="add" 
+                        arrow>
+                            <ToolbarBtn onClick={props.clicked}>
+                                <ToolbarIcon src={PlusIcon} alt="Add Button" />
+                            </ToolbarBtn>
+                        </Tooltip>
+                    </div>
+                    : 
+                    <div>
+                        <Tooltip 
+                        title="Save" 
+                        aria-label="Save" 
+                        arrow>
+                            <ToolbarBtn onClick={handleUpdateEditedNote}>
+                                <ToolbarIcon 
+                                src={SaveIcon} 
+                                alt="Save Button" />
+                            </ToolbarBtn> 
+                        </Tooltip>
+                        <Tooltip 
+                        title="Delete" 
+                        aria-label="Delete" 
+                        arrow>
+                            <ToolbarBtn onClick={props.onRemove}>
+                                <ToolbarIcon 
+                                src={TranshCanIcon} 
+                                alt="Delete Button" />
+                            </ToolbarBtn> 
+                        </Tooltip>
+                    </div>
+                }
+                
                 { hoverColorPalette && <ColorPalette  
                     onUnHover={handleHideColorPalette} 
-                    onHover={handleShowColorPalette}/> }
+                    onHover={handleShowColorPalette}
+                    id={props.id} // Here
+                    /> }
         </ToolbarContainer>
     );
 };
@@ -113,8 +132,4 @@ const ToolbarBtn = styled.button`
 `;
 
 export default Toolbar;
-
-
-
-
 

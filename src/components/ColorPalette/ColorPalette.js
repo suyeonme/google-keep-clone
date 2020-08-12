@@ -22,10 +22,11 @@ const ColorPalette = props => {
         <ColorPaletteContainer
         onMouseEnter={props.onHover}
         onMouseLeave={props.onUnHover}>
-            { colors.map((color, index) => <button 
-            style={{ backgroundColor: color }} 
+            { colors.map((color, index) => <ColorPaletteBtn 
+            color={color}
             key={index}
-            onClick={() => dispatch(changeColorNote(color))} />
+            //onClick={() => dispatch(changeColorNote(color))}
+            />
             )}
         </ColorPaletteContainer>
     );
@@ -40,21 +41,21 @@ const ColorPaletteContainer = styled.div`
     left: 8px;
     box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
     background-color: white;
+`;
 
-    button {
-        width: 25px;
-        height: 25px;
-        border: 1.5px solid transparent;
-        border-radius: 50%;
-        margin: .2rem;
+const ColorPaletteBtn = styled.button`
+    width: 25px;
+    height: 25px;
+    border: 1.5px solid transparent;
+    border-radius: 50%;
+    margin: .2rem;
+    background: ${(props) => props.color};
 
+    &:hover { border: 1.5px solid #5F6367; }
+
+    &:first-child {
+        border: 1.5px solid #E7EAED;
         &:hover { border: 1.5px solid #5F6367; }
-
-        &:first-child {
-            border: 1.5px solid #E7EAED;
-
-            &:hover { border: 1.5px solid #5F6367; }
-        }
     }
 `;
 

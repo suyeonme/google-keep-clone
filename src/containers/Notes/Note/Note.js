@@ -10,6 +10,7 @@ import EditableNote from '../EditableNote/EditableNote';
 const Note = props => {   
     const selectedNoteIndex = useSelector(state => state.selectedNoteIndex);
     const color = useSelector(state => state.color);
+    const isSelected = useSelector(state => state.isSelected); // TEST
 
     const dispatch = useDispatch();
 
@@ -54,11 +55,18 @@ const Note = props => {
             { noteDetail }
             <Toolbar 
             onRemove={handleDeleteNote} 
-            onHover={isHovered}/> 
+            onHover={isHovered}
+
+            id={props.id}
+            /> 
         </NoteContainer>
     );
 };
 
 export default Note;
+
+
+
+
 
 

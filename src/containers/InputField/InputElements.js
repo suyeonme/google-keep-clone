@@ -35,10 +35,4 @@ export const Input = styled.input`
     font-size: 1.6rem;
 `;
 
-export const InputBtn = styled.button`
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    margin-left: auto;
-`;
 

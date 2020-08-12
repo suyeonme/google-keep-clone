@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import uniqid from 'uniqid';
-import Tooltip from '@material-ui/core/Tooltip';
 import styled from 'styled-components';
 
 import { saveNote } from '../../store/actions/notes';
-import { InputForm, InputTextArea, Input, InputBtn } from './InputElements';
-import Icon from '../../icons/plus.svg';
+import { InputForm, InputTextArea, Input } from './InputElements';
+import Toolbar from '../../components/Toolbar/Toolbar';
 
 const InputField = props => {
     const [note, setNote] = useState({title: '', content: '', id: uniqid()});
@@ -40,29 +39,30 @@ const InputField = props => {
     };
 
     return(
-        <InputContainer onClick={handleFoldInput}>
+        <InputContainer onClick={handleFoldInput} >
             <InputForm onClick={handleUnFoldInput}>
                 <Input 
                     name="title" 
-                    type="text" 
-                    placeholder="Title" 
                     value={note.title}
+                    placeholder="Title" 
                     autoComplete="off"
-                    onChange={handleUpdateNote} />
+                    onChange={handleUpdateNote}
+                    />
                 { expandInput && 
                     <InputTextArea 
                     name="content" 
+                    value={note.content} 
                     placeholder="Take a note..." 
                     rows="2" 
                     onChange={handleUpdateNote} 
-                    value={note.content} />
+                    />
                 }
-                { expandInput &&
-                <Tooltip title="Add" aria-label="add" arrow>
-                    <InputBtn onClick={() => handleSaveNote(note)}>
-                        <img src={Icon} alt="Add Button" />
-                    </InputBtn>
-                </Tooltip>
+                { expandInput && 
+                    <Toolbar 
+                    onHover={true}
+                    isInputField={true}
+                    clicked={() => handleSaveNote(note)}
+                    /> 
                 }
             </InputForm>
         </InputContainer>
@@ -75,4 +75,3 @@ const InputContainer = styled.div`
 `;
 
 export default InputField;
-

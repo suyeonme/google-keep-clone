@@ -12,7 +12,8 @@ const Notes = props => {
         title={note.title} 
         content={note.content} 
         id={note.id}
-        key={note.id} />
+        key={note.id}
+        /> 
     );
 
     return (
