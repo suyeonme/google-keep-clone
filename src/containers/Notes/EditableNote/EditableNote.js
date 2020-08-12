@@ -6,7 +6,12 @@ import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditedNote } from '../../../store/actions/notes';
 
 const EditableNote = props => {
-    const [editedNote, setEditedNote] = useState({ title: props.title, content: props.content, id: props.id });
+    const [editedNote, setEditedNote] = useState({ 
+        title: props.title, 
+        content: props.content, 
+        id: props.id , 
+        bgColor: props.bgColor 
+    });
 
     const dispatch = useDispatch();
 

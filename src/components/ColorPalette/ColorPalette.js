@@ -1,7 +1,7 @@
 import React  from 'react';
 import { useDispatch } from 'react-redux';
 
-import { changeColorNote } from '../../store/actions/notes'; 
+import { getColorNote, changeColorNote } from '../../store/actions/notes'; 
 import styled from 'styled-components';
 
 // Styles
@@ -36,7 +36,8 @@ const ColorPalette = props => {
 
     const handleClick = (e, color) => {
         e.preventDefault();
-        dispatch(changeColorNote(color));
+        dispatch(getColorNote(color));
+        dispatch(changeColorNote(props.id));
     };
 
     const colors = [

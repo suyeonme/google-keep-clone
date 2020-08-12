@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -24,6 +25,7 @@ const Notes = props => {
         content={note.content} 
         id={note.id}
         key={note.id}
+        bgColor={note.bgColor}
         /> 
     );
 

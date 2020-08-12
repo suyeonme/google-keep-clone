@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import styled from 'styled-components';
 
@@ -8,9 +8,14 @@ import { InputForm, InputTextArea, Input } from './InputElements';
 import Toolbar from '../../components/Toolbar/Toolbar';
 
 const InputField = props => {
-    const [note, setNote] = useState({title: '', content: '', id: uniqid()});
+    const selectedBgColor = useSelector(state => state.bgColor); // HERE
+    const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: selectedBgColor});
     const [expandInput, setExpandInput] = useState(false); 
 
+    // Degugging
+    console.log('Selected bgColor [outside]: ' + selectedBgColor);
+    console.log('Selected bgColor [outside]: ' + note.bgColor);
+    
     const dispatch = useDispatch();
 
     const handleUpdateNote = e => {
@@ -23,7 +28,7 @@ const InputField = props => {
             dispatch(saveNote(note));
 
             // CLEAR INPUT
-            setNote({ title: '', content: '', id: uniqid()}); 
+            setNote({ title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
         };
     };
 
@@ -32,7 +37,7 @@ const InputField = props => {
     };
 
     const handleUnFoldInput = e => {
-        if (e.target.id !== 'addBtn') {
+        if (e.target.nodeName !== 'IMG') {
             e.stopPropagation();
             setExpandInput(true);
         }
@@ -62,6 +67,7 @@ const InputField = props => {
                     onHover={true}
                     isInputField={true}
                     clicked={() => handleSaveNote(note)}
+                    id={note.id} // TEST
                     /> 
                 }
             </InputForm>

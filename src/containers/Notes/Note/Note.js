@@ -77,19 +77,16 @@ import EditableNote from '../EditableNote/EditableNote';
 
 const Note = props => {   
     const selectedNote = useSelector(state => state.selectedNote);
-    const isSelected = useSelector(state => state.isSelected); 
-    const color = useSelector(state => state.color);
 
     const [isHovered, setIsHovered] = useState(false);
-    //const handlerHover = () => setIsHovered(true);
-    //const handlerUnHover = () => setIsHovered(false);
-    const handlerHover = () => setIsHovered(!isHovered);
+    const handlerHover = () => setIsHovered(true);
+    const handlerUnHover = () => setIsHovered(false);
     
     const dispatch = useDispatch();
     const handleDeleteNote = () => dispatch(deleteNote(props.id));
 
     const handleSelectNote = e => {
-        if(e.target.id !== 'saveBtn' && e.target.id !== 'deleteBtn') {
+        if(e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') {
             dispatch(selectNote(props.id)); 
         };
     };
@@ -99,10 +96,12 @@ const Note = props => {
 
     if (selectedNote === props.id) {
         noteBody = <EditableNote 
-        id={props.id} 
         title={props.title} 
         content={props.content}
+        id={props.id} 
         clicked={selectedNote === props.id ? 1 : 0}  
+
+        bgColor={props.bgColor} // TEST
         />;
     } else {
         noteBody = <NoteBody 
@@ -115,17 +114,14 @@ const Note = props => {
     return (
         <NoteContainer
         onClick={handleSelectNote} 
-        //onMouseEnter={handlerHover} 
-        //onMouseLeave={handlerUnHover}
         onMouseEnter={handlerHover} 
-        onMouseLeave={handlerHover}
-        color={color}
-        clicked={selectedNote === props.id ? 1 : 0}> 
+        onMouseLeave={handlerUnHover} 
+        clicked={selectedNote === props.id ? 1 : 0} 
+        bgColor={props.bgColor}> 
             { noteBody }
             <Toolbar 
             onRemove={handleDeleteNote} 
             onHover={isHovered}
-
             id={props.id}
             /> 
         </NoteContainer>
