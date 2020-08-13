@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import styled from 'styled-components';
@@ -12,12 +12,25 @@ const InputField = props => {
     const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
     const [expandInput, setExpandInput] = useState(false); 
 
+    const ref = useRef(null);
     const dispatch = useDispatch();
 
+    // Detect click outside of form 
     useEffect(() => {
-        // Prevent unexpected changing color when change color of note 
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    });
+
+    // Update bgColor
+    useEffect(() => {
         if (expandInput) setNote({ ...note, bgColor: selectedBgColor });
     }, [selectedBgColor]);
+
+    const handleClickOutside = (e) => {
+        (!ref.current.contains(e.target)) ? setExpandInput(false) : setExpandInput(true);  
+    };
 
     const handleUpdateNote = e => {
         const {name, value} = e.target;
@@ -28,26 +41,16 @@ const InputField = props => {
         if(note.title !== '' && note.content !== '') {
             dispatch(saveNote(note)); 
 
-            // CLEAR INPUT
+            // Clear Input 
             setNote({ title: '', content: '', id: uniqid(), bgColor: '#fff' });
+            setExpandInput(false);
         };
     };
 
-    const handleFoldInput = () => {
-        setExpandInput(false);
-    };
-
-    const handleUnFoldInput = e => {
-        if (e.target.nodeName !== 'IMG') {
-            e.stopPropagation();
-            setExpandInput(true);
-        }
-    };
-
     return(
-        <InputContainer onClick={handleFoldInput}>
+        <InputContainer>
             <InputForm 
-            onClick={handleUnFoldInput} 
+            ref={ref}
             bgColor={note.bgColor}>
                 <Input 
                     name="title" 
