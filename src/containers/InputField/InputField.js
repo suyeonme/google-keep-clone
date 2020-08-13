@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import styled from 'styled-components';
@@ -8,27 +8,28 @@ import { InputForm, InputTextArea, Input } from './InputElements';
 import Toolbar from '../../components/Toolbar/Toolbar';
 
 const InputField = props => {
-    const selectedBgColor = useSelector(state => state.bgColor); // HERE
-    const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: selectedBgColor});
+    // State
+    const selectedBgColor = useSelector(state => state.bgColor); 
+    const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
     const [expandInput, setExpandInput] = useState(false); 
 
-    // Degugging
-    console.log('Selected bgColor [outside]: ' + selectedBgColor);
-    console.log('Selected bgColor [outside]: ' + note.bgColor);
-    
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setNote({ ...note, bgColor: selectedBgColor })
+    }, [selectedBgColor]);
 
     const handleUpdateNote = e => {
         const {name, value} = e.target;
-        setNote({...note, [name]: value});
+        setNote({...note, [name]: value }); 
     };
 
     const handleSaveNote = note => {
         if(note.title !== '' && note.content !== '') {
-            dispatch(saveNote(note));
+            dispatch(saveNote(note)); 
 
             // CLEAR INPUT
-            setNote({ title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
+            setNote({ title: '', content: '', id: uniqid(), bgColor: '#fff' });
         };
     };
 
@@ -44,8 +45,10 @@ const InputField = props => {
     };
 
     return(
-        <InputContainer onClick={handleFoldInput} >
-            <InputForm onClick={handleUnFoldInput}>
+        <InputContainer onClick={handleFoldInput}>
+            <InputForm 
+            onClick={handleUnFoldInput} 
+            bgColor={note.bgColor}>
                 <Input 
                     name="title" 
                     value={note.title}
@@ -59,7 +62,7 @@ const InputField = props => {
                     value={note.content} 
                     placeholder="Take a note..." 
                     rows="2" 
-                    onChange={handleUpdateNote} 
+                    onChange={handleUpdateNote}
                     />
                 }
                 { expandInput && 
@@ -67,7 +70,6 @@ const InputField = props => {
                     onHover={true}
                     isInputField={true}
                     clicked={() => handleSaveNote(note)}
-                    id={note.id} // TEST
                     /> 
                 }
             </InputForm>
