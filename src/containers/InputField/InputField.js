@@ -15,7 +15,8 @@ const InputField = props => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setNote({ ...note, bgColor: selectedBgColor })
+        // Prevent unexpected changing color when change color of note 
+        if (expandInput) setNote({ ...note, bgColor: selectedBgColor });
     }, [selectedBgColor]);
 
     const handleUpdateNote = e => {
