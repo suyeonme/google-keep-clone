@@ -8,7 +8,6 @@ import { InputForm, InputTextArea, Input } from './InputElements';
 import Toolbar from '../../components/Toolbar/Toolbar';
 
 const InputField = props => {
-    // State
     const selectedBgColor = useSelector(state => state.bgColor); 
     const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
     const [expandInput, setExpandInput] = useState(false); 

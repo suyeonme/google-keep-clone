@@ -50,9 +50,8 @@ export const saveEditedNote = editedNote => {
     };
 };
 
-export const updateEditedNote = id => {
+export const updateEditedNote = () => {
     return {
-        type: actions.UPDATE_EDITED_NOTE,
-        payload: id
+        type: actions.UPDATE_EDITED_NOTE
     };
 };
