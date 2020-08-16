@@ -11,7 +11,7 @@ import PictureIcon from '../../icons/picture.svg';
 import SaveIcon from '../../icons/save.svg';
 import ColorPalette from '../ColorPalette/ColorPalette';
 
-const Toolbar = props => {  
+const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {  
     const [hoverColorPalette, sethoverColorPalette] = useState(false);
     const editedNote = useSelector(state => state.editedNote);
 
@@ -21,16 +21,16 @@ const Toolbar = props => {
     ];
 
     const dispatch = useDispatch();
-
-    const handleUpdateEditedNote = id => {
-        (editedNote !== null) && dispatch(updateEditedNote(id));
-    }; 
     
     const handleShowColorPalette = () => sethoverColorPalette(true);
     const handleHideColorPalette = () => sethoverColorPalette(false);
 
+    const handleUpdateEditedNote = id => {
+        (editedNote !== null) && dispatch(updateEditedNote(id));
+    }; 
+
     return(
-            <ToolbarContainer hoverd={props.onHover}>
+            <ToolbarContainer hoverd={onHover}>
                 <div>
                     { icons.map((icon, i) => <Tooltip 
                     title={icon.ariaLabel} 
@@ -49,7 +49,7 @@ const Toolbar = props => {
                     )}
                 </div>
                 
-                { props.isInputField ? 
+                { isInputField ? 
                     <div>
                         <Tooltip 
                         title="Add" 
@@ -59,7 +59,7 @@ const Toolbar = props => {
                                 <ToolbarIcon 
                                 src={PlusIcon} 
                                 alt="Add Button"
-                                onClick={props.clicked} />
+                                onClick={clicked} />
                             </ToolbarBtn>
                         </Tooltip>
                     </div>
@@ -69,7 +69,7 @@ const Toolbar = props => {
                         title="Save" 
                         aria-label="Save" 
                         arrow>
-                            <ToolbarBtn onClick={() => handleUpdateEditedNote(props.id)}>
+                            <ToolbarBtn onClick={() => handleUpdateEditedNote(id)}>
                                 <ToolbarIcon 
                                 src={SaveIcon} 
                                 alt="Save Button" 
@@ -81,7 +81,7 @@ const Toolbar = props => {
                         aria-label="Delete" 
                         arrow>
                             <ToolbarBtn 
-                            onClick={props.onRemove}>
+                            onClick={onRemove}>
                                 <ToolbarIcon 
                                 src={TranshCanIcon} 
                                 alt="Delete Button" 
@@ -92,11 +92,10 @@ const Toolbar = props => {
                 }
                 
                 { hoverColorPalette && <ColorPalette  
-                    isInputField={props.isInputField}
+                    id={id}
+                    isInputField={isInputField}
                     onUnHover={handleHideColorPalette} 
                     onHover={handleShowColorPalette}
-
-                    id={props.id}
                     /> 
                 }
         </ToolbarContainer>
@@ -104,3 +103,4 @@ const Toolbar = props => {
 };
 
 export default Toolbar;
+

@@ -31,13 +31,16 @@ const ColorPaletteBtn = styled.button`
     }
 `;
 
-const ColorPalette = props => {
+const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
     const dispatch = useDispatch();
 
     const handleClick = (e, color) => {
         e.preventDefault();
         dispatch(getColorNote(color));
-        dispatch(changeColorNote(props.id));
+        dispatch(changeColorNote(id));
+
+        // Promise 
+        // Reset bgColor ===  '#fff'
     };
 
     const colors = [
@@ -53,9 +56,9 @@ const ColorPalette = props => {
 
     return (
         <ColorPaletteContainer
-        isInputField={props.isInputField}
-        onMouseEnter={props.onHover}
-        onMouseLeave={props.onUnHover}>
+        isInputField={isInputField}
+        onMouseEnter={onHover}
+        onMouseLeave={onUnHover}>
             { colors.map((color, index) => <ColorPaletteBtn 
             color={color}
             key={index}
@@ -67,3 +70,6 @@ const ColorPalette = props => {
 };
 
 export default ColorPalette;
+
+
+

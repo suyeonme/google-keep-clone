@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
         case actions.SAVE_NOTE:
             return {
                 ...state,
-                notes: state.notes.concat(action.payload)
+                notes: [action.payload, ...state.notes]
             };
         case actions.DELETE_NOTE:
             return {
@@ -38,15 +38,15 @@ const reducer = (state = initialState, action) => {
                 editedNote: null,
                 isSelected: false
             }
-        case actions.GET_COLOR_NOTE:
-            return { 
+        case actions.GET_COLOR_NOTE: // get color - change color - save edited note : OK
+            return {                 // select note - save note - get color - change color - save note : NOT
                 ...state,
                 bgColor: action.payload
             }
         case actions.CHANGE_COLOR_NOTE: 
             return {
                 ...state,
-                notes: state.notes.map(note => note.id === action.payload ?
+                notes: state.notes.map(note => note.id === action.payload ? // old note 
                     { ...note, bgColor: state.bgColor } 
                     : note       
                 )
@@ -71,6 +71,4 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-
 

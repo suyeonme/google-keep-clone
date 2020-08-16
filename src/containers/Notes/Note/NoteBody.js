@@ -1,7 +1,7 @@
 import React from 'react';
 import { NoteTitle, NoteContent } from './NoteElements';
 
-const NoteDetail = props => {
+const NoteDetail = ({ clicked, title, content }) => {
     const truncateText = p => {
         let text;
         (p.length > 120) ?  text =  p.substr(0, 120) + '...' : text = p;
@@ -9,9 +9,9 @@ const NoteDetail = props => {
     };
 
     return ( 
-        <div clicked={props.clicked}>
-            <NoteTitle>{props.title}</NoteTitle>
-            <NoteContent>{truncateText(props.content)}</NoteContent>
+        <div clicked={clicked}>
+            <NoteTitle>{title}</NoteTitle>
+            <NoteContent>{truncateText(content)}</NoteContent>
         </div>
     );
 };

@@ -5,22 +5,32 @@ import styled from 'styled-components';
 import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditedNote } from '../../../store/actions/notes';
 
-const EditableNote = props => {
+const EditableNote = ({ title, content, id, bgColor, clicked }) => {
+    // Initial Value
     const [editedNote, setEditedNote] = useState({ 
-        title: props.title, 
-        content: props.content, 
-        id: props.id , 
-        bgColor: props.bgColor 
+        title: title, 
+        content: content, 
+        id: id, 
+        bgColor: bgColor
     });
 
     const dispatch = useDispatch();
 
+    // Update Value
     useEffect(() => {
-        setEditedNote({ ...editedNote, bgColor: props.bgColor });
-    }, [props.bgColor]);
+        setEditedNote({
+            title: title, 
+            content: content, 
+            id: id, 
+            bgColor: bgColor
+        });
 
+    }, [title, content, id, bgColor]);
+
+    // ISSUE !!
+    // Change text and color, text is reverted to previous value.
     useEffect(() => {
-        dispatch(saveEditedNote(editedNote));
+        dispatch(saveEditedNote(editedNote)); 
     }, [dispatch, editedNote]);
 
     const handleUpdateNote= e => {
@@ -35,20 +45,20 @@ const EditableNote = props => {
             <NoteTitle
             id="title"
             placeholder="Title"
-            clicked={props.clicked}
+            clicked={clicked}
             onInput={handleUpdateNote}
             contentEditable
             suppressContentEditableWarning={true}>
-                {props.title}
+                {title}
             </NoteTitle>
             <NoteContent
             id="content"
             placeholder="Note"
-            clicked={props.clicked}
+            clicked={clicked}
             onInput={handleUpdateNote}
             contentEditable
             suppressContentEditableWarning={true}>
-                {props.content}
+                {content}
             </NoteContent>
         </EditNote>
     );
@@ -60,7 +70,3 @@ const EditNote = styled.div`
 `;
 
 export default EditableNote;
-
-
-
-

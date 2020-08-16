@@ -23,8 +23,8 @@ button {
     cursor: pointer;
     border: none;
     outline: none;
-
-    img { width: 100%; }
 }
+
+button img { width: 100%; }
 
 img { cursor: pointer; }

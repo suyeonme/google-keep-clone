@@ -76,3 +76,11 @@ export const NoteContent = styled.div`
     `}
 `;
 
+
+
+
+
+
+
+
+

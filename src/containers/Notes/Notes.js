@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -15,6 +14,7 @@ const NotesContainer = styled.div`
     grid-gap: 15px;
     grid-auto-rows: minmax(min-cotent, auto);
     grid-auto-flow: dense;
+    
 `;
 
 const Notes = props => {
@@ -38,4 +38,6 @@ const Notes = props => {
 };
 
 export default Notes;
+
+
 

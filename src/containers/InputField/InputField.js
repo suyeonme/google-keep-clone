@@ -3,33 +3,47 @@ import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import styled from 'styled-components';
 
-import { saveNote } from '../../store/actions/notes';
+import { saveNote, getColorNote } from '../../store/actions/notes';
 import { InputForm, InputTextArea, Input } from './InputElements';
 import Toolbar from '../../components/Toolbar/Toolbar';
 
+// Style
+const InputContainer = styled.div`
+    width: 100%;
+`;
+
+const initialNote = {
+    title: '',
+    content: '',
+    id: uniqid(), 
+    bgColor: '#fff' 
+};  
+
 const InputField = props => {
     const selectedBgColor = useSelector(state => state.bgColor); 
-    const [note, setNote] = useState({title: '', content: '', id: uniqid(), bgColor: '#fff' }); 
     const [expandInput, setExpandInput] = useState(false); 
+    const [note, setNote] = useState(initialNote);  
 
     const ref = useRef(null);
     const dispatch = useDispatch();
 
     // Detect click outside of form 
     useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     });
 
     // Update bgColor
     useEffect(() => {
-        if (expandInput) setNote({ ...note, bgColor: selectedBgColor });
+        setNote(prevNote => ({ ...prevNote, bgColor: selectedBgColor }));
+        // When chaing color on note, inputField note's color is also changed. 
+        // Distinct note and inputField
     }, [selectedBgColor]);
 
     const handleClickOutside = (e) => {
-        (!ref.current.contains(e.target)) ? setExpandInput(false) : setExpandInput(true);  
+        (ref.current && !ref.current.contains(e.target)) ? setExpandInput(false) : setExpandInput(true); 
     };
 
     const handleUpdateNote = e => {
@@ -37,13 +51,16 @@ const InputField = props => {
         setNote({...note, [name]: value }); 
     };
 
-    const handleSaveNote = note => {
+    const handleclearNote = () => {
+        dispatch(getColorNote('#fff'));
+        setExpandInput(false);
+        setNote({ ...initialNote, id: uniqid() });
+    };
+
+    const handleSubmitNote = note => {
         if(note.title !== '' && note.content !== '') {
             dispatch(saveNote(note)); 
-
-            // Clear Input 
-            setNote({ title: '', content: '', id: uniqid(), bgColor: '#fff' });
-            setExpandInput(false);
+            handleclearNote();
         };
     };
 
@@ -51,7 +68,8 @@ const InputField = props => {
         <InputContainer>
             <InputForm 
             ref={ref}
-            bgColor={note.bgColor}>
+            bgColor={note.bgColor}
+            >
                 <Input 
                     name="title" 
                     value={note.title}
@@ -70,9 +88,10 @@ const InputField = props => {
                 }
                 { expandInput && 
                     <Toolbar 
+                    id={note.id}
                     onHover={true}
                     isInputField={true}
-                    clicked={() => handleSaveNote(note)}
+                    clicked={() => handleSubmitNote(note)}
                     /> 
                 }
             </InputForm>
@@ -80,9 +99,6 @@ const InputField = props => {
     );
 };
 
-// Style
-const InputContainer = styled.div`
-    width: 100%;
-`;
-
 export default InputField;
+
+
