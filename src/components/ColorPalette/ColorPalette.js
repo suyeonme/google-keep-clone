@@ -1,10 +1,10 @@
 import React  from 'react';
 import { useDispatch } from 'react-redux';
-
-import { getColorNote, changeColorNote } from '../../store/actions/notes'; 
 import styled from 'styled-components';
 
-// Styles
+import { getNoteColor, changeNoteColor } from '../../store/actions/notes'; 
+
+// STYLES
 const ColorPaletteContainer = styled.div`
     max-width: 128px;
     padding: .5rem;
@@ -31,18 +31,7 @@ const ColorPaletteBtn = styled.button`
     }
 `;
 
-const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
-    const dispatch = useDispatch();
-
-    const handleClick = (e, color) => {
-        e.preventDefault();
-        dispatch(getColorNote(color));
-        dispatch(changeColorNote(id));
-
-        // Promise 
-        // Reset bgColor ===  '#fff'
-    };
-
+const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {    
     const colors = [
         '#fff',
         '#d9adad',
@@ -54,6 +43,15 @@ const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
         '#c26565',
     ];
 
+    const dispatch = useDispatch();
+
+    const handleChangeColor = (e, color, id) => {
+        // CHANGE COLOR OF NOTE ON CLICK
+        e.preventDefault();
+        dispatch(getNoteColor(color)); 
+        dispatch(changeNoteColor(id)); 
+    };
+
     return (
         <ColorPaletteContainer
         isInputField={isInputField}
@@ -62,7 +60,7 @@ const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
             { colors.map((color, index) => <ColorPaletteBtn 
             color={color}
             key={index}
-            onClick={(e) => handleClick(e, color)}
+            onClick={(e) => handleChangeColor(e, color, id)}
             />
             )}
         </ColorPaletteContainer>

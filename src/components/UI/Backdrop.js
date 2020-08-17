@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import { unSelectNote } from '../../store/actions/notes';
 
-// Styles
+// STYLE
 const Overlay = styled.div`
     width: 100%;
     height: 100vh;
@@ -17,6 +17,7 @@ const Overlay = styled.div`
     opacity: .75;
     transition: opacity .3s ease-out;
 
+    ${'' /* ANIMATION */}
     &.fade-enter { opacity: 0; }
     &.fade-enter-active { opacity: .75; }
     &.fade-exit { opacity: .75; }

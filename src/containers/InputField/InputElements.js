@@ -40,4 +40,3 @@ export const Input = styled.input`
     background: inherit;
 `;
 
-

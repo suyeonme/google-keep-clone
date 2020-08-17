@@ -5,14 +5,16 @@ const initialState = {
     notes: [],
     selectedNote: null,
     isSelected: false,
-    editedNote: null,
-    bgColor: '#fff'
+    editableNote: null,
+    bgColor: '#fff',
+
+    test: null
 };
 
 // REDUCER
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.SAVE_NOTE:
+        case actions.ADD_NOTE:
             return {
                 ...state,
                 notes: [action.payload, ...state.notes]
@@ -22,7 +24,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 notes: state.notes.filter(note => note.id !== action.payload),
                 selectedNote: null,
-                editedNote: null,
+                editableNote: null,
                 isSelected: false
             }
         case actions.SELECT_NOTE:
@@ -35,15 +37,15 @@ const reducer = (state = initialState, action) => {
             return { 
                 ...state,
                 selectedNote: null,
-                editedNote: null,
+                editableNote: null,
                 isSelected: false
             }
-        case actions.GET_COLOR_NOTE: // get color - change color - save edited note : OK
+        case actions.GET_NOTE_COLOR: // get color - change color - save edited note : OK
             return {                 // select note - save note - get color - change color - save note : NOT
                 ...state,
                 bgColor: action.payload
             }
-        case actions.CHANGE_COLOR_NOTE: 
+        case actions.CHANGE_NOTE_COLOR: 
             return {
                 ...state,
                 notes: state.notes.map(note => note.id === action.payload ? // old note 
@@ -51,18 +53,18 @@ const reducer = (state = initialState, action) => {
                     : note       
                 )
             };
-        case actions.SAVE_EDITED_NOTE:
+        case actions.SAVE_EDITABLE_NOTE:
             return { 
                 ...state,
-                editedNote: action.payload,
+                editableNote: action.payload,
             }
-        case actions.UPDATE_EDITED_NOTE: 
-            const oldNotes = state.notes.filter(note => note.id !== state.editedNote.id);
+        case actions.UPDATE_EDITABLE_NOTE: 
+            const oldNotes = state.notes.filter(note => note.id !== state.editableNote.id);
             return { 
                 ...state,
-                notes: oldNotes.concat(state.editedNote),
+                notes: oldNotes.concat(state.editableNote),
                 selectedNote: null,
-                editedNote: null,
+                editableNote: null,
                 isSelected: false
             }
         default:

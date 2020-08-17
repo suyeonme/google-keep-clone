@@ -8,7 +8,7 @@ export const ToolbarContainer = styled.div`
     padding: 2px;
     margin-top: 20px;
     line-height: 0;
-    opacity: ${props => props.hoverd ? 1 : 0};
+    opacity: ${props => props.hovered ? 1 : 0};
     transition: opacity .3s ease-out;
 `;
 

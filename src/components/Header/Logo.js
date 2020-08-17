@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import LogoIcon from '../../icons/light.svg';
 
-// Styles
+// STYLES
 const LogoContainer = styled.div`
     display: flex;
 `;
@@ -22,7 +22,9 @@ const LogoText = styled.h3`
 const Logo = props => {
     return (
         <LogoContainer>
-            <LogoImg src={LogoIcon} alt="Logo"/>
+            <LogoImg 
+            src={LogoIcon} 
+            alt="Logo"/>
             <LogoText>Keep</LogoText>
         </LogoContainer>
     );

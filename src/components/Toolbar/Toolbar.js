@@ -1,36 +1,33 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEditedNote } from '../../store/actions/notes';
+import { updateEditableNote } from '../../store/actions/notes';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { ToolbarContainer, ToolbarIcon, ToolbarBtn } from './ToolbarElements';
+import ColorPalette from '../ColorPalette/ColorPalette';
 import PlusIcon from '../../icons/plus.svg'
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
-import SaveIcon from '../../icons/save.svg';
-import ColorPalette from '../ColorPalette/ColorPalette';
+import SaveIcon from '../../icons/save.svg';    
 
 const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {  
-    const [hoverColorPalette, sethoverColorPalette] = useState(false);
-    const editedNote = useSelector(state => state.editedNote);
-
+    const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
+    const editedNote = useSelector(state => state.editableNote);
     const icons = [
         {icon: PaintIcon, alt: 'Change Color Button', ariaLabel: 'Change Color'},
         {icon: PictureIcon, alt: 'Add Picture Button',  ariaLabel: 'Add Picture'}
     ];
 
     const dispatch = useDispatch();
-    
-    const handleShowColorPalette = () => sethoverColorPalette(true);
-    const handleHideColorPalette = () => sethoverColorPalette(false);
-
-    const handleUpdateEditedNote = id => {
-        (editedNote !== null) && dispatch(updateEditedNote(id));
+    const handleShowColorPalette = () => setIsHoverColorPalette(true);
+    const handleHideColorPalette = () => setIsHoverColorPalette(false);
+    const handleUpdateEditableNote = () => {
+        (editedNote !== null) && dispatch(updateEditableNote());
     }; 
 
     return(
-            <ToolbarContainer hoverd={onHover}>
+            <ToolbarContainer hovered={onHover}>
                 <div>
                     { icons.map((icon, i) => <Tooltip 
                     title={icon.ariaLabel} 
@@ -69,7 +66,7 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
                         title="Save" 
                         aria-label="Save" 
                         arrow>
-                            <ToolbarBtn onClick={() => handleUpdateEditedNote(id)}>
+                            <ToolbarBtn onClick={handleUpdateEditableNote}>
                                 <ToolbarIcon 
                                 src={SaveIcon} 
                                 alt="Save Button" 
@@ -91,7 +88,7 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
                     </div>
                 }
                 
-                { hoverColorPalette && <ColorPalette  
+                { isHoverColorPalette && <ColorPalette  
                     id={id}
                     isInputField={isInputField}
                     onUnHover={handleHideColorPalette} 

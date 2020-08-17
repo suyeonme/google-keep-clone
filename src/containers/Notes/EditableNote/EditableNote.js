@@ -3,22 +3,22 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { NoteTitle, NoteContent } from '../Note/NoteElements';
-import { saveEditedNote } from '../../../store/actions/notes';
+import { saveEditableNote } from '../../../store/actions/notes';
 
 const EditableNote = ({ title, content, id, bgColor, clicked }) => {
-    // Initial Value
-    const [editedNote, setEditedNote] = useState({ 
+    const dispatch = useDispatch();
+
+    const [editableNote, setEditableNote] = useState({ 
         title: title, 
         content: content, 
         id: id, 
         bgColor: bgColor
     });
 
-    const dispatch = useDispatch();
-
-    // Update Value
+    // Update editable note whenever its value is changed
+    // It comes from props. So it doesn't update right away after chainging value 
     useEffect(() => {
-        setEditedNote({
+        setEditableNote({
             title: title, 
             content: content, 
             id: id, 
@@ -30,13 +30,13 @@ const EditableNote = ({ title, content, id, bgColor, clicked }) => {
     // ISSUE !!
     // Change text and color, text is reverted to previous value.
     useEffect(() => {
-        dispatch(saveEditedNote(editedNote)); 
-    }, [dispatch, editedNote]);
+        dispatch(saveEditableNote(editableNote)); 
+    }, [dispatch, editableNote]);
 
     const handleUpdateNote= e => {
         const value = e.target.innerText;
         const name = e.target.id;
-        setEditedNote({ ...editedNote, [name]: value});
+        setEditableNote({ ...editableNote, [name]: value});
     };
 
     return(
@@ -64,7 +64,7 @@ const EditableNote = ({ title, content, id, bgColor, clicked }) => {
     );
 };
 
-// Styles
+// STYLE
 const EditNote = styled.div`
     cursor: text;
 `;

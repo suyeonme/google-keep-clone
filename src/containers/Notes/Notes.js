@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Note from './Note/Note';
 import Backdrop from '../../components/UI/Backdrop';
 
-// Style
+// STYLE
 const NotesContainer = styled.div`
     width: 100%;
     padding: 0 40px;
@@ -38,6 +38,7 @@ const Notes = props => {
 };
 
 export default Notes;
+
 
 
 

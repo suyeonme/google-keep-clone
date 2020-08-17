@@ -12,19 +12,15 @@ const Note = ({ id, title, content, bgColor }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const dispatch = useDispatch();
-
     const handlerHover = () => setIsHovered(true);
     const handlerUnHover = () => setIsHovered(false);
-    
     const handleDeleteNote = () => dispatch(deleteNote(id));
-
     const handleSelectNote = e => {
-        if(e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') {
-            dispatch(selectNote(id)); 
-        };
+        // Select note when not clicked a delete button
+        if(e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') dispatch(selectNote(id)); 
     };
 
-    // NOTE DETAIL
+    // NOTE BODY
     let noteBody;
 
     if (selectedNote === id) {
@@ -52,9 +48,9 @@ const Note = ({ id, title, content, bgColor }) => {
         bgColor={bgColor}> 
             { noteBody }
             <Toolbar 
+            id={id}
             onRemove={handleDeleteNote} 
             onHover={isHovered}
-            id={id}
             /> 
         </NoteContainer>
     );

@@ -1,9 +1,9 @@
 import * as actions from './actionsTypes';
 
 // NOTE
-export const saveNote = note => {
+export const addNote = note => {
     return {
-        type: actions.SAVE_NOTE,
+        type: actions.ADD_NOTE,
         payload: note
     };
 };
@@ -28,31 +28,31 @@ export const unSelectNote = () => {
     };
 };
 
-export const getColorNote = color => {
+export const getNoteColor = color => {
     return {
-        type: actions.GET_COLOR_NOTE,
+        type: actions.GET_NOTE_COLOR,
         payload: color
     };
 };
 
-export const changeColorNote = id => { 
+export const changeNoteColor = id => { 
     return {
-        type: actions.CHANGE_COLOR_NOTE,
+        type: actions.CHANGE_NOTE_COLOR,
         payload: id
     };
 };
 
 // EDITED NOTE
-export const saveEditedNote = editedNote => {
+export const saveEditableNote = editableNote => {
     return {
-        type: actions.SAVE_EDITED_NOTE,
-        payload: editedNote
+        type: actions.SAVE_EDITABLE_NOTE,
+        payload: editableNote
     };
 };
 
-export const updateEditedNote = () => {
+export const updateEditableNote = () => { 
     return {
-        type: actions.UPDATE_EDITED_NOTE
+        type: actions.UPDATE_EDITABLE_NOTE
     };
 };
 
