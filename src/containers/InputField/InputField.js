@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 import styled from 'styled-components';
@@ -6,13 +6,14 @@ import styled from 'styled-components';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 import { InputForm, InputTextArea, Input } from './InputElements';
 import Toolbar from '../../components/Toolbar/Toolbar';
+import { useClickOutside } from '../../shared/utility';
 
-// STYLES
+// STYLE
 const InputContainer = styled.div`
     width: 100%;
 `;
 
-// INITIAL STATE OF NOTE
+// INITIAL NOTE
 const initialNote = {
     title: '',
     content: '',
@@ -22,31 +23,17 @@ const initialNote = {
 
 const InputField = props => {
     const selectedBgColor = useSelector(state => state.bgColor); 
-    const [expandInput, setExpandInput] = useState(false); 
     const [note, setNote] = useState(initialNote);  
 
-    const ref = useRef(null);
     const dispatch = useDispatch();
 
-    // SET EXPAND_INPUT TO TRUE WHEN FORM IS CLICKED
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    });
-
-    // UPDATE BG COLOR OF NOTE WHEN SELECTED BG COLOR IS CHANGED
+    // Update bgColor of note when selected bgColor is changed
     useEffect(() => {
         setNote(prevNote => ({ ...prevNote, bgColor: selectedBgColor }));
         // When chaing color on note, inputField note's color is also changed. 
     }, [selectedBgColor]);
 
-    const handleClickOutside = (e) => {
-        (ref.current && !ref.current.contains(e.target)) ? 
-        setExpandInput(false) : 
-        setExpandInput(true); 
-    };
+    const { ref, isClickedOutside, setIsClickedOutside } = useClickOutside(false);
 
     const handleUpdateNote = e => {
         const {name, value} = e.target;
@@ -62,7 +49,7 @@ const InputField = props => {
 
     const handleResetNote = () => {
         dispatch(getNoteColor('#fff'));
-        setExpandInput(false);
+        setIsClickedOutside(false);
         setNote({ ...initialNote, id: uniqid() });
     };
 
@@ -79,7 +66,7 @@ const InputField = props => {
                     autoComplete="off"
                     onChange={handleUpdateNote}
                     />
-                { expandInput && 
+                { isClickedOutside && 
                     <InputTextArea 
                     name="content" 
                     value={note.content} 
@@ -88,7 +75,7 @@ const InputField = props => {
                     onChange={handleUpdateNote}
                     />
                 }
-                { expandInput && 
+                { isClickedOutside && 
                     <Toolbar 
                     id={note.id}
                     onHover={true}
@@ -102,7 +89,6 @@ const InputField = props => {
 };
 
 export default InputField;
-
 
 
 
