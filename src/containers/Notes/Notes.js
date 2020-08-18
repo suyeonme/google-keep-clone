@@ -19,15 +19,7 @@ const NotesContainer = styled.div`
 
 const Notes = props => {
     const notes = useSelector(state => state.notes);
-
-    const noteList = notes.map(note => <Note 
-        title={note.title} 
-        content={note.content} 
-        id={note.id}
-        key={note.id}
-        bgColor={note.bgColor}
-        /> 
-    );
+    const noteList = notes.map(note => <Note note={note}  key={note.id}/> );
 
     return (
         <NotesContainer>
@@ -38,7 +30,6 @@ const Notes = props => {
 };
 
 export default Notes;
-
 
 
 

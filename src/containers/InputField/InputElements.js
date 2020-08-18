@@ -17,6 +17,17 @@ export const InputForm = styled.form`
     @media (max-width: 500px) { width: 80%; }
 `;
 
+export const Input = styled.input`
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1.6rem;
+    background: inherit;
+`;
+
 export const InputTextArea = styled.textarea`
     width: 100%;
     height: 100%;
@@ -29,14 +40,4 @@ export const InputTextArea = styled.textarea`
     background: inherit;
 `;
 
-export const Input = styled.input`
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-weight: 500;
-    font-size: 1.6rem;
-    background: inherit;
-`;
 

@@ -7,35 +7,35 @@ import { NoteContainer } from './NoteElements';
 import Toolbar from '../../../components/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 
-const Note = ({ id, title, content, bgColor }) => {   
+const Note = ({ note }) => {   
     const selectedNote = useSelector(state => state.selectedNote);
     const [isHovered, setIsHovered] = useState(false);
 
     const dispatch = useDispatch();
     const handlerHover = () => setIsHovered(true);
     const handlerUnHover = () => setIsHovered(false);
-    const handleDeleteNote = () => dispatch(deleteNote(id));
+    const handleDeleteNote = () => dispatch(deleteNote(note.id));
     const handleSelectNote = e => {
         // Select note when not clicked a delete button
-        if(e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') dispatch(selectNote(id)); 
+        if(e.target.nodeName !== 'IMG' && e.target.nodeName !== 'BUTTON') {
+            dispatch(selectNote(note.id));    
+        };
     };
 
     // NOTE BODY
     let noteBody;
+    const isClickedNote = selectedNote === note.id; 
 
-    if (selectedNote === id) {
+    if (isClickedNote) {
         noteBody = <EditableNote 
-        id={id} 
-        title={title} 
-        content={content}
-        clicked={selectedNote === id ? 1 : 0}  
-        bgColor={bgColor}
+        note={note}
+        clicked={isClickedNote ? 1 : 0}
         />;
     } else {
         noteBody = <NoteBody 
-        title={title} 
-        content={content} 
-        clicked={selectedNote=== id ? 1 : 0} 
+        title={note.title} 
+        content={note.content} 
+        clicked={isClickedNote ? 1 : 0}
         />
     };
 
@@ -44,11 +44,11 @@ const Note = ({ id, title, content, bgColor }) => {
         onClick={handleSelectNote} 
         onMouseEnter={handlerHover} 
         onMouseLeave={handlerUnHover} 
-        clicked={selectedNote === id ? 1 : 0} 
-        bgColor={bgColor}> 
+        bgColor={note.bgColor}
+        clicked={isClickedNote ? 1 : 0}> 
             { noteBody }
             <Toolbar 
-            id={id}
+            id={note.id}
             onRemove={handleDeleteNote} 
             onHover={isHovered}
             /> 
@@ -57,6 +57,5 @@ const Note = ({ id, title, content, bgColor }) => {
 };
 
 export default Note;
-
 
 

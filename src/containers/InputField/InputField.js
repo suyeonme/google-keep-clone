@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import { addNote, getNoteColor } from '../../store/actions/notes';
 import { InputForm, InputTextArea, Input } from './InputElements';
+import CheckboxIcon from '../../icons/checkbox.svg';  
+import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import { useClickOutside } from '../../shared/utility';
 
@@ -57,15 +59,23 @@ const InputField = props => {
         <InputContainer>
             <InputForm 
             ref={ref}
-            bgColor={note.bgColor}
-            >
+            bgColor={note.bgColor}>
                 <Input 
                     name="title" 
                     value={note.title}
                     placeholder="Title" 
                     autoComplete="off"
-                    onChange={handleUpdateNote}
+                    onChange={handleUpdateNote}/>
+
+                { !isClickedOutside &&
+                    <Tool
+                    title="New List"
+                    aria-label="New List"
+                    bgImage={CheckboxIcon}
+                    isInputField
                     />
+                }
+
                 { isClickedOutside && 
                     <InputTextArea 
                     name="content" 
@@ -79,8 +89,8 @@ const InputField = props => {
                     <Toolbar 
                     id={note.id}
                     onHover={true}
-                    isInputField={true}
                     clicked={() => handleAddNote(note)}
+                    isInputField
                     /> 
                 }
             </InputForm>

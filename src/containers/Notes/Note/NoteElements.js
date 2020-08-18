@@ -47,10 +47,10 @@ export const NoteTitle = styled.div`
     font-size: 1.6rem;
     font-weight: 500;
     padding: 12px 12px 0 12px;
+    outline: 0px solid transparent;
 
-    ${({ clicked }) => clicked && `
+    ${({ contentEditable }) => contentEditable && `
         font-size: 2.2rem;
-        outline: 0px solid transparent;
 
         &:empty::before{
             content:attr(placeholder);
@@ -64,10 +64,10 @@ export const NoteContent = styled.div`
     margin-bottom: auto;
     line-height: 1.5;
     padding: 12px 12px 0 12px;
+    outline: 0px solid transparent;
 
-    ${({ clicked }) => clicked && `
+    ${({ contentEditable }) => contentEditable && `
         font-size: 1.7rem; 
-        outline: 0px solid transparent;
 
         &:empty::before{
             content:attr(placeholder);

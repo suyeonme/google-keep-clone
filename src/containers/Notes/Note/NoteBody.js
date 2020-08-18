@@ -4,7 +4,11 @@ import { NoteTitle, NoteContent } from './NoteElements';
 const NoteDetail = ({ clicked, title, content }) => {
     const truncateText = p => {
         let text;
-        (p.length > 120) ?  text =  p.substr(0, 120) + '...' : text = p;
+        if (p.length > 120) {
+            text =  p.substr(0, 120)
+        } else {
+            text = p;
+        }
         return text;
     };
 
