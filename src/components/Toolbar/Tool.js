@@ -18,9 +18,8 @@ const ToolbarBtn = styled.button`
 
         ${({ isInputField }) => isInputField && css`
             position: absolute;
-            top: 50%;
+            top: 2px;
             right: 0;
-            transform: translateY(-50%);
             width: 40px;
             height: 40px;
         `}
