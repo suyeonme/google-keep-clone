@@ -15,7 +15,6 @@ const InputContainer = styled.div`
     width: 100%;
 `;
 
-// INITIAL NOTE
 const initialNote = {
     title: '',
     content: '',
@@ -27,14 +26,13 @@ const InputField = props => {
     const selectedBgColor = useSelector(state => state.bgColor); 
     const [note, setNote] = useState(initialNote);  
 
-    const dispatch = useDispatch();
-
-    // Update bgColor of note when selected bgColor is changed
+    // Update bgColor of note whenever selected bgColor is changed
     useEffect(() => {
         setNote(prevNote => ({ ...prevNote, bgColor: selectedBgColor }));
-        // When chaing color on note, inputField note's color is also changed. 
+        // FIXME When chaing color on note, inputField note's color is also changed. 
     }, [selectedBgColor]);
 
+    const dispatch = useDispatch();
     const { ref, isClickedOutside, setIsClickedOutside } = useClickOutside(false);
 
     const handleUpdateNote = e => {
@@ -61,11 +59,12 @@ const InputField = props => {
             ref={ref}
             bgColor={note.bgColor}>
                 <Input 
-                    name="title" 
-                    value={note.title}
-                    placeholder="Title" 
-                    autoComplete="off"
-                    onChange={handleUpdateNote}/>
+                name="title" 
+                value={note.title}
+                placeholder="Title" 
+                autoComplete="off"
+                onChange={handleUpdateNote}
+                />
 
                 { !isClickedOutside &&
                     <Tool

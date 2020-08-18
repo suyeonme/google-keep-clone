@@ -2,13 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components'
 import Tooltip from '@material-ui/core/Tooltip';
 
-export const ToolbarBtn = styled.button`
+// STYLE
+const ToolbarBtn = styled.button`
         border-radius: 50%;
         width: 28px;
         height: 28px;
         background: ${props => `url(${props.bgImage})`} no-repeat center center;
         background-size: 50%;
-        &:not(:first-child) { margin: 0 10px; }
+        margin-right: 10px;
 
         &:hover {  
             opacity: .87;
@@ -41,11 +42,11 @@ const Tool = ({
         aria-label={ariaLabel} 
         arrow>
             <ToolbarBtn
+            bgImage={bgImage}
+            isInputField={isInputField}
             onMouseEnter={showPalette} 
             onMouseLeave={hidePalette}
             onClick={clicked}
-            bgImage={bgImage}
-            isInputField={isInputField}
             />
         </Tooltip>
         </>

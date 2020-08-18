@@ -4,15 +4,13 @@ import styled from 'styled-components';
 
 import Tool from './Tool';
 import ColorPalette from '../ColorPalette/ColorPalette';
-import PlusIcon from '../../icons/plus.svg'
 import TranshCanIcon from '../../icons/trash-can.svg'
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
-import SaveIcon from '../../icons/save.svg';    
 import CheckboxIcon from '../../icons/checkbox.svg'; 
 import { updateEditableNote } from '../../store/actions/notes'; 
 
-export const ToolbarContainer = styled.div`
+const ToolbarContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -23,6 +21,22 @@ export const ToolbarContainer = styled.div`
     opacity: ${props => props.hovered ? 1 : 0};
     transition: opacity .3s ease-out;
 `;
+
+const CloseBtn = styled.button`
+    background: white;
+    color: rgba(0,0,0,0.87);
+    font-weight: 500;
+    font-size: 1.5rem;
+    padding: 8px 24px;
+    border-radius: 4px;
+    letter-spacing: .4px;
+
+    &:hover {
+        opacity: .87;
+        background: rgba(95,99,104,0.157);
+    }
+`;
+
 
 const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {  
     const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
@@ -52,31 +66,19 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
                     hidePalette={icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null}
                     />
                     )}
-                </div>
-                { isInputField ? 
-                    <Tool
-                    title="Add" 
-                    ariaLabel="add"
-                    bgImage={PlusIcon}
-                    clicked={clicked}
-                    />
-                    : 
-                    <div>
-                        <Tool
-                        title="Save" 
-                        ariaLabel="Save"
-                        bgImage={SaveIcon}
-                        clicked={handleUpdateEditableNote}
-                        />
-                        <Tool
+                    { !isInputField &&
+                        <Tool 
                         title="Delete" 
-                        ariaLabel="Delete"
-                        bgImage={TranshCanIcon}
-                        clicked={onRemove}
-                        />
-                    </div>
+                        bgImage={TranshCanIcon} 
+                        clicked={onRemove}/>
+                    }
+                </div>
+                { isInputField && 
+                    <CloseBtn onClick={clicked}>Close</CloseBtn> 
                 }
-                
+                { editedNote &&  
+                    <CloseBtn onClick={handleUpdateEditableNote}>Close</CloseBtn> 
+                }
                 { isHoverColorPalette && <ColorPalette  
                     id={id}
                     isInputField={isInputField}
