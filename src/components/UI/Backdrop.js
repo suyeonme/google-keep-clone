@@ -5,7 +5,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import { unSelectNote } from '../../store/actions/notes';
 
-// STYLE
 const Overlay = styled.div`
     width: 100%;
     height: 100vh;
@@ -24,7 +23,7 @@ const Overlay = styled.div`
     &.fade-exit-active { opacity: 0; }
 `;
 
-const Backdrop = props => {
+function Backdrop(props) {
     const isSelected = useSelector(state => state.isSelected);
     const dispatch = useDispatch();
 
@@ -37,6 +36,6 @@ const Backdrop = props => {
             <Overlay onClick={() => dispatch(unSelectNote())} />
         </CSSTransition>
     );
-};
+}
 
 export default Backdrop;

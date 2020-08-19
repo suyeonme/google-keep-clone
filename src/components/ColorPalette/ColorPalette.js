@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { getNoteColor, changeNoteColor } from '../../store/actions/notes'; 
 
-// STYLES
 const ColorPaletteContainer = styled.div`
     max-width: 128px;
     padding: .5rem;
@@ -31,7 +30,7 @@ const ColorPaletteBtn = styled.button`
     }
 `;
 
-const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {    
+function ColorPalette ({ id, isInputField, onHover, onUnHover }) {    
     const colors = [
         '#fff',
         '#d9adad',
@@ -46,7 +45,6 @@ const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
     const dispatch = useDispatch();
 
     const handleChangeColor = (e, color, id) => {
-        // CHANGE COLOR OF NOTE ON CLICK
         e.preventDefault();
         dispatch(getNoteColor(color)); 
         dispatch(changeNoteColor(id)); 
@@ -65,7 +63,7 @@ const ColorPalette = ({ id, isInputField, onHover, onUnHover }) => {
             )}
         </ColorPaletteContainer>
     );
-};
+}
 
 export default ColorPalette;
 

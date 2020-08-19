@@ -12,12 +12,12 @@ const HeaderContainer = styled.div`
     align-items: center;
 `;
 
-const Header = props => {
+function Header(props) {
     return(
         <HeaderContainer>
             <Logo />
         </HeaderContainer>
     );
-};
+}
 
 export default Header;

@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import LogoIcon from '../../icons/light.svg';
 
-// STYLES
 const LogoContainer = styled.div`
     display: flex;
 `;
@@ -19,7 +17,7 @@ const LogoText = styled.h3`
         font-weight: 300;
 `;
 
-const Logo = props => {
+function Logo (props){
     return (
         <LogoContainer>
             <LogoImg 
@@ -28,6 +26,6 @@ const Logo = props => {
             <LogoText>Keep</LogoText>
         </LogoContainer>
     );
-};
+}
 
 export default Logo;

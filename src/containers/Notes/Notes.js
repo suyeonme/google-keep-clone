@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Note from './Note/Note';
 import Backdrop from '../../components/UI/Backdrop';
 
-// STYLE
 const NotesContainer = styled.div`
     width: 100%;
     padding: 0 40px;
@@ -17,7 +16,7 @@ const NotesContainer = styled.div`
     
 `;
 
-const Notes = props => {
+function Notes(props) {
     const notes = useSelector(state => state.notes);
     const noteList = notes.map(note => <Note note={note}  key={note.id}/> );
 
@@ -27,7 +26,7 @@ const Notes = props => {
             <Backdrop />
         </NotesContainer>
     );
-};
+}
 
 export default Notes;
 

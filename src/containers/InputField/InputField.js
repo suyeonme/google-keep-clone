@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
-import styled from 'styled-components';
 
 import { addNote, getNoteColor } from '../../store/actions/notes';
-import { InputForm, InputTextArea, Input } from './InputElements';
+import { InputContainer, InputForm, InputTextArea, Input } from './InputElements';
 import CheckboxIcon from '../../icons/checkbox.svg';  
 import PinIcon from '../../icons/pin.svg';  
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import { useClickOutside } from '../../shared/utility';
 
-// STYLE
-const InputContainer = styled.div`
-    width: 100%;
-`;
-
-const initialNote = {
-    title: '',
-    content: '',
-    id: uniqid(), 
-    bgColor: '#fff' 
-};  
-
-const InputField = props => {
+function InputField(props) {
     const selectedBgColor = useSelector(state => state.bgColor); 
-    const [note, setNote] = useState(initialNote);  
+    const [note, setNote] = useState({
+        title: '',
+        content: '',
+        id: uniqid(), 
+        bgColor: '#fff',
+        isChecked: false // NOTE
+    });
+    const { title, content, id, bgColor, isChecked } = note; 
 
-    // Update bgColor of note whenever selected bgColor is changed
     useEffect(() => {
         setNote(prevNote => ({ ...prevNote, bgColor: selectedBgColor }));
-        // FIXME When chaing color on note, inputField note's color is also changed. 
     }, [selectedBgColor]);
 
     const dispatch = useDispatch();
@@ -41,27 +33,52 @@ const InputField = props => {
         setNote({...note, [name]: value }); 
     };
 
+    const handleResetNote = () => {
+        if (bgColor !== '#fff') {
+            dispatch(getNoteColor('#fff'));
+        }
+        
+        setNote({
+            title: '',
+            content: '',
+            id: uniqid(), 
+            bgColor: '#fff',
+            isChecked: false // NOTE
+        });
+    };
+
     const handleAddNote = note => {
-        if(note.title !== '' && note.content !== '') {
+        if (title !== '' && content !== '') {
             dispatch(addNote(note)); 
             handleResetNote();
+            setIsClickedOutside(false);
         };
     };
 
-    const handleResetNote = () => {
-        dispatch(getNoteColor('#fff'));
-        setIsClickedOutside(false);
-        setNote({ ...initialNote, id: uniqid() });
+    // NOTE
+    const handleClickCheckbox = e => {
+        e.preventDefault();
+        setNote({ ...note, isChecked: !note.isChecked });
     };
+
+    // TODO 
+    // Add an array
+    // Create new checkList component
+    // Add contenteditable div
+    // Add border and plus icon on focus div
+    // Change plus icon to checkbox onChange
+    // Create new row onChange
+    // Back to original when click outside of form
+    // Note is one div      
 
     return(
         <InputContainer>
             <InputForm 
             ref={ref}
-            bgColor={note.bgColor}>
+            bgColor={bgColor}>
                 <Input 
                 name="title" 
-                value={note.title}
+                value={title}
                 placeholder="Title" 
                 autoComplete="off"
                 onChange={handleUpdateNote}
@@ -73,6 +90,7 @@ const InputField = props => {
                     aria-label="New List"
                     bgImage={CheckboxIcon}
                     isInputField 
+                    clicked={handleClickCheckbox} // NOTE
                     />
                     :
                     <Tool
@@ -83,18 +101,18 @@ const InputField = props => {
                     />
                 }
 
-                { isClickedOutside && 
-                    <InputTextArea 
+                { isClickedOutside && <InputTextArea 
                     name="content" 
-                    value={note.content} 
-                    placeholder="Take a note..." 
+                    value={content} 
+                    placeholder={isChecked ? 'List Item' : 'Take a note...'}
                     rows="2" 
                     onChange={handleUpdateNote}
+                    isChecked={isChecked} // NOTE
                     />
                 }
                 { isClickedOutside && 
                     <Toolbar 
-                    id={note.id}
+                    id={id}
                     onHover={true}
                     clicked={() => handleAddNote(note)}
                     isInputField
@@ -103,7 +121,7 @@ const InputField = props => {
             </InputForm>
         </InputContainer>
     );
-};
+}
 
 export default InputField;
 

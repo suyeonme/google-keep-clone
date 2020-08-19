@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components'
 import Tooltip from '@material-ui/core/Tooltip';
 
-// STYLE
 const ToolbarBtn = styled.button`
         border-radius: 50%;
         width: 28px;
@@ -25,15 +24,15 @@ const ToolbarBtn = styled.button`
         `}
 `;
 
-const Tool = ({ 
+function Tool ({ 
     title, 
     ariaLabel, 
     bgImage, 
     clicked, 
     showPalette, 
     hidePalette, 
-    isInputField 
-}) => {
+    isInputField,
+}) {
     return (
         <>
         <Tooltip
@@ -50,8 +49,10 @@ const Tool = ({
         </Tooltip>
         </>
     );
-};
+}
 
 export default Tool;
+
+
 
 

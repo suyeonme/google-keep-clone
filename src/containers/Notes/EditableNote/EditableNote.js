@@ -1,44 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditableNote } from '../../../store/actions/notes';
 
-// STYLE
 const EditNote = styled.div`
     cursor: text;
 `;
 
-const EditableNote = ({ note }) => {
+function EditableNote({ note }){
+    const [editableNote, setEditableNote] = useState(note);
+    const { title, content } = editableNote;
+    
+    useEffect(() => setEditableNote(note), [note]);
+
     const dispatch = useDispatch();
-
-    const [editableNote, setEditableNote] = useState({ 
-        title: note.title, 
-        content: note.content, 
-        id: note.id, 
-        bgColor: note.bgColor
-    });
-
-    useEffect(() => {
-    // REVIEW Update editable note whenever its value is changed
-    // It comes from props. So it doesn't update right away after chainging value 
-        setEditableNote({
-            title: note.title, 
-            content: note.content, 
-            id: note.id, 
-            bgColor: note.bgColor
-        });
-    }, [note.title, note.content, note.id, note.bgColor]);
-
-    useEffect(() => {
-    // FIXME  Change text and color, text is reverted to previous value.
-        dispatch(saveEditableNote(editableNote)); 
-    }, [dispatch, editableNote]);
-
-    const handleUpdateNote= e => {
-        const value = e.target.innerText;
+    const handleUpdateNote = e => {
         const name = e.target.id;
+        const value = e.target.innerText;
         setEditableNote({ ...editableNote, [name]: value});
     };
 
@@ -49,20 +29,80 @@ const EditableNote = ({ note }) => {
             id="title"
             placeholder="Title"
             onInput={handleUpdateNote}
+            onBlur={() => dispatch(saveEditableNote(editableNote))}
             contentEditable
             suppressContentEditableWarning={true}>
-                {note.title}
+                {title}
             </NoteTitle>
             <NoteContent
             id="content"
             placeholder="Note"
             onInput={handleUpdateNote}
+            onBlur={() => dispatch(saveEditableNote(editableNote))}
             contentEditable
             suppressContentEditableWarning={true}>
-                {note.content}
+                {content}
             </NoteContent>
         </EditNote>
     );
-};
+}
 
 export default EditableNote;
+
+
+/* TODO
+* Remove Style of NoteTitle and NoteContent
+* Style ContentEditable
+* Update State
+*/
+/* import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import ContentEditable from 'react-contenteditable'
+
+import { saveEditableNote } from '../../../store/actions/notes';
+
+const EditNote = styled.div`
+    cursor: text;
+`;
+
+function EditableNote({ note }){
+    //const [editableNote, setEditableNote] = useState(note.title);
+    const [editableNote, setEditableNote] = useState(note);
+    const titleRef = useRef();
+    const contentRef = useRef();
+    
+    // useEffect(() => setEditableNote(note), [note]);
+
+    const dispatch = useDispatch();
+
+    const handleChangeTitle = e => {
+        setEditableNote({ ...editableNote, title: e.target.value });
+    };
+    const handleChangeContent = e => {
+        setEditableNote({ ...editableNote, content: e.target.value });
+    };
+
+    const handleBlur = () => {
+        dispatch(saveEditableNote(editableNote));
+    };
+
+    return(
+        <EditNote>
+            <ContentEditable
+            innerRef={titleRef}
+            html={editableNote.title}
+            onChange={handleChangeTitle}
+            onBlur={handleBlur}
+            />
+            <ContentEditable
+            innerRef={contentRef}
+            html={editableNote.content}
+            onChange={handleChangeContent}
+            onBlur={handleBlur}
+            />
+        </EditNote>
+    );
+}
+
+export default EditableNote; */

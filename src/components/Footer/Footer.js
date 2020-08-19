@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// Styles
 const FooterContainer = styled.footer`
     width: 100%;
     height: 10vh;
@@ -15,7 +14,7 @@ const Copyright = styled.p`
         color: rgb(122, 122, 122);
 `;
 
-const Footer = props => {
+function Footer (props) {
     const currentYear = new Date().getFullYear();
 
     return(
@@ -23,6 +22,6 @@ const Footer = props => {
             <Copyright>Copyright &copy; {currentYear}</Copyright>
         </FooterContainer>
     );
-};
+}
 
 export default Footer;

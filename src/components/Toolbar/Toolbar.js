@@ -23,7 +23,7 @@ const ToolbarContainer = styled.div`
 `;
 
 const CloseBtn = styled.button`
-    background: white;
+    background: transparent;
     color: rgba(0,0,0,0.87);
     font-weight: 500;
     font-size: 1.5rem;
@@ -38,7 +38,7 @@ const CloseBtn = styled.button`
 `;
 
 
-const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {  
+function Toolbar({ id, isInputField, onHover, clicked, onRemove }) {  
     const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
     const editedNote = useSelector(state => state.editableNote);
     const icons = [
@@ -51,7 +51,9 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
     const handleShowColorPalette = () => setIsHoverColorPalette(true);
     const handleHideColorPalette = () => setIsHoverColorPalette(false);
     const handleUpdateEditableNote = () => {
-        if (editedNote !== null) dispatch(updateEditableNote());
+        if (editedNote !== null) {
+            dispatch(updateEditableNote());
+        } 
     }; 
 
     return(
@@ -63,7 +65,7 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
                     ariaLabel={icon.ariaLabel} 
                     bgImage={icon.icon}
                     showPalette={icon.ariaLabel === 'Change Color' ? handleShowColorPalette : null}
-                    hidePalette={icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null}
+                    hidePalette={icon.ariaLabel === 'Change Color' ? () => handleHideColorPalette : null}
                     />
                     )}
                     { !isInputField &&
@@ -88,6 +90,8 @@ const Toolbar = ({ onHover, isInputField, clicked, id, onRemove }) => {
                 }
         </ToolbarContainer>
     );
-};
+}
 
 export default Toolbar;
+
+
