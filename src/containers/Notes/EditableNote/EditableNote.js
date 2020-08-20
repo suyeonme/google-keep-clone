@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+// FIXME Typing text and chage color -> not updated
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -9,38 +10,42 @@ const EditNote = styled.div`
     cursor: text;
 `;
 
-function EditableNote({ note }){
+function EditableNote({ note }) {
     const [editableNote, setEditableNote] = useState(note);
     const { title, content } = editableNote;
-    
-    useEffect(() => setEditableNote(note), [note]);
 
     const dispatch = useDispatch();
-    const handleUpdateNote = e => {
+
+    useEffect(() => {
+        setEditableNote(note);
+    }, [note]);
+
+    useEffect(() => {
+        dispatch(saveEditableNote(editableNote));
+    }, [dispatch, editableNote]);
+
+    const handleBlur = e => {
         const name = e.target.id;
-        const value = e.target.innerText;
-        setEditableNote({ ...editableNote, [name]: value});
+        const value = e.currentTarget.textContent;
+        setEditableNote({ ...editableNote, [name]: value });
     };
 
-    return(
-        <EditNote
-        spellCheck="true">
+    return (
+        <EditNote spellCheck="true">
             <NoteTitle
-            id="title"
-            placeholder="Title"
-            onInput={handleUpdateNote}
-            onBlur={() => dispatch(saveEditableNote(editableNote))}
-            contentEditable
-            suppressContentEditableWarning={true}>
+                id="title"
+                placeholder="Title"
+                onBlur={handleBlur}
+                contentEditable
+                suppressContentEditableWarning={true}>
                 {title}
             </NoteTitle>
             <NoteContent
-            id="content"
-            placeholder="Note"
-            onInput={handleUpdateNote}
-            onBlur={() => dispatch(saveEditableNote(editableNote))}
-            contentEditable
-            suppressContentEditableWarning={true}>
+                id="content"
+                placeholder="Note"
+                onBlur={handleBlur}
+                contentEditable
+                suppressContentEditableWarning={true}>
                 {content}
             </NoteContent>
         </EditNote>
@@ -48,61 +53,3 @@ function EditableNote({ note }){
 }
 
 export default EditableNote;
-
-
-/* TODO
-* Remove Style of NoteTitle and NoteContent
-* Style ContentEditable
-* Update State
-*/
-/* import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import ContentEditable from 'react-contenteditable'
-
-import { saveEditableNote } from '../../../store/actions/notes';
-
-const EditNote = styled.div`
-    cursor: text;
-`;
-
-function EditableNote({ note }){
-    //const [editableNote, setEditableNote] = useState(note.title);
-    const [editableNote, setEditableNote] = useState(note);
-    const titleRef = useRef();
-    const contentRef = useRef();
-    
-    // useEffect(() => setEditableNote(note), [note]);
-
-    const dispatch = useDispatch();
-
-    const handleChangeTitle = e => {
-        setEditableNote({ ...editableNote, title: e.target.value });
-    };
-    const handleChangeContent = e => {
-        setEditableNote({ ...editableNote, content: e.target.value });
-    };
-
-    const handleBlur = () => {
-        dispatch(saveEditableNote(editableNote));
-    };
-
-    return(
-        <EditNote>
-            <ContentEditable
-            innerRef={titleRef}
-            html={editableNote.title}
-            onChange={handleChangeTitle}
-            onBlur={handleBlur}
-            />
-            <ContentEditable
-            innerRef={contentRef}
-            html={editableNote.content}
-            onChange={handleChangeContent}
-            onBlur={handleBlur}
-            />
-        </EditNote>
-    );
-}
-
-export default EditableNote; */

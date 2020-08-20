@@ -12,6 +12,8 @@ export const useClickOutside = initialValue => {
         };
     };
 
+    const handleResetClick = () => setIsClickedOutside(initialValue);
+
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
         return () => {
@@ -19,5 +21,5 @@ export const useClickOutside = initialValue => {
         };
     });
 
-    return { ref, isClickedOutside, setIsClickedOutside };
+    return { ref, isClickedOutside, handleResetClick };
 };

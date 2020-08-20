@@ -8,7 +8,7 @@ import CheckboxIcon from '../../icons/checkbox.svg';
 import PinIcon from '../../icons/pin.svg';  
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
-import { useClickOutside } from '../../shared/utility';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 function InputField(props) {
     const selectedBgColor = useSelector(state => state.bgColor); 
@@ -26,7 +26,7 @@ function InputField(props) {
     }, [selectedBgColor]);
 
     const dispatch = useDispatch();
-    const { ref, isClickedOutside, setIsClickedOutside } = useClickOutside(false);
+    const { ref, isClickedOutside, handleResetClick } = useClickOutside(false);
 
     const handleUpdateNote = e => {
         const {name, value} = e.target;
@@ -51,7 +51,7 @@ function InputField(props) {
         if (title !== '' && content !== '') {
             dispatch(addNote(note)); 
             handleResetNote();
-            setIsClickedOutside(false);
+            handleResetClick();
         };
     };
 

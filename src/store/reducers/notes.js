@@ -1,6 +1,5 @@
 import * as actions from '../actions/actionsTypes';
 
-// STORE
 const initialState = {
     notes: [],
     selectedNote: null,
@@ -11,7 +10,6 @@ const initialState = {
     test: null
 };
 
-// REDUCER
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.ADD_NOTE:
@@ -40,7 +38,7 @@ const reducer = (state = initialState, action) => {
                 editableNote: null,
                 isSelected: false
             }
-        case actions.GET_NOTE_COLOR: // get color - change color - save edited note : OK
+        case actions.GET_NOTE_COLOR: // FIXME get color - change color - save edited note : OK
             return {                 // select note - save note - get color - change color - save note : NOT
                 ...state,
                 bgColor: action.payload
