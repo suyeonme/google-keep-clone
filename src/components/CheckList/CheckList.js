@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { NoteTitle } from '../../containers/Notes/Note/NoteElements';
@@ -23,11 +23,23 @@ const CheckItem = styled.div`
   background-size: 50%;
 `;
 
-function CheckList({ checkList }) {
+// Change plus icon to checkbox onChange
+// Create new row onChange
+
+function CheckList({ size, placeholder }) {
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
     <CheckItemContainer>
       <CheckItem />
-      <NoteTitle size="small" placeholder="List Item" contentEditable />
+      <NoteTitle
+        size={size}
+        placeholder={placeholder}
+        isFocus={isFocus}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        contentEditable
+      />
     </CheckItemContainer>
   );
 }

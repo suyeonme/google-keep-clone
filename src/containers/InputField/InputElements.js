@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.div `
     width: 100%;
 `;
 
-export const InputForm = styled.form`
+export const InputForm = styled.form `
     position: relative;
     width: 40%;
     height: auto;
@@ -25,7 +25,7 @@ export const InputForm = styled.form`
     }
 `;
 
-export const Input = styled.input`
+export const Input = styled.input `
     width: 100%;
     height: 100%;
     border: none;
@@ -36,7 +36,7 @@ export const Input = styled.input`
     background: inherit;
 `;
 
-export const InputTextArea = styled.textarea`
+export const InputTextArea = styled.textarea `
     width: 100%;
     height: 100%;
     border: none;

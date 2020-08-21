@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 
-import {
-  InputContainer,
-  InputForm,
-  InputTextArea,
-  Input,
-} from './InputElements';
+import { InputContainer, InputForm, Input } from './InputElements';
+import TextArea from './TextArea/TextArea';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import PinIcon from '../../icons/pin.svg';
 import Tool from '../../components/Toolbar/Tool';
@@ -15,10 +11,12 @@ import Toolbar from '../../components/Toolbar/Toolbar';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 
-import CheckList from '../../components/CheckList/CheckList';
+// TODO
+// Add an array
+// Back to original when click outside of form
+// Note is one div
 
 function InputField(props) {
-  const [isFocus, setIsFocus] = useState(false);
   const [note, setNote] = useState({
     title: '',
     content: '',
@@ -28,16 +26,13 @@ function InputField(props) {
   });
   const { title, content, id, bgColor, isChecked } = note;
 
-  const selectedBgColor = useSelector((state) => state.bgColor);
   const dispatch = useDispatch();
+  const selectedBgColor = useSelector((state) => state.bgColor);
+  const { ref, isOpen, handleResetClick } = useClickOutside(false);
 
   useEffect(() => {
     setNote((prevNote) => ({ ...prevNote, bgColor: selectedBgColor }));
   }, [selectedBgColor]);
-
-  const { ref, isClickedOutside, handleResetClick } = useClickOutside(false);
-  // REVIEW Custom Hook -> use here
-  // isOpenInput
 
   const handleUpdateNote = (e) => {
     const { name, value } = e.target;
@@ -66,40 +61,11 @@ function InputField(props) {
     }
   };
 
-  // NOTE
   const handleClickCheckbox = (e) => {
+    // NOTE
     e.preventDefault();
-    setNote({ ...note, isChecked: !note.isChecked });
+    setNote({ ...note, isChecked: !isChecked });
   };
-
-  // TODO
-  // Add an array
-  // Change plus icon to checkbox onChange
-  // Create new row onChange
-  // Back to original when click outside of form
-  // Note is one div
-
-  let textArea;
-  if (isClickedOutside && !note.isChecked) {
-    textArea = (
-      <InputTextArea
-        name="content"
-        value={content}
-        placeholder={isChecked ? 'List Item' : 'Take a note...'}
-        rows="2"
-        onChange={handleUpdateNote}
-        isChecked={isChecked} // NOTE
-      />
-    );
-  } else if (isClickedOutside && note.isChecked) {
-    textArea = (
-      <CheckList
-        isFocus={isFocus}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-      />
-    );
-  }
 
   return (
     <InputContainer>
@@ -112,7 +78,7 @@ function InputField(props) {
           onChange={handleUpdateNote}
         />
 
-        {!isClickedOutside ? (
+        {!isOpen ? (
           <Tool
             title="New List"
             aria-label="New List"
@@ -128,8 +94,13 @@ function InputField(props) {
             isInputField
           />
         )}
-        {textArea}
-        {isClickedOutside && (
+        <TextArea
+          isOpen={isOpen}
+          isChecked={isChecked}
+          value={content}
+          onChange={handleUpdateNote}
+        />
+        {isOpen && (
           <Toolbar
             id={id}
             onHover={true}
