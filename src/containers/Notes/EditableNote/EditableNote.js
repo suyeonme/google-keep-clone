@@ -1,4 +1,3 @@
-// FIXME Typing text and chage color -> not updated
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -7,49 +6,53 @@ import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditableNote } from '../../../store/actions/notes';
 
 const EditNote = styled.div`
-    cursor: text;
+  cursor: text;
 `;
 
 function EditableNote({ note }) {
-    const [editableNote, setEditableNote] = useState(note);
-    const { title, content } = editableNote;
+  const [editableNote, setEditableNote] = useState(note);
+  const { title, content } = editableNote;
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        setEditableNote(note);
-    }, [note]);
+  useEffect(() => {
+    setEditableNote(note);
+  }, [note]);
 
-    useEffect(() => {
-        dispatch(saveEditableNote(editableNote));
-    }, [dispatch, editableNote]);
+  // FIXME Click color -> saveEditable dispatch - payload is old
+  useEffect(() => {
+    dispatch(saveEditableNote(editableNote));
+  }, [dispatch, editableNote]);
 
-    const handleBlur = e => {
-        const name = e.target.id;
-        const value = e.currentTarget.textContent;
-        setEditableNote({ ...editableNote, [name]: value });
-    };
+  const handleBlur = (e) => {
+    const name = e.target.id;
+    const value = e.currentTarget.textContent;
+    setEditableNote({ ...editableNote, [name]: value });
+  };
 
-    return (
-        <EditNote spellCheck="true">
-            <NoteTitle
-                id="title"
-                placeholder="Title"
-                onBlur={handleBlur}
-                contentEditable
-                suppressContentEditableWarning={true}>
-                {title}
-            </NoteTitle>
-            <NoteContent
-                id="content"
-                placeholder="Note"
-                onBlur={handleBlur}
-                contentEditable
-                suppressContentEditableWarning={true}>
-                {content}
-            </NoteContent>
-        </EditNote>
-    );
+  return (
+    <EditNote spellCheck="true">
+      <NoteTitle
+        id="title"
+        size="big"
+        placeholder="Title"
+        onBlur={handleBlur}
+        contentEditable
+        suppressContentEditableWarning={true}
+      >
+        {title}
+      </NoteTitle>
+      <NoteContent
+        id="content"
+        placeholder="Note"
+        onBlur={handleBlur}
+        contentEditable
+        suppressContentEditableWarning={true}
+      >
+        {content}
+      </NoteContent>
+    </EditNote>
+  );
 }
 
 export default EditableNote;

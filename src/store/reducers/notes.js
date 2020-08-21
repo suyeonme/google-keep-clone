@@ -7,7 +7,7 @@ const initialState = {
     editableNote: null,
     bgColor: '#fff',
 
-    test: null
+    test: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
         case actions.ADD_NOTE:
             return {
                 ...state,
-                notes: [action.payload, ...state.notes]
+                notes: [action.payload, ...state.notes],
             };
         case actions.DELETE_NOTE:
             return {
@@ -23,52 +23,50 @@ const reducer = (state = initialState, action) => {
                 notes: state.notes.filter(note => note.id !== action.payload),
                 selectedNote: null,
                 editableNote: null,
-                isSelected: false
-            }
+                isSelected: false,
+            };
         case actions.SELECT_NOTE:
-            return { 
+            return {
                 ...state,
                 selectedNote: action.payload,
-                isSelected: true
-            }
+                isSelected: true,
+            };
         case actions.UNSELECT_NOTE:
-            return { 
+            return {
                 ...state,
                 selectedNote: null,
                 editableNote: null,
-                isSelected: false
-            }
-        case actions.GET_NOTE_COLOR: // FIXME get color - change color - save edited note : OK
-            return {                 // select note - save note - get color - change color - save note : NOT
-                ...state,
-                bgColor: action.payload
-            }
-        case actions.CHANGE_NOTE_COLOR: 
+                isSelected: false,
+            };
+        case actions.GET_NOTE_COLOR:
             return {
                 ...state,
-                notes: state.notes.map(note => note.id === action.payload ? // old note 
-                    { ...note, bgColor: state.bgColor } 
-                    : note       
-                )
+                bgColor: action.payload,
             };
-        case actions.SAVE_EDITABLE_NOTE:
-            return { 
+        case actions.CHANGE_NOTE_COLOR:
+            return {
+                ...state,
+                notes: state.notes.map(note =>
+                    note.id === action.payload ? { ...note, bgColor: state.bgColor } : note
+                ),
+            };
+        case actions.SAVE_EDITABLE_NOTE: // FIXME payload is old value
+            return {
                 ...state,
                 editableNote: action.payload,
-            }
-        case actions.UPDATE_EDITABLE_NOTE: 
+            };
+        case actions.UPDATE_EDITABLE_NOTE:
             const oldNotes = state.notes.filter(note => note.id !== state.editableNote.id);
-            return { 
+            return {
                 ...state,
                 notes: oldNotes.concat(state.editableNote),
                 selectedNote: null,
                 editableNote: null,
-                isSelected: false
-            }
+                isSelected: false,
+            };
         default:
             return state;
     }
 };
 
 export default reducer;
-
