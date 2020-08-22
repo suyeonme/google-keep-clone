@@ -51,16 +51,19 @@ const noteTitleSizes = {
   small: {
     fontSize: '1.4rem',
     lineHeight: '2',
+    fontWeight: 400,
     padding: '0',
   },
   medium: {
     fontSize: '1.6rem',
     lineHeight: '1',
+    fontWeight: 500,
     padding: '12px 12px 0 12px',
   },
   big: {
     fontSize: '2.2rem',
     lineHeight: '1',
+    fontWeight: 500,
     padding: '12px 12px 0 12px',
   },
 };
@@ -69,13 +72,14 @@ const noteTitleStyles = css`
   ${({ size }) => css`
     font-size: ${noteTitleSizes[size].fontSize};
     line-height: ${noteTitleSizes[size].lineHeight};
+    font-weight: ${noteTitleSizes[size].fontWeight};
     padding: ${noteTitleSizes[size].padding};
   `}
 `;
 
 export const NoteTitle = styled.div`
   ${noteTitleStyles}
-  font-weight: 500;
+  width: 100%;
   outline: 0px solid transparent;
 
   ${({ contentEditable }) =>

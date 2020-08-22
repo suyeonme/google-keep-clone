@@ -12,9 +12,7 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 
 // TODO
-// Add an array
 // Back to original when click outside of form
-// Note is one div
 
 function InputField(props) {
   const [note, setNote] = useState({
@@ -72,7 +70,7 @@ function InputField(props) {
       <InputForm ref={ref} bgColor={bgColor}>
         <Input
           name="title"
-          value={title}
+          value={title} // Note Title
           placeholder="Title"
           autoComplete="off"
           onChange={handleUpdateNote}
@@ -97,7 +95,7 @@ function InputField(props) {
         <TextArea
           isOpen={isOpen}
           isChecked={isChecked}
-          value={content}
+          value={content} // Note Content
           onChange={handleUpdateNote}
         />
         {isOpen && (
