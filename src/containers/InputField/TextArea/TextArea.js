@@ -1,58 +1,79 @@
 // TODO
-// Convert note.content(textarea) to block div(contentEditable) if content exist
-// Add block div(contentEditable) to note.content(value)  if content doesn't exist and click checkbox
+// Add new checkList if user typing
+// When value is not empty, add new component
+// if value is exist, it is editable. And update new value
+// Save content to the state
+// Add feature on toolbar button
 
-import React, { useState } from 'react';
+import React from 'react';
 import { InputTextArea } from '../InputElements';
 import CheckList from '../../../components/CheckList/CheckList';
 
-function TextArea({ isOpen, isChecked, value, onChange }) {
-  const [numCheckList, setNumCheckList] = useState(0);
-
-  // Add new div onInput
-  //const checkItems = [];
-  /*   for (let i = 0; i < numCheckList; i++) {
-    checkItems.push(
-      <CheckList key={i} size="small" placeholder="List item" number={i} />,
-    );
-  } */
-
-  /*   let timeout = useState(0);   
-const handleType = () => {
-    if (timeout) clearTimeout(timeout);
-
-    timeout = setTimeout(() => {
-      handleAddItem();
-    }, 300);
-  }; */
-
-  const handleAddItem = () => {
-    setNumCheckList(numCheckList + 1);
-  };
-
+function TextArea({ isChecked, value, onChange, onChangeTodo }) {
   const handleLineBreak = (val) => {
     let lineBreaks = val.replace(/\n/g, '<br>') || [];
-    let lineBreakArr = lineBreaks.split('<br>');
-    return lineBreakArr;
+    lineBreaks = lineBreaks.split('<br>');
+    return lineBreaks;
   };
 
+  const contentArr = value ? handleLineBreak(value) : [];
   let children;
 
-  if (value) {
-    const contentArr = handleLineBreak(value);
-
-    children = contentArr.map((c, i) => (
-      <CheckList
-        key={i}
-        size="small"
-        placeholder="List item"
-        content={c}
-        //onInput={handleType}
+  if (!isChecked) {
+    return (
+      <InputTextArea
+        name="content"
+        value={value}
+        placeholder="Take a note..."
+        rows="2"
+        isChecked={isChecked}
+        onChange={onChange}
       />
-    ));
+    );
   }
 
-  if (isOpen && !isChecked) {
+  /*   if (isChecked && value && contentArr.length > 0) {
+    children = contentArr.reduce((acc, cur, i) => {
+      return (
+        <>
+          {acc}
+          <CheckList
+            key={i}
+            size="small"
+            placeholder="List item"
+            content={cur}
+            onChangeTodo={onChangeTodo}
+          />
+        </>
+      );
+    });
+    return children;
+  } */
+
+  if (isChecked && !value) {
+    return (
+      <CheckList
+        size="small"
+        placeholder="List item"
+        onChangeTodo={onChangeTodo}
+      />
+    );
+  }
+
+  return null;
+}
+
+export default TextArea;
+
+//NOTE Recent
+/* function TextArea({ isChecked, value, onChange }) {
+  const handleLineBreak = (val) => {
+    let lineBreaks = val.replace(/\n/g, '<br>') || [];
+    lineBreaks = lineBreaks.split('<br>');
+    return lineBreaks;
+  };
+
+  if (!isChecked) {
     return (
       <InputTextArea
         name="content"
@@ -65,26 +86,29 @@ const handleType = () => {
     );
   }
 
-  if (isOpen && isChecked && children !== '') {
-    return { children };
+  if (isChecked && value) {
+    const contentArr = handleLineBreak(value);
+    // contentArr.length === 0 ? <CheckList size="small" placeholder="List item" />;
+    // else
 
-    /*     return (
-      children !== ''?
-      children : 
-      <CheckList size="small" placeholder="List item" />
-    ) */
+    const children = contentArr.map((c, i) => (
+      <CheckList key={i} size="small" placeholder="List item" content={c} />
+    ));
+
+    return children;
   }
 
-  if (isOpen && isChecked && children === '') {
+  if (isChecked && !value) {
     return <CheckList size="small" placeholder="List item" />;
   }
 
   return null;
 }
 
-export default TextArea;
+export default TextArea; */
 
-/* import React from 'react';
+/* NOTE original
+import React from 'react';
 import { InputTextArea } from '../InputElements';
 import CheckList from '../../../components/CheckList/CheckList';
 

@@ -8,35 +8,79 @@ import Toolbar from '../../../components/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 
 function Note({ note }) {
-    const { id, bgColor } = note;
-    const selectedNote = useSelector(state => state.selectedNote);
-    const [isHovered, setIsHovered] = useState(false);
+  const { id, bgColor } = note;
+  const selectedNote = useSelector((state) => state.selectedNote);
+  const [isHovered, setIsHovered] = useState(false);
 
-    const dispatch = useDispatch();
-    const handleSelectNote = e => {
-        if (e.target.nodeName !== 'BUTTON' && !selectedNote) {
-            dispatch(selectNote(id));
-        }
-    };
+  const dispatch = useDispatch();
+  const handleSelectNote = (e) => {
+    if (e.target.nodeName !== 'BUTTON' && !selectedNote) {
+      dispatch(selectNote(id));
+    }
+  };
 
-    const isClickedNote = selectedNote === id;
+  const isClickedNote = selectedNote === id;
 
-    return (
-        <NoteContainer
-            onClick={handleSelectNote}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            bgColor={bgColor}
-            clicked={isClickedNote ? 1 : 0}>
-            {' '}
-            {isClickedNote ? (
-                <EditableNote note={note} clicked={isClickedNote ? 1 : 0} />
-            ) : (
-                <NoteBody note={note} clicked={isClickedNote ? 1 : 0} />
-            )}{' '}
-            <Toolbar id={id} onRemove={() => dispatch(deleteNote(id))} onHover={isHovered} />{' '}
-        </NoteContainer>
-    );
+  return (
+    <NoteContainer
+      onClick={handleSelectNote}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      bgColor={bgColor}
+      clicked={isClickedNote ? 1 : 0}
+    >
+      {isClickedNote ? (
+        <EditableNote note={note} clicked={isClickedNote ? 1 : 0} />
+      ) : (
+        <NoteBody note={note} clicked={isClickedNote ? 1 : 0} />
+      )}
+      <Toolbar
+        id={id}
+        onRemove={() => dispatch(deleteNote(id))}
+        onHover={isHovered}
+      />
+    </NoteContainer>
+  );
 }
 
 export default Note;
+
+/* Original 
+function Note({ note }) {
+  const { id, bgColor } = note;
+  const selectedNote = useSelector((state) => state.selectedNote);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const dispatch = useDispatch();
+  const handleSelectNote = (e) => {
+    if (e.target.nodeName !== 'BUTTON' && !selectedNote) {
+      dispatch(selectNote(id));
+    }
+  };
+
+  const isClickedNote = selectedNote === id;
+
+  return (
+    <NoteContainer
+      onClick={handleSelectNote}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      bgColor={bgColor}
+      clicked={isClickedNote ? 1 : 0}
+    >
+      {isClickedNote ? (
+        <EditableNote note={note} clicked={isClickedNote ? 1 : 0} />
+      ) : (
+        <NoteBody note={note} clicked={isClickedNote ? 1 : 0} />
+      )}
+      <Toolbar
+        id={id}
+        onRemove={() => dispatch(deleteNote(id))}
+        onHover={isHovered}
+      />
+    </NoteContainer>
+  );
+}
+
+export default Note;
+ */

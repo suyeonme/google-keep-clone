@@ -20,7 +20,7 @@ function InputField(props) {
     content: '',
     id: uniqid(),
     bgColor: '#fff',
-    isChecked: false, // NOTE
+    isChecked: false,
   });
   const { title, content, id, bgColor, isChecked } = note;
 
@@ -37,6 +37,14 @@ function InputField(props) {
     setNote({ ...note, [name]: value });
   };
 
+  const handleUpdateTodos = (e) => {
+    // TODO
+    const name = e.target.id;
+    const value = e.currentTarget.textContent;
+    setNote({ ...note, [name]: value });
+    console.log(note);
+  };
+
   const handleResetNote = () => {
     if (bgColor !== '#fff') {
       dispatch(getNoteColor('#fff'));
@@ -47,7 +55,7 @@ function InputField(props) {
       content: '',
       id: uniqid(),
       bgColor: '#fff',
-      isChecked: false, // NOTE
+      isChecked: false,
     });
   };
 
@@ -57,12 +65,6 @@ function InputField(props) {
       handleResetNote();
       handleResetClick();
     }
-  };
-
-  const handleClickCheckbox = (e) => {
-    // NOTE
-    e.preventDefault();
-    setNote({ ...note, isChecked: !isChecked });
   };
 
   return (
@@ -82,7 +84,6 @@ function InputField(props) {
             aria-label="New List"
             bgImage={CheckboxIcon}
             isInputField
-            clicked={handleClickCheckbox} // NOTE
           />
         ) : (
           <Tool
@@ -92,19 +93,21 @@ function InputField(props) {
             isInputField
           />
         )}
-        <TextArea
-          isOpen={isOpen}
-          isChecked={isChecked}
-          value={content} // Note Content
-          onChange={handleUpdateNote}
-        />
         {isOpen && (
-          <Toolbar
-            id={id}
-            onHover={true}
-            clicked={() => handleAddNote(note)}
-            isInputField
-          />
+          <>
+            <TextArea
+              isChecked={isChecked}
+              value={content} // Note Content
+              onChange={handleUpdateNote}
+              onChangeTodo={handleUpdateTodos} // TODO
+            />
+            <Toolbar
+              id={id}
+              onHover={true}
+              clicked={() => handleAddNote(note)}
+              isInputField
+            />
+          </>
         )}
       </InputForm>
     </InputContainer>

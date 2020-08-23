@@ -32,37 +32,27 @@ const Checkbox = styled.input`
 `;
 
 // TODO
-// if isChecked is true, change each row of textArea to <checkItemContainer />
-// Add new <CheckItemContainer /> onChange
+// PlusIcon -> Checkbox
 // Save title and content
 // Add a todoItem to an array onBlur(reducer)
 // Add functions (delete, check, drag)
 
-function CheckList({ size, placeholder, content, onInput, onChange }) {
+function CheckList({ size, placeholder, content, onChangeTodo }) {
   const [isFocus, setIsFocus] = useState(false);
-  // const [isTyping, setIsTyping] = useState(false);
-
-  const handleChange = (e) => {
-    //setIsTyping(true);
-    onInput();
-  };
-
-  const handleBlur = () => {
-    setIsFocus(false);
-  };
 
   return (
     <CheckItemContainer isFocus={isFocus}>
-      {/* {!isTyping ? <PlusIcon /> : <Checkbox type="checkbox" />} */}
-      {content !== '' ? <Checkbox type="checkbox" /> : <PlusIcon />}
+      {content === undefined ? <PlusIcon /> : <Checkbox type="checkbox" />}
       <NoteTitle
         size={size}
         placeholder={placeholder}
-        onFocus={() => setIsFocus(true)}
-        onBlur={handleBlur}
-        onInput={() => onInput()}
         contentEditable
         suppressContentEditableWarning="true"
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        //TODO
+        id="content"
+        onInput={onChangeTodo}
       >
         {content && content}
       </NoteTitle>
