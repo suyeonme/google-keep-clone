@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteNote, selectNote } from '../../../store/actions/notes';
+import { selectNote } from '../../../store/actions/notes';
 
 import NoteBody from './NoteBody';
 import { NoteContainer } from './NoteElements';
@@ -34,11 +34,7 @@ function Note({ note }) {
       ) : (
         <NoteBody note={note} clicked={isClickedNote ? 1 : 0} />
       )}
-      <Toolbar
-        id={id}
-        onRemove={() => dispatch(deleteNote(id))}
-        onHover={isHovered}
-      />
+      <Toolbar id={id} onHover={isHovered} />
     </NoteContainer>
   );
 }

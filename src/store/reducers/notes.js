@@ -6,8 +6,6 @@ const initialState = {
   isSelected: false,
   editableNote: null,
   bgColor: '#fff',
-
-  test: null,
 };
 
 const reducer = (state = initialState, action) => {

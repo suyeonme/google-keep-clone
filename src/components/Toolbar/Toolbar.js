@@ -8,7 +8,7 @@ import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
-import { updateEditableNote, toggleCheckbox } from '../../store/actions/notes';
+import { updateEditableNote } from '../../store/actions/notes';
 
 const ToolbarContainer = styled.div`
   width: 100%;
@@ -37,7 +37,7 @@ const CloseBtn = styled.button`
   }
 `;
 
-function Toolbar({ id, isInputField, onHover, clicked, onRemove, onCheck }) {
+function Toolbar({ id, isInputField, onHover, onAddNote }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
     {
@@ -64,16 +64,13 @@ function Toolbar({ id, isInputField, onHover, clicked, onRemove, onCheck }) {
       dispatch(updateEditableNote());
     }
   };
-  const handleToggleCheckbox = (e, id) => {
-    e.preventDefault();
-    dispatch(toggleCheckbox(id));
-  };
 
   return (
     <ToolbarContainer hovered={onHover}>
       <div>
         {icons.map((icon, i) => (
           <Tool
+            id={id}
             key={i}
             title={icon.ariaLabel}
             ariaLabel={icon.ariaLabel}
@@ -84,17 +81,18 @@ function Toolbar({ id, isInputField, onHover, clicked, onRemove, onCheck }) {
             hidePalette={
               icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null
             }
-            toggleCheckbox={
-              icon.ariaLabel === 'Show Checkbox' ? handleToggleCheckbox : null
-            }
+          />
+        ))}
+        {!isInputField && (
+          <Tool
+            title="Delete"
+            bgImage={TranshCanIcon}
+            ariaLabel="Delete"
             id={id}
           />
-        ))}
-        {!isInputField && (
-          <Tool title="Delete" bgImage={TranshCanIcon} clicked={onRemove} />
         )}
       </div>
-      {isInputField && <CloseBtn onClick={clicked}> Close </CloseBtn>}
+      {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
       {editedNote && (
         <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
       )}
@@ -111,73 +109,3 @@ function Toolbar({ id, isInputField, onHover, clicked, onRemove, onCheck }) {
 }
 
 export default Toolbar;
-
-/* function Toolbar({ id, isInputField, onHover, clicked, onRemove, onCheck }) {
-  const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
-  const icons = [
-    {
-      icon: PaintIcon,
-      ariaLabel: 'Change Color',
-    },
-    {
-      icon: PictureIcon,
-      ariaLabel: 'Add Picture',
-    },
-    {
-      icon: CheckboxIcon,
-      ariaLabel: 'Show Checkbox',
-    },
-  ];
-
-  const editedNote = useSelector((state) => state.editableNote);
-
-  const dispatch = useDispatch();
-  const handleShowColorPalette = () => setIsHoverColorPalette(true);
-  const handleHideColorPalette = () => setIsHoverColorPalette(false);
-  const handleUpdateEditableNote = () => {
-    if (editedNote !== null) {
-      dispatch(updateEditableNote());
-    }
-  };
-
-  return (
-    <ToolbarContainer hovered={onHover}>
-      <div>
-        {' '}
-        {icons.map((icon, i) => (
-          <Tool
-            key={i}
-            title={icon.ariaLabel}
-            ariaLabel={icon.ariaLabel}
-            bgImage={icon.icon}
-            showPalette={ icon.ariaLabel === 'Change Color' ? handleShowColorPalette : null }
-            hidePalette={ icon.ariaLabel === 'Change Color' ? () => handleHideColorPalette
-                : null
-            }
-            onCheck={icon.ariaLabel === 'Show Checkbox'
-                ? () => handleHideColorPalette
-                : null}
-          />
-        ))}
-        {!isInputField && (
-          <Tool title="Delete" bgImage={TranshCanIcon} clicked={onRemove} />
-        )}
-      </div>
-      {isInputField && <CloseBtn onClick={clicked}> Close </CloseBtn>}{' '}
-      {editedNote && (
-        <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
-      )}
-      {isHoverColorPalette && (
-        <ColorPalette
-          id={id}
-          isInputField={isInputField}
-          onUnHover={handleHideColorPalette}
-          onHover={handleShowColorPalette}
-        />
-      )}
-    </ToolbarContainer>
-  );
-}
-
-export default Toolbar;
- */

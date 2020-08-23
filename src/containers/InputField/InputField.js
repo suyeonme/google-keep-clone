@@ -42,7 +42,6 @@ function InputField(props) {
     const name = e.target.id;
     const value = e.currentTarget.textContent;
     setNote({ ...note, [name]: value });
-    console.log(note);
   };
 
   const handleResetNote = () => {
@@ -58,7 +57,6 @@ function InputField(props) {
       isChecked: false,
     });
   };
-
   const handleAddNote = (note) => {
     if (title !== '' && content !== '') {
       dispatch(addNote(note));
@@ -80,15 +78,16 @@ function InputField(props) {
 
         {!isOpen ? (
           <Tool
+            id={note.id}
             title="New List"
-            aria-label="New List"
+            ariaLabel="New List"
             bgImage={CheckboxIcon}
             isInputField
           />
         ) : (
           <Tool
             title="Pin Note"
-            aria-label="Pin Note"
+            ariaLabel="Pin Note"
             bgImage={PinIcon}
             isInputField
           />
@@ -103,9 +102,9 @@ function InputField(props) {
             />
             <Toolbar
               id={id}
-              onHover={true}
-              clicked={() => handleAddNote(note)}
               isInputField
+              onHover={true}
+              onAddNote={() => handleAddNote(note)}
             />
           </>
         )}
