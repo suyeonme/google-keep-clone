@@ -16,8 +16,8 @@ function TextArea({ isChecked, value, onChange, onChangeTodo }) {
     return lineBreaks;
   };
 
-  const contentArr = value ? handleLineBreak(value) : [];
-  let children;
+  //const contentArr = value ? handleLineBreak(value) : [];
+  //let children;
 
   if (!isChecked) {
     return (

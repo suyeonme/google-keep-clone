@@ -1,6 +1,6 @@
 import React from 'react';
 import { NoteTitle, NoteContent } from './NoteElements';
-import CheckList from '../../../components/CheckList/CheckList';
+import TodoList from '../../../components/TodoList/TodoList';
 
 function NoteDetail({ note, clicked }) {
   const { title, content, isChecked } = note;
@@ -15,7 +15,7 @@ function NoteDetail({ note, clicked }) {
     <div clicked={clicked}>
       <NoteTitle size="medium">{title}</NoteTitle>
       {isChecked ? (
-        <CheckList content={truncateText(content)} />
+        <TodoList content={truncateText(content)} />
       ) : (
         <NoteContent>{truncateText(content)}</NoteContent>
       )}

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import TodoList from '../../../components/TodoList/TodoList';
 import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditableNote } from '../../../store/actions/notes';
-
-import TodoList from '../../../components/TodoList/TodoList';
 
 const EditNote = styled.div`
   cursor: text;
@@ -28,7 +27,7 @@ function EditableNote({ note }) {
 
   const handleBlur = (e) => {
     const name = e.target.id;
-    const value = e.currentTarget.textContent;
+    const value = e.currentTarget.innerText;
     setEditableNote({ ...editableNote, [name]: value });
   };
 
@@ -36,9 +35,7 @@ function EditableNote({ note }) {
     return (
       <EditNote spellCheck="true">
         <NoteTitle
-          id="title"
-          size="big"
-          placeholder="Title"
+          size="medium"
           onBlur={handleBlur}
           contentEditable
           suppressContentEditableWarning={true}
