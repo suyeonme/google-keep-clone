@@ -5,7 +5,79 @@ import styled from 'styled-components';
 import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditableNote } from '../../../store/actions/notes';
 
+import TodoList from '../../../components/TodoList/TodoList';
+
 const EditNote = styled.div`
+  cursor: text;
+`;
+
+function EditableNote({ note }) {
+  const [editableNote, setEditableNote] = useState(note);
+  const { title, content, isChecked } = editableNote;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setEditableNote(note);
+  }, [note]);
+
+  // FIXME Click color -> saveEditable dispatch - payload is old
+  useEffect(() => {
+    dispatch(saveEditableNote(editableNote));
+  }, [dispatch, editableNote]);
+
+  const handleBlur = (e) => {
+    const name = e.target.id;
+    const value = e.currentTarget.textContent;
+    setEditableNote({ ...editableNote, [name]: value });
+  };
+
+  if (isChecked) {
+    return (
+      <EditNote spellCheck="true">
+        <NoteTitle
+          id="title"
+          size="big"
+          placeholder="Title"
+          onBlur={handleBlur}
+          contentEditable
+          suppressContentEditableWarning={true}
+        >
+          {title}
+        </NoteTitle>
+        <TodoList content={content} onBlur={handleBlur} />
+      </EditNote>
+    );
+  }
+
+  return (
+    <EditNote spellCheck="true">
+      <NoteTitle
+        id="title"
+        size="big"
+        placeholder="Title"
+        onBlur={handleBlur}
+        contentEditable
+        suppressContentEditableWarning={true}
+      >
+        {title}
+      </NoteTitle>
+      <NoteContent
+        id="content"
+        placeholder="Note"
+        onBlur={handleBlur}
+        contentEditable
+        suppressContentEditableWarning={true}
+      >
+        {content}
+      </NoteContent>
+    </EditNote>
+  );
+}
+
+export default EditableNote;
+
+/* const EditNote = styled.div`
   cursor: text;
 `;
 
@@ -55,4 +127,4 @@ function EditableNote({ note }) {
   );
 }
 
-export default EditableNote;
+export default EditableNote; */

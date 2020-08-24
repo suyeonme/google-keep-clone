@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { InputTextArea } from '../InputElements';
-import CheckList from '../../../components/CheckList/CheckList';
+import TodoList from '../../../components/TodoList/TodoList';
 
 function TextArea({ isChecked, value, onChange, onChangeTodo }) {
   const handleLineBreak = (val) => {
@@ -52,7 +52,7 @@ function TextArea({ isChecked, value, onChange, onChangeTodo }) {
 
   if (isChecked && !value) {
     return (
-      <CheckList
+      <TodoList
         size="small"
         placeholder="List item"
         onChangeTodo={onChangeTodo}

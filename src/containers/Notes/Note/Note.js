@@ -14,7 +14,11 @@ function Note({ note }) {
 
   const dispatch = useDispatch();
   const handleSelectNote = (e) => {
-    if (e.target.nodeName !== 'BUTTON' && !selectedNote) {
+    if (
+      e.target.nodeName !== 'BUTTON' &&
+      e.target.nodeName !== 'INPUT' &&
+      !selectedNote
+    ) {
       dispatch(selectNote(id));
     }
   };

@@ -21,6 +21,8 @@ function InputField(props) {
     id: uniqid(),
     bgColor: '#fff',
     isChecked: false,
+
+    //todoList: []
   });
   const { title, content, id, bgColor, isChecked } = note;
 
