@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import uniqid from 'uniqid';
@@ -6,6 +6,8 @@ import uniqid from 'uniqid';
 import { NoteTitle } from '../../containers/Notes/Note/NoteElements';
 import Plus from '../../icons/plus.svg';
 // TODO
+// Save todo when edited
+// Convert it to string and setState
 // PlusIcon -> Checkbox
 // Add functions (delete, check, drag)
 
@@ -36,32 +38,30 @@ const Checkbox = styled.input`
   margin-right: 1rem;
 `;
 
-const convertNoteToTodo = (content) => {
-  return content.split(/\n/g).reduce((acc, cur) => {
-    return [...acc, { id: uniqid(), todoItem: cur }];
-  }, []);
-};
-
 const convertTodoToNote = (todos) => {
   return todos.map((todo) => todo.todoItem).join('\r\n');
 };
 
+const handleUpdateTodo = (e) => {
+  // Convert value to string
+  // SetState
+};
+
 function TodoList({ content, onBlur }) {
   const isEditable = useSelector((state) => state.isSelected);
-  const todos = content ? convertNoteToTodo(content) : [];
-  console.log(content);
+  let todos = content ? convertNoteToTodo(content) : [];
 
-  const handleChangeTodo = (arr, e, todoID) => {
-    const editedTodoItem = e.currentTarget.innerHTML;
+  function convertNoteToTodo(content) {
+    return content.split(/\n/g).reduce((acc, cur) => {
+      return [...acc, { id: uniqid(), todoItem: cur }];
+    }, []);
+  }
 
-    arr.forEach((todo) =>
-      todo.id === todoID ? { ...todo, todoItem: editedTodoItem } : todo,
-    );
-  };
+  const handleEditTodo = (e, id) => {
+    const editedTodo = e.currentTarget.innerHTML;
+    const findTodo = todos.find((t) => t.id === id);
 
-  const handleUpdateTodo = (e) => {
-    // Convert value to string
-    // SetState
+    if (findTodo && findTodo['todoItem']) findTodo['todoItem'] = editedTodo;
   };
 
   if (isEditable && todos) {
@@ -71,7 +71,7 @@ function TodoList({ content, onBlur }) {
         <NoteTitle
           id="content"
           size="small"
-          //onInput={(e) => handleChangeTodo(e, todo.id)}
+          onBlur={(e) => handleEditTodo(e, todo.id)}
           //onBlur={onBlur}
           contentEditable
           suppressContentEditableWarning="true"

@@ -35,7 +35,7 @@ function EditableNote({ note }) {
     return (
       <EditNote spellCheck="true">
         <NoteTitle
-          size="medium"
+          size="big"
           onBlur={handleBlur}
           contentEditable
           suppressContentEditableWarning={true}
