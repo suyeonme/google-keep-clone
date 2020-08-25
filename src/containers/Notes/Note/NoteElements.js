@@ -91,7 +91,7 @@ export const NoteTitle = styled.div`
       }   
     `}
 
-  ${({ isTodoItem }) => isTodoItem && `padding: 0`}
+  ${({ isTodoItem }) => isTodoItem && `padding: 0;`}
 `;
 
 export const NoteContent = styled.div`

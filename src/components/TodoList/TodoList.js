@@ -7,9 +7,14 @@ import Plus from '../../icons/plus.svg';
 import DeleteIcon from '../../icons/delete.svg';
 import Tool from '../../components/Toolbar/Tool';
 // TODO
-// Add functions (delete, check, drag, checked style, truncate)
+// Add functions (delete, drag, truncate)
+// Add border onFocus
+// Add Completed Items
+
+// Custom Checkbox
 // PlusIcon -> Checkbox and auto-creating an additional todo
 // In case of content doesn't exist when click checkbox
+// lost check when open editable note
 
 const TodoListContainer = styled.div`
   display: flex;
@@ -17,10 +22,10 @@ const TodoListContainer = styled.div`
   width: 100%;
   height: 30px;
   padding: ${(props) => props.isNote && '12px 12px 0 12px'};
-  border-top: ${(props) =>
+  ${'' /*   border-top: ${(props) =>
     props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
   border-bottom: ${(props) =>
-    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
+    props.isFocus ? '1px solid #ccc' : '1px solid transparent'}; */}
   &:first-of-type {
     margin-top: 1.2rem;
   }
@@ -36,6 +41,12 @@ const PlusIcon = styled.div`
 
 const Checkbox = styled.input`
   margin-right: 1rem;
+  }
+
+  &:checked + ${NoteTitle} {
+    text-decoration-line: line-through;
+    color: #80868a;
+  }
 `;
 
 function TodoList({ content, onBlur }) {
@@ -66,8 +77,18 @@ function TodoList({ content, onBlur }) {
 
   const handleUpdateTodo = (e, id, arr) => {
     saveEditedTodo(e, id, arr);
-    const newTosos = convertTodoToNote(arr);
-    onBlur(newTosos);
+    const newTodos = convertTodoToNote(arr);
+    onBlur(newTodos);
+  };
+
+  const handleDeleteTodo = (id, arr) => {
+    //const index = arr.findIndex((todo) => todo.id === id);
+    //let newTodos = arr.splice(index, 1);
+    //newTodos = convertTodoToNote(arr);
+
+    let newTodos = arr.filter((el) => el.id !== id);
+    newTodos = convertTodoToNote(newTodos);
+    onBlur(newTodos);
   };
 
   const handleOnMouseOver = (id) => {
@@ -90,6 +111,7 @@ function TodoList({ content, onBlur }) {
         <NoteTitle
           isTodoItem
           size="medium"
+          placeholder="Add Todo"
           onBlur={(e) => handleUpdateTodo(e, todo.id, todos)}
           contentEditable
           suppressContentEditableWarning="true"
@@ -97,7 +119,11 @@ function TodoList({ content, onBlur }) {
           {todo.todoItem}
         </NoteTitle>
         {hoverID === todo.id && onHover && (
-          <Tool title="Delete" bgImage={DeleteIcon} />
+          <Tool
+            title="Delete Todo"
+            bgImage={DeleteIcon}
+            deleteTodo={() => handleDeleteTodo(todo.id, todos)}
+          />
         )}
       </TodoListContainer>
     ));

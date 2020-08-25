@@ -83,7 +83,7 @@ function Toolbar({ id, isInputField, onHover, onAddNote }) {
           />
         ))}
         {!isInputField && (
-          <Tool title="Delete" bgImage={TranshCanIcon} id={id} />
+          <Tool title="Delete Note" bgImage={TranshCanIcon} id={id} />
         )}
       </div>
       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}

@@ -29,15 +29,26 @@ const ToolbarBtn = styled.button`
     `}
 `;
 
-function Tool({ id, title, bgImage, showPalette, hidePalette, isInputField }) {
+function Tool({
+  id,
+  title,
+  bgImage,
+  showPalette,
+  hidePalette,
+  deleteTodo,
+  isInputField,
+}) {
   const dispatch = useDispatch();
 
   const handleClick = (e, title, noteID) => {
     if (title === 'Show Checkbox' || title === 'New List') {
       dispatch(toggleCheckbox(noteID));
     }
-    if (title === 'Delete') {
+    if (title === 'Delete Note') {
       dispatch(deleteNote(noteID));
+    }
+    if (title === 'Delete Todo') {
+      deleteTodo();
     }
     e.preventDefault();
   };
