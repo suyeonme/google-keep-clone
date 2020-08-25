@@ -29,24 +29,14 @@ const ToolbarBtn = styled.button`
     `}
 `;
 
-function Tool({
-  id,
-  title,
-  ariaLabel,
-  bgImage,
-  showPalette,
-  hidePalette,
-  isInputField,
-}) {
+function Tool({ id, title, bgImage, showPalette, hidePalette, isInputField }) {
   const dispatch = useDispatch();
 
-  const handleClick = (e, label, noteID) => {
-    if (label === 'Show Checkbox' || label === 'New List') {
-      // if (note.content)
-      // Check it in Tool or Reducer
+  const handleClick = (e, title, noteID) => {
+    if (title === 'Show Checkbox' || title === 'New List') {
       dispatch(toggleCheckbox(noteID));
     }
-    if (label === 'Delete') {
+    if (title === 'Delete') {
       dispatch(deleteNote(noteID));
     }
     e.preventDefault();
@@ -54,13 +44,13 @@ function Tool({
 
   return (
     <>
-      <Tooltip title={title} aria-label={ariaLabel} arrow>
+      <Tooltip title={title} arrow>
         <ToolbarBtn
           bgImage={bgImage}
           isInputField={isInputField}
           onMouseEnter={showPalette}
           onMouseLeave={hidePalette}
-          onClick={(e) => handleClick(e, ariaLabel, id)}
+          onClick={(e) => handleClick(e, title, id)}
         />
       </Tooltip>
     </>

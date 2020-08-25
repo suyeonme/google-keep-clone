@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import uniqid from 'uniqid';
 
 import { NoteTitle } from '../../containers/Notes/Note/NoteElements';
 import Plus from '../../icons/plus.svg';
+import DeleteIcon from '../../icons/delete.svg';
+import Tool from '../../components/Toolbar/Tool';
 // TODO
-// Cannot set isChecked on "note"
-// PlusIcon -> Checkbox
-// Add functions (delete, check, drag, hover, checked style, truncate)
+// Add functions (delete, check, drag, checked style, truncate)
+// PlusIcon -> Checkbox and auto-creating an additional todo
+// In case of content doesn't exist when click checkbox
 
 const TodoListContainer = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ const Checkbox = styled.input`
 `;
 
 function TodoList({ content, onBlur }) {
+  const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
+  const { hoverID, onHover } = isHover;
+
   const isEditable = useSelector((state) => state.isSelected);
   let todos = content ? convertNoteToTodo(content) : [];
 
@@ -46,17 +50,17 @@ function TodoList({ content, onBlur }) {
   };
 
   function convertNoteToTodo(str) {
-    return str.split(/\n/g).reduce((todos, todo) => {
-      return [...todos, { id: uniqid(), todoItem: todo }];
+    return str.split(/\n/g).reduce((todos, todo, i) => {
+      return [...todos, { id: i, todoItem: todo }];
     }, []);
   }
 
   const saveEditedTodo = (e, id, arr) => {
-    const findTodo = arr.find((el) => el.id === id);
+    const editedTodo = arr.find((el) => el.id === id);
 
-    if (findTodo && findTodo['todoItem']) {
-      const editedTodo = e.currentTarget.innerHTML;
-      return (findTodo['todoItem'] = editedTodo);
+    if (editedTodo && editedTodo['todoItem']) {
+      const newContent = e.currentTarget.innerHTML;
+      return (editedTodo['todoItem'] = newContent);
     }
   };
 
@@ -66,18 +70,35 @@ function TodoList({ content, onBlur }) {
     onBlur(newTosos);
   };
 
+  const handleOnMouseOver = (id) => {
+    setIsHover({ hoverID: id, onHover: true });
+  };
+
+  const handleOnMouseLeave = (id) => {
+    setIsHover({ hoverID: id, onHover: false });
+  };
+
   if (isEditable && todos) {
     const todoList = todos.map((todo, i) => (
-      <TodoListContainer key={i} isNote>
+      <TodoListContainer
+        key={i}
+        isNote
+        onMouseEnter={() => handleOnMouseOver(todo.id)}
+        onMouseLeave={() => handleOnMouseLeave(todo.id)}
+      >
         <Checkbox type="checkbox" />
         <NoteTitle
-          size="small"
+          isTodoItem
+          size="medium"
           onBlur={(e) => handleUpdateTodo(e, todo.id, todos)}
           contentEditable
           suppressContentEditableWarning="true"
         >
           {todo.todoItem}
         </NoteTitle>
+        {hoverID === todo.id && onHover && (
+          <Tool title="Delete" bgImage={DeleteIcon} />
+        )}
       </TodoListContainer>
     ));
 
@@ -98,90 +119,3 @@ function TodoList({ content, onBlur }) {
 }
 
 export default TodoList;
-
-/*  When need name of each todoItem 
-    const todoList = str.split(/\n/g).reduce((acc, cur) => {
-    const id = uniqid();
-    return {
-      ...acc,
-      [id]: {
-        id,
-        todoItem: cur,
-      },
-    };
-  }, {});
-  return Object.values(todoList) */
-
-/*   const createNewTodo = () => {
-    // if (!content) use in inputField
-    const newTodoItem = { id: uniqid(), todoItem: '' };
-  }; */
-
-/*   const convertNoteToTodo = (content) => {
-    content.trim();
-    return content.split(/\r?\n|\r/g).reduce((acc, cur) => {
-      return [...acc, { id: uniqid(), todoItem: cur }];
-    }, []);
-  };
-  
-  const convertTodoToNote = (todos) => {
-    return todos.map((todo) => todo.todoItem).join('\r\n');
-  };
-  
-  function TodoList({ size, placeholder, content, onChangeTodo, onBlur }) {
-    let todos = content ? convertNoteToTodo(content) : [];
-    const isEditable = useSelector((state) => state.isSelected);
-  
-    useEffect(() => {
-      todos = content ? convertNoteToTodo(content) : [];
-    }, [content]);
-  
-    const handleChangeTodo = (e, todoID) => {
-      // [{id: 1, todoItem: 'apple'}, {...}, {...}]
-      const editedTodoItem = e.currentTarget.textContent;
-  
-      todos.forEach((todo) =>
-        todo.id === todoID ? { ...todo, todoItem: editedTodoItem } : todo,
-      );
-    };
-  
-    const handleUpdateTodo = (e) => {
-      // Convert value to string
-      // SetState
-    };
-  
-    if (isEditable && content) {
-      const todoList = todos.map((todo, i) => (
-        <TodoListContainer key={i} isNote>
-          <Checkbox type="checkbox" />
-          <NoteTitle
-            id="content"
-            size="small"
-            //onInput={(e) => handleChangeTodo(e, todo.id)}
-            onInput={(e) => console.log(e.currentTarget.textContent)}
-            //onBlur={onBlur}
-            contentEditable
-            suppressContentEditableWarning="true"
-          >
-            {todo.todoItem}
-          </NoteTitle>
-        </TodoListContainer>
-      ));
-  
-      return todoList;
-    }
-  
-    if (!isEditable && content) {
-      const todoList = todos.map((todo, i) => (
-        <TodoListContainer key={i} isNote>
-          <Checkbox type="checkbox" />
-          <NoteTitle size="small">{todo.todoItem}</NoteTitle>
-        </TodoListContainer>
-      ));
-  
-      return todoList;
-    }
-    return null;
-  }
-  
-  export default TodoList; */

@@ -42,15 +42,15 @@ function Toolbar({ id, isInputField, onHover, onAddNote }) {
   const icons = [
     {
       icon: PaintIcon,
-      ariaLabel: 'Change Color',
+      title: 'Change Color',
     },
     {
       icon: PictureIcon,
-      ariaLabel: 'Add Picture',
+      title: 'Add Picture',
     },
     {
       icon: CheckboxIcon,
-      ariaLabel: 'Show Checkbox',
+      title: 'Show Checkbox',
     },
   ];
 
@@ -72,24 +72,18 @@ function Toolbar({ id, isInputField, onHover, onAddNote }) {
           <Tool
             id={id}
             key={i}
-            title={icon.ariaLabel}
-            ariaLabel={icon.ariaLabel}
+            title={icon.title}
             bgImage={icon.icon}
             showPalette={
-              icon.ariaLabel === 'Change Color' ? handleShowColorPalette : null
+              icon.title === 'Change Color' ? handleShowColorPalette : null
             }
             hidePalette={
-              icon.ariaLabel === 'Change Color' ? handleHideColorPalette : null
+              icon.title === 'Change Color' ? handleHideColorPalette : null
             }
           />
         ))}
         {!isInputField && (
-          <Tool
-            title="Delete"
-            bgImage={TranshCanIcon}
-            ariaLabel="Delete"
-            id={id}
-          />
+          <Tool title="Delete" bgImage={TranshCanIcon} id={id} />
         )}
       </div>
       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}

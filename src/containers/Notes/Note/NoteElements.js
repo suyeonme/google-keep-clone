@@ -57,7 +57,7 @@ const noteTitleSizes = {
   medium: {
     fontSize: '1.6rem',
     lineHeight: '1',
-    fontWeight: 500,
+    fontWeight: 400,
     padding: '12px 12px 0 12px',
   },
   big: {
@@ -85,11 +85,13 @@ export const NoteTitle = styled.div`
   ${({ contentEditable }) =>
     contentEditable &&
     `
-        &:empty::before{
-            content:attr(placeholder);
-            color:#80868A;
-        }   
+      &:empty::before{
+          content:attr(placeholder);
+          color:#80868A;
+      }   
     `}
+
+  ${({ isTodoItem }) => isTodoItem && `padding: 0`}
 `;
 
 export const NoteContent = styled.div`

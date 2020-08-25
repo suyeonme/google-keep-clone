@@ -82,17 +82,11 @@ function InputField(props) {
           <Tool
             id={note.id}
             title="New List"
-            ariaLabel="New List"
             bgImage={CheckboxIcon}
             isInputField
           />
         ) : (
-          <Tool
-            title="Pin Note"
-            ariaLabel="Pin Note"
-            bgImage={PinIcon}
-            isInputField
-          />
+          <Tool title="Pin Note" bgImage={PinIcon} isInputField />
         )}
         {isOpen && (
           <>

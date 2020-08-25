@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionsTypes';
 import { updateObject } from '../../shared/utility';
 
+// STATE
 const initialState = {
   notes: [],
   selectedNote: null,
@@ -19,14 +20,14 @@ const addNote = (state, action) => {
 
 const deleteNote = (state, action) => {
   const newNotes = state.notes.filter((note) => note.id !== action.payload);
-  const updatedNote = {
+  const updatedNotes = {
     ...state,
     notes: newNotes,
     selectedNote: null,
     editableNote: null,
     isSelected: false,
   };
-  return updateObject(state, updatedNote);
+  return updateObject(state, updatedNotes);
 };
 
 const selectNote = (state, action) => {
@@ -39,32 +40,32 @@ const selectNote = (state, action) => {
 };
 
 const unselectNote = (state, action) => {
-  const unselectedNote = {
+  const unselectedNotes = {
     ...state,
     selectedNote: null,
     editableNote: null,
     isSelected: false,
   };
-  return updateObject(state, unselectedNote);
+  return updateObject(state, unselectedNotes);
 };
 
 const getNoteColor = (state, action) => {
-  const updatedNote = {
+  const updateBgColor = {
     ...state,
     bgColor: action.payload,
   };
-  return updateObject(state, updatedNote);
+  return updateObject(state, updateBgColor);
 };
 
 const changeNoteColor = (state, action) => {
-  const changeColor = state.notes.map((note) =>
+  const newNotes = state.notes.map((note) =>
     note.id === action.payload ? { ...note, bgColor: state.bgColor } : note,
   );
-  const updatedNote = {
+  const updatedNotes = {
     ...state,
-    notes: changeColor,
+    notes: newNotes,
   };
-  return updateObject(state, updatedNote);
+  return updateObject(state, updatedNotes);
 };
 
 const toggleNoteCheckbox = (state, action) => {
@@ -79,30 +80,30 @@ const toggleNoteCheckbox = (state, action) => {
     return { ...note, isChecked: !note.isChecked };
   });
 
-  const updatedNote = {
+  const updatedNotes = {
     ...state,
     notes: checkedNote,
   };
-  return updateObject(state, updatedNote);
+  return updateObject(state, updatedNotes);
 };
 
 const saveEditableNote = (state, action) => {
   // FIXME payload is old value
-  const updatedNote = {
+  const updatedNotes = {
     ...state,
     editableNote: action.payload,
   };
-  return updateObject(state, updatedNote);
+  return updateObject(state, updatedNotes);
 };
 
 const updateEditableNote = (state, action) => {
-  const oldNotes = state.notes
+  const newNotes = state.notes
     .filter((note) => note.id !== state.editableNote.id)
     .concat(state.editableNote);
 
   const updatedNote = {
     ...state,
-    notes: oldNotes,
+    notes: newNotes,
     selectedNote: null,
     editableNote: null,
     isSelected: false,
@@ -110,6 +111,7 @@ const updateEditableNote = (state, action) => {
   return updateObject(state, updatedNote);
 };
 
+// REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_NOTE:
