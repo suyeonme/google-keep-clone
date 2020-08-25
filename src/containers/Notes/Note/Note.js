@@ -13,7 +13,7 @@ function Note({ note }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const dispatch = useDispatch();
-  const handleSelectNote = (e) => {
+  const handleOnClick = (e) => {
     if (
       e.target.nodeName !== 'BUTTON' &&
       e.target.nodeName !== 'INPUT' &&
@@ -27,7 +27,7 @@ function Note({ note }) {
 
   return (
     <NoteContainer
-      onClick={handleSelectNote}
+      onClick={handleOnClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       bgColor={bgColor}
@@ -37,8 +37,8 @@ function Note({ note }) {
         <EditableNote note={note} clicked={isClickedNote ? 1 : 0} />
       ) : (
         <NoteBody note={note} clicked={isClickedNote ? 1 : 0} />
-      )}
-      <Toolbar id={id} onHover={isHovered} />
+      )}{' '}
+      <Toolbar id={id} onHover={isHovered} />{' '}
     </NoteContainer>
   );
 }

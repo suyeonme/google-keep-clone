@@ -42,6 +42,8 @@ function Tool({
 
   const handleClick = (e, label, noteID) => {
     if (label === 'Show Checkbox' || label === 'New List') {
+      // if (note.content)
+      // Check it in Tool or Reducer
       dispatch(toggleCheckbox(noteID));
     }
     if (label === 'Delete') {

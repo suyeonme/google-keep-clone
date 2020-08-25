@@ -37,7 +37,6 @@ export const changeNoteColor = (id) => {
   };
 };
 export const toggleCheckbox = (id) => {
-  // Note Checkbox
   return {
     type: actions.TOGGLE_CHECKBOX_NOTE,
     payload: id,

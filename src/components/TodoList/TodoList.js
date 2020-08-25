@@ -6,10 +6,9 @@ import uniqid from 'uniqid';
 import { NoteTitle } from '../../containers/Notes/Note/NoteElements';
 import Plus from '../../icons/plus.svg';
 // TODO
-// Save todo when edited
-// Convert it to string and setState
+// Cannot set isChecked on "note"
 // PlusIcon -> Checkbox
-// Add functions (delete, check, drag)
+// Add functions (delete, check, drag, hover, checked style, truncate)
 
 const TodoListContainer = styled.div`
   display: flex;
@@ -38,30 +37,33 @@ const Checkbox = styled.input`
   margin-right: 1rem;
 `;
 
-const convertTodoToNote = (todos) => {
-  return todos.map((todo) => todo.todoItem).join('\r\n');
-};
-
-const handleUpdateTodo = (e) => {
-  // Convert value to string
-  // SetState
-};
-
 function TodoList({ content, onBlur }) {
   const isEditable = useSelector((state) => state.isSelected);
   let todos = content ? convertNoteToTodo(content) : [];
 
-  function convertNoteToTodo(content) {
-    return content.split(/\n/g).reduce((acc, cur) => {
-      return [...acc, { id: uniqid(), todoItem: cur }];
+  const convertTodoToNote = (arr) => {
+    return arr.map((todo) => todo.todoItem).join('\r\n');
+  };
+
+  function convertNoteToTodo(str) {
+    return str.split(/\n/g).reduce((todos, todo) => {
+      return [...todos, { id: uniqid(), todoItem: todo }];
     }, []);
   }
 
-  const handleEditTodo = (e, id) => {
-    const editedTodo = e.currentTarget.innerHTML;
-    const findTodo = todos.find((t) => t.id === id);
+  const saveEditedTodo = (e, id, arr) => {
+    const findTodo = arr.find((el) => el.id === id);
 
-    if (findTodo && findTodo['todoItem']) findTodo['todoItem'] = editedTodo;
+    if (findTodo && findTodo['todoItem']) {
+      const editedTodo = e.currentTarget.innerHTML;
+      return (findTodo['todoItem'] = editedTodo);
+    }
+  };
+
+  const handleUpdateTodo = (e, id, arr) => {
+    saveEditedTodo(e, id, arr);
+    const newTosos = convertTodoToNote(arr);
+    onBlur(newTosos);
   };
 
   if (isEditable && todos) {
@@ -69,10 +71,8 @@ function TodoList({ content, onBlur }) {
       <TodoListContainer key={i} isNote>
         <Checkbox type="checkbox" />
         <NoteTitle
-          id="content"
           size="small"
-          onBlur={(e) => handleEditTodo(e, todo.id)}
-          //onBlur={onBlur}
+          onBlur={(e) => handleUpdateTodo(e, todo.id, todos)}
           contentEditable
           suppressContentEditableWarning="true"
         >

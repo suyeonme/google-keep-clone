@@ -25,24 +25,29 @@ function EditableNote({ note }) {
     dispatch(saveEditableNote(editableNote));
   }, [dispatch, editableNote]);
 
-  const handleBlur = (e) => {
+  const handleOnBlur = (e) => {
     const name = e.target.id;
     const value = e.currentTarget.innerText;
     setEditableNote({ ...editableNote, [name]: value });
+  };
+
+  const handleOnBlurTodo = (value) => {
+    setEditableNote({ ...editableNote, content: value });
   };
 
   if (isChecked) {
     return (
       <EditNote spellCheck="true">
         <NoteTitle
+          id="title"
           size="big"
-          onBlur={handleBlur}
+          onBlur={handleOnBlur}
           contentEditable
           suppressContentEditableWarning={true}
         >
           {title}
         </NoteTitle>
-        <TodoList content={content} onBlur={handleBlur} />
+        <TodoList content={content} onBlur={handleOnBlurTodo} />
       </EditNote>
     );
   }
@@ -53,7 +58,7 @@ function EditableNote({ note }) {
         id="title"
         size="big"
         placeholder="Title"
-        onBlur={handleBlur}
+        onBlur={handleOnBlur}
         contentEditable
         suppressContentEditableWarning={true}
       >
@@ -62,7 +67,7 @@ function EditableNote({ note }) {
       <NoteContent
         id="content"
         placeholder="Note"
-        onBlur={handleBlur}
+        onBlur={handleOnBlur}
         contentEditable
         suppressContentEditableWarning={true}
       >
