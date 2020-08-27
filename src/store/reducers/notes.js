@@ -69,7 +69,7 @@ const changeNoteColor = (state, action) => {
 };
 
 const toggleNoteCheckbox = (state, action) => {
-  const checkedNote = state.notes.map((note) => {
+  const updatedNotes = state.notes.map((note) => {
     if (note.id === action.payload && state.editableNote) {
       return {
         ...note,
@@ -77,18 +77,23 @@ const toggleNoteCheckbox = (state, action) => {
         isChecked: !note.isChecked,
       };
     }
-    return { ...note, isChecked: !note.isChecked };
+
+    if (note.id === action.payload && !state.editableNote) {
+      return { ...note, isChecked: !note.isChecked };
+    }
+
+    return note;
   });
 
-  const updatedNotes = {
+  const newNotes = {
     ...state,
-    notes: checkedNote,
+    notes: updatedNotes,
   };
-  return updateObject(state, updatedNotes);
+  return updateObject(state, newNotes);
 };
 
 const saveEditableNote = (state, action) => {
-  // FIXME payload is old value
+  // FIXME payload is old value (guess from useEffect)
   const updatedNotes = {
     ...state,
     editableNote: action.payload,
