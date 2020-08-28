@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 
 export const useClickOutside = (initialValue) => {
-  const [isOpen, setIsOpen] = useState(initialValue);
+  const [isClickOutside, setIsClickOutside] = useState(initialValue);
   const ref = useRef(null);
 
   const handleClickOutside = (e) => {
     if (ref.current && !ref.current.contains(e.target)) {
-      setIsOpen(false);
+      setIsClickOutside(false);
     } else {
-      setIsOpen(true);
+      setIsClickOutside(true);
     }
   };
 
-  const handleResetClick = () => setIsOpen(initialValue);
+  const handleResetClick = () => setIsClickOutside(initialValue);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -23,7 +23,7 @@ export const useClickOutside = (initialValue) => {
 
   return {
     ref,
-    isOpen,
+    isClickOutside,
     handleResetClick,
   };
 };

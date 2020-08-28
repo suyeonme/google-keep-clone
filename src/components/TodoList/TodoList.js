@@ -6,17 +6,18 @@ import { NoteTitle } from '../../containers/Notes/Note/NoteElements';
 import Plus from '../../icons/plus.svg';
 import DeleteIcon from '../../icons/delete.svg';
 import Tool from '../../components/Toolbar/Tool';
-
 import CompletedTodo from './CompletedTodo/CompletedTodo';
-// TODO
-// Add Completed Items (add isDone to todoItem object)
 
+// TODO
+// Lost check between note - editable note
 // Add border onFocus
-// lost check when open editable note
+
+// Cannot get latest todos
+// PlusIcon -> Checkbox and auto-creating an additional todo
+// In case of content doesn't exist when click checkbox;
+// InputField
 // Custom Checkbox
 // Add functions (drag, truncate)
-// PlusIcon -> Checkbox and auto-creating an additional todo
-// In case of content doesn't exist when click checkbox
 
 const TodoListContainer = styled.div`
   display: flex;
@@ -51,23 +52,27 @@ const Checkbox = styled.input`
 
 function TodoList({ todoContent, onBlur }) {
   const [todos, setTodos] = useState(todoContent);
-
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
   const { hoverID, onHover } = isHover;
+
   const isEditable = useSelector((state) => state.isSelected);
+  const doneTodo = todos ? todos.filter((todo) => todo.isDone).length : 0;
+
+  ///////////////////
+  useEffect(() => {
+    //console.log(todos);
+  }, [todos]);
+  /////////////////////
 
   const saveEditedTodo = (e, id) => {
-    // Last character not updated (update and delete)
-    // One tempo is late
     const newContent = e.currentTarget.innerHTML;
 
     const editedTodo = todos.map((todo) =>
       todo.id === id ? { ...todo, todoItem: newContent } : todo,
     );
 
-    setTodos(editedTodo);
-    console.log(todos);
-    onBlur(todos);
+    setTodos(editedTodo); // Re-rendering
+    onBlur(todos); // Re-rendering
   };
 
   const handleDeleteTodo = (id) => {
@@ -84,27 +89,29 @@ function TodoList({ todoContent, onBlur }) {
     setIsHover({ hoverID: id, onHover: false });
   };
 
-  //////////////// isDone
-  const handleCheckbox = (e, id) => {
-    //const doneTask = e.target.checked;
-
+  const handleCheckbox = (id) => {
     const newTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, isDone: !todo.isDone } : todo,
     );
-    console.log('[newTodos]' + JSON.stringify(newTodos));
     setTodos(newTodos);
-    console.log('[todos]' + JSON.stringify(todos)); // newTodos are working
+    console.log('[todos]' + todos);
   };
 
-  //////////////////
+  const todoTask = todos.filter((todo) => !todo.isDone);
+  const doneTask = todos.filter((todo) => todo.isDone);
+
   if (isEditable && todos) {
-    let todoList = todos.map((todo, i) => (
+    let todoList = todoTask.map((todo, i) => (
       <TodoListContainer
         key={i}
         onMouseEnter={() => handleOnMouseOver(todo.id)}
         onMouseLeave={() => handleOnMouseLeave(todo.id)}
       >
-        <Checkbox type="checkbox" onClick={(e) => handleCheckbox(e, todo.id)} />
+        <Checkbox
+          type="checkbox"
+          checked={todo.isDone}
+          onChange={() => handleCheckbox(todo.id)}
+        />
         <NoteTitle
           isTodoItem
           size="medium"
@@ -125,18 +132,64 @@ function TodoList({ todoContent, onBlur }) {
       </TodoListContainer>
     ));
 
+    let doneList = doneTask.map((todo, i) => (
+      <TodoListContainer
+        key={i}
+        onMouseEnter={() => handleOnMouseOver(todo.id)}
+        onMouseLeave={() => handleOnMouseLeave(todo.id)}
+      >
+        <Checkbox
+          type="checkbox"
+          onBlur={() => handleCheckbox(todo.id)}
+          checked={todo.isDone}
+        />
+        <NoteTitle
+          isTodoItem
+          size="medium"
+          placeholder="Add Todo"
+          onInput={(e) => saveEditedTodo(e, todo.id)}
+          contentEditable
+          suppressContentEditableWarning="true"
+        >
+          {todo.todoItem}
+        </NoteTitle>
+        {hoverID === todo.id && onHover && (
+          <Tool
+            title="Delete Todo"
+            bgImage={DeleteIcon}
+            deleteTodo={() => handleDeleteTodo(todo.id)}
+          />
+        )}
+      </TodoListContainer>
+    ));
+
     return (todoList = (
-      <>
+      <div>
         {todoList}
-        {/* {doneTasks > 0 && <CompletedTodo doneTasks={doneTasks} />} */}
-      </>
+        {doneTodo > 0 && <CompletedTodo doneTodo={doneTodo} />}
+        {doneList}
+      </div>
     ));
   }
 
+  // if (!isEditable && todos) {
+  //   const todoList = todos.map((todo, i) => (
+  //     <TodoListContainer key={i}>
+  //       <Checkbox type="checkbox" />
+  //       <NoteTitle size="small">{todo.todoItem}</NoteTitle>
+  //     </TodoListContainer>
+  //   ));
+
+  //   return todoList;
+  // }
   if (!isEditable && todos) {
     const todoList = todos.map((todo, i) => (
       <TodoListContainer key={i}>
-        <Checkbox type="checkbox" />
+        <Checkbox
+          type="checkbox"
+          onChange={() => handleCheckbox(todo.id)}
+          checked={todo.isDone}
+        />
         <NoteTitle size="small">{todo.todoItem}</NoteTitle>
       </TodoListContainer>
     ));
@@ -147,123 +200,3 @@ function TodoList({ todoContent, onBlur }) {
 }
 
 export default TodoList;
-
-// function TodoList({ content, onBlur }) {
-//   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
-//   const { hoverID, onHover } = isHover;
-
-//   const isEditable = useSelector((state) => state.isSelected);
-//   let todos = content ? convertNoteToTodo(content) : [];
-
-//   const convertTodoToNote = (arr) => {
-//     return arr.map((todo) => todo.todoItem).join('\r\n');
-//   };
-
-//   function convertNoteToTodo(str) {
-//     return str.split(/\n/g).reduce((todos, todo, i) => {
-//       return [...todos, { id: i, todoItem: todo, isDone: false }];
-//     }, []);
-//   }
-
-//   const saveEditedTodo = (e, id, arr) => {
-//     const editedTodo = arr.find((el) => el.id === id);
-
-//     if (editedTodo && editedTodo['todoItem']) {
-//       const newContent = e.currentTarget.innerHTML;
-//       return (editedTodo['todoItem'] = newContent);
-//     }
-//   };
-
-//   const handleUpdateTodo = (e, id, arr) => {
-//     saveEditedTodo(e, id, arr);
-//     const newTodos = convertTodoToNote(arr);
-//     onBlur(newTodos);
-//   };
-
-//   const handleDeleteTodo = (id, arr) => {
-//     let newTodos = arr.filter((el) => el.id !== id);
-//     newTodos = convertTodoToNote(newTodos);
-//     onBlur(newTodos);
-//   };
-
-//   const handleOnMouseOver = (id) => {
-//     setIsHover({ hoverID: id, onHover: true });
-//   };
-
-//   const handleOnMouseLeave = (id) => {
-//     setIsHover({ hoverID: id, onHover: false });
-//   };
-
-//   //////////////// Checkbox
-//   // NOTE state
-//   // const [isDone, setIsDone] = useState(todos);
-//   // const doneTasks = isDone.filter((todo) => todo.isDone).length;
-
-//   // const handleClick = (id) => {
-//   //   const newState = isDone.map((el) =>
-//   //     el.id === id ? { ...el, isDone: !el.isDone } : el,
-//   //   );
-//   //   setIsDone(newState);
-//   // };
-
-//   let todoArr = [];
-//   function handleClick(e, id) {
-//     const isChecked = e.target.checked;
-//     const newArr = todos.map((el) =>
-//       el.id === id ? { ...el, isDone: isChecked } : el,
-//     );
-//     // todos = newArr;
-//     //console.log(newArr.filter((el) => el.isDone).length);
-//   }
-
-//   //////////////////
-//   if (isEditable && todos) {
-//     let todoList = todos.map((todo, i) => (
-//       <TodoListContainer
-//         key={i}
-//         onMouseEnter={() => handleOnMouseOver(todo.id)}
-//         onMouseLeave={() => handleOnMouseLeave(todo.id)}
-//       >
-//         <Checkbox type="checkbox" onChange={(e) => handleClick(e, todo.id)} />
-//         <NoteTitle
-//           isTodoItem
-//           size="medium"
-//           placeholder="Add Todo"
-//           onBlur={(e) => handleUpdateTodo(e, todo.id, todos)}
-//           contentEditable
-//           suppressContentEditableWarning="true"
-//         >
-//           {todo.todoItem}
-//         </NoteTitle>
-//         {hoverID === todo.id && onHover && (
-//           <Tool
-//             title="Delete Todo"
-//             bgImage={DeleteIcon}
-//             deleteTodo={() => handleDeleteTodo(todo.id, todos)}
-//           />
-//         )}
-//       </TodoListContainer>
-//     ));
-
-//     return (todoList = (
-//       <>
-//         {todoList}
-//         {/* {doneTasks > 0 && <CompletedTodo doneTasks={doneTasks} />} */}
-//       </>
-//     ));
-//   }
-
-//   if (!isEditable && todos) {
-//     const todoList = todos.map((todo, i) => (
-//       <TodoListContainer key={i}>
-//         <Checkbox type="checkbox" />
-//         <NoteTitle size="small">{todo.todoItem}</NoteTitle>
-//       </TodoListContainer>
-//     ));
-
-//     return todoList;
-//   }
-//   return null;
-// }
-
-// export default TodoList;

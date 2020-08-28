@@ -30,17 +30,14 @@ const TitleContainer = styled.div`
   cursor: pointer;
 `;
 
-function CompletedTodo(props) {
-  const { doneTasks, children } = props;
-
+function CompletedTodo({ doneTodo }) {
   return (
     <div>
       <GreyLine />
       <TitleContainer>
         <ArrowIcon />
-        <Title>{doneTasks} Completed items</Title>
+        <Title>{doneTodo} Completed items</Title>
       </TitleContainer>
-      <div>{children}</div>
     </div>
   );
 }

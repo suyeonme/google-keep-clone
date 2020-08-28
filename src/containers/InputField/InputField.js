@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid';
 
-import { InputContainer, InputForm, Input } from './InputElements';
+import {
+  InputContainer,
+  InputForm,
+  Input,
+  InputTextArea,
+} from './InputElements';
 import TextArea from './TextArea/TextArea';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import PinIcon from '../../icons/pin.svg';
@@ -12,7 +17,7 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 
 // TODO
-// Back to original when click outside of form
+// todoList: Back to original when click outside of form
 
 function InputField(props) {
   const [note, setNote] = useState({
@@ -21,14 +26,14 @@ function InputField(props) {
     id: uniqid(),
     bgColor: '#fff',
     isChecked: false,
-
-    //todoList: []
   });
   const { title, content, id, bgColor, isChecked } = note;
 
   const dispatch = useDispatch();
   const selectedBgColor = useSelector((state) => state.bgColor);
-  const { ref, isOpen, handleResetClick } = useClickOutside(false);
+  const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
+    false,
+  );
 
   useEffect(() => {
     setNote((prevNote) => ({ ...prevNote, bgColor: selectedBgColor }));
@@ -78,7 +83,7 @@ function InputField(props) {
           onChange={handleUpdateNote}
         />
 
-        {!isOpen ? (
+        {!isExpand ? (
           <Tool
             id={note.id}
             title="New List"
@@ -88,13 +93,13 @@ function InputField(props) {
         ) : (
           <Tool title="Pin Note" bgImage={PinIcon} isInputField />
         )}
-        {isOpen && (
+        {isExpand && (
           <>
             <TextArea
               isChecked={isChecked}
               value={content} // Note Content
               onChange={handleUpdateNote}
-              onChangeTodo={handleUpdateTodos} // TODO
+              //onChangeTodo={handleUpdateTodos} // TODO
             />
             <Toolbar
               id={id}

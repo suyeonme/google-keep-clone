@@ -10,11 +10,11 @@ import { InputTextArea } from '../InputElements';
 import TodoList from '../../../components/TodoList/TodoList';
 
 function TextArea({ isChecked, value, onChange, onChangeTodo }) {
-  const handleLineBreak = (val) => {
-    let lineBreaks = val.replace(/\n/g, '<br>') || [];
-    lineBreaks = lineBreaks.split('<br>');
-    return lineBreaks;
-  };
+  // const handleLineBreak = (val) => {
+  //   let lineBreaks = val.replace(/\n/g, '<br>') || [];
+  //   lineBreaks = lineBreaks.split('<br>');
+  //   return lineBreaks;
+  // };
 
   //const contentArr = value ? handleLineBreak(value) : [];
   //let children;
@@ -25,7 +25,7 @@ function TextArea({ isChecked, value, onChange, onChangeTodo }) {
         name="content"
         value={value}
         placeholder="Take a note..."
-        rows="2"
+        rows="3"
         isChecked={isChecked}
         onChange={onChange}
       />
