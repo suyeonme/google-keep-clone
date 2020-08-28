@@ -52,6 +52,7 @@ const Checkbox = styled.input`
 
 function TodoList({ todoContent, onBlur }) {
   const [todos, setTodos] = useState(todoContent);
+  const [showDoneList, setShowDoneList] = useState(true);
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
   const { hoverID, onHover } = isHover;
 
@@ -62,6 +63,7 @@ function TodoList({ todoContent, onBlur }) {
   useEffect(() => {
     //console.log(todos);
   }, [todos]);
+
   /////////////////////
 
   const saveEditedTodo = (e, id) => {
@@ -140,14 +142,14 @@ function TodoList({ todoContent, onBlur }) {
       >
         <Checkbox
           type="checkbox"
-          onBlur={() => handleCheckbox(todo.id)}
+          onChange={() => handleCheckbox(todo.id)}
           checked={todo.isDone}
         />
         <NoteTitle
           isTodoItem
           size="medium"
           placeholder="Add Todo"
-          onInput={(e) => saveEditedTodo(e, todo.id)}
+          onBlur={(e) => saveEditedTodo(e, todo.id)}
           contentEditable
           suppressContentEditableWarning="true"
         >
@@ -166,8 +168,13 @@ function TodoList({ todoContent, onBlur }) {
     return (todoList = (
       <div>
         {todoList}
-        {doneTodo > 0 && <CompletedTodo doneTodo={doneTodo} />}
-        {doneList}
+        {doneTodo > 0 && (
+          <CompletedTodo
+            doneTodo={doneTodo}
+            clicked={() => setShowDoneList(!showDoneList)}
+          />
+        )}
+        {showDoneList && doneList}
       </div>
     ));
   }
