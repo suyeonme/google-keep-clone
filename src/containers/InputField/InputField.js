@@ -8,11 +8,11 @@ import {
   Input,
   InputTextArea,
 } from './InputElements';
-import TextArea from './TextArea/TextArea';
-import CheckboxIcon from '../../icons/checkbox.svg';
 import PinIcon from '../../icons/pin.svg';
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
+import TodoList from '../../components/TodoList/TodoList';
+import { convertNoteToTodo } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 
@@ -25,8 +25,10 @@ function InputField(props) {
     content: '',
     id: uniqid(),
     bgColor: '#fff',
+
     isChecked: false,
   });
+
   const { title, content, id, bgColor, isChecked } = note;
 
   const dispatch = useDispatch();
@@ -44,12 +46,11 @@ function InputField(props) {
     setNote({ ...note, [name]: value });
   };
 
-  const handleUpdateTodos = (e) => {
-    // TODO
-    const name = e.target.id;
-    const value = e.currentTarget.textContent;
-    setNote({ ...note, [name]: value });
-  };
+  // const handleUpdateTodos = (e) => {
+  //   const name = e.target.id;
+  //   const value = e.currentTarget.textContent;
+  //   setNote({ ...note, [name]: value });
+  // };
 
   const handleResetNote = () => {
     if (bgColor !== '#fff') {
@@ -72,40 +73,49 @@ function InputField(props) {
     }
   };
 
+  const handleCheck = () => {
+    setNote({ ...note, isChecked: !note.isChecked });
+  };
+
+  // TEXT FIELD
+  let textField;
+  if (isChecked) {
+    const todos = convertNoteToTodo(content);
+    textField = <TodoList todoContent={todos} />;
+  }
+  if (!isChecked) {
+    textField = (
+      <InputTextArea
+        name="content"
+        value={content}
+        placeholder="Take a note..."
+        rows="3"
+        onChange={handleUpdateNote}
+      />
+    );
+  }
+
   return (
     <InputContainer>
       <InputForm ref={ref} bgColor={bgColor}>
         <Input
           name="title"
-          value={title} // Note Title
+          value={title}
           placeholder="Title"
           autoComplete="off"
           onChange={handleUpdateNote}
         />
+        <Tool title="Pin Note" bgImage={PinIcon} pin />
 
-        {!isExpand ? (
-          <Tool
-            id={note.id}
-            title="New List"
-            bgImage={CheckboxIcon}
-            isInputField
-          />
-        ) : (
-          <Tool title="Pin Note" bgImage={PinIcon} isInputField />
-        )}
         {isExpand && (
           <>
-            <TextArea
-              isChecked={isChecked}
-              value={content} // Note Content
-              onChange={handleUpdateNote}
-              //onChangeTodo={handleUpdateTodos} // TODO
-            />
+            {textField}
             <Toolbar
               id={id}
               isInputField
               onHover={true}
               onAddNote={() => handleAddNote(note)}
+              onCheck={handleCheck}
             />
           </>
         )}
@@ -115,118 +125,3 @@ function InputField(props) {
 }
 
 export default InputField;
-
-/* function InputField(props) {
-    const selectedBgColor = useSelector(state => state.bgColor); 
-    const [note, setNote] = useState({
-        title: '',
-        content: '',
-        id: uniqid(), 
-        bgColor: '#fff',
-        isChecked: false // NOTE
-    });
-    const { title, content, id, bgColor, isChecked } = note; 
-
-    useEffect(() => {
-        setNote(prevNote => ({ ...prevNote, bgColor: selectedBgColor }));
-    }, [selectedBgColor]);
-
-    const dispatch = useDispatch();
-    const { ref, isClickedOutside, handleResetClick } = useClickOutside(false);
-
-    const handleUpdateNote = e => {
-        const {name, value} = e.target;
-        setNote({...note, [name]: value }); 
-    };
-
-    const handleResetNote = () => {
-        if (bgColor !== '#fff') {
-            dispatch(getNoteColor('#fff'));
-        }
-        
-        setNote({
-            title: '',
-            content: '',
-            id: uniqid(), 
-            bgColor: '#fff',
-            isChecked: false // NOTE
-        });
-    };
-
-    const handleAddNote = note => {
-        if (title !== '' && content !== '') {
-            dispatch(addNote(note)); 
-            handleResetNote();
-            handleResetClick();
-        };
-    };
-
-    // NOTE
-    const handleClickCheckbox = e => {
-        e.preventDefault();
-        setNote({ ...note, isChecked: !note.isChecked });
-    };
-
-    // TODO 
-    // Add an array
-    // Create new checkList component
-    // Add contenteditable div
-    // Add border and plus icon on focus div
-    // Change plus icon to checkbox onChange
-    // Create new row onChange
-    // Back to original when click outside of form
-    // Note is one div      
-
-    return(
-        <InputContainer>
-            <InputForm 
-            ref={ref}
-            bgColor={bgColor}>
-                <Input 
-                name="title" 
-                value={title}
-                placeholder="Title" 
-                autoComplete="off"
-                onChange={handleUpdateNote}
-                />
-
-                { !isClickedOutside ?
-                    <Tool
-                    title="New List"
-                    aria-label="New List"
-                    bgImage={CheckboxIcon}
-                    isInputField 
-                    clicked={handleClickCheckbox} // NOTE
-                    />
-                    :
-                    <Tool
-                    title="Pin Note"
-                    aria-label="Pin Note"
-                    bgImage={PinIcon}
-                    isInputField 
-                    />
-                }
-
-                { isClickedOutside && <InputTextArea 
-                    name="content" 
-                    value={content} 
-                    placeholder={isChecked ? 'List Item' : 'Take a note...'}
-                    rows="2" 
-                    onChange={handleUpdateNote}
-                    isChecked={isChecked} // NOTE
-                    />
-                }
-                { isClickedOutside && 
-                    <Toolbar 
-                    id={id}
-                    onHover={true}
-                    clicked={() => handleAddNote(note)}
-                    isInputField
-                    /> 
-                }
-            </InputForm>
-        </InputContainer>
-    );
-}
-
-export default InputField; */

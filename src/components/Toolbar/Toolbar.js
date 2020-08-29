@@ -37,7 +37,7 @@ const CloseBtn = styled.button`
   }
 `;
 
-function Toolbar({ id, isInputField, onHover, onAddNote }) {
+function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
     {
@@ -80,6 +80,9 @@ function Toolbar({ id, isInputField, onHover, onAddNote }) {
             hidePalette={
               icon.title === 'Change Color' ? handleHideColorPalette : null
             }
+            /////
+            onCheck={onCheck}
+            isInputField={isInputField}
           />
         ))}
         {!isInputField && (
@@ -103,3 +106,70 @@ function Toolbar({ id, isInputField, onHover, onAddNote }) {
 }
 
 export default Toolbar;
+
+// function Toolbar({ id, isInputField, onHover, onAddNote }) {
+//   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
+//   const icons = [
+//     {
+//       icon: PaintIcon,
+//       title: 'Change Color',
+//     },
+//     {
+//       icon: PictureIcon,
+//       title: 'Add Picture',
+//     },
+//     {
+//       icon: CheckboxIcon,
+//       title: 'Show Checkbox',
+//     },
+//   ];
+
+//   const editedNote = useSelector((state) => state.editableNote);
+
+//   const dispatch = useDispatch();
+//   const handleShowColorPalette = () => setIsHoverColorPalette(true);
+//   const handleHideColorPalette = () => setIsHoverColorPalette(false);
+//   const handleUpdateEditableNote = () => {
+//     if (editedNote !== null) {
+//       dispatch(updateEditableNote());
+//     }
+//   };
+
+//   return (
+//     <ToolbarContainer hovered={onHover}>
+//       <div>
+//         {icons.map((icon, i) => (
+//           <Tool
+//             id={id}
+//             key={i}
+//             title={icon.title}
+//             bgImage={icon.icon}
+//             showPalette={
+//               icon.title === 'Change Color' ? handleShowColorPalette : null
+//             }
+//             hidePalette={
+//               icon.title === 'Change Color' ? handleHideColorPalette : null
+//             }
+//           />
+//         ))}
+//         {!isInputField && (
+//           <Tool title="Delete Note" bgImage={TranshCanIcon} id={id} />
+//         )}
+//       </div>
+//       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
+//       {editedNote && (
+//         <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
+//       )}
+//       {isHoverColorPalette && (
+//         <ColorPalette
+//           id={id}
+//           isInputField={isInputField}
+//           onUnHover={handleHideColorPalette}
+//           onHover={handleShowColorPalette}
+//         />
+//       )}
+//     </ToolbarContainer>
+//   );
+// }
+
+// export default Toolbar;

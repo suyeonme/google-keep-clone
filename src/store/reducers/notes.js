@@ -8,6 +8,7 @@ const initialState = {
   isSelected: false,
   editableNote: null,
   bgColor: '#fff',
+  todos: [], // Need refactoring
 };
 
 const addNote = (state, action) => {
@@ -59,7 +60,12 @@ const getNoteColor = (state, action) => {
 
 const changeNoteColor = (state, action) => {
   const newNotes = state.notes.map((note) =>
-    note.id === action.payload ? { ...note, bgColor: state.bgColor } : note,
+    note.id === action.payload
+      ? {
+          ...note,
+          bgColor: state.bgColor,
+        }
+      : note,
   );
   const updatedNotes = {
     ...state,
@@ -79,7 +85,10 @@ const toggleNoteCheckbox = (state, action) => {
     }
 
     if (note.id === action.payload && !state.editableNote) {
-      return { ...note, isChecked: !note.isChecked };
+      return {
+        ...note,
+        isChecked: !note.isChecked,
+      };
     }
 
     return note;
@@ -116,6 +125,14 @@ const updateEditableNote = (state, action) => {
   return updateObject(state, updatedNote);
 };
 
+const getTodos = (state, action) => {
+  const updatedNote = {
+    ...state,
+    todos: action.payload,
+  };
+  return updateObject(state, updatedNote);
+};
+
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -131,12 +148,14 @@ const reducer = (state = initialState, action) => {
       return getNoteColor(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
       return changeNoteColor(state, action);
-    case actionTypes.TOGGLE_CHECKBOX_NOTE:
+    case actionTypes.TOGGLE_NOTE_CHECKBOX:
       return toggleNoteCheckbox(state, action);
     case actionTypes.SAVE_EDITABLE_NOTE:
       return saveEditableNote(state, action);
     case actionTypes.UPDATE_EDITABLE_NOTE:
       return updateEditableNote(state, action);
+    case actionTypes.GET_TODOS:
+      return getTodos(state, action);
     default:
       return state;
   }

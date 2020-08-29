@@ -30,13 +30,13 @@ const TitleContainer = styled.div`
   cursor: pointer;
 `;
 
-function CompletedTodo({ doneTodo, clicked }) {
+function CompletedTodo({ doneTaskCount, clicked }) {
   return (
     <div onClick={clicked}>
       <GreyLine />
       <TitleContainer>
         <ArrowIcon />
-        <Title>{doneTodo} Completed items</Title>
+        <Title>{doneTaskCount} Completed items</Title>
       </TitleContainer>
     </div>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import TodoList from '../../../components/TodoList/TodoList';
@@ -16,28 +16,33 @@ function EditableNote({ note }) {
   const { title, content, isChecked } = editableNote;
 
   const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos);
 
-  useEffect(() => {
-    setEditableNote(note);
-  }, [note]);
-
-  // FIXME
-  // Typing - Chaning color - NOT working
-  // Guess, saveEditableNote with useEffect
-  useEffect(() => {
-    dispatch(saveEditableNote(editableNote));
-  }, [dispatch, editableNote]);
-
-  const handleOnBlur = (e) => {
+  const handleBlur = (e) => {
     const name = e.target.id;
     const value = e.currentTarget.innerText;
     setEditableNote({ ...editableNote, [name]: value });
   };
 
-  const handleOnBlurTodo = (value) => {
+  const handleBlurTodo = useCallback((value) => {
     const newValue = convertTodoToNote(value);
-    setEditableNote({ ...editableNote, content: newValue });
-  };
+    setEditableNote((prevState) => ({ ...prevState, content: newValue }));
+  }, []);
+
+  useEffect(() => {
+    setEditableNote(note);
+  }, [note]);
+
+  useEffect(() => {
+    // FIXME
+    // Typing - Chaning color - NOT working
+    // Guess, saveEditableNote with useEffect
+    dispatch(saveEditableNote(editableNote));
+  }, [dispatch, editableNote]);
+
+  useEffect(() => {
+    if (todos.length > 0) handleBlurTodo(todos);
+  }, [todos, handleBlurTodo]);
 
   if (isChecked) {
     return (
@@ -45,7 +50,7 @@ function EditableNote({ note }) {
         <NoteTitle
           id="title"
           size="big"
-          onBlur={handleOnBlur}
+          onBlur={handleBlur}
           contentEditable
           suppressContentEditableWarning={true}
         >
@@ -53,7 +58,7 @@ function EditableNote({ note }) {
         </NoteTitle>
         <TodoList
           todoContent={() => convertNoteToTodo(content)}
-          onBlur={handleOnBlurTodo}
+          onBlurTodo={handleBlurTodo}
         />
       </EditNote>
     );
@@ -65,7 +70,7 @@ function EditableNote({ note }) {
         id="title"
         size="big"
         placeholder="Title"
-        onBlur={handleOnBlur}
+        onBlur={handleBlur}
         contentEditable
         suppressContentEditableWarning={true}
       >
@@ -74,7 +79,7 @@ function EditableNote({ note }) {
       <NoteContent
         id="content"
         placeholder="Note"
-        onBlur={handleOnBlur}
+        onBlur={handleBlur}
         contentEditable
         suppressContentEditableWarning={true}
       >

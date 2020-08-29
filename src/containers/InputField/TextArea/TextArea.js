@@ -8,54 +8,36 @@
 import React from 'react';
 import { InputTextArea } from '../InputElements';
 import TodoList from '../../../components/TodoList/TodoList';
+import { convertNoteToTodo } from '../../../shared/utility';
 
-function TextArea({ isChecked, value, onChange, onChangeTodo }) {
-  // const handleLineBreak = (val) => {
-  //   let lineBreaks = val.replace(/\n/g, '<br>') || [];
-  //   lineBreaks = lineBreaks.split('<br>');
-  //   return lineBreaks;
-  // };
+function TextArea({ isChecked, content, onChange }) {
+  // (isChecked && content === '')
+  // (isChecked && content !== '')
+  // (!isChecked);
 
-  //const contentArr = value ? handleLineBreak(value) : [];
-  //let children;
+  // TextArea
+  // TodoList
+
+  if (isChecked && !content) {
+    console.log(isChecked);
+    return <TodoList size="small" placeholder="List item" />;
+  }
+
+  if (isChecked && content) {
+    const todos = convertNoteToTodo(content);
+    return (
+      <TodoList size="small" placeholder="List item" todoContent={todos} />
+    );
+  }
 
   if (!isChecked) {
     return (
       <InputTextArea
         name="content"
-        value={value}
+        value={content}
         placeholder="Take a note..."
         rows="3"
-        isChecked={isChecked}
         onChange={onChange}
-      />
-    );
-  }
-
-  /*   if (isChecked && value && contentArr.length > 0) {
-    children = contentArr.reduce((acc, cur, i) => {
-      return (
-        <>
-          {acc}
-          <CheckList
-            key={i}
-            size="small"
-            placeholder="List item"
-            content={cur}
-            onChangeTodo={onChangeTodo}
-          />
-        </>
-      );
-    });
-    return children;
-  } */
-
-  if (isChecked && !value) {
-    return (
-      <TodoList
-        size="small"
-        placeholder="List item"
-        onChangeTodo={onChangeTodo}
       />
     );
   }

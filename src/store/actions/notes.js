@@ -38,7 +38,7 @@ export const changeNoteColor = (id) => {
 };
 export const toggleCheckbox = (id) => {
   return {
-    type: actions.TOGGLE_CHECKBOX_NOTE,
+    type: actions.TOGGLE_NOTE_CHECKBOX,
     payload: id,
   };
 };
@@ -52,5 +52,13 @@ export const saveEditableNote = (editableNote) => {
 export const updateEditableNote = () => {
   return {
     type: actions.UPDATE_EDITABLE_NOTE,
+  };
+};
+
+// TODOS
+export const getTodos = (todos) => {
+  return {
+    type: actions.GET_TODOS,
+    payload: todos,
   };
 };
