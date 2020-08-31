@@ -19,20 +19,26 @@ import { addNote, getNoteColor } from '../../store/actions/notes';
 // TODO
 // todoList: Back to original when click outside of form
 
+const initialNote = {
+  title: '',
+  content: '',
+  id: uniqid(),
+  bgColor: '#fff',
+  isChecked: false,
+};
+
 function InputField(props) {
   const [note, setNote] = useState({
     title: '',
     content: '',
     id: uniqid(),
     bgColor: '#fff',
-
     isChecked: false,
   });
-
   const { title, content, id, bgColor, isChecked } = note;
 
-  const dispatch = useDispatch();
   const selectedBgColor = useSelector((state) => state.bgColor);
+  const dispatch = useDispatch();
   const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
     false,
   );
@@ -46,16 +52,8 @@ function InputField(props) {
     setNote({ ...note, [name]: value });
   };
 
-  // const handleUpdateTodos = (e) => {
-  //   const name = e.target.id;
-  //   const value = e.currentTarget.textContent;
-  //   setNote({ ...note, [name]: value });
-  // };
-
   const handleResetNote = () => {
-    if (bgColor !== '#fff') {
-      dispatch(getNoteColor('#fff'));
-    }
+    if (bgColor !== '#fff') dispatch(getNoteColor('#fff'));
 
     setNote({
       title: '',
@@ -65,6 +63,7 @@ function InputField(props) {
       isChecked: false,
     });
   };
+
   const handleAddNote = (note) => {
     if (title !== '' && content !== '') {
       dispatch(addNote(note));
@@ -77,19 +76,30 @@ function InputField(props) {
     setNote({ ...note, isChecked: !note.isChecked });
   };
 
+  // Here
+  const handleAddTodo = (e) => {
+    //const name = e.target.id;
+    const value = e.currentTarget.innerHTML;
+    console.log(value);
+    //setNote({ ...note, [name]: value });
+    setNote({ ...note, content: value });
+  };
+  console.log(note);
+
   // TEXT FIELD
   let textField;
   if (isChecked) {
     const todos = convertNoteToTodo(content);
-    textField = <TodoList todoContent={todos} />;
+    textField = <TodoList todoContent={todos} addTodo={handleAddTodo} />;
   }
+
   if (!isChecked) {
     textField = (
       <InputTextArea
         name="content"
-        value={content}
-        placeholder="Take a note..."
         rows="3"
+        placeholder="Take a note..."
+        value={content}
         onChange={handleUpdateNote}
       />
     );
@@ -106,7 +116,6 @@ function InputField(props) {
           onChange={handleUpdateNote}
         />
         <Tool title="Pin Note" bgImage={PinIcon} pin />
-
         {isExpand && (
           <>
             {textField}

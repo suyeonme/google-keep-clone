@@ -14,19 +14,13 @@ import TodoItem from './TodoItem/TodoItem';
 // Add border onFocus
 // Add functions (drag, truncate)
 
-function TodoList({ todoContent }) {
-  const isEditable = useSelector((state) => state.isSelected);
-
-  //const newTodo = { id: Math.random(), todoItem: '', isDone: false };
-  //todoContent = todoContent || [newTodo];
+function TodoList({ todoContent, addTodo }) {
   todoContent = todoContent || [];
 
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
-  const todoTask = todos && todos.filter((todo) => !todo.isDone);
-  const doneTask = todos && todos.filter((todo) => todo.isDone);
-
+  const isEditable = useSelector((state) => state.isSelected);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,30 +47,32 @@ function TodoList({ todoContent }) {
     setTodos(newTodos);
   };
 
-  // if (todos && todos.length === 1) {
-  //   return todos.map((todo, i) => (
-  //     <TodoItem
-  //       key={i}
-  //       id={todo.id}
-  //       isDone={todo.isDone}
-  //       size="small"
-  //       placeholder="Add Todo"
-  //       onCheck={() => handleCheckbox(todo.id)}
-  //       isEditable
-  //     />
-  //   ));
-  // }
+  if (todoContent.length === 1) {
+    return todos.map((todo, i) => (
+      <TodoItem
+        key={i}
+        todo={todo}
+        size="small"
+        placeholder="New List"
+        isEditable
+        isTodoItem
+        onCheck={handleCheckbox}
+        onBlur={addTodo}
+      />
+    ));
+  }
 
   if (isEditable && todos) {
+    const todoTask = todos && todos.filter((todo) => !todo.isDone);
+    const doneTask = todos && todos.filter((todo) => todo.isDone);
+
     let todoList = todoTask.map((todo, i) => (
       <TodoItem
+        key={i}
+        size="medium"
         isTodoItem
         isEditable
-        size="medium"
-        key={i}
-        id={todo.id}
-        isDone={todo.isDone}
-        todoItem={todo.todoItem}
+        todo={todo}
         onCheck={handleCheckbox}
         onBlur={saveEditedTodo}
         onDelete={handleDeleteTodo}
@@ -84,15 +80,13 @@ function TodoList({ todoContent }) {
     ));
 
     let doneList = doneTask.map((todo, i) => (
-      <todoItem
+      <TodoItem
+        key={i}
+        size="medium"
         isTodoItem
         isEditable
-        size="medium"
-        key={i}
-        id={todo.id}
-        isDone={todo.isDone}
+        todo={todo}
         onCheck={handleCheckbox}
-        todoItem={todo.todoItem}
         onDelete={handleDeleteTodo}
       />
     ));
@@ -114,12 +108,11 @@ function TodoList({ todoContent }) {
   if (!isEditable && todos) {
     return todos.map((todo, i) => (
       <TodoItem
-        size="small"
-        isDone={todo.isDone}
         key={i}
-        id={todo.id}
+        size="small"
+        todo={todo}
         onCheck={handleCheckbox}
-        todoItem={todo.todoItem}
+        isTodoItem
       />
     ));
   }

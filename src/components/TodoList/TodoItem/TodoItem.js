@@ -38,19 +38,16 @@ const Checkbox = styled.input`
 `;
 
 function TodoItem({
-  id,
+  todo,
   size,
   placeholder,
-  isDone,
   isEditable,
+  isTodoItem,
   onCheck,
-  onUnHover,
-  onChange,
   onBlur,
   onDelete,
-  todoItem,
-  isTodoItem,
 }) {
+  const { id, todoItem, isDone } = todo;
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
   const { hoverID, onHover } = isHover;
 
@@ -71,11 +68,12 @@ function TodoItem({
       <NoteTitle
         size={size}
         placeholder={placeholder}
-        contentEditable={isEditable ? true : false}
-        onBlur={(e) => onBlur(e, id)}
         isTodoItem={isTodoItem}
+        onBlur={(e) => onBlur(e, id)}
+        contentEditable={isEditable ? true : false}
+        suppressContentEditableWarning={isEditable ? true : false}
       >
-        {todoItem && todoItem}
+        {todoItem}
       </NoteTitle>
 
       {isEditable && hoverID === id && onHover && (

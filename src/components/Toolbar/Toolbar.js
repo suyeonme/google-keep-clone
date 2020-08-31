@@ -80,7 +80,6 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
             hidePalette={
               icon.title === 'Change Color' ? handleHideColorPalette : null
             }
-            /////
             onCheck={onCheck}
             isInputField={isInputField}
           />
