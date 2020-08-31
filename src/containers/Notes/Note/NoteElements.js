@@ -80,7 +80,10 @@ const noteTitleStyles = css`
 export const NoteTitle = styled.div`
   ${noteTitleStyles}
   width: 100%;
+  height: 100%;
   outline: 0px solid transparent;
+  display: flex;
+  align-items: center;
 
   ${({ contentEditable }) =>
     contentEditable &&
@@ -90,8 +93,7 @@ export const NoteTitle = styled.div`
           color:#80868A;
       }   
     `}
-
-  ${({ isTodoItem }) => isTodoItem && `padding: 0;`}
+  ${({ isTodoItem }) => isTodoItem && `padding: 0;`};
 `;
 
 export const NoteContent = styled.div`

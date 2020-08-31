@@ -84,7 +84,6 @@ function InputField(props) {
     //setNote({ ...note, [name]: value });
     setNote({ ...note, content: value });
   };
-  console.log(note);
 
   // TEXT FIELD
   let textField;

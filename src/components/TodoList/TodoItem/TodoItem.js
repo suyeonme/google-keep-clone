@@ -2,31 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { NoteTitle } from '../../../containers/Notes/Note/NoteElements';
-import Plus from '../../../icons/plus.svg';
 import DeleteIcon from '../../../icons/delete.svg';
 import Tool from '../../Toolbar/Tool';
 
-const TodoListContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 30px;
-  padding: 0 12px 0 12px;
-  ${'' /* margin-top: 12px; */}
-  border-top: ${(props) =>
-    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
-  border-bottom: ${(props) =>
-    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
-`;
-
-const PlusIcon = styled.div`
-  width: 20px;
-  height: 100%;
-  margin-right: 1rem;
-  background: url(${Plus}) center center no-repeat;
-  background-size: 50%;
-`;
-
+// Deletble on InputField
+// todo can be deleted but not editable on EditableNote (doneTask)
 const Checkbox = styled.input`
   margin-right: 1rem;
   }
@@ -35,6 +15,18 @@ const Checkbox = styled.input`
     text-decoration-line: line-through;
     color: #80868a;
   }
+`;
+
+export const TodoListContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  padding: 0 12px 0 12px;
+  border-top: ${(props) =>
+    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
+  border-bottom: ${(props) =>
+    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
 `;
 
 function TodoItem({
@@ -80,6 +72,7 @@ function TodoItem({
         <Tool
           title="Delete Todo"
           bgImage={DeleteIcon}
+          isEditable
           deleteTodo={() => onDelete(id)}
         />
       )}

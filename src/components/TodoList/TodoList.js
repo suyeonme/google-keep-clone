@@ -7,12 +7,12 @@ import TodoItem from './TodoItem/TodoItem';
 
 // TODO
 // Lost check between note -- editable note (todos.isDone)
-// InputField
 
 // PlusIcon -> Checkbox and auto-creating an additional todo
 // Custom Checkbox
 // Add border onFocus
 // Add functions (drag, truncate)
+import TodoInput from './TodoInput/TodoInput';
 
 function TodoList({ todoContent, addTodo }) {
   todoContent = todoContent || [];
@@ -51,13 +51,13 @@ function TodoList({ todoContent, addTodo }) {
     return todos.map((todo, i) => (
       <TodoItem
         key={i}
-        todo={todo}
-        size="small"
-        placeholder="New List"
         isEditable
         isTodoItem
-        onCheck={handleCheckbox}
+        size="small"
+        placeholder="New List"
+        todo={todo}
         onBlur={addTodo}
+        onCheck={handleCheckbox}
       />
     ));
   }
@@ -69,9 +69,9 @@ function TodoList({ todoContent, addTodo }) {
     let todoList = todoTask.map((todo, i) => (
       <TodoItem
         key={i}
-        size="medium"
         isTodoItem
         isEditable
+        size="medium"
         todo={todo}
         onCheck={handleCheckbox}
         onBlur={saveEditedTodo}
@@ -82,9 +82,9 @@ function TodoList({ todoContent, addTodo }) {
     let doneList = doneTask.map((todo, i) => (
       <TodoItem
         key={i}
-        size="medium"
         isTodoItem
         isEditable
+        size="medium"
         todo={todo}
         onCheck={handleCheckbox}
         onDelete={handleDeleteTodo}
@@ -94,6 +94,7 @@ function TodoList({ todoContent, addTodo }) {
     return (
       <div>
         {todoList}
+        <TodoInput />
         {doneTask.length > 0 && (
           <CompletedTodo
             doneTaskCount={doneTask.length}
@@ -109,10 +110,10 @@ function TodoList({ todoContent, addTodo }) {
     return todos.map((todo, i) => (
       <TodoItem
         key={i}
+        isTodoItem
         size="small"
         todo={todo}
         onCheck={handleCheckbox}
-        isTodoItem
       />
     ));
   }
