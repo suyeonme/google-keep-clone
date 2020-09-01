@@ -41,7 +41,10 @@ function EditableNote({ note }) {
   }, [dispatch, editableNote]);
 
   useEffect(() => {
-    if (todos.length > 0) handleBlurTodo(todos);
+    // FIXME
+    // (1) Trigger unwanted saveEditableNote -> unchecked note's contennt is overwritten
+    // (2) It has to update edited todo
+    if (todos && todos.length > 0) handleBlurTodo(todos);
   }, [todos, handleBlurTodo]);
 
   if (isChecked) {

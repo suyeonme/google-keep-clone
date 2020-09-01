@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Plus from '../../../icons/plus.svg';
 import { TodoListContainer } from '../TodoItem/TodoItem';
+import uniqid from 'uniqid';
 
 const PlusIcon = styled.div`
   width: 20px;
@@ -26,11 +27,31 @@ const TodoItemInput = styled.input`
   }
 `;
 
-function TodoInput(props) {
+function TodoInput({ setTodos }) {
+  const [todoInput, setTodoInput] = useState('');
+
+  const handleChange = (e) => {
+    setTodoInput(e.target.value);
+
+    const newTodoItem = {
+      id: uniqid(),
+      todoItem: e.target.value,
+      isDone: false,
+    };
+
+    setTodos(newTodoItem);
+    setTodoInput('');
+  };
+
   return (
     <TodoListContainer isFocus>
       <PlusIcon />
-      <TodoItemInput placeholder="List Item" />
+      <TodoItemInput
+        autoFocus
+        placeholder="List Item"
+        value={todoInput}
+        onChange={handleChange}
+      />
     </TodoListContainer>
   );
 }

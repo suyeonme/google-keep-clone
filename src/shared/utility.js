@@ -6,9 +6,15 @@ export const updateObject = (oldObject, updatedProperties) => {
 };
 
 export const convertNoteToTodo = (str) => {
-  return str.split(/\n/g).reduce((todos, todo, i) => {
-    return [...todos, { id: i, todoItem: todo, isDone: false }];
-  }, []);
+  if (str) {
+    return str.split(/\n/g).reduce((todos, todo, i) => {
+      return [...todos, {
+        id: i,
+        todoItem: todo,
+        isDone: false
+      }];
+    }, []);
+  }
 };
 
 export const convertTodoToNote = (arr) => {

@@ -12,20 +12,12 @@ import PinIcon from '../../icons/pin.svg';
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import TodoList from '../../components/TodoList/TodoList';
-import { convertNoteToTodo } from '../../shared/utility';
+import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote, getNoteColor } from '../../store/actions/notes';
 
 // TODO
 // todoList: Back to original when click outside of form
-
-const initialNote = {
-  title: '',
-  content: '',
-  id: uniqid(),
-  bgColor: '#fff',
-  isChecked: false,
-};
 
 function InputField(props) {
   const [note, setNote] = useState({
@@ -76,20 +68,18 @@ function InputField(props) {
     setNote({ ...note, isChecked: !note.isChecked });
   };
 
-  // Here
-  const handleAddTodo = (e) => {
-    //const name = e.target.id;
-    const value = e.currentTarget.innerHTML;
-    console.log(value);
-    //setNote({ ...note, [name]: value });
-    setNote({ ...note, content: value });
+  const handleAddTodo = (newTodo) => {
+    const newTodoItem = convertTodoToNote(newTodo);
+    setNote({ ...note, content: newTodoItem });
   };
 
   // TEXT FIELD
   let textField;
   if (isChecked) {
     const todos = convertNoteToTodo(content);
-    textField = <TodoList todoContent={todos} addTodo={handleAddTodo} />;
+    textField = (
+      <TodoList todoContent={todos} addTodo={handleAddTodo} isInputField />
+    );
   }
 
   if (!isChecked) {

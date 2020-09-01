@@ -5,8 +5,6 @@ import { NoteTitle } from '../../../containers/Notes/Note/NoteElements';
 import DeleteIcon from '../../../icons/delete.svg';
 import Tool from '../../Toolbar/Tool';
 
-// Deletble on InputField
-// todo can be deleted but not editable on EditableNote (doneTask)
 const Checkbox = styled.input`
   margin-right: 1rem;
   }
@@ -22,7 +20,8 @@ export const TodoListContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 30px;
-  padding: 0 12px 0 12px;
+  padding: 0 11px 0 11px;
+  margin: 1px 0;
   border-top: ${(props) =>
     props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
   border-bottom: ${(props) =>
@@ -38,6 +37,8 @@ function TodoItem({
   onCheck,
   onBlur,
   onDelete,
+  onChange,
+  refTodoInput,
 }) {
   const { id, todoItem, isDone } = todo;
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
@@ -60,12 +61,14 @@ function TodoItem({
       <NoteTitle
         size={size}
         placeholder={placeholder}
+        ref={refTodoInput}
         isTodoItem={isTodoItem}
         onBlur={(e) => onBlur(e, id)}
+        onInput={onChange ? (e) => onChange(e, id) : null}
         contentEditable={isEditable ? true : false}
         suppressContentEditableWarning={isEditable ? true : false}
       >
-        {todoItem}
+        {todoItem && todoItem}
       </NoteTitle>
 
       {isEditable && hoverID === id && onHover && (
