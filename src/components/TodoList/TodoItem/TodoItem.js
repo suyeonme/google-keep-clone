@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { NoteTitle } from '../../../containers/Notes/Note/NoteElements';
 import DeleteIcon from '../../../icons/delete.svg';
 import Tool from '../../Toolbar/Tool';
-
-const Checkbox = styled.input`
-  margin-right: 1rem;
-  }
-
-  &:checked + ${NoteTitle} {
-    text-decoration-line: line-through;
-    color: #80868a;
-  }
-`;
+import { TodoItemInput } from '../TodoInput/TodoInput';
 
 export const TodoListContainer = styled.div`
   display: flex;
@@ -28,23 +18,24 @@ export const TodoListContainer = styled.div`
     props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
 `;
 
-const TodoInput = styled.input`
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
+const Checkbox = styled.input`
+  margin-right: 1rem;
+
+  &:checked + ${TodoItemInput} {
+    text-decoration-line: line-through;
+    color: #80868a;
+  }
 `;
 
 function TodoItem({
   todo,
   isEditable,
-  isTodoItem,
   onCheck,
   onBlur,
   onDelete,
   onChange,
   inputFocus,
+  readOnly,
 }) {
   const { id, todoItem, isDone } = todo;
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
@@ -63,13 +54,19 @@ function TodoItem({
       onMouseEnter={isEditable ? () => handleOnMouseOver(id) : null}
       onMouseLeave={isEditable ? () => handleOnMouseLeave(id) : null}
     >
-      <Checkbox type="checkbox" checked={isDone} onChange={() => onCheck(id)} />
-      <TodoInput
+      <Checkbox
+        type="checkbox"
+        id="checkbox"
+        checked={isDone}
+        onChange={() => onCheck(id)}
+      />
+      <TodoItemInput
         placeholder="New List"
         value={todoItem && todoItem}
         autoFocus={inputFocus}
-        onChange={onChange ? (e) => onChange(e, id) : null}
-        onBlur={(e) => onBlur(e, id)}
+        onChange={(e) => onChange(e, id)}
+        onBlur={onBlur ? (e) => onBlur(e, id) : null}
+        readOnly={readOnly}
       />
       {isEditable && hoverID === id && onHover && (
         <Tool

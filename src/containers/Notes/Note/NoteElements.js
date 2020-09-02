@@ -77,6 +77,7 @@ const noteTitleStyles = css`
   `}
 `;
 
+// Replace Input
 export const NoteTitle = styled.div`
   ${noteTitleStyles}
   width: 100%;
@@ -93,7 +94,6 @@ export const NoteTitle = styled.div`
           height: 100%;
       }   
     `}
-  ${({ isTodoItem }) => isTodoItem && `padding: 0;`};
 `;
 
 export const NoteContent = styled.div`

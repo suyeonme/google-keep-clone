@@ -54,11 +54,3 @@ export const updateEditableNote = () => {
     type: actions.UPDATE_EDITABLE_NOTE,
   };
 };
-
-// TODOS
-export const getTodos = (todos) => {
-  return {
-    type: actions.GET_TODOS,
-    payload: todos,
-  };
-};

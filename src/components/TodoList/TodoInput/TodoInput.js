@@ -13,18 +13,21 @@ const PlusIcon = styled.div`
   background-size: 50%;
 `;
 
-const TodoItemInput = styled.input`
-  font-family: inherit;
-  font-size: 1.4rem;
-  letter-spacing: 0.5px;
+// Cursor -> readOnly
+export const TodoItemInput = styled.input`
   width: 100%;
   height: 100%;
   outline: none;
   border: none;
-
-  &::placeholder {
-    font-weight: 500;
-  }
+  font-weight: 500;
+  cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')}
+    ${({ addingTodo }) =>
+      addingTodo &&
+      `
+    font-family: inherit;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;  
+    `};
 `;
 
 function TodoInput({ setTodos }) {
@@ -49,6 +52,7 @@ function TodoInput({ setTodos }) {
         placeholder="List Item"
         value={todoInput}
         onChange={handleChange}
+        addingTodo
       />
     </TodoListContainer>
   );

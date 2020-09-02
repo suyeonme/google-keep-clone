@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import TodoList from '../../../components/TodoList/TodoList';
@@ -7,16 +7,18 @@ import { NoteTitle, NoteContent } from '../Note/NoteElements';
 import { saveEditableNote } from '../../../store/actions/notes';
 import { convertNoteToTodo, convertTodoToNote } from '../../../shared/utility';
 
+// TODO
+// Replace contentEditable note to input
+
 const EditNote = styled.div`
   cursor: text;
 `;
 
 function EditableNote({ note }) {
   const [editableNote, setEditableNote] = useState(note);
-  const { title, content, isChecked } = editableNote;
+  const { title, content, isChecked, id } = editableNote;
 
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todos);
 
   const handleBlur = (e) => {
     const name = e.target.id;
@@ -24,10 +26,10 @@ function EditableNote({ note }) {
     setEditableNote({ ...editableNote, [name]: value });
   };
 
-  const handleBlurTodo = useCallback((value) => {
-    const newValue = convertTodoToNote(value);
-    setEditableNote((prevState) => ({ ...prevState, content: newValue }));
-  }, []);
+  const handleBlurTodo = (todos) => {
+    const newContent = convertTodoToNote(todos);
+    setEditableNote((prevState) => ({ ...prevState, content: newContent }));
+  };
 
   useEffect(() => {
     setEditableNote(note);
@@ -39,13 +41,6 @@ function EditableNote({ note }) {
     // Guess, saveEditableNote with useEffect
     dispatch(saveEditableNote(editableNote));
   }, [dispatch, editableNote]);
-
-  useEffect(() => {
-    // FIXME
-    // (1) Trigger unwanted saveEditableNote -> unchecked note's contennt is overwritten
-    // (2) It has to update edited todo
-    if (todos && todos.length > 0) handleBlurTodo(todos);
-  }, [todos, handleBlurTodo]);
 
   if (isChecked) {
     return (
@@ -60,6 +55,7 @@ function EditableNote({ note }) {
           {title}
         </NoteTitle>
         <TodoList
+          id={id}
           todoContent={() => convertNoteToTodo(content)}
           onBlurTodo={handleBlurTodo}
         />

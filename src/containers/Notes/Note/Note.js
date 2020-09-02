@@ -16,7 +16,7 @@ function Note({ note }) {
   const handleOnClick = (e) => {
     if (
       e.target.nodeName !== 'BUTTON' &&
-      e.target.nodeName !== 'INPUT' &&
+      e.target.id !== 'checkbox' &&
       !selectedNote
     ) {
       dispatch(selectNote(id));

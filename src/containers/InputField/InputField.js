@@ -78,7 +78,7 @@ function InputField(props) {
   if (isChecked) {
     const todos = convertNoteToTodo(content);
     textField = (
-      <TodoList todoContent={todos} addTodo={handleAddTodo} isInputField />
+      <TodoList todoContent={todos} onAddTodo={handleAddTodo} isInputField />
     );
   }
 
