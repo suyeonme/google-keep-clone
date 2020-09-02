@@ -7,7 +7,6 @@ import TodoItem from './TodoItem/TodoItem';
 import TodoInput from './TodoInput/TodoInput';
 
 // TODO
-// Caret position onInput
 // if statement
 // - isEditable && not existing todos ? addTodo
 // - isEditable && existing todos ? saveEditedTodo
@@ -27,15 +26,10 @@ function TodoList({ todoContent = [], addTodo, isInputField }) {
 
   const isEditable = useSelector((state) => state.isSelected);
   const dispatch = useDispatch();
-  const ref = useRef();
 
   useEffect(() => {
     dispatch(getTodos(todos));
   }, [dispatch, todos]);
-
-  useEffect(() => {
-    if (ref.current) ref.current.focus();
-  }, [todos]);
 
   const saveEditedTodo = (e, id) => {
     const newContent = e.currentTarget.innerHTML;
@@ -52,17 +46,18 @@ function TodoList({ todoContent = [], addTodo, isInputField }) {
 
   const handleChangeTodo = (e, id) => {
     const newTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, todoItem: e.target.textContent } : todo,
+      todo.id === id ? { ...todo, todoItem: e.target.value } : todo,
     );
     setTodos(newTodos);
   };
 
   const handleAddTodo = (newTodo) => {
-    if (todos === undefined) {
-      setTodos([newTodo]);
-    } else {
-      setTodos([...todos, newTodo]);
-    }
+    // if (todos === undefined) {
+    //   setTodos([newTodo]);
+    // } else {
+    //   setTodos([...todos, newTodo]);
+    // }
+    setTodos([...todos, newTodo]);
   };
 
   const handleCheckbox = (id) => {
@@ -72,25 +67,36 @@ function TodoList({ todoContent = [], addTodo, isInputField }) {
     setTodos(newTodos);
   };
 
-  console.log(todos);
-
-  if (isInputField) {
-    return <TodoInput setTodos={handleAddTodo} />;
-  }
-
-  if (isInputField && todos.length > 0) {
-    const todoList = todos.map((todo, i) => (
+  if (isInputField && todos.length === 0) {
+    const todoList = todos.map((todo, i, arr) => (
       <TodoItem
         key={i}
         isEditable
-        isTodoItem
-        size="small"
-        placeholder="New List"
         todo={todo}
         onBlur={() => addTodo(todos)}
         onCheck={handleCheckbox}
         onChange={handleChangeTodo}
-        refTodoInput={todos && i === todos.length - 1 ? ref : null}
+        inputFocus={i === arr.length - 1}
+      />
+    ));
+    return (
+      <>
+        {todoList}
+        <TodoInput setTodos={handleAddTodo} />
+      </>
+    );
+  }
+
+  if (isInputField && todos.length > 0) {
+    const todoList = todos.map((todo, i, arr) => (
+      <TodoItem
+        key={i}
+        isEditable
+        todo={todo}
+        onBlur={() => addTodo(todos)}
+        onCheck={handleCheckbox}
+        onChange={handleChangeTodo}
+        inputFocus={i === arr.length - 1}
       />
     ));
 
@@ -120,6 +126,7 @@ function TodoList({ todoContent = [], addTodo, isInputField }) {
         onCheck={handleCheckbox}
         onBlur={saveEditedTodo}
         onDelete={handleDeleteTodo}
+        inputFocus={todos && i === todos.length - 1}
       />
     ));
 

@@ -28,17 +28,23 @@ export const TodoListContainer = styled.div`
     props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
 `;
 
+const TodoInput = styled.input`
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+`;
+
 function TodoItem({
   todo,
-  size,
-  placeholder,
   isEditable,
   isTodoItem,
   onCheck,
   onBlur,
   onDelete,
   onChange,
-  refTodoInput,
+  inputFocus,
 }) {
   const { id, todoItem, isDone } = todo;
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
@@ -58,19 +64,13 @@ function TodoItem({
       onMouseLeave={isEditable ? () => handleOnMouseLeave(id) : null}
     >
       <Checkbox type="checkbox" checked={isDone} onChange={() => onCheck(id)} />
-      <NoteTitle
-        size={size}
-        placeholder={placeholder}
-        ref={refTodoInput}
-        isTodoItem={isTodoItem}
+      <TodoInput
+        placeholder="New List"
+        value={todoItem && todoItem}
+        autoFocus={inputFocus}
+        onChange={onChange ? (e) => onChange(e, id) : null}
         onBlur={(e) => onBlur(e, id)}
-        onInput={onChange ? (e) => onChange(e, id) : null}
-        contentEditable={isEditable ? true : false}
-        suppressContentEditableWarning={isEditable ? true : false}
-      >
-        {todoItem && todoItem}
-      </NoteTitle>
-
+      />
       {isEditable && hoverID === id && onHover && (
         <Tool
           title="Delete Todo"

@@ -31,8 +31,6 @@ function TodoInput({ setTodos }) {
   const [todoInput, setTodoInput] = useState('');
 
   const handleChange = (e) => {
-    setTodoInput(e.target.value);
-
     const newTodoItem = {
       id: uniqid(),
       todoItem: e.target.value,
