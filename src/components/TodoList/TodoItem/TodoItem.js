@@ -41,13 +41,9 @@ function TodoItem({
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
   const { hoverID, onHover } = isHover;
 
-  const handleOnMouseOver = (id) => {
-    setIsHover({ hoverID: id, onHover: true });
-  };
-
-  const handleOnMouseLeave = (id) => {
+  const handleOnMouseOver = (id) => setIsHover({ hoverID: id, onHover: true });
+  const handleOnMouseLeave = (id) =>
     setIsHover({ hoverID: id, onHover: false });
-  };
 
   return (
     <TodoListContainer

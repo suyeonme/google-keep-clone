@@ -6,10 +6,10 @@ import TodoItem from './TodoItem/TodoItem';
 import TodoInput from './TodoInput/TodoInput';
 
 // TODO
-// Delete todo on InputField
 // Todos -> Remove white space(trim)
-
 // Issue: Lost check between note -- editable note (todos.isDone)
+// Issue:  When convert todo to editable note, there is no space on text (onBlurTodo)
+
 // Custom Checkbox
 // Add border onFocus
 // Add functions (drag, truncate)
@@ -18,8 +18,8 @@ function TodoList({
   todoContent = [],
   id,
   isInputField,
-  onAddTodo,
-  onBlurTodo,
+  onSaveEditableNote,
+  onSaveNote,
 }) {
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
@@ -34,7 +34,7 @@ function TodoList({
   const handleDeleteTodo = (id) => {
     let newTodos = todos.filter((el) => el.id !== id);
     setTodos(newTodos);
-    onBlurTodo(newTodos);
+    onSaveEditableNote ? onSaveEditableNote(newTodos) : onSaveNote(newTodos);
   };
 
   const saveEditedTodo = (e, id) => {
@@ -43,7 +43,7 @@ function TodoList({
       todo.id === id ? { ...todo, todoItem: newContent } : todo,
     );
     setTodos(editedTodo);
-    onBlurTodo(editedTodo);
+    onSaveEditableNote(editedTodo);
   };
 
   const handleChangeTodo = (e, id) => {
@@ -69,7 +69,7 @@ function TodoList({
         inputFocus={i === todoArr.length - 1}
         onCheck={handleCheckbox}
         onChange={handleChangeTodo}
-        onBlur={() => onAddTodo(todos)}
+        onBlur={() => onSaveNote(todos)}
         readOnly={isSelected}
       />
     ));
@@ -90,7 +90,8 @@ function TodoList({
         inputFocus={i === todoArr.length - 1}
         onCheck={handleCheckbox}
         onChange={handleChangeTodo}
-        onBlur={() => onAddTodo(todos)}
+        onBlur={() => onSaveNote(todos)}
+        onDelete={handleDeleteTodo}
         readOnly={isSelected}
       />
     ));

@@ -47,70 +47,15 @@ export const NoteContainer = styled.div`
     `}
 `;
 
-const noteTitleSizes = {
-  small: {
-    fontSize: '1.4rem',
-    lineHeight: '2',
-    fontWeight: 400,
-    padding: '0',
-  },
-  medium: {
-    fontSize: '1.6rem',
-    lineHeight: '1',
-    fontWeight: 400,
-    padding: '12px 12px 0 12px',
-  },
-  big: {
-    fontSize: '2.2rem',
-    lineHeight: '1',
-    fontWeight: 500,
-    padding: '12px 12px 0 12px',
-  },
-};
-
-const noteTitleStyles = css`
-  ${({ size }) => css`
-    font-size: ${noteTitleSizes[size].fontSize};
-    line-height: ${noteTitleSizes[size].lineHeight};
-    font-weight: ${noteTitleSizes[size].fontWeight};
-    padding: ${noteTitleSizes[size].padding};
-  `}
-`;
-
-// Replace Input
 export const NoteTitle = styled.div`
-  ${noteTitleStyles}
+  font-size: 1.6rem;
+  font-weight: 500;
   width: 100%;
-  outline: 0px solid transparent;
-  display: flex;
-  align-items: center;
-
-  ${({ contentEditable }) =>
-    contentEditable &&
-    `
-      &:empty::before{
-          content:attr(placeholder);
-          color:#80868A;
-          height: 100%;
-      }   
-    `}
+  padding: 12px 12px 0 12px;
 `;
 
 export const NoteContent = styled.div`
   font-size: 1.5rem;
-  margin-bottom: auto;
   line-height: 1.5;
   padding: 12px 12px 0 12px;
-  outline: 0px solid transparent;
-
-  ${({ contentEditable }) =>
-    contentEditable &&
-    `
-        font-size: 1.7rem; 
-
-        &:empty::before{
-            content:attr(placeholder);
-            color:#80868A;
-        }  
-    `}
 `;

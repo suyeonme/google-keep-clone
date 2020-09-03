@@ -7,6 +7,7 @@ import { convertNoteToTodo } from '../../../shared/utility';
 function NoteBody({ note, clicked }) {
   const { title, content, isChecked } = note;
 
+  // FIXME
   const truncateText = (p) => {
     let text;
     p.length > 120 ? (text = p.substr(0, 120)) : (text = p);
@@ -15,7 +16,7 @@ function NoteBody({ note, clicked }) {
 
   return (
     <div clicked={clicked}>
-      <NoteTitle size="medium">{title}</NoteTitle>
+      <NoteTitle>{title}</NoteTitle>
       {isChecked ? (
         <TodoList todoContent={() => convertNoteToTodo(content)} />
       ) : (

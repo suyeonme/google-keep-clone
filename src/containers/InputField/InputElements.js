@@ -34,6 +34,12 @@ export const Input = styled.input`
   font-weight: 500;
   font-size: 1.6rem;
   background: inherit;
+
+  ${({ isEditableNote }) =>
+    isEditableNote &&
+    `
+    padding: 12px 12px 0 12px;  
+    `};
 `;
 
 export const InputTextArea = styled.textarea`
@@ -42,9 +48,16 @@ export const InputTextArea = styled.textarea`
   border: none;
   outline: none;
   font-family: inherit;
-  font-weight: 500;
   line-height: 1.5;
-  resize: none;
   background: inherit;
   margin-top: 1.2rem;
+  resize: none;
+
+  ${({ isEditableNote }) =>
+    isEditableNote &&
+    `
+    font-size: 1.7rem; 
+    padding: 0 12px 0 12px;  
+    min-height: 20vh;
+    `};
 `;

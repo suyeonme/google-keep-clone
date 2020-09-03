@@ -13,17 +13,17 @@ const PlusIcon = styled.div`
   background-size: 50%;
 `;
 
-// Cursor -> readOnly
 export const TodoItemInput = styled.input`
   width: 100%;
   height: 100%;
   outline: none;
   border: none;
   font-weight: 500;
-  cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')}
-    ${({ addingTodo }) =>
-      addingTodo &&
-      `
+  cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')};
+  background: transparent;
+  ${({ addingTodo }) =>
+    addingTodo &&
+    `
     font-family: inherit;
     font-size: 1.4rem;
     letter-spacing: 0.5px;  

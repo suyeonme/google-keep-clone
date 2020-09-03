@@ -19,18 +19,20 @@ import { addNote, getNoteColor } from '../../store/actions/notes';
 // TODO
 // todoList: Back to original when click outside of form
 
+const initialNote = {
+  title: '',
+  content: '',
+  id: uniqid(),
+  bgColor: '#fff',
+  isChecked: false,
+};
+
 function InputField(props) {
-  const [note, setNote] = useState({
-    title: '',
-    content: '',
-    id: uniqid(),
-    bgColor: '#fff',
-    isChecked: false,
-  });
+  const [note, setNote] = useState(initialNote);
   const { title, content, id, bgColor, isChecked } = note;
 
-  const selectedBgColor = useSelector((state) => state.bgColor);
   const dispatch = useDispatch();
+  const selectedBgColor = useSelector((state) => state.bgColor);
   const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
     false,
   );
@@ -46,14 +48,7 @@ function InputField(props) {
 
   const handleResetNote = () => {
     if (bgColor !== '#fff') dispatch(getNoteColor('#fff'));
-
-    setNote({
-      title: '',
-      content: '',
-      id: uniqid(),
-      bgColor: '#fff',
-      isChecked: false,
-    });
+    setNote({ ...initialNote, id: uniqid() });
   };
 
   const handleAddNote = (note) => {
@@ -78,7 +73,7 @@ function InputField(props) {
   if (isChecked) {
     const todos = convertNoteToTodo(content);
     textField = (
-      <TodoList todoContent={todos} onAddTodo={handleAddTodo} isInputField />
+      <TodoList todoContent={todos} onSaveNote={handleAddTodo} isInputField />
     );
   }
 

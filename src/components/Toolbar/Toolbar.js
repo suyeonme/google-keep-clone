@@ -54,15 +54,15 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
     },
   ];
 
-  const editedNote = useSelector((state) => state.editableNote);
+  // REVIEW
+  const editableNote = useSelector((state) => state.editableNote);
+  const isSelected = useSelector((state) => state.isSelected);
 
   const dispatch = useDispatch();
   const handleShowColorPalette = () => setIsHoverColorPalette(true);
   const handleHideColorPalette = () => setIsHoverColorPalette(false);
   const handleUpdateEditableNote = () => {
-    if (editedNote !== null) {
-      dispatch(updateEditableNote());
-    }
+    editableNote && dispatch(updateEditableNote());
   };
 
   return (
@@ -89,7 +89,7 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
         )}
       </div>
       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
-      {editedNote && (
+      {isSelected && (
         <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
       )}
       {isHoverColorPalette && (
@@ -105,70 +105,3 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
 }
 
 export default Toolbar;
-
-// function Toolbar({ id, isInputField, onHover, onAddNote }) {
-//   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
-//   const icons = [
-//     {
-//       icon: PaintIcon,
-//       title: 'Change Color',
-//     },
-//     {
-//       icon: PictureIcon,
-//       title: 'Add Picture',
-//     },
-//     {
-//       icon: CheckboxIcon,
-//       title: 'Show Checkbox',
-//     },
-//   ];
-
-//   const editedNote = useSelector((state) => state.editableNote);
-
-//   const dispatch = useDispatch();
-//   const handleShowColorPalette = () => setIsHoverColorPalette(true);
-//   const handleHideColorPalette = () => setIsHoverColorPalette(false);
-//   const handleUpdateEditableNote = () => {
-//     if (editedNote !== null) {
-//       dispatch(updateEditableNote());
-//     }
-//   };
-
-//   return (
-//     <ToolbarContainer hovered={onHover}>
-//       <div>
-//         {icons.map((icon, i) => (
-//           <Tool
-//             id={id}
-//             key={i}
-//             title={icon.title}
-//             bgImage={icon.icon}
-//             showPalette={
-//               icon.title === 'Change Color' ? handleShowColorPalette : null
-//             }
-//             hidePalette={
-//               icon.title === 'Change Color' ? handleHideColorPalette : null
-//             }
-//           />
-//         ))}
-//         {!isInputField && (
-//           <Tool title="Delete Note" bgImage={TranshCanIcon} id={id} />
-//         )}
-//       </div>
-//       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
-//       {editedNote && (
-//         <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
-//       )}
-//       {isHoverColorPalette && (
-//         <ColorPalette
-//           id={id}
-//           isInputField={isInputField}
-//           onUnHover={handleHideColorPalette}
-//           onHover={handleShowColorPalette}
-//         />
-//       )}
-//     </ToolbarContainer>
-//   );
-// }
-
-// export default Toolbar;
