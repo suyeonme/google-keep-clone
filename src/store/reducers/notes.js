@@ -2,15 +2,19 @@ import * as actionTypes from '../actions/actionsTypes';
 import { updateObject } from '../../shared/utility';
 
 // TODO
-// Refactoring -> selectedNote, isSelected, editableNote
+// Refactoring: selectedNote, isSelected, editableNote
+// Refactoring: Share the same value between editableNote and note
+// Refactoring: Remove repeated value
 
 // STATE
 const initialState = {
   notes: [],
   selectedNote: null,
-  isSelected: false,
   editableNote: null,
+  isSelected: false,
   bgColor: '#fff',
+
+  archives: [],
 };
 
 const addNote = (state, action) => {
@@ -104,7 +108,8 @@ const toggleNoteCheckbox = (state, action) => {
 };
 
 const saveEditableNote = (state, action) => {
-  // FIXME payload is old value (guess from useEffect)
+  // FIXME payload is old value
+  // What if editableNote and note share the same value?
   const updatedNotes = {
     ...state,
     editableNote: action.payload,
@@ -125,6 +130,19 @@ const updateEditableNote = (state, action) => {
     isSelected: false,
   };
   return updateObject(state, updatedNote);
+};
+
+// Archive
+const archiveNote = (state, action) => {
+  const archivedNote = state.notes.find((note) => note.id === action.payload);
+  const newNotes = state.notes.filter((note) => note.id !== action.payload);
+
+  const updatedNotes = {
+    ...state,
+    notes: newNotes,
+    archives: [...state.archives, archivedNote],
+  };
+  return updateObject(state, updatedNotes);
 };
 
 // REDUCER
@@ -148,6 +166,9 @@ const reducer = (state = initialState, action) => {
       return saveEditableNote(state, action);
     case actionTypes.UPDATE_EDITABLE_NOTE:
       return updateEditableNote(state, action);
+    ///
+    case actionTypes.ARCHIVE_NOTE:
+      return archiveNote(state, action);
     default:
       return state;
   }

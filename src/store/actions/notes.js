@@ -54,3 +54,11 @@ export const updateEditableNote = () => {
     type: actions.UPDATE_EDITABLE_NOTE,
   };
 };
+
+// ARCHIVE NOTE
+export const archiveNote = (id) => {
+  return {
+    type: actions.ARCHIVE_NOTE,
+    payload: id,
+  };
+};

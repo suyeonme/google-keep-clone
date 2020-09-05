@@ -3,7 +3,11 @@ import styled, { css } from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { useDispatch } from 'react-redux';
-import { toggleCheckbox, deleteNote } from '../../store/actions/notes';
+import {
+  toggleCheckbox,
+  deleteNote,
+  archiveNote,
+} from '../../store/actions/notes';
 
 const ToolbarBtn = styled.button`
   border-radius: 50%;
@@ -48,16 +52,18 @@ function Tool({
     if (title === 'Show Checkbox' && isInputField) {
       onCheck();
     }
-
     if (title === 'Show Checkbox' && !isInputField) {
       dispatch(toggleCheckbox(noteID));
     }
-
     if (title === 'Delete Note') {
       dispatch(deleteNote(noteID));
     }
     if (title === 'Delete Todo') {
       deleteTodo();
+    }
+    if (title === 'Archive') {
+      console.log('archive');
+      dispatch(archiveNote(noteID));
     }
   };
 

@@ -6,10 +6,9 @@ import TodoItem from './TodoItem/TodoItem';
 import TodoInput from './TodoInput/TodoInput';
 
 // TODO
-// Todos -> Remove white space(trim)
 // Issue: Lost check between note -- editable note (todos.isDone)
-// Issue:  When convert todo to editable note, there is no space on text (onBlurTodo)
 
+// Remove white space(trim) when convert note to todoItem
 // Custom Checkbox
 // Add border onFocus
 // Add functions (drag, truncate)

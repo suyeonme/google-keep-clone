@@ -8,6 +8,7 @@ import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
+import ArchiveIcon from '../../icons/archive.svg';
 import { updateEditableNote } from '../../store/actions/notes';
 
 const ToolbarContainer = styled.div`
@@ -51,6 +52,10 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
     {
       icon: CheckboxIcon,
       title: 'Show Checkbox',
+    },
+    {
+      icon: ArchiveIcon,
+      title: 'Archive',
     },
   ];
 

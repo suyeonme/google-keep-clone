@@ -12,9 +12,6 @@ import { convertNoteToTodo, convertTodoToNote } from '../../../shared/utility';
 
 // TODO
 // saveEditableNote (color, content)
-
-// Only change color of note works
-// Change color - typing works
 // Typing - change color - NOT works (old color, old content)
 
 const EditNote = styled.div`
@@ -26,7 +23,6 @@ function EditableNote({ note }) {
   const { title, content, isChecked, id } = editableNote;
 
   const dispatch = useDispatch();
-  const handleBlur = () => dispatch(saveEditableNote(editableNote));
 
   useEffect(() => {
     setEditableNote(note);
@@ -54,9 +50,8 @@ function EditableNote({ note }) {
           placeholder="Title"
           autoComplete="off"
           isEditableNote
-          value={title}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          defaultValue={title}
+          onBlur={handleChange}
         />
         <TodoList
           id={id}
@@ -74,18 +69,16 @@ function EditableNote({ note }) {
         placeholder="Title"
         autoComplete="off"
         isEditableNote
-        value={title}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        defaultValue={title}
+        onBlur={handleChange}
       />
       <InputTextArea
         name="content"
         placeholder="Note"
         autoComplete="off"
         isEditableNote
-        value={content}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        defaultValue={content}
+        onBlur={handleChange}
       />
     </EditNote>
   );
