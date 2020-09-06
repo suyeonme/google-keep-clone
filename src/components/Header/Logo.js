@@ -1,31 +1,43 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import LogoIcon from '../../icons/light.svg';
 
-const LogoContainer = styled.div`
-    display: flex;
+import LogoIcon from '../../icons/logo.svg';
+
+const LogoContainer = styled.a`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 `;
 
 const LogoImg = styled.img`
-        margin-left: 3rem;
-        margin-right: 1rem;
+  width: 47px;
+  height: 47px;
+  margin-bottom: 4px;
+  padding-right: 4px;
 `;
 
-const LogoText = styled.h3`
-        color: #5f6368; 
-        font-size: 2.3rem;
-        font-weight: 300;
+const LogoText = styled.span`
+  font-size: 22px;
+  line-height: 24px;
+  color: #5f6368;
+  padding-left: 4px;
 `;
 
-function Logo (props){
-    return (
-        <LogoContainer>
-            <LogoImg 
-            src={LogoIcon} 
-            alt="Logo"/>
-            <LogoText>Keep</LogoText>
-        </LogoContainer>
-    );
+function Logo(props) {
+  let path = props.location.pathname.slice(1);
+  if (path === 'notes' || path === '') path = 'keep';
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  return (
+    <LogoContainer href="/">
+      <LogoImg src={LogoIcon} alt="Logo" />
+      <LogoText>{capitalizeFirstLetter(path)}</LogoText>
+    </LogoContainer>
+  );
 }
 
-export default Logo;
+export default withRouter(Logo);

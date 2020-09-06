@@ -2,10 +2,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header/Header';
-import InputField from './containers/InputField/InputField';
-import Notes from './containers/Notes/Notes';
+import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
-import ArchivedNote from './components/ArchivedNote/ArchivedNote';
+import ArchivedNote from './pages/ArchivedNote';
 
 import Home from './pages/Home';
 
@@ -15,8 +14,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {/* <InputField />
-      <Notes /> */}
+      <Nav />
 
       <Switch>
         <Route path="/" exact={true} component={Home} />

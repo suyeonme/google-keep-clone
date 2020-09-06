@@ -6,13 +6,15 @@ import Note from './Note/Note';
 import Backdrop from '../../components/UI/Backdrop';
 
 const NotesContainer = styled.div`
-  width: 100%;
-  padding: 0 40px;
+  width: calc(100% - 80px);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  justify-content: end;
   grid-gap: 15px;
   grid-auto-rows: minmax(min-cotent, auto);
   grid-auto-flow: dense;
+  padding: 0 40px;
+  margin-left: auto;
 `;
 
 function Notes(props) {

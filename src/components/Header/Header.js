@@ -1,23 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Logo from './Logo';
+import Hamburger from '../../icons/hamburger.svg';
 
-const HeaderContainer = styled.div`
-    width: 100%;
-    min-height: 9vh;
-    background-color: inherit;
-    border-bottom: 1px solid rgba(66, 66, 66, .2);
-    display: flex;
-    align-items: center;
+const HeaderContainer = styled.header`
+  width: 100%;
+  background-color: inherit;
+  border-bottom: 1px solid rgba(66, 66, 66, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 8px;
+`;
+
+const Menu = styled.div`
+  display: inline-block;
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 4px;
+  padding: 12px;
+
+  background: url(${Hamburger}) center center no-repeat;
+  background-size: 35%;
+
+  &:hover {
+    opacity: 0.87;
+    background-color: rgba(95, 99, 104, 0.157);
+  }
 `;
 
 function Header(props) {
-    return(
-        <HeaderContainer>
-            <Logo />
-        </HeaderContainer>
-    );
+  return (
+    <HeaderContainer>
+      <Tooltip title="Main menu" arrow>
+        <Menu />
+      </Tooltip>
+      <Logo />
+    </HeaderContainer>
+  );
 }
 
 export default Header;
