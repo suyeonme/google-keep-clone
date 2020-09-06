@@ -12,7 +12,7 @@ const NavContainer = styled.nav`
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  padding: 8px;
+  padding: 8px 0 8px 8px;
   transition: all 150ms cubic-bezier(0.4,0.0,0.2,1);
   width: ${(props) => (props.isHover ? '280px' : '80px')};
   box-shadow ${(props) =>

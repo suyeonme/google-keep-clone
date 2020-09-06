@@ -7,7 +7,7 @@ import { NoteContainer } from './NoteElements';
 import Toolbar from '../../../components/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 
-function Note({ note }) {
+function Note({ note, isArchived }) {
   const { id, bgColor } = note;
   const selectedNote = useSelector((state) => state.selectedNote);
   const [isHovered, setIsHovered] = useState(false);
@@ -38,7 +38,7 @@ function Note({ note }) {
       ) : (
         <NoteBody note={note} clicked={isClicked ? 1 : 0} />
       )}
-      <Toolbar id={id} onHover={isHovered} />
+      <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />
     </NoteContainer>
   );
 }

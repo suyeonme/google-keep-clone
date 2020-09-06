@@ -38,7 +38,14 @@ const CloseBtn = styled.button`
   }
 `;
 
-function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
+function Toolbar({
+  id,
+  onHover,
+  onAddNote,
+  onCheck,
+  isInputField,
+  isArchived,
+}) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
     {
@@ -90,7 +97,12 @@ function Toolbar({ id, isInputField, onHover, onAddNote, onCheck }) {
           />
         ))}
         {!isInputField && (
-          <Tool title="Delete Note" bgImage={TranshCanIcon} id={id} />
+          <Tool
+            id={id}
+            title="Delete Note"
+            bgImage={TranshCanIcon}
+            isArchived={isArchived}
+          />
         )}
       </div>
       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}

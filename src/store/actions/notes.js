@@ -62,3 +62,10 @@ export const archiveNote = (id) => {
     payload: id,
   };
 };
+
+export const deleteArchivedNote = (id) => {
+  return {
+    type: actions.DELETE_ARCHIVE_NOTE,
+    payload: id,
+  };
+};

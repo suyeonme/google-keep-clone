@@ -7,6 +7,7 @@ import {
   toggleCheckbox,
   deleteNote,
   archiveNote,
+  deleteArchivedNote,
 } from '../../store/actions/notes';
 
 const ToolbarBtn = styled.button`
@@ -42,6 +43,7 @@ function Tool({
   hidePalette,
   deleteTodo,
   isInputField,
+  isArchived,
   pin,
 }) {
   const dispatch = useDispatch();
@@ -57,6 +59,9 @@ function Tool({
     }
     if (title === 'Delete Note') {
       dispatch(deleteNote(noteID));
+    }
+    if (title === 'Delete Note' && isArchived) {
+      dispatch(deleteArchivedNote(noteID));
     }
     if (title === 'Delete Todo') {
       deleteTodo();
@@ -76,6 +81,7 @@ function Tool({
           onClick={(e) => handleClick(e, title, id)}
           pin={pin}
           isInputField={isInputField}
+          isArchived={isArchived}
         />
       </Tooltip>
     </>

@@ -13,7 +13,6 @@ const initialState = {
   editableNote: null,
   isSelected: false,
   bgColor: '#fff',
-
   archives: [],
 };
 
@@ -145,6 +144,16 @@ const archiveNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
+const deleteArchiveNote = (state, action) => {
+  const newNotes = state.archives.filter((note) => note.id !== action.payload);
+  const updatedNotes = {
+    ...state,
+    archives: newNotes,
+  };
+
+  return updateObject(state, updatedNotes);
+};
+
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -169,6 +178,8 @@ const reducer = (state = initialState, action) => {
     ///
     case actionTypes.ARCHIVE_NOTE:
       return archiveNote(state, action);
+    case actionTypes.DELETE_ARCHIVE_NOTE:
+      return deleteArchiveNote(state, action);
     default:
       return state;
   }

@@ -45,7 +45,9 @@ function ArchivedNote(props) {
   }
 
   if (archives.length > 0) {
-    const noteList = archives.map((note) => <Note key={note.id} note={note} />);
+    const noteList = archives.map((note) => (
+      <Note key={note.id} note={note} isArchived />
+    ));
 
     return (
       <NotesContainer>
