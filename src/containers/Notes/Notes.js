@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Note from './Note/Note';
 import Backdrop from '../../components/UI/Backdrop';
 
-const NotesContainer = styled.div`
+export const NotesContainer = styled.div`
   width: calc(100% - 80px);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

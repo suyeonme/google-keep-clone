@@ -62,7 +62,6 @@ function Tool({
       deleteTodo();
     }
     if (title === 'Archive') {
-      console.log('archive');
       dispatch(archiveNote(noteID));
     }
   };

@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Archive from '../icons/archive.svg';
-import NotesContainer from '../containers/Notes/Note/Note';
+
+import { NotesContainer } from '../containers/Notes/Notes';
 import Note from '../containers/Notes/Note/Note';
+import Backdrop from '../components/UI/Backdrop';
 
 const ArchiveIcon = styled.div`
   width: 95px;
@@ -30,16 +32,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-// Show warning when click button on InputField
-// Delete archived note
-// Unarchived
-
 function ArchivedNote(props) {
   const archives = useSelector((state) => state.archives);
-  let notes;
 
   if (archives.length === 0) {
-    notes = (
+    return (
       <Container>
         <ArchiveIcon />
         <Text>Your archived notes appear here</Text>
@@ -48,11 +45,15 @@ function ArchivedNote(props) {
   }
 
   if (archives.length > 0) {
-    const noteList = archives.map((note) => <Note note={note} key={note.id} />);
-    notes = <NotesContainer>{noteList}</NotesContainer>;
-  }
+    const noteList = archives.map((note) => <Note key={note.id} note={note} />);
 
-  return <div>{notes}</div>;
+    return (
+      <NotesContainer>
+        {noteList}
+        <Backdrop />
+      </NotesContainer>
+    );
+  }
 }
 
 export default ArchivedNote;

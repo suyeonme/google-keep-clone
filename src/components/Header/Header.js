@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Logo from './Logo';
 import Hamburger from '../../icons/hamburger.svg';
+import Nav from '../Nav/Nav';
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -33,13 +34,19 @@ const Menu = styled.div`
 `;
 
 function Header(props) {
+  const [openNav, setOpenNav] = useState(false);
+
   return (
-    <HeaderContainer>
-      <Tooltip title="Main menu" arrow>
-        <Menu />
-      </Tooltip>
-      <Logo />
-    </HeaderContainer>
+    <>
+      <HeaderContainer>
+        <Tooltip title="Main menu" arrow>
+          <Menu onClick={() => setOpenNav(!openNav)} />
+        </Tooltip>
+        <Logo />
+      </HeaderContainer>
+
+      <Nav isHover={openNav} onHover={setOpenNav} />
+    </>
   );
 }
 
