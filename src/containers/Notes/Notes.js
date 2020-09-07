@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Note from './Note/Note';
-import Backdrop from '../../components/UI/Backdrop';
+import Backdrop from '../../components/UI/Backdrop/Backdrop';
 
 export const NotesContainer = styled.div`
   width: calc(100% - 80px);

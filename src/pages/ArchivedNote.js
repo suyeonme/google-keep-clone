@@ -6,7 +6,7 @@ import Archive from '../icons/archive.svg';
 
 import { NotesContainer } from '../containers/Notes/Notes';
 import Note from '../containers/Notes/Note/Note';
-import Backdrop from '../components/UI/Backdrop';
+import Backdrop from '../components/UI/Backdrop/Backdrop';
 
 const ArchiveIcon = styled.div`
   width: 95px;

@@ -2,7 +2,6 @@ import * as actionTypes from '../actions/actionsTypes';
 import { updateObject } from '../../shared/utility';
 
 // TODO
-// Refactoring: selectedNote, editableNote
 // Refactoring: Share the same value between editableNote and note
 
 const initialState = {
@@ -108,7 +107,6 @@ const updateEditableNote = (state, action) => {
   const updatedNote = {
     ...state,
     notes: newNotes,
-    selectedNote: null,
     editableNote: null,
   };
   return updateObject(state, updatedNote);
