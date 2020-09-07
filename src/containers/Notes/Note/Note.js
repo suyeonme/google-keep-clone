@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectNote } from '../../../store/actions/notes';
+import { getEditableNote } from '../../../store/actions/notes';
 
 import NoteBody from './NoteBody';
 import { NoteContainer } from './NoteElements';
@@ -9,21 +9,23 @@ import EditableNote from '../EditableNote/EditableNote';
 
 function Note({ note, isArchived }) {
   const { id, bgColor } = note;
-  const selectedNote = useSelector((state) => state.selectedNote);
   const [isHovered, setIsHovered] = useState(false);
+
+  const editableNote = useSelector((state) => state.editableNote);
+  const editableNoteID = editableNote && editableNote.id;
 
   const dispatch = useDispatch();
   const handleOnClick = (e) => {
     if (
       e.target.nodeName !== 'BUTTON' &&
       e.target.id !== 'checkbox' &&
-      !selectedNote
+      !editableNoteID
     ) {
-      dispatch(selectNote(id));
+      dispatch(getEditableNote(note));
     }
   };
 
-  const isClicked = selectedNote === id;
+  const isClicked = editableNoteID === id;
 
   return (
     <NoteContainer

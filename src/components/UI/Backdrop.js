@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 
-import { unSelectNote } from '../../store/actions/notes';
+import { clearEditableNote } from '../../store/actions/notes';
 
 const Overlay = styled.div`
   width: 100%;
@@ -31,18 +31,19 @@ const Overlay = styled.div`
   }
 `;
 
-function Backdrop(props) {
-  const isSelected = useSelector((state) => state.isSelected);
+function Backdrop() {
+  const editableNote = useSelector((state) => state.editableNote);
+  const isEditable = editableNote ? true : false;
   const dispatch = useDispatch();
 
   return (
     <CSSTransition
       classNames="fade"
-      in={isSelected}
+      in={isEditable}
       timeout={300}
       unmountOnExit
     >
-      <Overlay onClick={() => dispatch(unSelectNote())} />
+      <Overlay onClick={() => dispatch(clearEditableNote())} />
     </CSSTransition>
   );
 }

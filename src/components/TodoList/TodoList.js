@@ -23,8 +23,8 @@ function TodoList({
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
-  const isSelected = useSelector((state) => state.isSelected);
-  const selectedNote = useSelector((state) => state.selectedNote);
+  const editableNote = useSelector((state) => state.editableNote);
+  const isEditable = editableNote ? true : false;
 
   const handleAddTodo = (newTodo) => {
     todos === undefined ? setTodos([newTodo]) : setTodos([...todos, newTodo]);
@@ -69,7 +69,7 @@ function TodoList({
         onCheck={handleCheckbox}
         onChange={handleChangeTodo}
         onBlur={() => onSaveNote(todos)}
-        readOnly={isSelected}
+        readOnly={isEditable}
       />
     ));
     return (
@@ -91,7 +91,7 @@ function TodoList({
         onChange={handleChangeTodo}
         onBlur={() => onSaveNote(todos)}
         onDelete={handleDeleteTodo}
-        readOnly={isSelected}
+        readOnly={isEditable}
       />
     ));
 
@@ -103,12 +103,12 @@ function TodoList({
     );
   }
 
-  if (isSelected && !todos) {
+  if (isEditable && !todos) {
     setTodos([]);
     return <TodoInput setTodos={handleAddTodo} />;
   }
 
-  if (isSelected && todos) {
+  if (isEditable && todos) {
     const todoTask = todos.filter((todo) => !todo.isDone);
     const doneTask = todos.filter((todo) => todo.isDone);
 
@@ -121,7 +121,7 @@ function TodoList({
         onCheck={handleCheckbox}
         onDelete={handleDeleteTodo}
         onChange={saveEditedTodo}
-        readOnly={!isSelected}
+        readOnly={!isEditable}
       />
     ));
 
@@ -139,7 +139,7 @@ function TodoList({
     return (
       <div>
         {todoList}
-        {selectedNote && id === selectedNote && (
+        {editableNote && id === editableNote.id && (
           <TodoInput setTodos={handleAddTodo} />
         )}
         {doneTask.length > 0 && (
@@ -153,13 +153,13 @@ function TodoList({
     );
   }
 
-  if (!isSelected && !isInputField && todos) {
+  if (!isEditable && !isInputField && todos) {
     return todos.map((todo, i) => (
       <TodoItem
         key={i}
         todo={todo}
         onCheck={handleCheckbox}
-        readOnly={!isSelected}
+        readOnly={!isEditable}
       />
     ));
   }

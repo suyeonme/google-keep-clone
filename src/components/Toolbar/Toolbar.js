@@ -62,13 +62,12 @@ function Toolbar({
     },
     {
       icon: ArchiveIcon,
-      title: 'Archive',
+      title: isArchived ? 'Unarchive' : 'Archive',
     },
   ];
 
-  // REVIEW
   const editableNote = useSelector((state) => state.editableNote);
-  const isSelected = useSelector((state) => state.isSelected);
+  const isEditable = editableNote ? true : false;
 
   const dispatch = useDispatch();
   const handleShowColorPalette = () => setIsHoverColorPalette(true);
@@ -106,7 +105,7 @@ function Toolbar({
         )}
       </div>
       {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
-      {isSelected && (
+      {isEditable && (
         <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
       )}
       {isHoverColorPalette && (

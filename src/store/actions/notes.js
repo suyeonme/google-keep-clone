@@ -1,29 +1,20 @@
 import * as actions from './actionsTypes';
 
-// NOTE
 export const addNote = (note) => {
   return {
     type: actions.ADD_NOTE,
     payload: note,
   };
 };
-export const deleteNote = (id) => {
+
+export const deleteNote = (id, type) => {
   return {
     type: actions.DELETE_NOTE,
     payload: id,
+    noteType: type,
   };
 };
-export const selectNote = (id) => {
-  return {
-    type: actions.SELECT_NOTE,
-    payload: id,
-  };
-};
-export const unSelectNote = () => {
-  return {
-    type: actions.UNSELECT_NOTE,
-  };
-};
+
 export const getNoteColor = (color) => {
   return {
     type: actions.GET_NOTE_COLOR,
@@ -42,20 +33,27 @@ export const toggleCheckbox = (id) => {
     payload: id,
   };
 };
-// EDITED NOTE
-export const saveEditableNote = (editableNote) => {
+
+export const getEditableNote = (editableNote) => {
   return {
-    type: actions.SAVE_EDITABLE_NOTE,
+    type: actions.GET_EDITABLE_NOTE,
     payload: editableNote,
   };
 };
+
+export const clearEditableNote = () => {
+  return {
+    type: actions.CLEAR_EDITABLE_NOTE,
+  };
+};
+
 export const updateEditableNote = () => {
   return {
     type: actions.UPDATE_EDITABLE_NOTE,
   };
 };
 
-// ARCHIVE NOTE
+// Archives
 export const archiveNote = (id) => {
   return {
     type: actions.ARCHIVE_NOTE,
@@ -63,9 +61,9 @@ export const archiveNote = (id) => {
   };
 };
 
-export const deleteArchivedNote = (id) => {
+export const unarchiveNote = (id) => {
   return {
-    type: actions.DELETE_ARCHIVE_NOTE,
+    type: actions.UNARCHIVE_NOTE,
     payload: id,
   };
 };

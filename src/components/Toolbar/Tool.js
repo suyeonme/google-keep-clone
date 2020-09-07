@@ -7,7 +7,8 @@ import {
   toggleCheckbox,
   deleteNote,
   archiveNote,
-  deleteArchivedNote,
+  unarchiveNote,
+  clearEditableNote,
 } from '../../store/actions/notes';
 
 const ToolbarBtn = styled.button`
@@ -51,23 +52,24 @@ function Tool({
   const handleClick = (e, title, noteID) => {
     e.preventDefault();
 
-    if (title === 'Show Checkbox' && isInputField) {
-      onCheck();
-    }
-    if (title === 'Show Checkbox' && !isInputField) {
-      dispatch(toggleCheckbox(noteID));
+    if (title === 'Show Checkbox') {
+      isInputField ? onCheck() : dispatch(toggleCheckbox(noteID));
     }
     if (title === 'Delete Note') {
-      dispatch(deleteNote(noteID));
-    }
-    if (title === 'Delete Note' && isArchived) {
-      dispatch(deleteArchivedNote(noteID));
+      isArchived
+        ? dispatch(deleteNote(noteID, 'archives'))
+        : dispatch(deleteNote(noteID, 'notes'));
     }
     if (title === 'Delete Todo') {
       deleteTodo();
     }
     if (title === 'Archive') {
       dispatch(archiveNote(noteID));
+      dispatch(clearEditableNote());
+    }
+    if (title === 'Unarchive') {
+      dispatch(unarchiveNote(noteID));
+      dispatch(clearEditableNote());
     }
   };
 

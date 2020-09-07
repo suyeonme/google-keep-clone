@@ -7,7 +7,7 @@ import {
   InputTextArea,
 } from '../../../containers/InputField/InputElements';
 import TodoList from '../../../components/TodoList/TodoList';
-import { saveEditableNote } from '../../../store/actions/notes';
+import { getEditableNote } from '../../../store/actions/notes';
 import { convertNoteToTodo, convertTodoToNote } from '../../../shared/utility';
 
 // TODO
@@ -29,7 +29,7 @@ function EditableNote({ note }) {
   }, [note]);
 
   useEffect(() => {
-    dispatch(saveEditableNote(editableNote));
+    dispatch(getEditableNote(editableNote));
   }, [dispatch, editableNote]);
 
   const handleChange = (e) => {

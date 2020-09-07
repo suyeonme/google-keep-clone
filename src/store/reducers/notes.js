@@ -2,16 +2,12 @@ import * as actionTypes from '../actions/actionsTypes';
 import { updateObject } from '../../shared/utility';
 
 // TODO
-// Refactoring: selectedNote, isSelected, editableNote
+// Refactoring: selectedNote, editableNote
 // Refactoring: Share the same value between editableNote and note
-// Refactoring: Remove repeated value
 
-// STATE
 const initialState = {
   notes: [],
-  selectedNote: null,
   editableNote: null,
-  isSelected: false,
   bgColor: '#fff',
   archives: [],
 };
@@ -25,34 +21,15 @@ const addNote = (state, action) => {
 };
 
 const deleteNote = (state, action) => {
-  const newNotes = state.notes.filter((note) => note.id !== action.payload);
+  const noteType = action.noteType;
+  const newNotes = state[noteType].filter((item) => item.id !== action.payload);
+
   const updatedNotes = {
     ...state,
-    notes: newNotes,
-    selectedNote: null,
+    [noteType]: newNotes,
     editableNote: null,
-    isSelected: false,
   };
   return updateObject(state, updatedNotes);
-};
-
-const selectNote = (state, action) => {
-  const selectedNote = {
-    ...state,
-    selectedNote: action.payload,
-    isSelected: true,
-  };
-  return updateObject(state, selectedNote);
-};
-
-const unselectNote = (state, action) => {
-  const unselectedNotes = {
-    ...state,
-    selectedNote: null,
-    editableNote: null,
-    isSelected: false,
-  };
-  return updateObject(state, unselectedNotes);
 };
 
 const getNoteColor = (state, action) => {
@@ -95,7 +72,6 @@ const toggleNoteCheckbox = (state, action) => {
         isChecked: !note.isChecked,
       };
     }
-
     return note;
   });
 
@@ -106,12 +82,20 @@ const toggleNoteCheckbox = (state, action) => {
   return updateObject(state, newNotes);
 };
 
-const saveEditableNote = (state, action) => {
+const getEditableNote = (state, action) => {
   // FIXME payload is old value
   // What if editableNote and note share the same value?
   const updatedNotes = {
     ...state,
     editableNote: action.payload,
+  };
+  return updateObject(state, updatedNotes);
+};
+
+const clearEditableNote = (state, action) => {
+  const updatedNotes = {
+    ...state,
+    editableNote: null,
   };
   return updateObject(state, updatedNotes);
 };
@@ -126,12 +110,11 @@ const updateEditableNote = (state, action) => {
     notes: newNotes,
     selectedNote: null,
     editableNote: null,
-    isSelected: false,
   };
   return updateObject(state, updatedNote);
 };
 
-// Archive
+// Archives
 const archiveNote = (state, action) => {
   const archivedNote = state.notes.find((note) => note.id === action.payload);
   const newNotes = state.notes.filter((note) => note.id !== action.payload);
@@ -144,13 +127,17 @@ const archiveNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const deleteArchiveNote = (state, action) => {
+const unarchiveNote = (state, action) => {
+  const unarchivedNote = state.archives.find(
+    (note) => note.id === action.payload,
+  );
   const newNotes = state.archives.filter((note) => note.id !== action.payload);
+
   const updatedNotes = {
     ...state,
+    notes: [...state.notes, unarchivedNote],
     archives: newNotes,
   };
-
   return updateObject(state, updatedNotes);
 };
 
@@ -161,25 +148,22 @@ const reducer = (state = initialState, action) => {
       return addNote(state, action);
     case actionTypes.DELETE_NOTE:
       return deleteNote(state, action);
-    case actionTypes.SELECT_NOTE:
-      return selectNote(state, action);
-    case actionTypes.UNSELECT_NOTE:
-      return unselectNote(state, action);
     case actionTypes.GET_NOTE_COLOR:
       return getNoteColor(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
       return changeNoteColor(state, action);
     case actionTypes.TOGGLE_NOTE_CHECKBOX:
       return toggleNoteCheckbox(state, action);
-    case actionTypes.SAVE_EDITABLE_NOTE:
-      return saveEditableNote(state, action);
+    case actionTypes.GET_EDITABLE_NOTE:
+      return getEditableNote(state, action);
+    case actionTypes.CLEAR_EDITABLE_NOTE:
+      return clearEditableNote(state, action);
     case actionTypes.UPDATE_EDITABLE_NOTE:
       return updateEditableNote(state, action);
-    ///
     case actionTypes.ARCHIVE_NOTE:
       return archiveNote(state, action);
-    case actionTypes.DELETE_ARCHIVE_NOTE:
-      return deleteArchiveNote(state, action);
+    case actionTypes.UNARCHIVE_NOTE:
+      return unarchiveNote(state, action);
     default:
       return state;
   }
