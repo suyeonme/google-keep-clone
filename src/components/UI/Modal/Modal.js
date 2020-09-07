@@ -24,6 +24,8 @@ const CloseBtn = styled.div`
 `;
 
 // Close modal
+// useEffect - setState(true) - setTimeout - setState(false)
+// setState(true) && <Modal />
 
 function Modal(props) {
   return (

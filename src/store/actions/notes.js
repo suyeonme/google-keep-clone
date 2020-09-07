@@ -15,22 +15,33 @@ export const deleteNote = (id, type) => {
   };
 };
 
+export const updateNote = (noteType) => {
+  return {
+    type: actions.UPDATE_NOTE,
+    noteType: noteType,
+  };
+};
+
 export const getNoteColor = (color) => {
   return {
     type: actions.GET_NOTE_COLOR,
     payload: color,
   };
 };
-export const changeNoteColor = (id) => {
+
+export const changeNoteColor = (id, noteType) => {
   return {
     type: actions.CHANGE_NOTE_COLOR,
     payload: id,
+    noteType: noteType,
   };
 };
-export const toggleCheckbox = (id) => {
+
+export const toggleCheckbox = (id, noteType) => {
   return {
     type: actions.TOGGLE_NOTE_CHECKBOX,
     payload: id,
+    noteType: noteType,
   };
 };
 
@@ -44,12 +55,6 @@ export const getEditableNote = (editableNote) => {
 export const clearEditableNote = () => {
   return {
     type: actions.CLEAR_EDITABLE_NOTE,
-  };
-};
-
-export const updateEditableNote = () => {
-  return {
-    type: actions.UPDATE_EDITABLE_NOTE,
   };
 };
 

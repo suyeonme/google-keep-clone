@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -11,6 +11,9 @@ import Modal from './components/UI/Modal/Modal';
 // If authenticated or not
 
 function App() {
+  //const [showModal, setShowModal] = useState(false); // redux
+  // Modal Content
+
   return (
     <div className="App">
       <Header />
@@ -20,7 +23,7 @@ function App() {
       </Switch>
       <Footer />
 
-      <Modal>This is Modal</Modal>
+      {/* {showModal && <Modal>This is Modal</Modal>} */}
     </div>
   );
 }

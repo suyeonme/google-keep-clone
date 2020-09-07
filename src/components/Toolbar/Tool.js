@@ -53,8 +53,13 @@ function Tool({
     e.preventDefault();
 
     if (title === 'Show Checkbox') {
-      isInputField ? onCheck() : dispatch(toggleCheckbox(noteID));
+      if (isInputField) onCheck();
+      if (isArchived) dispatch(toggleCheckbox(noteID, 'archives'));
+      else {
+        dispatch(toggleCheckbox(noteID, 'notes'));
+      }
     }
+
     if (title === 'Delete Note') {
       isArchived
         ? dispatch(deleteNote(noteID, 'archives'))
@@ -82,8 +87,6 @@ function Tool({
           onMouseLeave={hidePalette}
           onClick={(e) => handleClick(e, title, id)}
           pin={pin}
-          isInputField={isInputField}
-          isArchived={isArchived}
         />
       </Tooltip>
     </>

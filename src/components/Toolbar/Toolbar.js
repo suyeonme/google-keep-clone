@@ -9,7 +9,7 @@ import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import ArchiveIcon from '../../icons/archive.svg';
-import { updateEditableNote } from '../../store/actions/notes';
+import { updateNote } from '../../store/actions/notes';
 
 const ToolbarContainer = styled.div`
   width: 100%;
@@ -73,7 +73,9 @@ function Toolbar({
   const handleShowColorPalette = () => setIsHoverColorPalette(true);
   const handleHideColorPalette = () => setIsHoverColorPalette(false);
   const handleUpdateEditableNote = () => {
-    editableNote && dispatch(updateEditableNote());
+    isArchived
+      ? dispatch(updateNote('archives'))
+      : dispatch(updateNote('notes'));
   };
 
   return (
@@ -93,6 +95,7 @@ function Toolbar({
             }
             onCheck={onCheck}
             isInputField={isInputField}
+            isArchived={isArchived}
           />
         ))}
         {!isInputField && (
@@ -112,6 +115,7 @@ function Toolbar({
         <ColorPalette
           id={id}
           isInputField={isInputField}
+          isArchived={isArchived}
           onUnHover={handleHideColorPalette}
           onHover={handleShowColorPalette}
         />

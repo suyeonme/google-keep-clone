@@ -35,7 +35,7 @@ const ColorPaletteBtn = styled.button`
   }
 `;
 
-function ColorPalette({ id, isInputField, onHover, onUnHover }) {
+function ColorPalette({ id, isInputField, isArchived, onHover, onUnHover }) {
   const colors = [
     '#fff',
     '#d9adad',
@@ -51,10 +51,11 @@ function ColorPalette({ id, isInputField, onHover, onUnHover }) {
 
   const handleChangeColor = (e, color, id) => {
     e.preventDefault();
-    getNoteColor(color);
-    changeNoteColor(id);
     dispatch(getNoteColor(color));
-    dispatch(changeNoteColor(id));
+
+    isArchived
+      ? dispatch(changeNoteColor(id, 'archives'))
+      : dispatch(changeNoteColor(id, 'notes'));
   };
 
   return (
@@ -63,10 +64,10 @@ function ColorPalette({ id, isInputField, onHover, onUnHover }) {
       onMouseEnter={onHover}
       onMouseLeave={onUnHover}
     >
-      {colors.map((color, index) => (
+      {colors.map((color, i) => (
         <ColorPaletteBtn
+          key={i}
           color={color}
-          key={index}
           onClick={(e) => handleChangeColor(e, color, id)}
         />
       ))}

@@ -1,9 +1,6 @@
 import * as actionTypes from '../actions/actionsTypes';
 import { updateObject } from '../../shared/utility';
 
-// TODO
-// Refactoring: Share the same value between editableNote and note
-
 const initialState = {
   notes: [],
   editableNote: null,
@@ -31,6 +28,21 @@ const deleteNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
+const updateNote = (state, action) => {
+  const noteType = action.noteType;
+
+  const newNotes = state[noteType]
+    .filter((note) => note.id !== state.editableNote.id)
+    .concat(state.editableNote);
+
+  const updatedNote = {
+    ...state,
+    [noteType]: newNotes,
+    editableNote: null,
+  };
+  return updateObject(state, updatedNote);
+};
+
 const getNoteColor = (state, action) => {
   const updateBgColor = {
     ...state,
@@ -40,7 +52,9 @@ const getNoteColor = (state, action) => {
 };
 
 const changeNoteColor = (state, action) => {
-  const newNotes = state.notes.map((note) =>
+  const noteType = action.noteType;
+
+  const newNotes = state[noteType].map((note) =>
     note.id === action.payload
       ? {
           ...note,
@@ -50,22 +64,23 @@ const changeNoteColor = (state, action) => {
   );
   const updatedNotes = {
     ...state,
-    notes: newNotes,
+    [noteType]: newNotes,
   };
   return updateObject(state, updatedNotes);
 };
 
 const toggleNoteCheckbox = (state, action) => {
-  const updatedNotes = state.notes.map((note) => {
-    if (note.id === action.payload && state.editableNote) {
-      return {
-        ...note,
-        content: state.editableNote.content,
-        isChecked: !note.isChecked,
-      };
-    }
+  const noteType = action.noteType;
 
-    if (note.id === action.payload && !state.editableNote) {
+  const updatedNotes = state[noteType].map((note) => {
+    if (note.id === action.payload) {
+      if (state.editableNote) {
+        return {
+          ...note,
+          content: state.editableNote.content,
+          isChecked: !note.isChecked,
+        };
+      }
       return {
         ...note,
         isChecked: !note.isChecked,
@@ -76,7 +91,7 @@ const toggleNoteCheckbox = (state, action) => {
 
   const newNotes = {
     ...state,
-    notes: updatedNotes,
+    [noteType]: updatedNotes,
   };
   return updateObject(state, newNotes);
 };
@@ -97,19 +112,6 @@ const clearEditableNote = (state, action) => {
     editableNote: null,
   };
   return updateObject(state, updatedNotes);
-};
-
-const updateEditableNote = (state, action) => {
-  const newNotes = state.notes
-    .filter((note) => note.id !== state.editableNote.id)
-    .concat(state.editableNote);
-
-  const updatedNote = {
-    ...state,
-    notes: newNotes,
-    editableNote: null,
-  };
-  return updateObject(state, updatedNote);
 };
 
 // Archives
@@ -146,6 +148,8 @@ const reducer = (state = initialState, action) => {
       return addNote(state, action);
     case actionTypes.DELETE_NOTE:
       return deleteNote(state, action);
+    case actionTypes.UPDATE_NOTE:
+      return updateNote(state, action);
     case actionTypes.GET_NOTE_COLOR:
       return getNoteColor(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
@@ -156,8 +160,6 @@ const reducer = (state = initialState, action) => {
       return getEditableNote(state, action);
     case actionTypes.CLEAR_EDITABLE_NOTE:
       return clearEditableNote(state, action);
-    case actionTypes.UPDATE_EDITABLE_NOTE:
-      return updateEditableNote(state, action);
     case actionTypes.ARCHIVE_NOTE:
       return archiveNote(state, action);
     case actionTypes.UNARCHIVE_NOTE:
