@@ -8,7 +8,6 @@ import TodoInput from './TodoInput/TodoInput';
 // TODO
 // Issue: Lost check between note -- editable note (todos.isDone)
 
-// Remove white space(trim) when convert note to todoItem
 // Custom Checkbox
 // Add border onFocus
 // Add functions (drag, truncate)

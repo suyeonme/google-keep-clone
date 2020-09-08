@@ -37,11 +37,12 @@ export const changeNoteColor = (id, noteType) => {
   };
 };
 
-export const toggleCheckbox = (id, noteType) => {
+export const toggleNoteTool = (id, noteType, toolType) => {
   return {
-    type: actions.TOGGLE_NOTE_CHECKBOX,
+    type: actions.TOGGLE_NOTE_TOOL,
     payload: id,
     noteType: noteType,
+    toolType: toolType,
   };
 };
 

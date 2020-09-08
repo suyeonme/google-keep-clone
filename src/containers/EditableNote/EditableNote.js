@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 import { Input, InputTextArea } from '../InputField/InputElements';
 import TodoList from '../../components/TodoList/TodoList';
+import Tool from '../../components/Toolbar/Tool';
 import { getEditableNote } from '../../store/actions/notes';
 import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
-
-import Tool from '../../components/Toolbar/Tool';
-import PinIcon from '../../icons/pin.svg';
 
 // TODO
 // saveEditableNote (color, content)
@@ -18,9 +16,9 @@ const EditNote = styled.div`
   cursor: text;
 `;
 
-function EditableNote({ note }) {
+function EditableNote({ note, isArchived }) {
   const [editableNote, setEditableNote] = useState(note);
-  const { title, content, isChecked, id } = editableNote;
+  const { title, content, id, isChecked, isPinned } = editableNote;
 
   const dispatch = useDispatch();
 
@@ -45,7 +43,13 @@ function EditableNote({ note }) {
   if (isChecked) {
     return (
       <EditNote spellCheck="true">
-        <Tool title="Pin Note" bgImage={PinIcon} notePin />
+        <Tool
+          id={id}
+          title="Pin Note"
+          notePin
+          isPinned={isPinned}
+          isArchived={isArchived}
+        />
         <Input
           name="title"
           placeholder="Title"
@@ -65,7 +69,13 @@ function EditableNote({ note }) {
 
   return (
     <EditNote spellCheck="true">
-      <Tool title="Pin Note" bgImage={PinIcon} notePin />
+      <Tool
+        id={id}
+        title="Pin Note"
+        notePin
+        isPinned={isPinned}
+        isArchived={isArchived}
+      />
       <Input
         name="title"
         placeholder="Title"

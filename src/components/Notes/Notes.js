@@ -1,33 +1,37 @@
 import React from 'react';
-import styled from 'styled-components';
-import Masonry from 'react-masonry-css';
-import './Notes.css';
 
 import Note from '../../containers/Note/Note';
-import Backdrop from '../UI/Backdrop/Backdrop';
-
-const NotesContainer = styled.div`
-  margin: 30px 0;
-`;
-
-// isPinned
-// !isPinned
-
-// isPinned - display filled pin icon
+import NotesLayout from './NotesLayout/NotesLayout';
 
 function Notes({ notes, isArchived }) {
+  const isPinned = notes.filter((note) => note.isPinned).length > 0;
+
+  if (isPinned) {
+    const pinnedNotes = notes
+      .filter((note) => note.isPinned)
+      .map((note) => (
+        <Note key={note.id} note={note} isArchived={isArchived} />
+      ));
+
+    const otherNotes = notes
+      .filter((note) => !note.isPinned)
+      .map((note) => (
+        <Note key={note.id} note={note} isArchived={isArchived} />
+      ));
+
+    return (
+      <>
+        <NotesLayout title="pinned" notes={pinnedNotes} />
+        <NotesLayout title="Others" notes={otherNotes} />
+      </>
+    );
+  }
+
   notes = notes.map((note) => (
     <Note key={note.id} note={note} isArchived={isArchived} />
   ));
 
-  return (
-    <NotesContainer>
-      <Masonry breakpointCols={5} className="grid" columnClassName="col">
-        {notes}
-      </Masonry>
-      <Backdrop />
-    </NotesContainer>
-  );
+  return <NotesLayout notes={notes} />;
 }
 
 export default Notes;

@@ -69,8 +69,9 @@ const changeNoteColor = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const toggleNoteCheckbox = (state, action) => {
+const toggleNoteTool = (state, action) => {
   const noteType = action.noteType;
+  const toolType = action.toolType;
 
   const updatedNotes = state[noteType].map((note) => {
     if (note.id === action.payload) {
@@ -78,12 +79,12 @@ const toggleNoteCheckbox = (state, action) => {
         return {
           ...note,
           content: state.editableNote.content,
-          isChecked: !note.isChecked,
+          [toolType]: !note[toolType],
         };
       }
       return {
         ...note,
-        isChecked: !note.isChecked,
+        [toolType]: !note[toolType],
       };
     }
     return note;
@@ -154,8 +155,8 @@ const reducer = (state = initialState, action) => {
       return getNoteColor(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
       return changeNoteColor(state, action);
-    case actionTypes.TOGGLE_NOTE_CHECKBOX:
-      return toggleNoteCheckbox(state, action);
+    case actionTypes.TOGGLE_NOTE_TOOL:
+      return toggleNoteTool(state, action);
     case actionTypes.GET_EDITABLE_NOTE:
       return getEditableNote(state, action);
     case actionTypes.CLEAR_EDITABLE_NOTE:

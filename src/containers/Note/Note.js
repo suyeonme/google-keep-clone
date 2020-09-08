@@ -13,6 +13,7 @@ function Note({ note, isArchived }) {
 
   const editableNote = useSelector((state) => state.notes.editableNote);
   const editableNoteID = editableNote && editableNote.id;
+  const isClicked = editableNoteID === id;
 
   const dispatch = useDispatch();
   const handleClick = (e) => {
@@ -25,26 +26,29 @@ function Note({ note, isArchived }) {
     }
   };
 
-  const isClicked = editableNoteID === id;
-
   return (
     <NoteContainer
+      bgColor={bgColor}
+      clicked={isClicked ? 1 : 0}
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      bgColor={bgColor}
-      clicked={isClicked ? 1 : 0}
     >
       {isClicked ? (
-        <EditableNote note={note} clicked={isClicked ? 1 : 0} />
+        <EditableNote
+          note={note}
+          clicked={isClicked ? 1 : 0}
+          isArchived={isArchived}
+        />
       ) : (
         <NoteBody
           note={note}
           clicked={isClicked ? 1 : 0}
           isHovered={isHovered}
+          isArchived={isArchived}
         />
-      )}
-      <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />
+      )}{' '}
+      <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />{' '}
     </NoteContainer>
   );
 }

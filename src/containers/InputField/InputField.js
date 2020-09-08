@@ -8,7 +8,6 @@ import {
   Input,
   InputTextArea,
 } from './InputElements';
-import PinIcon from '../../icons/pin.svg';
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import TodoList from '../../components/TodoList/TodoList';
@@ -25,11 +24,12 @@ const initialNote = {
   id: uniqid(),
   bgColor: '#fff',
   isChecked: false,
+  isPinned: false,
 };
 
 function InputField() {
   const [note, setNote] = useState(initialNote);
-  const { title, content, id, bgColor, isChecked } = note;
+  const { title, content, id, bgColor, isChecked, isPinned } = note;
 
   const dispatch = useDispatch();
   const selectedBgColor = useSelector((state) => state.notes.bgColor);
@@ -59,8 +59,8 @@ function InputField() {
     }
   };
 
-  const handleCheck = () => {
-    setNote({ ...note, isChecked: !note.isChecked });
+  const handleToggle = (toolType) => {
+    setNote({ ...note, [toolType]: !note[toolType] });
   };
 
   const handleAddTodo = (newTodo) => {
@@ -99,7 +99,13 @@ function InputField() {
           autoComplete="off"
           onChange={handleUpdateNote}
         />
-        <Tool title="Pin Note" bgImage={PinIcon} inputPin />
+        <Tool
+          inputPin
+          isInputField
+          title="Pin Note"
+          isPinned={isPinned}
+          onToggle={handleToggle}
+        />
         {isExpand && (
           <>
             {textField}
@@ -108,7 +114,7 @@ function InputField() {
               isInputField
               onHover={true}
               onAddNote={() => handleAddNote(note)}
-              onCheck={handleCheck}
+              onToggle={handleToggle}
             />
           </>
         )}

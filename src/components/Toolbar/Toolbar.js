@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import Tool from './Tool';
-import ColorPalette from '../ColorPalette/ColorPalette';
 import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
 import PictureIcon from '../../icons/picture.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import ArchiveIcon from '../../icons/archive.svg';
+import Tool from './Tool';
+import ColorPalette from '../ColorPalette/ColorPalette';
 import { updateNote } from '../../store/actions/notes';
 
 const ToolbarContainer = styled.div`
@@ -42,7 +42,7 @@ function Toolbar({
   id,
   onHover,
   onAddNote,
-  onCheck,
+  onToggle,
   isInputField,
   isArchived,
 }) {
@@ -93,7 +93,7 @@ function Toolbar({
             hidePalette={
               icon.title === 'Change Color' ? handleHideColorPalette : null
             }
-            onCheck={onCheck}
+            onToggle={onToggle}
             isInputField={isInputField}
             isArchived={isArchived}
           />
