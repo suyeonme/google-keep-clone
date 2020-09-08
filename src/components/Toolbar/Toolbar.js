@@ -66,7 +66,7 @@ function Toolbar({
     },
   ];
 
-  const editableNote = useSelector((state) => state.editableNote);
+  const editableNote = useSelector((state) => state.notes.editableNote);
   const isEditable = editableNote ? true : false;
 
   const dispatch = useDispatch();

@@ -27,12 +27,12 @@ const initialNote = {
   isChecked: false,
 };
 
-function InputField(props) {
+function InputField() {
   const [note, setNote] = useState(initialNote);
   const { title, content, id, bgColor, isChecked } = note;
 
   const dispatch = useDispatch();
-  const selectedBgColor = useSelector((state) => state.bgColor);
+  const selectedBgColor = useSelector((state) => state.notes.bgColor);
   const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
     false,
   );

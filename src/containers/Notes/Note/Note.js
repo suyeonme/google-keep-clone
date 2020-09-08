@@ -11,11 +11,11 @@ function Note({ note, isArchived }) {
   const { id, bgColor } = note;
   const [isHovered, setIsHovered] = useState(false);
 
-  const editableNote = useSelector((state) => state.editableNote);
+  const editableNote = useSelector((state) => state.notes.editableNote);
   const editableNoteID = editableNote && editableNote.id;
 
   const dispatch = useDispatch();
-  const handleOnClick = (e) => {
+  const handleClick = (e) => {
     if (
       e.target.nodeName !== 'BUTTON' &&
       e.target.id !== 'checkbox' &&
@@ -29,7 +29,7 @@ function Note({ note, isArchived }) {
 
   return (
     <NoteContainer
-      onClick={handleOnClick}
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       bgColor={bgColor}

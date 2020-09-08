@@ -11,6 +11,11 @@ import {
   clearEditableNote,
 } from '../../store/actions/notes';
 
+import {
+  showFlashMessage,
+  hideFlashMessage,
+} from '../../store/actions/flashMessage';
+
 const ToolbarBtn = styled.button`
   border-radius: 50%;
   width: 28px;
@@ -49,6 +54,14 @@ function Tool({
 }) {
   const dispatch = useDispatch();
 
+  const showMessage = (message) => {
+    dispatch(showFlashMessage(message));
+
+    setTimeout(() => {
+      dispatch(hideFlashMessage());
+    }, 3000);
+  };
+
   const handleClick = (e, title, noteID) => {
     e.preventDefault();
 
@@ -69,10 +82,15 @@ function Tool({
       deleteTodo();
     }
     if (title === 'Archive') {
-      dispatch(archiveNote(noteID));
-      dispatch(clearEditableNote());
+      if (isInputField) showMessage('Note archived');
+      else {
+        showMessage('Note archived');
+        dispatch(archiveNote(noteID));
+        dispatch(clearEditableNote());
+      }
     }
     if (title === 'Unarchive') {
+      showMessage('Note uarchived');
       dispatch(unarchiveNote(noteID));
       dispatch(clearEditableNote());
     }

@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import ArchivedNote from './pages/ArchivedNote';
-
-import Modal from './components/UI/Modal/Modal';
+import FlashMessage from './components/UI/FlashMessage/FlashMessage';
 
 // If authenticated or not
 
 function App() {
-  //const [showModal, setShowModal] = useState(false); // redux
-  // Modal Content
-
   return (
     <div className="App">
       <Header />
@@ -21,9 +17,8 @@ function App() {
         <Route path="/" exact={true} component={Home} />
         <Route path="/archive" component={ArchivedNote} />
       </Switch>
+      <FlashMessage />
       <Footer />
-
-      {/* {showModal && <Modal>This is Modal</Modal>} */}
     </div>
   );
 }

@@ -23,7 +23,7 @@ function TodoList({
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
-  const editableNote = useSelector((state) => state.editableNote);
+  const editableNote = useSelector((state) => state.notes.editableNote);
   const isEditable = editableNote ? true : false;
 
   const handleAddTodo = (newTodo) => {

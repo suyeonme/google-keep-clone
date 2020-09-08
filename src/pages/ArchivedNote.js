@@ -3,10 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Archive from '../icons/archive.svg';
-
-import { NotesContainer } from '../containers/Notes/Notes';
-import Note from '../containers/Notes/Note/Note';
-import Backdrop from '../components/UI/Backdrop/Backdrop';
+import Notes from '../components/Notes/Notes';
 
 const ArchiveIcon = styled.div`
   width: 95px;
@@ -32,8 +29,8 @@ const Container = styled.div`
   align-items: center;
 `;
 
-function ArchivedNote(props) {
-  const archives = useSelector((state) => state.archives);
+function ArchivedNote() {
+  const archives = useSelector((state) => state.notes.archives);
 
   if (archives.length === 0) {
     return (
@@ -45,16 +42,7 @@ function ArchivedNote(props) {
   }
 
   if (archives.length > 0) {
-    const noteList = archives.map((note) => (
-      <Note key={note.id} note={note} isArchived />
-    ));
-
-    return (
-      <NotesContainer>
-        {noteList}
-        <Backdrop />
-      </NotesContainer>
-    );
+    return <Notes notes={archives} isArchived />;
   }
 }
 
