@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEditableNote } from '../../../store/actions/notes';
+import { getEditableNote } from '../../store/actions/notes';
 
 import NoteBody from './NoteBody';
 import { NoteContainer } from './NoteElements';
-import Toolbar from '../../../components/Toolbar/Toolbar';
+import Toolbar from '../../components/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 
 function Note({ note, isArchived }) {
@@ -38,7 +38,11 @@ function Note({ note, isArchived }) {
       {isClicked ? (
         <EditableNote note={note} clicked={isClicked ? 1 : 0} />
       ) : (
-        <NoteBody note={note} clicked={isClicked ? 1 : 0} />
+        <NoteBody
+          note={note}
+          clicked={isClicked ? 1 : 0}
+          isHovered={isHovered}
+        />
       )}
       <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />
     </NoteContainer>

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import {
-  Input,
-  InputTextArea,
-} from '../../../containers/InputField/InputElements';
-import TodoList from '../../../components/TodoList/TodoList';
-import { getEditableNote } from '../../../store/actions/notes';
-import { convertNoteToTodo, convertTodoToNote } from '../../../shared/utility';
+import { Input, InputTextArea } from '../InputField/InputElements';
+import TodoList from '../../components/TodoList/TodoList';
+import { getEditableNote } from '../../store/actions/notes';
+import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
+
+import Tool from '../../components/Toolbar/Tool';
+import PinIcon from '../../icons/pin.svg';
 
 // TODO
 // saveEditableNote (color, content)
@@ -45,6 +45,7 @@ function EditableNote({ note }) {
   if (isChecked) {
     return (
       <EditNote spellCheck="true">
+        <Tool title="Pin Note" bgImage={PinIcon} notePin />
         <Input
           name="title"
           placeholder="Title"
@@ -64,6 +65,7 @@ function EditableNote({ note }) {
 
   return (
     <EditNote spellCheck="true">
+      <Tool title="Pin Note" bgImage={PinIcon} notePin />
       <Input
         name="title"
         placeholder="Title"

@@ -58,6 +58,6 @@ export const InputTextArea = styled.textarea`
     `
     font-size: 1.7rem; 
     padding: 0 12px 0 12px;  
-    min-height: 20vh;
+    min-height: 40vh;
     `};
 `;

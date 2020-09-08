@@ -29,8 +29,21 @@ const ToolbarBtn = styled.button`
     background-color: rgba(95, 99, 104, 0.157);
   }
 
-  ${({ pin }) =>
-    pin &&
+  ${({ notePin }) =>
+    notePin &&
+    css`
+      position: absolute;
+      top: 9px;
+      right: 7px;
+      width: 30px;
+      height: 30px;
+      opacity: 0.54;
+      background-size: 24px 24px;
+      margin-right: 0;
+    `}
+
+  ${({ inputPin }) =>
+    inputPin &&
     css`
       position: absolute;
       top: 2px;
@@ -50,7 +63,8 @@ function Tool({
   deleteTodo,
   isInputField,
   isArchived,
-  pin,
+  inputPin,
+  notePin,
 }) {
   const dispatch = useDispatch();
 
@@ -104,7 +118,8 @@ function Tool({
           onMouseEnter={showPalette}
           onMouseLeave={hidePalette}
           onClick={(e) => handleClick(e, title, id)}
-          pin={pin}
+          inputPin={inputPin}
+          notePin={notePin}
         />
       </Tooltip>
     </>

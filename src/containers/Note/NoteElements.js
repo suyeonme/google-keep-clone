@@ -40,8 +40,7 @@ export const NoteContainer = styled.div`
       width: 42%;
       z-index: 500;
       cursor: default;
-      max-height: 70vh;
-      height: auto;
+      max-height: 80vh;
       overflow: auto;
       animation: ${popup} 0.3s ease-out;
     `}

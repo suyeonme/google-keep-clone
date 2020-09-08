@@ -99,7 +99,7 @@ function InputField() {
           autoComplete="off"
           onChange={handleUpdateNote}
         />
-        <Tool title="Pin Note" bgImage={PinIcon} pin />
+        <Tool title="Pin Note" bgImage={PinIcon} inputPin />
         {isExpand && (
           <>
             {textField}
