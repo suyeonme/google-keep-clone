@@ -32,4 +32,4 @@ function Nav({ isHover, onHover }) {
   );
 }
 
-export default Nav;
+export default React.memo(Nav);

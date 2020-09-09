@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
 
 import './NotesLayout.css';
-import Backdrop from '../../UI/Backdrop/Backdrop';
 
 const NotesContainer = styled.div`
   margin: 30px 0;
@@ -25,9 +24,8 @@ function NotesLayout({ notes, title }) {
       <Masonry breakpointCols={5} className="grid" columnClassName="col">
         {notes}
       </Masonry>
-      <Backdrop />
     </NotesContainer>
   );
 }
 
-export default NotesLayout;
+export default React.memo(NotesLayout);

@@ -13,15 +13,15 @@ const ArrowIcon = styled.div`
   height: 20px;
   background: url(${Arrow}) center center no-repeat;
   background-size: 50%;
-  margin-left: 24px;
+  margin-left: ${(props) => (props.isNote ? '11px' : ' 24px')};
 `;
 
 const Title = styled.div`
-  letter-spacing: 0.00625em;
-  font-size: 1.6rem;
   line-height: 1.5;
+  letter-spacing: 0.00625em;
   color: #80868a;
   padding: 0 24px 0 7px;
+  font-size: ${(props) => (props.isNote ? '1.3rem' : '1.6rem')};
 `;
 
 const TitleContainer = styled.div`
@@ -30,16 +30,16 @@ const TitleContainer = styled.div`
   cursor: pointer;
 `;
 
-function CompletedTodo({ doneTaskCount, clicked }) {
+function CompletedTodo({ doneTaskCount, clicked, isNote }) {
   return (
     <div onClick={clicked}>
       <GreyLine />
       <TitleContainer>
-        <ArrowIcon />
-        <Title>{doneTaskCount} Completed items</Title>
+        <ArrowIcon isNote={isNote} />
+        <Title isNote={isNote}>{doneTaskCount} Completed items</Title>
       </TitleContainer>
     </div>
   );
 }
 
-export default CompletedTodo;
+export default React.memo(CompletedTodo);

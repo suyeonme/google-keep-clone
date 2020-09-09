@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import uniqid from 'uniqid';
 
 import {
@@ -13,7 +13,7 @@ import Toolbar from '../../components/Toolbar/Toolbar';
 import TodoList from '../../components/TodoList/TodoList';
 import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import { addNote, getNoteColor } from '../../store/actions/notes';
+import { addNote } from '../../store/actions/notes';
 
 // TODO
 // todoList: Back to original when click outside of form
@@ -32,46 +32,57 @@ function InputField() {
   const { title, content, id, bgColor, isChecked, isPinned } = note;
 
   const dispatch = useDispatch();
-  const selectedBgColor = useSelector((state) => state.notes.bgColor);
   const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
     false,
   );
 
-  useEffect(() => {
-    setNote((prevNote) => ({ ...prevNote, bgColor: selectedBgColor }));
-  }, [selectedBgColor]);
-
-  const handleUpdateNote = (e) => {
-    const { name, value } = e.target;
-    setNote({ ...note, [name]: value });
-  };
-
-  const handleResetNote = () => {
-    if (bgColor !== '#fff') dispatch(getNoteColor('#fff'));
+  const handleResetNote = useCallback(() => {
     setNote({ ...initialNote, id: uniqid() });
+  }, []);
+
+  const handleAddNote = useCallback(
+    (note) => {
+      if (title !== '' && content !== '') {
+        dispatch(addNote(note));
+        handleResetNote();
+        handleResetClick();
+      }
+    },
+    [title, content, dispatch, handleResetNote, handleResetClick],
+  );
+
+  const handleUpdateNote = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setNote({ ...note, [name]: value });
+    },
+    [note],
+  );
+
+  const handleToggle = useCallback(
+    (toolType) => {
+      setNote({ ...note, [toolType]: !note[toolType] });
+    },
+    [note],
+  );
+
+  const handleChangeColor = (color) => {
+    setNote({ ...note, bgColor: color });
   };
 
-  const handleAddNote = (note) => {
-    if (title !== '' && content !== '') {
-      dispatch(addNote(note));
-      handleResetNote();
-      handleResetClick();
-    }
-  };
-
-  const handleToggle = (toolType) => {
-    setNote({ ...note, [toolType]: !note[toolType] });
-  };
-
-  const handleAddTodo = (newTodo) => {
-    const newTodoItem = convertTodoToNote(newTodo);
-    setNote({ ...note, content: newTodoItem });
-  };
+  const handleAddTodo = useCallback(
+    (newTodo) => {
+      const newTodoItem = convertTodoToNote(newTodo);
+      setNote({ ...note, content: newTodoItem });
+    },
+    [note],
+  );
 
   // TEXT FIELD
   let textField;
   if (isChecked) {
     const todos = convertNoteToTodo(content);
+
     textField = (
       <TodoList todoContent={todos} onSaveNote={handleAddTodo} isInputField />
     );
@@ -115,6 +126,7 @@ function InputField() {
               onHover={true}
               onAddNote={() => handleAddNote(note)}
               onToggle={handleToggle}
+              onClick={handleChangeColor}
             />
           </>
         )}
@@ -123,4 +135,4 @@ function InputField() {
   );
 }
 
-export default InputField;
+export default React.memo(InputField);

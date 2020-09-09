@@ -3,9 +3,8 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
   notes: [],
-  editableNote: null,
-  bgColor: '#fff',
   archives: [],
+  editableNote: null,
 };
 
 const addNote = (state, action) => {
@@ -43,22 +42,15 @@ const updateNote = (state, action) => {
   return updateObject(state, updatedNote);
 };
 
-const getNoteColor = (state, action) => {
-  const updateBgColor = {
-    ...state,
-    bgColor: action.payload,
-  };
-  return updateObject(state, updateBgColor);
-};
-
 const changeNoteColor = (state, action) => {
   const noteType = action.noteType;
+  const bgColor = action.bgColor;
 
   const newNotes = state[noteType].map((note) =>
-    note.id === action.payload
+    note.id === action.id
       ? {
           ...note,
-          bgColor: state.bgColor,
+          bgColor: bgColor,
         }
       : note,
   );
@@ -69,6 +61,7 @@ const changeNoteColor = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
+// toggleNoteCondition
 const toggleNoteTool = (state, action) => {
   const noteType = action.noteType;
   const toolType = action.toolType;
@@ -151,8 +144,6 @@ const reducer = (state = initialState, action) => {
       return deleteNote(state, action);
     case actionTypes.UPDATE_NOTE:
       return updateNote(state, action);
-    case actionTypes.GET_NOTE_COLOR:
-      return getNoteColor(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
       return changeNoteColor(state, action);
     case actionTypes.TOGGLE_NOTE_TOOL:

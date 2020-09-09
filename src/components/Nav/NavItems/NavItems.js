@@ -73,4 +73,4 @@ function NavItems({ isHover }) {
   return <ul>{icons}</ul>;
 }
 
-export default NavItems;
+export default React.memo(NavItems);

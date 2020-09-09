@@ -46,7 +46,6 @@ const CloseBtn = styled.div`
   padding: 5px;
 `;
 
-// Undo
 function FlashMessage() {
   const message = useSelector((state) => state.flashMessage.message);
   const showMessage = useSelector((state) => state.flashMessage.showMessage);

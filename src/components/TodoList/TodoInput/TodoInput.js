@@ -21,12 +21,13 @@ export const TodoItemInput = styled.input`
   font-weight: 500;
   cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')};
   background: transparent;
+
   ${({ addingTodo }) =>
     addingTodo &&
     `
     font-family: inherit;
     font-size: 1.4rem;
-    letter-spacing: 0.5px;  
+    letter-spacing: 0.5px;
     `};
 `;
 
@@ -58,4 +59,4 @@ function TodoInput({ setTodos }) {
   );
 }
 
-export default TodoInput;
+export default React.memo(TodoInput);

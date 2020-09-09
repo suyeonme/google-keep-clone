@@ -47,10 +47,10 @@ function Note({ note, isArchived }) {
           isHovered={isHovered}
           isArchived={isArchived}
         />
-      )}{' '}
-      <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />{' '}
+      )}
+      <Toolbar id={id} onHover={isHovered} isArchived={isArchived} />
     </NoteContainer>
   );
 }
 
-export default Note;
+export default React.memo(Note);

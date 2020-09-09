@@ -15,11 +15,7 @@ const showFlashMessage = (state, action) => {
 };
 
 const hideFlashMessage = (state, action) => {
-  const updatedState = {
-    showMessage: false,
-    message: '',
-  };
-  return updateObject(state, updatedState);
+  return updateObject(state, initialState);
 };
 
 const reducer = (state = initialState, action) => {

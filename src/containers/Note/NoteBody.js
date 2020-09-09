@@ -8,12 +8,12 @@ import Tool from '../../components/Toolbar/Tool';
 function NoteBody({ note, clicked, isHovered, isArchived }) {
   const { title, content, id, isChecked, isPinned } = note;
 
-  // FIXME
-  const truncateText = (p) => {
-    let text;
-    p.length > 120 ? (text = p.substr(0, 120)) : (text = p);
-    return text;
-  };
+  // // FIXME
+  // const truncateText = (p) => {
+  //   let text;
+  //   p.length > 120 ? (text = p.substr(0, 120)) : (text = p);
+  //   return text;
+  // };
 
   return (
     <div clicked={clicked}>
@@ -30,10 +30,10 @@ function NoteBody({ note, clicked, isHovered, isArchived }) {
       {isChecked ? (
         <TodoList todoContent={() => convertNoteToTodo(content)} />
       ) : (
-        <NoteContent>{truncateText(content)}</NoteContent>
+        <NoteContent>{content}</NoteContent>
       )}
     </div>
   );
 }
 
-export default NoteBody;
+export default React.memo(NoteBody);

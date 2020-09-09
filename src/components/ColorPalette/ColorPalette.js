@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { getNoteColor, changeNoteColor } from '../../store/actions/notes';
+import { changeNoteColor } from '../../store/actions/notes';
 
 const ColorPaletteContainer = styled.div`
   max-width: 128px;
@@ -35,7 +35,14 @@ const ColorPaletteBtn = styled.button`
   }
 `;
 
-function ColorPalette({ id, isInputField, isArchived, onHover, onUnHover }) {
+function ColorPalette({
+  id,
+  isInputField,
+  isArchived,
+  onHover,
+  onUnHover,
+  onClick,
+}) {
   const colors = [
     '#fff',
     '#d9adad',
@@ -51,11 +58,12 @@ function ColorPalette({ id, isInputField, isArchived, onHover, onUnHover }) {
 
   const handleChangeColor = (e, color, id) => {
     e.preventDefault();
-    dispatch(getNoteColor(color));
-
-    isArchived
-      ? dispatch(changeNoteColor(id, 'archives'))
-      : dispatch(changeNoteColor(id, 'notes'));
+    if (isInputField) onClick(color);
+    if (!isInputField) {
+      isArchived
+        ? dispatch(changeNoteColor(id, 'archives', color))
+        : dispatch(changeNoteColor(id, 'notes', color));
+    }
   };
 
   return (

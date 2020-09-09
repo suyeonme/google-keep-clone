@@ -22,6 +22,7 @@ const LogoText = styled.span`
   line-height: 24px;
   color: #5f6368;
   padding-left: 4px;
+  font-weight: ${(props) => (props.path ? '400' : '300')};
 `;
 
 function Logo(props) {
@@ -34,10 +35,12 @@ function Logo(props) {
 
   return (
     <LogoContainer href="/">
-      <LogoImg src={LogoIcon} alt="Logo" />
-      <LogoText>{capitalizeFirstLetter(path)}</LogoText>
+      {path === 'keep' && <LogoImg src={LogoIcon} alt="Logo" />}
+      <LogoText path={path === 'keep' ? path : null}>
+        {capitalizeFirstLetter(path)}
+      </LogoText>
     </LogoContainer>
   );
 }
 
-export default withRouter(Logo);
+export default React.memo(withRouter(Logo));

@@ -91,6 +91,7 @@ function Tool({
 
     switch (title) {
       case 'Show Checkbox':
+        if (isInputField) onToggle('isChecked');
         if (isArchived)
           dispatch(toggleNoteTool(noteID, 'archives', 'isChecked'));
         else {
@@ -149,40 +150,4 @@ function Tool({
   );
 }
 
-export default Tool;
-
-// if (title === 'Show Checkbox') {
-//   if (isInputField) onToggle('isChecked');
-//   if (isArchived) dispatch(toggleNoteTool(noteID, 'archives', 'isChecked'));
-//   else {
-//     dispatch(toggleNoteTool(noteID, 'notes', 'isChecked'));
-//   }
-// }
-// if (title === 'Pin Note') {
-//   if (isInputField) onToggle('isPinned');
-//   if (isArchived) dispatch(toggleNoteTool(noteID, 'archives', 'isPinned'));
-//   else {
-//     dispatch(toggleNoteTool(noteID, 'notes', 'isPinned'));
-//   }
-// }
-// if (title === 'Delete Note') {
-//   isArchived
-//     ? dispatch(deleteNote(noteID, 'archives'))
-//     : dispatch(deleteNote(noteID, 'notes'));
-// }
-// if (title === 'Delete Todo') {
-//   deleteTodo();
-// }
-// if (title === 'Archive') {
-//   if (isInputField) showMessage('Note archived');
-//   else {
-//     showMessage('Note archived');
-//     dispatch(archiveNote(noteID));
-//     dispatch(clearEditableNote());
-//   }
-// }
-// if (title === 'Unarchive') {
-//   showMessage('Note uarchived');
-//   dispatch(unarchiveNote(noteID));
-//   dispatch(clearEditableNote());
-// }
+export default React.memo(Tool);

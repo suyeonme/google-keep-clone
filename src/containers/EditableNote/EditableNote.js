@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -11,7 +11,6 @@ import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 // TODO
 // saveEditableNote (color, content)
 // Typing - change color - NOT works (old color, old content)
-
 const EditNote = styled.div`
   cursor: text;
 `;
@@ -30,15 +29,15 @@ function EditableNote({ note, isArchived }) {
     dispatch(getEditableNote(editableNote));
   }, [dispatch, editableNote]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setEditableNote({ ...editableNote, [name]: value });
-  };
+    setEditableNote((prevState) => ({ ...prevState, [name]: value }));
+  }, []);
 
-  const handleBlurTodo = (todos) => {
+  const handleBlurTodo = useCallback((todos) => {
     const newContent = convertTodoToNote(todos);
     setEditableNote((prevState) => ({ ...prevState, content: newContent }));
-  };
+  }, []);
 
   if (isChecked) {
     return (
@@ -96,4 +95,4 @@ function EditableNote({ note, isArchived }) {
   );
 }
 
-export default EditableNote;
+export default React.memo(EditableNote);

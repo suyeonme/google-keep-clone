@@ -22,18 +22,12 @@ export const updateNote = (noteType) => {
   };
 };
 
-export const getNoteColor = (color) => {
-  return {
-    type: actions.GET_NOTE_COLOR,
-    payload: color,
-  };
-};
-
-export const changeNoteColor = (id, noteType) => {
+export const changeNoteColor = (id, noteType, color) => {
   return {
     type: actions.CHANGE_NOTE_COLOR,
-    payload: id,
+    id: id,
     noteType: noteType,
+    bgColor: color,
   };
 };
 

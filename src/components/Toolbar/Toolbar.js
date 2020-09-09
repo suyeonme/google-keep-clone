@@ -43,6 +43,7 @@ function Toolbar({
   onHover,
   onAddNote,
   onToggle,
+  onClick,
   isInputField,
   isArchived,
 }) {
@@ -118,10 +119,11 @@ function Toolbar({
           isArchived={isArchived}
           onUnHover={handleHideColorPalette}
           onHover={handleShowColorPalette}
+          onClick={onClick}
         />
       )}
     </ToolbarContainer>
   );
 }
 
-export default Toolbar;
+export default React.memo(Toolbar);

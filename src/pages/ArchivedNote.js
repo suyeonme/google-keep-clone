@@ -46,4 +46,4 @@ function ArchivedNote() {
   }
 }
 
-export default ArchivedNote;
+export default React.memo(ArchivedNote);
