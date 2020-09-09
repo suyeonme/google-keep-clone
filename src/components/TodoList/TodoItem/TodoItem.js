@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import DeleteIcon from '../../../icons/delete.svg';
 import Tool from '../../Toolbar/Tool';
@@ -75,5 +76,15 @@ function TodoItem({
     </TodoListContainer>
   );
 }
+
+TodoItem.propTypes = {
+  todo: PropTypes.object.isRequired,
+  onCheck: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  inputFocus: PropTypes.bool.isRequired,
+  readOnly: PropTypes.bool.isRequired,
+};
 
 export default React.memo(TodoItem);

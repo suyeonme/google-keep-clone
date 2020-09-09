@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEditableNote } from '../../store/actions/notes';
+import PropTypes from 'prop-types';
 
 import NoteBody from './NoteBody';
 import { NoteContainer } from './NoteElements';
@@ -52,5 +53,10 @@ function Note({ note, isArchived }) {
     </NoteContainer>
   );
 }
+
+Note.propTypes = {
+  note: PropTypes.object.isRequired,
+  isArchived: PropTypes.bool,
+};
 
 export default React.memo(Note);

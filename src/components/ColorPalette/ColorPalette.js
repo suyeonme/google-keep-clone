@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { changeNoteColor } from '../../store/actions/notes';
 
@@ -43,6 +44,7 @@ function ColorPalette({
   onUnHover,
   onClick,
 }) {
+  console.log(typeof id);
   const colors = [
     '#fff',
     '#d9adad',
@@ -82,5 +84,14 @@ function ColorPalette({
     </ColorPaletteContainer>
   );
 }
+
+ColorPalette.propTypes = {
+  id: PropTypes.string.isRequired,
+  isInputField: PropTypes.bool,
+  isArchived: PropTypes.bool,
+  onHover: PropTypes.func.isRequired,
+  onUnHover: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default ColorPalette;

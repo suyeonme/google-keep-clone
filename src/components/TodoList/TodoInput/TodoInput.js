@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Plus from '../../../icons/plus.svg';
 import { TodoListContainer } from '../TodoItem/TodoItem';
@@ -58,5 +59,9 @@ function TodoInput({ setTodos }) {
     </TodoListContainer>
   );
 }
+
+TodoInput.propTypes = {
+  setTodos: PropTypes.func.isRequired,
+};
 
 export default React.memo(TodoInput);

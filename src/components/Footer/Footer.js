@@ -14,7 +14,7 @@ const Copyright = styled.p`
   color: rgb(122, 122, 122);
 `;
 
-function Footer(props) {
+function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (

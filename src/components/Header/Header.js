@@ -33,7 +33,7 @@ const Menu = styled.div`
   }
 `;
 
-function Header(props) {
+function Header() {
   const [openNav, setOpenNav] = useState(false);
 
   return (

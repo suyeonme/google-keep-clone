@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Arrow from '../../../icons/arrow.svg';
 
@@ -41,5 +42,11 @@ function CompletedTodo({ doneTaskCount, clicked, isNote }) {
     </div>
   );
 }
+
+CompletedTodo.propTypes = {
+  doneTaskCount: PropTypes.number.isRequired,
+  clicked: PropTypes.func.isRequired,
+  isNote: PropTypes.bool,
+};
 
 export default React.memo(CompletedTodo);

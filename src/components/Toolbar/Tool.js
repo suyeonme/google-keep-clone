@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
+import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 import {
@@ -149,5 +150,20 @@ function Tool({
     </>
   );
 }
+
+Tool.propTypes = {
+  id: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  bgImage: PropTypes.string,
+  onToggle: PropTypes.func.isRequired,
+  showPalette: PropTypes.func,
+  hidePalette: PropTypes.func,
+  deleteTodo: PropTypes.func,
+  isInputField: PropTypes.bool,
+  isPinned: PropTypes.bool,
+  isArchived: PropTypes.bool,
+  notePin: PropTypes.bool,
+  inputPin: PropTypes.bool,
+};
 
 export default React.memo(Tool);

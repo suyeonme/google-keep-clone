@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import CompletedTodo from './CompletedTodo/CompletedTodo';
 import TodoItem from './TodoItem/TodoItem';
@@ -22,7 +23,6 @@ function TodoList({
 }) {
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
-  console.log(todos);
 
   const editableNote = useSelector((state) => state.notes.editableNote);
   const isEditable = editableNote ? true : false;
@@ -194,5 +194,17 @@ function TodoList({
 
   return null;
 }
+
+TodoList.PropTypes = {
+  todoContent: PropTypes.array,
+  id: PropTypes.string.isRequired,
+  isInputField: PropTypes.bool,
+  onSaveEditableNote: PropTypes.func.isRequired,
+  onSaveNote: PropTypes.func.isRequired,
+};
+
+TodoList.defaultProps = {
+  todoContent: [],
+};
 
 export default React.memo(TodoList);

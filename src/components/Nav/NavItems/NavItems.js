@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import lightIcon from '../../../icons/light.svg';
 import archiveIcon from '../../../icons/archive.svg';
@@ -72,5 +73,9 @@ function NavItems({ isHover }) {
 
   return <ul>{icons}</ul>;
 }
+
+NavItems.propTypes = {
+  isHover: PropTypes.bool,
+};
 
 export default React.memo(NavItems);

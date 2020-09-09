@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { Input, InputTextArea } from '../InputField/InputElements';
 import TodoList from '../../components/TodoList/TodoList';
@@ -38,6 +39,9 @@ function EditableNote({ note, isArchived }) {
     const newContent = convertTodoToNote(todos);
     setEditableNote((prevState) => ({ ...prevState, content: newContent }));
   }, []);
+
+  // isChecked && !todos
+  // isChecked && todos
 
   if (isChecked) {
     return (
@@ -94,5 +98,10 @@ function EditableNote({ note, isArchived }) {
     </EditNote>
   );
 }
+
+EditableNote.propTypes = {
+  note: PropTypes.object.isRequired,
+  isArchived: PropTypes.bool,
+};
 
 export default React.memo(EditableNote);

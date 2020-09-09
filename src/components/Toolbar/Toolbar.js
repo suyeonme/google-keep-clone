@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
@@ -125,5 +126,15 @@ function Toolbar({
     </ToolbarContainer>
   );
 }
+
+Toolbar.propTypes = {
+  id: PropTypes.string.isRequired,
+  onHover: PropTypes.func.isRequired,
+  onAddNote: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isInputField: PropTypes.bool,
+  isArchived: PropTypes.bool,
+};
 
 export default React.memo(Toolbar);

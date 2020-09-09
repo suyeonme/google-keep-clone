@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { NoteTitle, NoteContent } from './NoteElements';
 import TodoList from '../../components/TodoList/TodoList';
@@ -35,5 +36,12 @@ function NoteBody({ note, clicked, isHovered, isArchived }) {
     </div>
   );
 }
+
+NoteBody.propTypes = {
+  note: PropTypes.object.isRequired,
+  clicked: PropTypes.func.isRequired,
+  isHovered: PropTypes.bool,
+  isArchived: PropTypes.bool,
+};
 
 export default React.memo(NoteBody);

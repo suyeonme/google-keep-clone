@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
+import PropTypes from 'prop-types';
 
 import './NotesLayout.css';
 
@@ -27,5 +28,10 @@ function NotesLayout({ notes, title }) {
     </NotesContainer>
   );
 }
+
+NotesLayout.propTypes = {
+  notes: PropTypes.array.isRequired,
+  title: PropTypes.string,
+};
 
 export default React.memo(NotesLayout);

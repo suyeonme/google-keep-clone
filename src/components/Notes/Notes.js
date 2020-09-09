@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Note from '../../containers/Note/Note';
 import NotesLayout from './NotesLayout/NotesLayout';
@@ -40,5 +41,10 @@ function Notes({ notes, isArchived }) {
     </>
   );
 }
+
+Notes.propTypes = {
+  notes: PropTypes.array.isRequired,
+  isArchived: PropTypes.bool,
+};
 
 export default React.memo(Notes);

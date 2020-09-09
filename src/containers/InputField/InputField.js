@@ -15,9 +15,6 @@ import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote } from '../../store/actions/notes';
 
-// TODO
-// todoList: Back to original when click outside of form
-
 const initialNote = {
   title: '',
   content: '',

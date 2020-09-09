@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import NavItems from './NavItems/NavItems';
 
@@ -31,5 +32,10 @@ function Nav({ isHover, onHover }) {
     </NavContainer>
   );
 }
+
+NavContainer.propTypes = {
+  isHover: PropTypes.bool,
+  onHover: PropTypes.func,
+};
 
 export default React.memo(Nav);
