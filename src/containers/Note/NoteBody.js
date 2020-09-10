@@ -39,7 +39,7 @@ function NoteBody({ note, clicked, isHovered, isArchived }) {
 
 NoteBody.propTypes = {
   note: PropTypes.object.isRequired,
-  clicked: PropTypes.func.isRequired,
+  clicked: PropTypes.number.isRequired,
   isHovered: PropTypes.bool,
   isArchived: PropTypes.bool,
 };

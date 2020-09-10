@@ -12,6 +12,9 @@ function Note({ note, isArchived }) {
   const { id, bgColor } = note;
   const [isHovered, setIsHovered] = useState(false);
 
+  // When click label button, display label component
+  // Dispatch
+
   const editableNote = useSelector((state) => state.notes.editableNote);
   const editableNoteID = editableNote && editableNote.id;
   const isClicked = editableNoteID === id;

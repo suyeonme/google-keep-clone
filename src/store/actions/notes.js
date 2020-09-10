@@ -31,12 +31,12 @@ export const changeNoteColor = (id, noteType, color) => {
   };
 };
 
-export const toggleNoteTool = (id, noteType, toolType) => {
+export const toggleNoteProperty = (id, noteType, property) => {
   return {
-    type: actions.TOGGLE_NOTE_TOOL,
+    type: actions.TOGGLE_NOTE_PROPERTY,
     payload: id,
     noteType: noteType,
-    toolType: toolType,
+    property: property,
   };
 };
 
@@ -65,5 +65,21 @@ export const unarchiveNote = (id) => {
   return {
     type: actions.UNARCHIVE_NOTE,
     payload: id,
+  };
+};
+
+// Label
+export const addLabel = (label) => {
+  return {
+    type: actions.ADD_LABEL,
+    payload: label,
+  };
+};
+
+export const addNoteLabel = (id, label) => {
+  return {
+    type: actions.ADD_NOTE_LABEL,
+    id: id,
+    label: label,
   };
 };

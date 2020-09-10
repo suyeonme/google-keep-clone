@@ -2,10 +2,17 @@ import styled from 'styled-components';
 
 export const InputContainer = styled.div`
   width: 100%;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    margin-left: auto;
+  }
 `;
 
 export const InputForm = styled.form`
   position: relative;
+  top: 56px;
+
   width: 40%;
   height: auto;
   display: flex;
@@ -17,17 +24,23 @@ export const InputForm = styled.form`
   background: ${(props) => props.bgColor};
   transition: background-color 0.3s ease-in;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 60%;
   }
-  @media (max-width: 500px) {
-    width: 80%;
+  @media (max-width: 768px) {
+    width: 75%;
+  }
+  @media (max-width: 576px) {
+    width: 82%;
+    transform: translateX(20px);
+  }
+  @media (max-width: 320px) {
+    width: 78%;
   }
 `;
 
 export const Input = styled.input`
   width: 100%;
-  height: 100%;
   border: none;
   outline: none;
   font-family: inherit;
@@ -38,6 +51,7 @@ export const Input = styled.input`
   ${({ isEditableNote }) =>
     isEditableNote &&
     `
+    height: auto;
     padding: 12px 12px 0 12px;  
     `};
 `;
@@ -58,6 +72,5 @@ export const InputTextArea = styled.textarea`
     `
     font-size: 1.7rem; 
     padding: 0 12px 0 12px;  
-    min-height: 40vh;
     `};
 `;

@@ -8,11 +8,16 @@ import Nav from '../Nav/Nav';
 
 const HeaderContainer = styled.header`
   width: 100%;
-  background-color: inherit;
+  background-color: white;
   border-bottom: 1px solid rgba(66, 66, 66, 0.2);
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 5px 8px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
 `;
 
 const Menu = styled.div`
@@ -23,7 +28,6 @@ const Menu = styled.div`
   cursor: pointer;
   margin: 0 4px;
   padding: 12px;
-
   background: url(${Hamburger}) center center no-repeat;
   background-size: 35%;
 

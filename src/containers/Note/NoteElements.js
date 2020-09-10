@@ -38,11 +38,25 @@ export const NoteContainer = styled.div`
       left: 50%;
       transform: translate(-50%, -50%);
       width: 42%;
+      height: 60vh;
+      max-height: 90vh;
       z-index: 500;
       cursor: default;
-      max-height: 80vh;
       overflow: auto;
       animation: ${popup} 0.3s ease-out;
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+        0 1px 3px 1px rgba(60, 64, 67, 0.149);
+
+      @media (max-width: 1024px) {
+        width: 55%;
+      }
+      @media (max-width: 768px) {
+        width: 75%;
+        height: 80vh;
+      }
+      @media (max-width: 576px) {
+        width: 100%;
+      }
     `}
 `;
 

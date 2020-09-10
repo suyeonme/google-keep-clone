@@ -3,6 +3,15 @@
   width: calc(100% - 80px);
   padding: 0 40px;
   margin-left: auto;
+
+  margin-top: 117px;
+}
+
+@media (max-width: 576px) {
+  .grid {
+    width: calc(100% - 52px);
+    padding: 0 10px;
+  }
 }
 
 .col {

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import LabelIcon from '../../icons/lebel.svg';
 import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
-import PictureIcon from '../../icons/picture.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import ArchiveIcon from '../../icons/archive.svg';
 import Tool from './Tool';
@@ -22,6 +22,10 @@ const ToolbarContainer = styled.div`
   line-height: 0;
   opacity: ${(props) => (props.hovered ? 1 : 0)};
   transition: opacity 0.3s ease-out;
+
+  @media (max-width: 1024px) {
+    opacity: 1;
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -55,8 +59,8 @@ function Toolbar({
       title: 'Change Color',
     },
     {
-      icon: PictureIcon,
-      title: 'Add Picture',
+      icon: LabelIcon,
+      title: 'Add Label',
     },
     {
       icon: CheckboxIcon,
@@ -129,10 +133,10 @@ function Toolbar({
 
 Toolbar.propTypes = {
   id: PropTypes.string.isRequired,
-  onHover: PropTypes.func.isRequired,
-  onAddNote: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onHover: PropTypes.bool.isRequired,
+  onAddNote: PropTypes.func,
+  onToggle: PropTypes.func,
+  onClick: PropTypes.func,
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
 };

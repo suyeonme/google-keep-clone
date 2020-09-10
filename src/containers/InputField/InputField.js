@@ -22,6 +22,8 @@ const initialNote = {
   bgColor: '#fff',
   isChecked: false,
   isPinned: false,
+  ///
+  label: null,
 };
 
 function InputField() {

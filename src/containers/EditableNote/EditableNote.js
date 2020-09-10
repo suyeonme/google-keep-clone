@@ -12,8 +12,20 @@ import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 // TODO
 // saveEditableNote (color, content)
 // Typing - change color - NOT works (old color, old content)
+
 const EditNote = styled.div`
   cursor: text;
+  height: 80%;
+
+  @media (max-width: 1024px) {
+    height: 90%;
+  }
+  @media (max-width: 375px) {
+    height: 85%;
+  }
+  @media (max-width: 320px) {
+    height: 80%;
+  }
 `;
 
 function EditableNote({ note, isArchived }) {
@@ -39,9 +51,6 @@ function EditableNote({ note, isArchived }) {
     const newContent = convertTodoToNote(todos);
     setEditableNote((prevState) => ({ ...prevState, content: newContent }));
   }, []);
-
-  // isChecked && !todos
-  // isChecked && todos
 
   if (isChecked) {
     return (

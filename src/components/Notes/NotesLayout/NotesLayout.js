@@ -18,11 +18,23 @@ const Title = styled.div`
   padding: 8px;
 `;
 
+const breakPointCol = {
+  default: 5,
+  1200: 4,
+  1024: 3,
+  768: 2,
+  576: 1,
+};
+
 function NotesLayout({ notes, title }) {
   return (
     <NotesContainer>
       {title && <Title>{title}</Title>}
-      <Masonry breakpointCols={5} className="grid" columnClassName="col">
+      <Masonry
+        breakpointCols={breakPointCol}
+        className="grid"
+        columnClassName="col"
+      >
         {notes}
       </Masonry>
     </NotesContainer>

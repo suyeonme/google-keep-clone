@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 import {
-  toggleNoteTool,
+  toggleNoteProperty,
   deleteNote,
   archiveNote,
   unarchiveNote,
   clearEditableNote,
+  ///
+  addLabel,
+  addNoteLabel,
 } from '../../store/actions/notes';
 
 import {
@@ -94,17 +97,17 @@ function Tool({
       case 'Show Checkbox':
         if (isInputField) onToggle('isChecked');
         if (isArchived)
-          dispatch(toggleNoteTool(noteID, 'archives', 'isChecked'));
+          dispatch(toggleNoteProperty(noteID, 'archives', 'isChecked'));
         else {
-          dispatch(toggleNoteTool(noteID, 'notes', 'isChecked'));
+          dispatch(toggleNoteProperty(noteID, 'notes', 'isChecked'));
         }
         break;
       case 'Pin Note':
         if (isInputField) onToggle('isPinned');
         if (isArchived)
-          dispatch(toggleNoteTool(noteID, 'archives', 'isPinned'));
+          dispatch(toggleNoteProperty(noteID, 'archives', 'isPinned'));
         else {
-          dispatch(toggleNoteTool(noteID, 'notes', 'isPinned'));
+          dispatch(toggleNoteProperty(noteID, 'notes', 'isPinned'));
         }
         break;
       case 'Delete Note':
@@ -127,6 +130,12 @@ function Tool({
         showMessage('Note uarchived');
         dispatch(unarchiveNote(noteID));
         dispatch(clearEditableNote());
+        break;
+      ////
+      case 'Add Label':
+        console.log('Add Label');
+        //dispatch(addLabel(label));
+        //dispatch(addNoteLabel(noteID, label));
         break;
       default:
         return title;
@@ -155,7 +164,7 @@ Tool.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string.isRequired,
   bgImage: PropTypes.string,
-  onToggle: PropTypes.func.isRequired,
+  onToggle: PropTypes.func,
   showPalette: PropTypes.func,
   hidePalette: PropTypes.func,
   deleteTodo: PropTypes.func,
@@ -164,6 +173,7 @@ Tool.propTypes = {
   isArchived: PropTypes.bool,
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
+  // label: PropTypes.string,
 };
 
 export default React.memo(Tool);

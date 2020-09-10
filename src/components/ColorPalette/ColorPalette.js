@@ -44,7 +44,6 @@ function ColorPalette({
   onUnHover,
   onClick,
 }) {
-  console.log(typeof id);
   const colors = [
     '#fff',
     '#d9adad',
@@ -91,7 +90,7 @@ ColorPalette.propTypes = {
   isArchived: PropTypes.bool,
   onHover: PropTypes.func.isRequired,
   onUnHover: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default ColorPalette;

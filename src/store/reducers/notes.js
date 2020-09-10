@@ -5,6 +5,8 @@ const initialState = {
   notes: [],
   archives: [],
   editableNote: null,
+  ///
+  labels: [],
 };
 
 const addNote = (state, action) => {
@@ -61,10 +63,9 @@ const changeNoteColor = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-// toggleNoteCondition
-const toggleNoteTool = (state, action) => {
+const toggleNoteProperty = (state, action) => {
   const noteType = action.noteType;
-  const toolType = action.toolType;
+  const property = action.property;
 
   const updatedNotes = state[noteType].map((note) => {
     if (note.id === action.payload) {
@@ -72,12 +73,12 @@ const toggleNoteTool = (state, action) => {
         return {
           ...note,
           content: state.editableNote.content,
-          [toolType]: !note[toolType],
+          [property]: !note[property],
         };
       }
       return {
         ...note,
-        [toolType]: !note[toolType],
+        [property]: !note[property],
       };
     }
     return note;
@@ -135,6 +136,32 @@ const unarchiveNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
+// Label
+const addLabel = (state, action) => {
+  const updatedLabels = {
+    ...state,
+    labels: [action.payload, ...state.labels],
+  };
+  return updateObject(state, updatedLabels);
+};
+
+const addNoteLabel = (state, action) => {
+  const newNotes = state.notes.map((note) =>
+    note.id === action.id
+      ? {
+          ...note,
+          label: action.label,
+        }
+      : note,
+  );
+
+  const updatedNotes = {
+    ...state,
+    notes: newNotes,
+  };
+  return updateObject(state, updatedNotes);
+};
+
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -146,8 +173,8 @@ const reducer = (state = initialState, action) => {
       return updateNote(state, action);
     case actionTypes.CHANGE_NOTE_COLOR:
       return changeNoteColor(state, action);
-    case actionTypes.TOGGLE_NOTE_TOOL:
-      return toggleNoteTool(state, action);
+    case actionTypes.TOGGLE_NOTE_PROPERTY:
+      return toggleNoteProperty(state, action);
     case actionTypes.GET_EDITABLE_NOTE:
       return getEditableNote(state, action);
     case actionTypes.CLEAR_EDITABLE_NOTE:
@@ -156,6 +183,11 @@ const reducer = (state = initialState, action) => {
       return archiveNote(state, action);
     case actionTypes.UNARCHIVE_NOTE:
       return unarchiveNote(state, action);
+    ////
+    case actionTypes.ADD_LABEL:
+      return addLabel(state, action);
+    case actionTypes.ADD_NOTE_LABEL:
+      return addNoteLabel(state, action);
     default:
       return state;
   }

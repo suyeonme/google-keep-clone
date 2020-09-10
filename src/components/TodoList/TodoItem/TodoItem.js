@@ -80,11 +80,11 @@ function TodoItem({
 TodoItem.propTypes = {
   todo: PropTypes.object.isRequired,
   onCheck: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  inputFocus: PropTypes.bool.isRequired,
-  readOnly: PropTypes.bool.isRequired,
+  onBlur: PropTypes.func,
+  onDelete: PropTypes.func,
+  onChange: PropTypes.func,
+  inputFocus: PropTypes.bool,
+  readOnly: PropTypes.bool,
 };
 
 export default React.memo(TodoItem);
