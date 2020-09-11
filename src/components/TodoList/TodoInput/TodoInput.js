@@ -30,6 +30,13 @@ export const TodoItemInput = styled.input`
     font-size: 1.4rem;
     letter-spacing: 0.5px;
     `};
+
+  ${({ labelInput }) =>
+    labelInput &&
+    `
+    font-weight: 400;
+    padding: 8px 12px;
+    `};
 `;
 
 function TodoInput({ setTodos }) {

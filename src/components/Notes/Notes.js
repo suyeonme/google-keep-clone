@@ -48,3 +48,47 @@ Notes.propTypes = {
 };
 
 export default React.memo(Notes);
+
+// function Notes({ notes, isArchived }) {
+//   const isPinned = notes.filter((note) => note.isPinned).length > 0;
+
+//   if (isPinned) {
+//     const pinnedNotes = notes
+//       .filter((note) => note.isPinned)
+//       .map((note) => (
+//         <Note key={note.id} note={note} isArchived={isArchived} />
+//       ));
+
+//     const otherNotes = notes
+//       .filter((note) => !note.isPinned)
+//       .map((note) => (
+//         <Note key={note.id} note={note} isArchived={isArchived} />
+//       ));
+
+//     return (
+//       <>
+//         <NotesLayout title="pinned" notes={pinnedNotes} />
+//         <NotesLayout title="Others" notes={otherNotes} />
+//         <Backdrop />
+//       </>
+//     );
+//   }
+
+//   notes = notes.map((note) => (
+//     <Note key={note.id} note={note} isArchived={isArchived} />
+//   ));
+
+//   return (
+//     <>
+//       <NotesLayout notes={notes} />
+//       <Backdrop />
+//     </>
+//   );
+// }
+
+// Notes.propTypes = {
+//   notes: PropTypes.array.isRequired,
+//   isArchived: PropTypes.bool,
+// };
+
+// export default React.memo(Notes);

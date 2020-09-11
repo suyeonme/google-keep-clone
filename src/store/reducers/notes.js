@@ -4,9 +4,8 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
   notes: [],
   archives: [],
-  editableNote: null,
-  ///
   labels: [],
+  editableNote: null,
 };
 
 const addNote = (state, action) => {

@@ -51,6 +51,9 @@ function Toolbar({
   onClick,
   isInputField,
   isArchived,
+  setShowLabel,
+  //
+  label,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
@@ -102,6 +105,9 @@ function Toolbar({
             onToggle={onToggle}
             isInputField={isInputField}
             isArchived={isArchived}
+            setShowLabel={setShowLabel}
+            ///
+            label={label}
           />
         ))}
         {!isInputField && (
@@ -139,6 +145,7 @@ Toolbar.propTypes = {
   onClick: PropTypes.func,
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
+  setShowLabel: PropTypes.func,
 };
 
 export default React.memo(Toolbar);

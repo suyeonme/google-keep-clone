@@ -10,9 +10,6 @@ import {
   archiveNote,
   unarchiveNote,
   clearEditableNote,
-  ///
-  addLabel,
-  addNoteLabel,
 } from '../../store/actions/notes';
 
 import {
@@ -30,6 +27,8 @@ const ToolbarBtn = styled.button`
   background: ${(props) => `url(${props.bgImage})`} no-repeat center center;
   background-size: 50%;
   margin-right: 10px;
+
+  position: relative;
 
   &:hover {
     opacity: 0.87;
@@ -79,6 +78,8 @@ function Tool({
   isArchived,
   notePin,
   inputPin,
+  setShowLabel,
+  label,
 }) {
   const dispatch = useDispatch();
 
@@ -131,11 +132,8 @@ function Tool({
         dispatch(unarchiveNote(noteID));
         dispatch(clearEditableNote());
         break;
-      ////
       case 'Add Label':
-        console.log('Add Label');
-        //dispatch(addLabel(label));
-        //dispatch(addNoteLabel(noteID, label));
+        setShowLabel(true);
         break;
       default:
         return title;
@@ -173,7 +171,8 @@ Tool.propTypes = {
   isArchived: PropTypes.bool,
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
-  // label: PropTypes.string,
+  label: PropTypes.string,
+  setShowLabel: PropTypes.func,
 };
 
 export default React.memo(Tool);

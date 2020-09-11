@@ -10,7 +10,6 @@ import TodoInput from './TodoInput/TodoInput';
 // Issue: Lost check between note -- editable note (todos.isDone)
 
 // Custom Checkbox
-// Add border onFocus
 // Add functions (drag, truncate)
 // Trim white space
 

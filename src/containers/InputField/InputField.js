@@ -11,6 +11,7 @@ import {
 import Tool from '../../components/Toolbar/Tool';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import TodoList from '../../components/TodoList/TodoList';
+import Label from '../../components/Label/Label';
 import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote } from '../../store/actions/notes';
@@ -22,13 +23,13 @@ const initialNote = {
   bgColor: '#fff',
   isChecked: false,
   isPinned: false,
-  ///
-  label: null,
+  label: '',
 };
 
 function InputField() {
   const [note, setNote] = useState(initialNote);
   const { title, content, id, bgColor, isChecked, isPinned } = note;
+  const [showLabel, setShowLabel] = useState(false);
 
   const dispatch = useDispatch();
   const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
@@ -44,6 +45,7 @@ function InputField() {
       if (title !== '' && content !== '') {
         dispatch(addNote(note));
         handleResetNote();
+        setShowLabel(false);
         handleResetClick();
       }
     },
@@ -76,6 +78,12 @@ function InputField() {
     },
     [note],
   );
+
+  // TEST
+  const handleAddLabel = (label) => {
+    const newLabel = note.label.concat(label);
+    setNote({ ...note, label: newLabel });
+  };
 
   // TEXT FIELD
   let textField;
@@ -116,6 +124,7 @@ function InputField() {
           isPinned={isPinned}
           onToggle={handleToggle}
         />
+        {showLabel && <Label id={id} setNote={handleAddLabel} isInputField />}
         {isExpand && (
           <>
             {textField}
@@ -126,6 +135,7 @@ function InputField() {
               onAddNote={() => handleAddNote(note)}
               onToggle={handleToggle}
               onClick={handleChangeColor}
+              setShowLabel={setShowLabel}
             />
           </>
         )}

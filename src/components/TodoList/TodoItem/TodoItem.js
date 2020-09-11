@@ -13,13 +13,14 @@ export const TodoListContainer = styled.div`
   height: 30px;
   padding: 0 11px 0 11px;
   margin: 1px 0;
-  border-top: ${(props) =>
-    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
-  border-bottom: ${(props) =>
-    props.isFocus ? '1px solid #ccc' : '1px solid transparent'};
+
+  &:focus-within {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
 `;
 
-const Checkbox = styled.input`
+export const Checkbox = styled.input`
   margin-right: 1rem;
 
   &:checked + ${TodoItemInput} {
