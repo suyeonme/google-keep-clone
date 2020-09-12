@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import './NotesLayout.css';
 
 const NotesContainer = styled.div`
-  margin: 30px 0;
+  margin: 117px 0 30px 0;
 `;
 
 const Title = styled.div`

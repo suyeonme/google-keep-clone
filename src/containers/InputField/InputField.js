@@ -8,10 +8,12 @@ import {
   Input,
   InputTextArea,
 } from './InputElements';
-import Tool from '../../components/Toolbar/Tool';
-import Toolbar from '../../components/Toolbar/Toolbar';
+import Tool from '../../containers/Toolbar/Tool/Tool';
+import Toolbar from '../../containers/Toolbar/Toolbar';
 import TodoList from '../../components/TodoList/TodoList';
-import Label from '../../components/Label/Label';
+import Label from '../../containers/Label/Label';
+
+import NoteLabel from '../../containers/Label/LabelElements/NoteLabel/NoteLabel';
 import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { addNote } from '../../store/actions/notes';
@@ -23,12 +25,12 @@ const initialNote = {
   bgColor: '#fff',
   isChecked: false,
   isPinned: false,
-  label: '',
+  labels: [],
 };
 
 function InputField() {
   const [note, setNote] = useState(initialNote);
-  const { title, content, id, bgColor, isChecked, isPinned } = note;
+  const { title, content, id, bgColor, isChecked, isPinned, labels } = note;
   const [showLabel, setShowLabel] = useState(false);
 
   const dispatch = useDispatch();
@@ -79,17 +81,35 @@ function InputField() {
     [note],
   );
 
-  // TEST
-  const handleAddLabel = (label) => {
-    const newLabel = note.label.concat(label);
-    setNote({ ...note, label: newLabel });
-  };
+  const handleAddLabel = useCallback(
+    (label) => {
+      const isExisted = labels.includes(label);
+      const newLabel = labels.concat(label);
+      !isExisted && setNote({ ...note, labels: newLabel });
+    },
+    [note, labels],
+  );
+
+  const handleRemoveLabel = useCallback(
+    (label) => {
+      const newLabels = labels.filter((l) => l !== label);
+      setNote({ ...note, labels: newLabels });
+    },
+    [note, labels],
+  );
+
+  // const handleToggleLabel = useCallback(
+  //   (label) => {
+  //     const isExisted = labels.includes(label);
+  //     isExisted ? handleRemoveLabel(label) : handleAddLabel(label);
+  //   },
+  //   [handleAddLabel, handleRemoveLabel, labels],
+  // );
 
   // TEXT FIELD
   let textField;
   if (isChecked) {
     const todos = convertNoteToTodo(content);
-
     textField = (
       <TodoList todoContent={todos} onSaveNote={handleAddTodo} isInputField />
     );
@@ -124,10 +144,17 @@ function InputField() {
           isPinned={isPinned}
           onToggle={handleToggle}
         />
-        {showLabel && <Label id={id} setNote={handleAddLabel} isInputField />}
         {isExpand && (
           <>
             {textField}
+            {labels.length > 0 && (
+              <NoteLabel
+                id={id}
+                labels={labels}
+                onRemove={handleRemoveLabel}
+                isInputField
+              />
+            )}
             <Toolbar
               id={id}
               isInputField
@@ -139,6 +166,7 @@ function InputField() {
             />
           </>
         )}
+        {showLabel && <Label id={id} isInputField setNote={handleAddLabel} />}
       </InputForm>
     </InputContainer>
   );

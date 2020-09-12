@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import { Checkbox } from '../../TodoList/TodoItem/TodoItem';
+import { Checkbox } from '../../../../components/TodoList/TodoItem/TodoItem';
 
 const LabelItemContainer = styled.div`
   background: inherit;
@@ -22,9 +23,13 @@ const Label = styled.label`
   width: 100%;
 `;
 
-function LabelItem({ label, id, onAdd, setNote, isInputField }) {
+function LabelItem({ label, id, onAdd, setNote, isInputField, isArchived }) {
   const handleChange = (id, label) => {
-    isInputField ? setNote(label) : onAdd(id, label);
+    if (isInputField) setNote(label);
+    if (isArchived) onAdd(id, label, 'archives');
+    else {
+      onAdd(id, label, 'notes');
+    }
   };
 
   return (
@@ -33,12 +38,20 @@ function LabelItem({ label, id, onAdd, setNote, isInputField }) {
         id={label}
         type="checkbox"
         onChange={() => handleChange(id, label)}
-        //onChange={() => onAdd(id, label)}
         //checked={labels.map((l) => l === label)}
       />
       <Label htmlFor={label}>{label}</Label>
     </LabelItemContainer>
   );
 }
+
+LabelItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  isInputField: PropTypes.bool,
+  isArchived: PropTypes.bool,
+  onAdd: PropTypes.func,
+  setNote: PropTypes.func,
+};
 
 export default React.memo(LabelItem);

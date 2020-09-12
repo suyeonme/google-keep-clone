@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import DeleteIcon from '../../../icons/delete.svg';
-import Tool from '../../Toolbar/Tool';
+import Tool from '../../../containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from '../TodoInput/TodoInput';
 
 export const TodoListContainer = styled.div`

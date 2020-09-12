@@ -23,3 +23,9 @@ export const convertNoteToTodo = (str) => {
 export const convertTodoToNote = (arr) => {
   return arr.map((todo) => todo.todoItem).join('\r\n');
 };
+
+// TEST
+// export const toggleLabel = (labels, label, addFunc, removeFunc) => {
+//   const isExisted = labels.includes(label);
+//   isExisted ? removeFunc(label) : addFunc(label);
+// };

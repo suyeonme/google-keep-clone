@@ -3,8 +3,6 @@
   width: calc(100% - 80px);
   padding: 0 40px;
   margin-left: auto;
-
-  margin-top: 117px;
 }
 
 @media (max-width: 576px) {

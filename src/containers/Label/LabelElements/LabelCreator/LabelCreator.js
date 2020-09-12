@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Plus from '../../../../icons/plus.svg';
 
@@ -28,14 +29,26 @@ const Description = styled.p`
   vertical-align: top;
 `;
 
-function LabelCreator({ label, onClick, id, onAdd, isInputField, setNote }) {
+function LabelCreator({
+  id,
+  label,
+  onClick,
+  onAdd,
+  setNote,
+  isInputField,
+  isArchived,
+}) {
   const handleClick = (id, label) => {
+    if (isInputField) setNote(label);
+    if (isArchived) onAdd(id, label, 'archives');
+    else {
+      onAdd(id, label, 'notes');
+    }
     onClick(label);
-    isInputField ? setNote(label) : onAdd(id, label);
   };
 
   return (
-    <Container onClick={() => handleClick(id, label)}>
+    <Container onClick={(e) => handleClick(id, label)}>
       <PlusIcon />
       <Description>
         Create <strong>"{label}"</strong>
@@ -44,4 +57,14 @@ function LabelCreator({ label, onClick, id, onAdd, isInputField, setNote }) {
   );
 }
 
-export default LabelCreator;
+LabelCreator.propTypes = {
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  isInputField: PropTypes.bool,
+  isArchived: PropTypes.bool,
+  onAdd: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
+  setNote: PropTypes.func,
+};
+
+export default React.memo(LabelCreator);

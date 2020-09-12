@@ -1,85 +1,41 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import Tooltip from '@material-ui/core/Tooltip';
-import PropTypes from 'prop-types';
-
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import { ToolbarBtn } from './ToolElements';
 import {
   toggleNoteProperty,
   deleteNote,
   archiveNote,
   unarchiveNote,
   clearEditableNote,
-} from '../../store/actions/notes';
-
+  deleteNoteLabel,
+} from '../../../store/actions/notes';
 import {
   showFlashMessage,
   hideFlashMessage,
-} from '../../store/actions/flashMessage';
-
-import PinIcon from '../../icons/pin.svg';
-import FilledPinIcon from '../../icons/pin-fill.svg';
-
-const ToolbarBtn = styled.button`
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  background: ${(props) => `url(${props.bgImage})`} no-repeat center center;
-  background-size: 50%;
-  margin-right: 10px;
-
-  position: relative;
-
-  &:hover {
-    opacity: 0.87;
-    background-color: rgba(95, 99, 104, 0.157);
-  }
-
-  ${({ notePin }) =>
-    notePin &&
-    css`
-      position: absolute;
-      top: 9px;
-      right: 7px;
-      width: 30px;
-      height: 30px;
-      opacity: 0.54;
-      background-size: 24px 24px;
-      margin-right: 0;
-      background: ${(props) =>
-          props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
-        no-repeat center center;
-    `}
-
-  ${({ inputPin }) =>
-    inputPin &&
-    css`
-      position: absolute;
-      top: 2px;
-      right: 0;
-      width: 40px;
-      height: 40px;
-      background: ${(props) =>
-          props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
-        no-repeat center center;
-    `}
-`;
+} from '../../../store/actions/flashMessage';
 
 function Tool({
   id,
   title,
   bgImage,
+  label,
   onToggle,
   showPalette,
   hidePalette,
   deleteTodo,
+  setShowLabel,
+  onRemove,
   isInputField,
   isPinned,
   isArchived,
   notePin,
   inputPin,
-  setShowLabel,
-  label,
+  isLabel,
+  //
+  editLabel,
 }) {
   const dispatch = useDispatch();
 
@@ -135,23 +91,36 @@ function Tool({
       case 'Add Label':
         setShowLabel(true);
         break;
+      case 'Remove Label':
+        if (isInputField) onRemove(label);
+        if (isArchived) dispatch(deleteNoteLabel(noteID, label, 'archives'));
+        else {
+          dispatch(deleteNoteLabel(noteID, label, 'notes'));
+        }
+        break;
       default:
         return title;
     }
+  };
+
+  const styleProps = {
+    bgImage,
+    notePin,
+    inputPin,
+    isPinned,
+    isLabel,
+    editLabel,
   };
 
   return (
     <>
       <Tooltip title={title} arrow>
         <ToolbarBtn
-          bgImage={bgImage}
+          isInputField={isInputField}
           onMouseEnter={showPalette}
           onMouseLeave={hidePalette}
           onClick={(e) => handleClick(e, title, id)}
-          isInputField={isInputField}
-          notePin={notePin}
-          inputPin={inputPin}
-          isPinned={isPinned}
+          {...styleProps}
         />
       </Tooltip>
     </>
@@ -171,8 +140,10 @@ Tool.propTypes = {
   isArchived: PropTypes.bool,
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
-  label: PropTypes.string,
   setShowLabel: PropTypes.func,
+  isLabel: PropTypes.bool,
+  onRemove: PropTypes.func,
+  // label
 };
 
 export default React.memo(Tool);

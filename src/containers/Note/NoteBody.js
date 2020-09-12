@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NoteTitle, NoteContent } from './NoteElements';
 import TodoList from '../../components/TodoList/TodoList';
 import { convertNoteToTodo } from '../../shared/utility';
-import Tool from '../../components/Toolbar/Tool';
+import Tool from '../../containers/Toolbar/Tool/Tool';
 
 function NoteBody({ note, clicked, isHovered, isArchived }) {
   const { title, content, id, isChecked, isPinned } = note;

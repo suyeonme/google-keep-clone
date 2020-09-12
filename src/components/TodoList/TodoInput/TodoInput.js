@@ -22,6 +22,7 @@ export const TodoItemInput = styled.input`
   font-weight: 500;
   cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')};
   background: transparent;
+  border-bottom: 1px solid transparent;
 
   ${({ addingTodo }) =>
     addingTodo &&
@@ -36,6 +37,17 @@ export const TodoItemInput = styled.input`
     `
     font-weight: 400;
     padding: 8px 12px;
+    `};
+
+  ${({ editLabel }) =>
+    editLabel &&
+    `
+      margin: 0 15px;
+      height: 50%;
+
+      &:focus-within {
+        border-bottom: 1px solid #ccc;
+      }
     `};
 `;
 

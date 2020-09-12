@@ -53,6 +53,31 @@ export const clearEditableNote = () => {
   };
 };
 
+// Label
+export const addLabel = (label) => {
+  return {
+    type: actions.ADD_LABEL,
+    payload: label,
+  };
+};
+
+export const addNoteLabel = (id, label, noteType) => {
+  return {
+    type: actions.ADD_NOTE_LABEL,
+    id: id,
+    label: label,
+    noteType: noteType,
+  };
+};
+export const deleteNoteLabel = (id, label, noteType) => {
+  return {
+    type: actions.DELETE_NOTE_LABEL,
+    id: id,
+    label: label,
+    noteType: noteType,
+  };
+};
+
 // Archives
 export const archiveNote = (id) => {
   return {
@@ -68,18 +93,18 @@ export const unarchiveNote = (id) => {
   };
 };
 
-// Label
-export const addLabel = (label) => {
-  return {
-    type: actions.ADD_LABEL,
-    payload: label,
-  };
-};
-
-export const addNoteLabel = (id, label) => {
-  return {
-    type: actions.ADD_NOTE_LABEL,
-    id: id,
-    label: label,
-  };
-};
+// Original
+// export const addNoteLabel = (id, label) => {
+//   return {
+//     type: actions.ADD_NOTE_LABEL,
+//     id: id,
+//     label: label,
+//   };
+// };
+// export const deleteNoteLabel = (id, label) => {
+//   return {
+//     type: actions.DELETE_NOTE_LABEL,
+//     id: id,
+//     label: label,
+//   };
+// };

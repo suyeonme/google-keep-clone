@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import LabelIcon from '../../icons/lebel.svg';
+import LabelIcon from '../../icons/label.svg';
 import TranshCanIcon from '../../icons/trash-can.svg';
 import PaintIcon from '../../icons/paintbrush.svg';
 import CheckboxIcon from '../../icons/checkbox.svg';
 import ArchiveIcon from '../../icons/archive.svg';
-import Tool from './Tool';
-import ColorPalette from '../ColorPalette/ColorPalette';
+import Tool from './Tool/Tool';
+import ColorPalette from '../../components/ColorPalette/ColorPalette';
 import { updateNote } from '../../store/actions/notes';
 
 const ToolbarContainer = styled.div`
@@ -52,8 +52,7 @@ function Toolbar({
   isInputField,
   isArchived,
   setShowLabel,
-  //
-  label,
+  labels,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
@@ -96,6 +95,7 @@ function Toolbar({
             key={i}
             title={icon.title}
             bgImage={icon.icon}
+            labels={labels}
             showPalette={
               icon.title === 'Change Color' ? handleShowColorPalette : null
             }
@@ -106,8 +106,6 @@ function Toolbar({
             isInputField={isInputField}
             isArchived={isArchived}
             setShowLabel={setShowLabel}
-            ///
-            label={label}
           />
         ))}
         {!isInputField && (
@@ -146,6 +144,7 @@ Toolbar.propTypes = {
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
+  //label: PropTypes.array,
 };
 
 export default React.memo(Toolbar);

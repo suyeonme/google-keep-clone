@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import lightIcon from '../../../icons/light.svg';
 import archiveIcon from '../../../icons/archive.svg';
+import penIcon from '../../../icons/pen.svg';
+
+import EditLabel from '../../../containers/Label/EditLabel/EditLabel';
 
 const Link = styled(NavLink)`
   height: 100%;
@@ -43,20 +46,47 @@ const Title = styled.span`
   margin-left: 20px;
 `;
 
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  border-radius: ${(props) => (props.ishover ? '0 25px 25px 0' : '50%')};
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f3f4;
+  }
+`;
+
 function NavItems({ isHover }) {
+  const [showEditLabel, setShowEditLabel] = useState(false);
+
   let icons;
   const navIcons = [
     { image: lightIcon, title: 'Notes', link: '/' },
     { image: archiveIcon, title: 'Archive', link: '/archive' },
+    { image: penIcon, title: 'Edit labels', link: '' },
   ];
 
   if (isHover) {
     icons = navIcons.map((icon, i) => (
       <li key={i}>
-        <Link to={icon.link} exact={true} ishover={isHover.toString()}>
-          <IconContainer bgImage={icon.image} />
-          <Title>{icon.title}</Title>
-        </Link>
+        {icon.link !== '' ? (
+          <Link to={icon.link} exact={true} ishover={isHover.toString()}>
+            <IconContainer bgImage={icon.image} />
+            <Title>{icon.title}</Title>
+          </Link>
+        ) : (
+          <Container
+            ishover={isHover.toString()}
+            onClick={() => setShowEditLabel(true)}
+          >
+            <IconContainer bgImage={icon.image} />
+            <Title>{icon.title}</Title>
+          </Container>
+        )}
       </li>
     ));
   }
@@ -64,14 +94,25 @@ function NavItems({ isHover }) {
   if (!isHover) {
     icons = navIcons.map((icon, i) => (
       <li key={i}>
-        <Link to={icon.link} exact={true}>
-          <IconContainer bgImage={icon.image} />
-        </Link>
+        {icon.link !== '' ? (
+          <Link to={icon.link} exact={true}>
+            <IconContainer bgImage={icon.image} />
+          </Link>
+        ) : (
+          <Container ishover={isHover.toString()}>
+            <IconContainer bgImage={icon.image} />
+          </Container>
+        )}
       </li>
     ));
   }
 
-  return <ul>{icons}</ul>;
+  return (
+    <>
+      <ul>{icons}</ul>
+      {showEditLabel && <EditLabel onClick={setShowEditLabel} />}
+    </>
+  );
 }
 
 NavItems.propTypes = {
@@ -79,3 +120,42 @@ NavItems.propTypes = {
 };
 
 export default React.memo(NavItems);
+
+// function NavItems({ isHover }) {
+//   let icons;
+//   const navIcons = [
+//     { image: lightIcon, title: 'Notes', link: '/' },
+//     { image: archiveIcon, title: 'Archive', link: '/archive' },
+//   ];
+
+//   { image: penIcon, title: 'Edit labels', link: '/archive' },
+
+//   if (isHover) {
+//     icons = navIcons.map((icon, i) => (
+//       <li key={i}>
+//         <Link to={icon.link} exact={true} ishover={isHover.toString()}>
+//           <IconContainer bgImage={icon.image} />
+//           <Title>{icon.title}</Title>
+//         </Link>
+//       </li>
+//     ));
+//   }
+
+//   if (!isHover) {
+//     icons = navIcons.map((icon, i) => (
+//       <li key={i}>
+//         <Link to={icon.link} exact={true}>
+//           <IconContainer bgImage={icon.image} />
+//         </Link>
+//       </li>
+//     ));
+//   }
+
+//   return <ul>{icons}</ul>;
+// }
+
+// NavItems.propTypes = {
+//   isHover: PropTypes.bool,
+// };
+
+// export default React.memo(NavItems);
