@@ -5,6 +5,17 @@ export const updateObject = (oldObject, updatedProperties) => {
   };
 };
 
+export const removeLabelFromNote = (notes, label) => {
+  return notes.map((note) =>
+    note.labels.includes(label)
+      ? {
+          ...note,
+          labels: note.labels.filter((l) => l !== label),
+        }
+      : note,
+  );
+};
+
 export const convertNoteToTodo = (str) => {
   if (str) {
     return str.split(/\n/g).reduce((todos, todo, i) => {

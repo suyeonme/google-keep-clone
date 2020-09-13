@@ -10,7 +10,10 @@ import {
   archiveNote,
   unarchiveNote,
   clearEditableNote,
-  deleteNoteLabel,
+  removeNoteLabel,
+  addLabel,
+  removeLabel,
+  renameLabel,
 } from '../../../store/actions/notes';
 import {
   showFlashMessage,
@@ -21,7 +24,6 @@ function Tool({
   id,
   title,
   bgImage,
-  label,
   onToggle,
   showPalette,
   hidePalette,
@@ -33,9 +35,11 @@ function Tool({
   isArchived,
   notePin,
   inputPin,
+  label,
+  newLabel,
   isLabel,
-  //
   editLabel,
+  clearInput,
 }) {
   const dispatch = useDispatch();
 
@@ -91,12 +95,25 @@ function Tool({
       case 'Add Label':
         setShowLabel(true);
         break;
+      case 'Create Label':
+        dispatch(addLabel(label));
+        clearInput();
+        break;
       case 'Remove Label':
         if (isInputField) onRemove(label);
-        if (isArchived) dispatch(deleteNoteLabel(noteID, label, 'archives'));
+        if (isArchived) dispatch(removeNoteLabel(noteID, label, 'archives'));
+        if (editLabel) dispatch(removeLabel(label));
         else {
-          dispatch(deleteNoteLabel(noteID, label, 'notes'));
+          dispatch(removeNoteLabel(noteID, label, 'notes'));
         }
+        break;
+      case 'Rename Label':
+        isArchived
+          ? dispatch(renameLabel(label, newLabel, 'archives'))
+          : dispatch(renameLabel(label, newLabel, 'notes'));
+        break;
+      case 'Cancel':
+        clearInput();
         break;
       default:
         return title;
@@ -143,7 +160,8 @@ Tool.propTypes = {
   setShowLabel: PropTypes.func,
   isLabel: PropTypes.bool,
   onRemove: PropTypes.func,
-  // label
+  editLabel: PropTypes.bool,
+  clearInput: PropTypes.func,
 };
 
 export default React.memo(Tool);

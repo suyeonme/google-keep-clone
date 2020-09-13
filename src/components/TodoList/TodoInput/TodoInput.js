@@ -14,6 +14,7 @@ const PlusIcon = styled.div`
   background-size: 50%;
 `;
 
+// Create custom object!
 export const TodoItemInput = styled.input`
   width: 100%;
   height: 100%;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEditableNote } from '../../store/actions/notes';
 import PropTypes from 'prop-types';
@@ -9,8 +9,6 @@ import Toolbar from '../../containers/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 import Label from '../../containers/Label/Label';
 import NoteLabel from '../../containers/Label/LabelElements/NoteLabel/NoteLabel';
-
-import { useClickOutside } from '../../hooks/useClickOutside';
 
 function Note({ note, isArchived }) {
   const { id, bgColor, labels } = note;
@@ -39,9 +37,6 @@ function Note({ note, isArchived }) {
     isArchived: isArchived,
   };
 
-  // TEST
-  const { ref, isClickOutside, setIsClickOutside } = useClickOutside(false);
-
   return (
     <NoteContainer
       bgColor={bgColor}
@@ -69,7 +64,7 @@ function Note({ note, isArchived }) {
         isArchived={isArchived}
       />
 
-      {showLabel && <Label id={id} isArchived={isArchived} ref={ref} />}
+      {showLabel && <Label id={id} isArchived={isArchived} />}
     </NoteContainer>
   );
 }

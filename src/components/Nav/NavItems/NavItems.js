@@ -60,7 +60,7 @@ const Container = styled.div`
   }
 `;
 
-function NavItems({ isHover }) {
+function NavItems({ isHover, openNav }) {
   const [showEditLabel, setShowEditLabel] = useState(false);
 
   let icons;
@@ -69,6 +69,11 @@ function NavItems({ isHover }) {
     { image: archiveIcon, title: 'Archive', link: '/archive' },
     { image: penIcon, title: 'Edit labels', link: '' },
   ];
+
+  const handleClick = () => {
+    openNav(false);
+    setShowEditLabel(true);
+  };
 
   if (isHover) {
     icons = navIcons.map((icon, i) => (
@@ -79,10 +84,7 @@ function NavItems({ isHover }) {
             <Title>{icon.title}</Title>
           </Link>
         ) : (
-          <Container
-            ishover={isHover.toString()}
-            onClick={() => setShowEditLabel(true)}
-          >
+          <Container ishover={isHover.toString()} onClick={handleClick}>
             <IconContainer bgImage={icon.image} />
             <Title>{icon.title}</Title>
           </Container>
@@ -110,52 +112,14 @@ function NavItems({ isHover }) {
   return (
     <>
       <ul>{icons}</ul>
-      {showEditLabel && <EditLabel onClick={setShowEditLabel} />}
+      {showEditLabel && <EditLabel showNav={setShowEditLabel} />}
     </>
   );
 }
 
 NavItems.propTypes = {
   isHover: PropTypes.bool,
+  openNav: PropTypes.func,
 };
 
 export default React.memo(NavItems);
-
-// function NavItems({ isHover }) {
-//   let icons;
-//   const navIcons = [
-//     { image: lightIcon, title: 'Notes', link: '/' },
-//     { image: archiveIcon, title: 'Archive', link: '/archive' },
-//   ];
-
-//   { image: penIcon, title: 'Edit labels', link: '/archive' },
-
-//   if (isHover) {
-//     icons = navIcons.map((icon, i) => (
-//       <li key={i}>
-//         <Link to={icon.link} exact={true} ishover={isHover.toString()}>
-//           <IconContainer bgImage={icon.image} />
-//           <Title>{icon.title}</Title>
-//         </Link>
-//       </li>
-//     ));
-//   }
-
-//   if (!isHover) {
-//     icons = navIcons.map((icon, i) => (
-//       <li key={i}>
-//         <Link to={icon.link} exact={true}>
-//           <IconContainer bgImage={icon.image} />
-//         </Link>
-//       </li>
-//     ));
-//   }
-
-//   return <ul>{icons}</ul>;
-// }
-
-// NavItems.propTypes = {
-//   isHover: PropTypes.bool,
-// };
-
-// export default React.memo(NavItems);

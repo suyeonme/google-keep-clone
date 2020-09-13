@@ -17,8 +17,7 @@ const LabelContainer = styled.div`
   position: absolute;
   top: 160px;
   left: 0;
-
-  z-index: 2;
+  z-index: 1;
   width: 225px;
   height: auto;
   border-radius: 2px;

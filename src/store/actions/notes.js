@@ -69,11 +69,28 @@ export const addNoteLabel = (id, label, noteType) => {
     noteType: noteType,
   };
 };
-export const deleteNoteLabel = (id, label, noteType) => {
+
+export const removeNoteLabel = (id, label, noteType) => {
   return {
-    type: actions.DELETE_NOTE_LABEL,
+    type: actions.REMOVE_NOTE_LABEL,
     id: id,
     label: label,
+    noteType: noteType,
+  };
+};
+
+export const removeLabel = (label) => {
+  return {
+    type: actions.REMOVE_LABEL,
+    label: label,
+  };
+};
+
+export const renameLabel = (oldLabel, newLabel, noteType) => {
+  return {
+    type: actions.RENAME_LABEL,
+    oldLabel: oldLabel,
+    newLabel: newLabel,
     noteType: noteType,
   };
 };
@@ -92,19 +109,3 @@ export const unarchiveNote = (id) => {
     payload: id,
   };
 };
-
-// Original
-// export const addNoteLabel = (id, label) => {
-//   return {
-//     type: actions.ADD_NOTE_LABEL,
-//     id: id,
-//     label: label,
-//   };
-// };
-// export const deleteNoteLabel = (id, label) => {
-//   return {
-//     type: actions.DELETE_NOTE_LABEL,
-//     id: id,
-//     label: label,
-//   };
-// };

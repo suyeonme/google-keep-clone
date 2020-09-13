@@ -30,7 +30,7 @@ export const ToolbarBtn = styled.button`
       background: ${(props) =>
         props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
         no-repeat center center;
-    `}
+    `};
 
   ${({ inputPin }) =>
     inputPin &&
@@ -40,27 +40,28 @@ export const ToolbarBtn = styled.button`
       right: 0;
       width: 40px;
       height: 40px;
-      background: ${(props) =>
+      ${
+        '' /* background: ${(props) =>
         props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
-        no-repeat center center;
-    `}
+        no-repeat center center; */
+      }
+        background: url(${FilledPinIcon}) no-repeat center center;
+    `};
 
-    ${({ isLabel }) =>
+  ${({ isLabel }) =>
     isLabel &&
     `
       width: 18px;
       height: 18px;
       margin-right: 0;
-    `}
+    `};
 
-    ${({ editLabel }) =>
+  ${({ editLabel }) =>
     editLabel &&
     `
-      width: 24px;
-      height: 24px;
+      width: 25px;
+      height: 25px;
       background-size: 80%;
       margin-right: 0;
-
-
-    `}
+    `};
 `;

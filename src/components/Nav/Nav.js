@@ -33,7 +33,7 @@ function Nav({ isHover, onHover }) {
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
     >
-      <NavItems isHover={isHover} />
+      <NavItems isHover={isHover} openNav={onHover} />
     </NavContainer>
   );
 }

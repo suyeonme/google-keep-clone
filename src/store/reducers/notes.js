@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionsTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject, removeLabelFromNote } from '../../shared/utility';
 
 // Repeated variables: action.noteType
+// Repeated methods -> Utility functions
 
 const initialState = {
   notes: [],
@@ -10,6 +11,7 @@ const initialState = {
   editableNote: null,
 };
 
+// addLabel - addItem
 const addNote = (state, action) => {
   const updatedNote = {
     ...state,
@@ -22,6 +24,7 @@ const deleteNote = (state, action) => {
   const newNotes = state[action.noteType].filter(
     (item) => item.id !== action.payload,
   );
+
   const updatedNotes = {
     ...state,
     [action.noteType]: newNotes,
@@ -31,6 +34,7 @@ const deleteNote = (state, action) => {
 };
 
 const updateNote = (state, action) => {
+  // Filter and change
   const newNotes = state[action.noteType]
     .filter((note) => note.id !== state.editableNote.id)
     .concat(state.editableNote);
@@ -135,9 +139,24 @@ const unarchiveNote = (state, action) => {
 const addLabel = (state, action) => {
   const updatedLabels = {
     ...state,
-    labels: [action.payload, ...state.labels],
+    labels: [...state.labels, action.payload],
   };
   return updateObject(state, updatedLabels);
+};
+
+const removeLabel = (state, action) => {
+  const newLabels = state.labels.filter((label) => label !== action.label);
+  const newNotes = removeLabelFromNote(state.notes, action.label);
+  const newArchives = removeLabelFromNote(state.archives, action.label);
+
+  const updatedState = {
+    ...state,
+    labels: newLabels,
+    notes: newNotes,
+    archives: newArchives,
+  };
+
+  return updateObject(state, updatedState);
 };
 
 const addNoteLabel = (state, action) => {
@@ -157,7 +176,7 @@ const addNoteLabel = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const deleteNoteLabel = (state, action) => {
+const removeNoteLabel = (state, action) => {
   const newNotes = state[action.noteType].map((note) =>
     note.id === action.id
       ? {
@@ -172,6 +191,30 @@ const deleteNoteLabel = (state, action) => {
     [action.noteType]: newNotes,
   };
   return updateObject(state, updatedNotes);
+};
+
+const renameLabel = (state, action) => {
+  const newLabels = state.labels.map((label) =>
+    label === action.oldLabel ? action.newLabel : label,
+  );
+
+  const newNotes = state[action.noteType].map((note) =>
+    note.labels.includes(action.oldLabel)
+      ? {
+          ...note,
+          labels: note.labels
+            .filter((l) => l !== action.oldLabel)
+            .concat(action.newLabel),
+        }
+      : note,
+  );
+
+  const updatedLabels = {
+    ...state,
+    [action.noteType]: newNotes,
+    labels: newLabels,
+  };
+  return updateObject(state, updatedLabels);
 };
 
 // REDUCER
@@ -197,10 +240,14 @@ const reducer = (state = initialState, action) => {
       return unarchiveNote(state, action);
     case actionTypes.ADD_LABEL:
       return addLabel(state, action);
+    case actionTypes.REMOVE_LABEL:
+      return removeLabel(state, action);
+    case actionTypes.RENAME_LABEL:
+      return renameLabel(state, action);
     case actionTypes.ADD_NOTE_LABEL:
       return addNoteLabel(state, action);
-    case actionTypes.DELETE_NOTE_LABEL:
-      return deleteNoteLabel(state, action);
+    case actionTypes.REMOVE_NOTE_LABEL:
+      return removeNoteLabel(state, action);
     default:
       return state;
   }
@@ -208,38 +255,16 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 
-// Original
-// const addNoteLabel = (state, action) => {
-//   const newNotes = state.notes.map((note) =>
-//     note.id === action.id && !note.labels.includes(action.label)
+// const createNewItems = (arr) => {
+//   return arr.map((note) =>
+//     note.labels.includes(action.label)
 //       ? {
 //           ...note,
-//           labels: [...note.labels, action.label],
+//           labels: note.labels.filter((l) => l !== action.label),
 //         }
 //       : note,
 //   );
-
-//   const updatedNotes = {
-//     ...state,
-//     notes: newNotes,
-//   };
-//   return updateObject(state, updatedNotes);
 // };
 
-// Original
-// const deleteNoteLabel = (state, action) => {
-//   const newNotes = state.notes.map((note) =>
-//     note.id === action.id
-//       ? {
-//           ...note,
-//           labels: note.labels.filter((label) => label !== action.label),
-//         }
-//       : note,
-//   );
-
-//   const updatedNotes = {
-//     ...state,
-//     notes: newNotes,
-//   };
-//   return updateObject(state, updatedNotes);
-// };
+// const newNotes = createNewItems(state.notes);
+// const newArchives = createNewItems(state.archives);

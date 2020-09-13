@@ -140,8 +140,8 @@ function InputField() {
         <Tool
           inputPin
           isInputField
-          title="Pin Note"
           isPinned={isPinned}
+          title="Pin Note"
           onToggle={handleToggle}
         />
         {isExpand && (
