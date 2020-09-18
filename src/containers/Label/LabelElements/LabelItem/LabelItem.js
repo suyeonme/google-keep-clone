@@ -1,7 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { removeNoteLabel } from '../../../../store/actions/notes';
 import { Checkbox } from '../../../../components/TodoList/TodoItem/TodoItem';
 
 const LabelItemContainer = styled.div`
@@ -26,19 +28,27 @@ const Label = styled.label`
 function LabelItem({
   label,
   id,
+  note,
   onAdd,
+  onRemove,
   setNote,
   isInputField,
   isArchived,
-  note,
 }) {
+  const dispatch = useDispatch();
   const isChecked = note.labels.includes(label);
 
   const handleChange = (id, label) => {
-    if (isInputField) setNote(label);
-    if (isArchived) onAdd(id, label, 'archives');
-    else {
-      onAdd(id, label, 'notes');
+    if (isInputField) {
+      isChecked ? onRemove(label) : setNote(label);
+    } else if (isArchived) {
+      isChecked
+        ? dispatch(removeNoteLabel(id, label, 'archives'))
+        : onAdd(id, label, 'archives');
+    } else {
+      isChecked
+        ? dispatch(removeNoteLabel(id, label, 'notes'))
+        : onAdd(id, label, 'notes');
     }
   };
 
@@ -63,6 +73,7 @@ LabelItem.propTypes = {
   onAdd: PropTypes.func,
   setNote: PropTypes.func,
   note: PropTypes.object,
+  onRemove: PropTypes.func,
 };
 
 export default React.memo(LabelItem);

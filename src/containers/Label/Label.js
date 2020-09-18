@@ -35,7 +35,15 @@ const LabelItemContainer = styled.div`
   padding: 6px 0;
 `;
 
-function Label({ id, setNote, isInputField, isArchived, setShowLabel, note }) {
+function Label({
+  id,
+  setNote,
+  isInputField,
+  isArchived,
+  setShowLabel,
+  note,
+  onRemove,
+}) {
   const [label, setLabel] = useState('');
 
   const labels = useSelector((state) => state.notes.labels);
@@ -76,7 +84,9 @@ function Label({ id, setNote, isInputField, isArchived, setShowLabel, note }) {
     setNote,
     isInputField,
     isArchived,
+    note,
     onAdd: addLabelToNote,
+    onRemove: onRemove,
   };
 
   let labelList;
@@ -97,15 +107,13 @@ function Label({ id, setNote, isInputField, isArchived, setShowLabel, note }) {
     if (labels.length > 0 && existSubstrOfLable) {
       labelList = labels
         .filter((l) => label === '' || l.includes(label))
-        .map((l, i) => (
-          <LabelItem key={i} label={l} {...labelItemProps} note={note} />
-        ));
+        .map((l, i) => <LabelItem key={i} label={l} {...labelItemProps} />);
     }
   }
 
   if (label === '' && labels.length > 0) {
     labelList = labels.map((l, i) => (
-      <LabelItem key={i} label={l} {...labelItemProps} note={note} />
+      <LabelItem key={i} label={l} {...labelItemProps} />
     ));
   }
 
@@ -126,6 +134,7 @@ Label.propTypes = {
   setNote: PropTypes.func,
   setShowLabel: PropTypes.func,
   note: PropTypes.object,
+  onRemove: PropTypes.func,
 };
 
 export default React.memo(Label);

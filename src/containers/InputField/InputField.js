@@ -99,14 +99,6 @@ function InputField() {
     [note, labels],
   );
 
-  // const handleToggleLabel = useCallback(
-  //   (label) => {
-  //     const isExisted = labels.includes(label);
-  //     isExisted ? handleRemoveLabel(label) : handleAddLabel(label);
-  //   },
-  //   [handleAddLabel, handleRemoveLabel, labels],
-  // );
-
   // TEXT FIELD
   let textField;
   if (isChecked) {
@@ -170,10 +162,11 @@ function InputField() {
               {showLabel && (
                 <Label
                   id={id}
+                  note={note}
                   isInputField
                   setNote={handleAddLabel}
                   setShowLabel={setShowLabel}
-                  note={note}
+                  onRemove={handleRemoveLabel}
                 />
               )}
             </ToolbarContainer>
