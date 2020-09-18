@@ -5,12 +5,23 @@ export const updateObject = (oldObject, updatedProperties) => {
   };
 };
 
-export const removeLabelFromNote = (notes, label) => {
+export const removeAllLabels = (notes, label) => {
   return notes.map((note) =>
     note.labels.includes(label)
       ? {
           ...note,
           labels: note.labels.filter((l) => l !== label),
+        }
+      : note,
+  );
+};
+
+export const updateAllLabels = (arr, oldLabel, newLabel) => {
+  return arr.map((note) =>
+    note.labels.includes(oldLabel)
+      ? {
+          ...note,
+          labels: note.labels.filter((l) => l !== oldLabel).concat(newLabel),
         }
       : note,
   );

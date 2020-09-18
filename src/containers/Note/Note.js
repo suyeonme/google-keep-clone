@@ -4,7 +4,7 @@ import { getEditableNote } from '../../store/actions/notes';
 import PropTypes from 'prop-types';
 
 import NoteBody from './NoteBody';
-import { NoteContainer } from './NoteElements';
+import { NoteContainer, ToolbarContainer } from './NoteElements';
 import Toolbar from '../../containers/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 import Label from '../../containers/Label/Label';
@@ -55,16 +55,23 @@ function Note({ note, isArchived }) {
         <NoteLabel labels={labels} id={id} isArchived={isArchived} />
       )}
 
-      <Toolbar
-        id={id}
-        labels={labels}
-        onHover={isHovered}
-        //setShowLabel={setShowLabel}
-        setShowLabel={setShowLabel}
-        isArchived={isArchived}
-      />
-
-      {showLabel && <Label id={id} isArchived={isArchived} />}
+      <ToolbarContainer>
+        <Toolbar
+          id={id}
+          labels={labels}
+          onHover={isHovered}
+          setShowLabel={setShowLabel}
+          isArchived={isArchived}
+        />
+        {showLabel && (
+          <Label
+            id={id}
+            isArchived={isArchived}
+            setShowLabel={setShowLabel}
+            note={note}
+          />
+        )}
+      </ToolbarContainer>
     </NoteContainer>
   );
 }

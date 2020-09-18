@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Tool from '../../../Toolbar/Tool/Tool';
-import { TodoItemInput as Input } from '../../../../components/TodoList/TodoInput/TodoInput';
+import { TodoItemInput } from '../../../../components/TodoList/TodoInput/TodoInput';
 import LabelIcon from '../../../../icons/label-fill.svg';
 import CheckIcon from '../../../../icons/check.svg';
 import PlusIcon from '../../../../icons/plus.svg';
@@ -17,6 +17,15 @@ const ItemContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const EditLabelInput = styled(TodoItemInput)`
+  margin: 0 15px;
+  height: 50%;
+
+  &:focus-within {
+    border-bottom: 1px solid #ccc;
+  }
 `;
 
 function EditLabelItem({ label, labelCreator }) {
@@ -40,11 +49,10 @@ function EditLabelItem({ label, labelCreator }) {
           title={isFocused ? 'Cancel' : 'Create Label'}
           clearInput={handleClearInput}
         />
-        <Input
+        <EditLabelInput
           value={enteredLabel}
           placeholder="Create new label"
           onChange={(e) => setEnteredLabel(e.target.value)}
-          editLabel
         />
         {isFocused && (
           <Tool
@@ -72,10 +80,9 @@ function EditLabelItem({ label, labelCreator }) {
           editLabel
           isArchived={isArchived}
         />
-        <Input
+        <EditLabelInput
           defaultValue={label}
           onChange={(e) => setEnteredLabel(e.target.value)}
-          editLabel
         />
         <Tool
           bgImage={isFocused ? CheckIcon : PenIcon}

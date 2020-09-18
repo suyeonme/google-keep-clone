@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { TodoItemInput as Input } from '../../../../components/TodoList/TodoInput/TodoInput';
+import { TodoItemInput } from '../../../../components/TodoList/TodoInput/TodoInput';
 import Search from '../../../../icons/search.svg';
 
 const InputContainer = styled.div`
@@ -20,14 +20,18 @@ const SearchIcon = styled.div`
   background-size: cover;
 `;
 
+const LabelItemInput = styled(TodoItemInput)`
+  font-weight: 400;
+  padding: 8px 12px;
+`;
+
 function LabelInput({ label, onChange }) {
   return (
     <InputContainer>
-      <Input
+      <LabelItemInput
         placeholder="Enter label name"
         value={label}
         onChange={(e) => onChange(e.target.value)}
-        labelInput
       />
       <SearchIcon />
     </InputContainer>

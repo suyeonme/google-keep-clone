@@ -14,42 +14,19 @@ const PlusIcon = styled.div`
   background-size: 50%;
 `;
 
-// Create custom object!
 export const TodoItemInput = styled.input`
   width: 100%;
   height: 100%;
   outline: none;
   border: none;
+  font-family: inherit;
   font-weight: 500;
   cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')};
   background: transparent;
   border-bottom: 1px solid transparent;
 
-  ${({ addingTodo }) =>
-    addingTodo &&
-    `
-    font-family: inherit;
-    font-size: 1.4rem;
-    letter-spacing: 0.5px;
-    `};
-
-  ${({ labelInput }) =>
-    labelInput &&
-    `
-    font-weight: 400;
-    padding: 8px 12px;
-    `};
-
-  ${({ editLabel }) =>
-    editLabel &&
-    `
-      margin: 0 15px;
-      height: 50%;
-
-      &:focus-within {
-        border-bottom: 1px solid #ccc;
-      }
-    `};
+  font-size: ${(props) => props.addingTodo && '1.4rem'};
+  letter-spacing: ${(props) => props.addingTodo && '0.5px'};
 `;
 
 function TodoInput({ setTodos }) {

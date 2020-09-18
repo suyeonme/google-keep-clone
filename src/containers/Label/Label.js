@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -7,15 +7,12 @@ import LabelItem from './LabelElements/LabelItem/LabelItem';
 import LabelInput from './LabelElements/LabelInput/LabelInput';
 import LabelCreator from './LabelElements/LabelCreator/LabelCreator';
 import { addLabel, addNoteLabel } from '../../store/actions/notes';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 // InputField folding issue
-// Reset input
-// Checked property
 
 const LabelContainer = styled.div`
-  ${'' /* HERE */}
   position: absolute;
-  top: 160px;
   left: 0;
   z-index: 1;
   width: 225px;
@@ -38,12 +35,17 @@ const LabelItemContainer = styled.div`
   padding: 6px 0;
 `;
 
-function Label({ id, setNote, isInputField, isArchived }) {
+function Label({ id, setNote, isInputField, isArchived, setShowLabel, note }) {
   const [label, setLabel] = useState('');
 
   const labels = useSelector((state) => state.notes.labels);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!isClickOutside) setShowLabel(false);
+  });
+
+  const { ref, isClickOutside } = useClickOutside(true);
   const handleChange = useCallback((label) => setLabel(label), []);
   const clearLabel = () => setLabel('');
 
@@ -95,18 +97,20 @@ function Label({ id, setNote, isInputField, isArchived }) {
     if (labels.length > 0 && existSubstrOfLable) {
       labelList = labels
         .filter((l) => label === '' || l.includes(label))
-        .map((l, i) => <LabelItem key={i} label={l} {...labelItemProps} />);
+        .map((l, i) => (
+          <LabelItem key={i} label={l} {...labelItemProps} note={note} />
+        ));
     }
   }
 
   if (label === '' && labels.length > 0) {
     labelList = labels.map((l, i) => (
-      <LabelItem key={i} label={l} {...labelItemProps} />
+      <LabelItem key={i} label={l} {...labelItemProps} note={note} />
     ));
   }
 
   return (
-    <LabelContainer id="label" onClick={(e) => e.stopPropagation()}>
+    <LabelContainer id="label" ref={ref} onClick={(e) => e.stopPropagation()}>
       <Title>Label note</Title>
       <LabelInput value={label} onChange={handleChange} labelInput />
       <LabelItemContainer>{labelList}</LabelItemContainer>
@@ -120,6 +124,8 @@ Label.propTypes = {
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
   setNote: PropTypes.func,
+  setShowLabel: PropTypes.func,
+  note: PropTypes.object,
 };
 
 export default React.memo(Label);

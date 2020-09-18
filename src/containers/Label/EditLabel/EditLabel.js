@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -19,22 +19,27 @@ const Overlay = styled.div`
 const EditLabelContainer = styled.div`
   background-color: #fff;
   border-radius: 1px;
-  overflow-y: auto;
   width: 300px;
   padding: 15px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height: auto;
+  max-height: 100vh;
+  overflow-y: auto;
 `;
 
 function EditLabel({ showNav }) {
   const labels = useSelector((state) => state.notes.labels);
 
-  const handleClick = (e) => {
-    if (e.target !== e.currentTarget) return;
-    showNav(false);
-  };
+  const handleClick = useCallback(
+    (e) => {
+      if (e.target !== e.currentTarget) return;
+      showNav(false);
+    },
+    [showNav],
+  );
 
   return (
     <Overlay onClick={handleClick}>

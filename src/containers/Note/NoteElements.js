@@ -42,7 +42,6 @@ export const NoteContainer = styled.div`
       max-height: 90vh;
       z-index: 500;
       cursor: default;
-      overflow: auto;
       animation: ${popup} 0.3s ease-out;
       box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
         0 1px 3px 1px rgba(60, 64, 67, 0.149);
@@ -71,4 +70,8 @@ export const NoteContent = styled.div`
   font-size: 1.5rem;
   line-height: 1.5;
   padding: 12px 12px 0 12px;
+`;
+
+export const ToolbarContainer = styled.div`
+  position: relative;
 `;

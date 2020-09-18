@@ -61,12 +61,11 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
         <Tool
           id={id}
           label={label}
-          isLabel
           bgImage={DeleteIcon}
           title="Remove Label"
-          //
-          isInputField={isInputField}
           onRemove={onRemove}
+          isLabel
+          isInputField={isInputField}
           isArchived={isArchived}
         />
       )}
@@ -78,53 +77,9 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
 NoteLabel.propTypes = {
   labels: PropTypes.array,
   id: PropTypes.string,
-  /////
+  onRemove: PropTypes.func,
+  isInputField: PropTypes.bool,
+  isArchived: PropTypes.bool,
 };
 
-export default NoteLabel;
-
-// function NoteLabel({ labels, id, isInputField, onRemove }) {
-//   const [isHover, setIsHover] = useState(false);
-//   const [hoveredLabel, sethoveredLabel] = useState('');
-
-//   const handleHover = (label) => {
-//     setIsHover(true);
-//     sethoveredLabel(label);
-//   };
-
-//   const handleLeave = () => {
-//     setIsHover(false);
-//     sethoveredLabel('');
-//   };
-
-//   const labelList = labels.map((label, i) => (
-//     <Container
-//       key={i}
-//       onMouseEnter={() => handleHover(label)}
-//       onMouseLeave={handleLeave}
-//     >
-//       <Label>{label}</Label>
-//       {isHover && label === hoveredLabel && (
-//         <Tool
-//           id={id}
-//           label={label}
-//           isLabel
-//           bgImage={DeleteIcon}
-//           title="Remove Label"
-//           //
-//           isInputField={isInputField}
-//           onRemove={onRemove}
-//         />
-//       )}
-//     </Container>
-//   ));
-//   return <Wrapper>{labelList}</Wrapper>;
-// }
-
-// NoteLabel.propTypes = {
-//   labels: PropTypes.array,
-//   id: PropTypes.string,
-//   /////
-// };
-
-// export default NoteLabel;
+export default React.memo(NoteLabel);

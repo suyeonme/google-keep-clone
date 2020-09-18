@@ -10,6 +10,7 @@ import {
 } from './InputElements';
 import Tool from '../../containers/Toolbar/Tool/Tool';
 import Toolbar from '../../containers/Toolbar/Toolbar';
+import { ToolbarContainer } from '../Note/NoteElements';
 import TodoList from '../../components/TodoList/TodoList';
 import Label from '../../containers/Label/Label';
 
@@ -145,7 +146,7 @@ function InputField() {
           onToggle={handleToggle}
         />
         {isExpand && (
-          <>
+          <div>
             {textField}
             {labels.length > 0 && (
               <NoteLabel
@@ -155,18 +156,29 @@ function InputField() {
                 isInputField
               />
             )}
-            <Toolbar
-              id={id}
-              isInputField
-              onHover={true}
-              onAddNote={() => handleAddNote(note)}
-              onToggle={handleToggle}
-              onClick={handleChangeColor}
-              setShowLabel={setShowLabel}
-            />
-          </>
+
+            <ToolbarContainer>
+              <Toolbar
+                id={id}
+                isInputField
+                onHover={true}
+                onAddNote={() => handleAddNote(note)}
+                onToggle={handleToggle}
+                onClick={handleChangeColor}
+                setShowLabel={setShowLabel}
+              />
+              {showLabel && (
+                <Label
+                  id={id}
+                  isInputField
+                  setNote={handleAddLabel}
+                  setShowLabel={setShowLabel}
+                  note={note}
+                />
+              )}
+            </ToolbarContainer>
+          </div>
         )}
-        {showLabel && <Label id={id} isInputField setNote={handleAddLabel} />}
       </InputForm>
     </InputContainer>
   );

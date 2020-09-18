@@ -33,13 +33,13 @@ function Tool({
   isInputField,
   isPinned,
   isArchived,
-  notePin,
-  inputPin,
   label,
   newLabel,
-  isLabel,
   editLabel,
+  isLabel,
   clearInput,
+  notePin,
+  inputPin,
 }) {
   const dispatch = useDispatch();
 
@@ -108,9 +108,7 @@ function Tool({
         }
         break;
       case 'Rename Label':
-        isArchived
-          ? dispatch(renameLabel(label, newLabel, 'archives'))
-          : dispatch(renameLabel(label, newLabel, 'notes'));
+        dispatch(renameLabel(label, newLabel));
         break;
       case 'Cancel':
         clearInput();
@@ -155,13 +153,13 @@ Tool.propTypes = {
   isInputField: PropTypes.bool,
   isPinned: PropTypes.bool,
   isArchived: PropTypes.bool,
+  setShowLabel: PropTypes.func,
+  onRemove: PropTypes.func,
+  clearInput: PropTypes.func,
+  isLabel: PropTypes.bool,
+  editLabel: PropTypes.bool,
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
-  setShowLabel: PropTypes.func,
-  isLabel: PropTypes.bool,
-  onRemove: PropTypes.func,
-  editLabel: PropTypes.bool,
-  clearInput: PropTypes.func,
 };
 
 export default React.memo(Tool);

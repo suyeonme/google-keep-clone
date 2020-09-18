@@ -1,5 +1,9 @@
 import * as actionTypes from '../actions/actionsTypes';
-import { updateObject, removeLabelFromNote } from '../../shared/utility';
+import {
+  updateObject,
+  removeAllLabels,
+  updateAllLabels,
+} from '../../shared/utility';
 
 // Repeated variables: action.noteType
 // Repeated methods -> Utility functions
@@ -34,10 +38,9 @@ const deleteNote = (state, action) => {
 };
 
 const updateNote = (state, action) => {
-  // Filter and change
-  const newNotes = state[action.noteType]
-    .filter((note) => note.id !== state.editableNote.id)
-    .concat(state.editableNote);
+  const newNotes = state[action.noteType].map((note) =>
+    note.id === state.editableNote.id ? state.editableNote : note,
+  );
 
   const updatedNote = {
     ...state,
@@ -146,8 +149,8 @@ const addLabel = (state, action) => {
 
 const removeLabel = (state, action) => {
   const newLabels = state.labels.filter((label) => label !== action.label);
-  const newNotes = removeLabelFromNote(state.notes, action.label);
-  const newArchives = removeLabelFromNote(state.archives, action.label);
+  const newNotes = removeAllLabels(state.notes, action.label);
+  const newArchives = removeAllLabels(state.archives, action.label);
 
   const updatedState = {
     ...state,
@@ -194,26 +197,22 @@ const removeNoteLabel = (state, action) => {
 };
 
 const renameLabel = (state, action) => {
-  const newLabels = state.labels.map((label) =>
-    label === action.oldLabel ? action.newLabel : label,
-  );
+  const oldLabel = action.oldLabel;
+  const newLabel = action.newLabel;
 
-  const newNotes = state[action.noteType].map((note) =>
-    note.labels.includes(action.oldLabel)
-      ? {
-          ...note,
-          labels: note.labels
-            .filter((l) => l !== action.oldLabel)
-            .concat(action.newLabel),
-        }
-      : note,
+  const newNotes = updateAllLabels(state.notes, oldLabel, newLabel);
+  const newArchives = updateAllLabels(state.archives, oldLabel, newLabel);
+  const newLabels = state.labels.map((label) =>
+    label === oldLabel ? newLabel : label,
   );
 
   const updatedLabels = {
     ...state,
-    [action.noteType]: newNotes,
+    notes: newNotes,
+    archives: newArchives,
     labels: newLabels,
   };
+
   return updateObject(state, updatedLabels);
 };
 
@@ -254,6 +253,22 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
+
+// Originals
+
+// const updateNote = (state, action) => {
+//   // Filter and change
+//   const newNotes = state[action.noteType]
+//     .filter((note) => note.id !== state.editableNote.id)
+//     .concat(state.editableNote);
+
+//   const updatedNote = {
+//     ...state,
+//     [action.noteType]: newNotes,
+//     editableNote: null,
+//   };
+//   return updateObject(state, updatedNote);
+// };
 
 // const createNewItems = (arr) => {
 //   return arr.map((note) =>

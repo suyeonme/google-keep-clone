@@ -51,7 +51,7 @@ export const Input = styled.input`
   ${({ isEditableNote }) =>
     isEditableNote &&
     `
-    height: auto;
+    height: 50px;
     padding: 12px 12px 0 12px;  
     `};
 `;

@@ -86,12 +86,11 @@ export const removeLabel = (label) => {
   };
 };
 
-export const renameLabel = (oldLabel, newLabel, noteType) => {
+export const renameLabel = (oldLabel, newLabel) => {
   return {
     type: actions.RENAME_LABEL,
     oldLabel: oldLabel,
     newLabel: newLabel,
-    noteType: noteType,
   };
 };
 

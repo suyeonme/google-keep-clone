@@ -23,7 +23,17 @@ const Label = styled.label`
   width: 100%;
 `;
 
-function LabelItem({ label, id, onAdd, setNote, isInputField, isArchived }) {
+function LabelItem({
+  label,
+  id,
+  onAdd,
+  setNote,
+  isInputField,
+  isArchived,
+  note,
+}) {
+  const isChecked = note.labels.includes(label);
+
   const handleChange = (id, label) => {
     if (isInputField) setNote(label);
     if (isArchived) onAdd(id, label, 'archives');
@@ -35,12 +45,12 @@ function LabelItem({ label, id, onAdd, setNote, isInputField, isArchived }) {
   return (
     <LabelItemContainer>
       <Checkbox
-        id={label}
+        id={label + id}
         type="checkbox"
         onChange={() => handleChange(id, label)}
-        //checked={labels.map((l) => l === label)}
+        checked={isChecked}
       />
-      <Label htmlFor={label}>{label}</Label>
+      <Label htmlFor={label + id}>{label}</Label>
     </LabelItemContainer>
   );
 }
@@ -52,6 +62,7 @@ LabelItem.propTypes = {
   isArchived: PropTypes.bool,
   onAdd: PropTypes.func,
   setNote: PropTypes.func,
+  note: PropTypes.object,
 };
 
 export default React.memo(LabelItem);

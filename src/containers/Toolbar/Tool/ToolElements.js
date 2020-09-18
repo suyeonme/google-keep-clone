@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import PinIcon from '../../../icons/pin.svg';
 import FilledPinIcon from '../../../icons/pin-fill.svg';
@@ -18,7 +18,7 @@ export const ToolbarBtn = styled.button`
 
   ${({ notePin }) =>
     notePin &&
-    `
+    css`
       position: absolute;
       top: 9px;
       right: 7px;
@@ -28,24 +28,21 @@ export const ToolbarBtn = styled.button`
       background-size: 24px 24px;
       margin-right: 0;
       background: ${(props) =>
-        props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
+          props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
         no-repeat center center;
     `};
 
   ${({ inputPin }) =>
     inputPin &&
-    `
+    css`
       position: absolute;
       top: 2px;
       right: 0;
       width: 40px;
       height: 40px;
-      ${
-        '' /* background: ${(props) =>
-        props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
-        no-repeat center center; */
-      }
-        background: url(${FilledPinIcon}) no-repeat center center;
+      background: ${(props) =>
+          props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
+        no-repeat center center;
     `};
 
   ${({ isLabel }) =>
