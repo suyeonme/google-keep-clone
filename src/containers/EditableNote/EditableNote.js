@@ -15,18 +15,9 @@ import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
 
 const EditNote = styled.div`
   cursor: text;
-  height: 80%;
-  overflow: auto;
-
-  @media (max-width: 1024px) {
-    height: 90%;
-  }
-  @media (max-width: 375px) {
-    height: 85%;
-  }
-  @media (max-width: 320px) {
-    height: 80%;
-  }
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 function EditableNote({ note, isArchived }) {

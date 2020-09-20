@@ -25,5 +25,6 @@ export const useClickOutside = (initialValue) => {
     ref,
     isClickOutside,
     handleResetClick,
+    setIsClickOutside,
   };
 };

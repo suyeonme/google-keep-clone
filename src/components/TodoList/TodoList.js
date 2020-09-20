@@ -12,6 +12,12 @@ import TodoInput from './TodoInput/TodoInput';
 // Custom Checkbox
 // Add functions (drag, truncate)
 // Trim white space
+import styled from 'styled-components';
+
+const TodoItemContainer = styled.div`
+  max-height: 223px;
+  overflow: hidden;
+`;
 
 function TodoList({
   todoContent = [],
@@ -183,7 +189,7 @@ function TodoList({
 
     return (
       <>
-        {todoList}
+        <TodoItemContainer>{todoList}</TodoItemContainer>
         {doneTask.length > 0 && (
           <CompletedTodo doneTaskCount={doneTask.length} isNote />
         )}

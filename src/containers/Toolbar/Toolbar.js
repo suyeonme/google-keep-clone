@@ -18,7 +18,6 @@ const ToolbarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 2px;
-  margin-top: 20px;
   line-height: 0;
   opacity: ${(props) => (props.hovered ? 1 : 0)};
   transition: opacity 0.3s ease-out;
@@ -144,7 +143,7 @@ Toolbar.propTypes = {
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
-  //label: PropTypes.array,
+  labels: PropTypes.array,
 };
 
 export default React.memo(Toolbar);

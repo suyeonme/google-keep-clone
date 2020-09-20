@@ -48,7 +48,7 @@ function LabelCreator({
   };
 
   return (
-    <Container onClick={(e) => handleClick(id, label)}>
+    <Container onClick={(e) => handleClick(id, label)} id="labelCreator">
       <PlusIcon />
       <Description>
         Create <strong>"{label}"</strong>

@@ -28,7 +28,7 @@ const Menu = styled.div`
   cursor: pointer;
   margin: 0 4px;
   padding: 12px;
-  background: url(${Hamburger}) center center no-repeat;
+  : url(${Hamburger}) center center no-repeat;
   background-size: 35%;
 
   &:hover {
@@ -48,7 +48,6 @@ function Header() {
         </Tooltip>
         <Logo />
       </HeaderContainer>
-
       <Nav isHover={openNav} onHover={setOpenNav} />
     </>
   );

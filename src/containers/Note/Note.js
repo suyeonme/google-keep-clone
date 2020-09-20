@@ -9,6 +9,7 @@ import Toolbar from '../../containers/Toolbar/Toolbar';
 import EditableNote from '../EditableNote/EditableNote';
 import Label from '../../containers/Label/Label';
 import NoteLabel from '../../containers/Label/LabelElements/NoteLabel/NoteLabel';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 function Note({ note, isArchived }) {
   const { id, bgColor, labels } = note;
@@ -37,6 +38,8 @@ function Note({ note, isArchived }) {
     isArchived: isArchived,
   };
 
+  const { setIsClickOutside } = useClickOutside(false);
+
   return (
     <NoteContainer
       bgColor={bgColor}
@@ -51,11 +54,10 @@ function Note({ note, isArchived }) {
         <NoteBody isHovered={isHovered} {...noteProps} />
       )}
 
-      {labels.length > 0 && (
-        <NoteLabel labels={labels} id={id} isArchived={isArchived} />
-      )}
-
       <ToolbarContainer>
+        {labels.length > 0 && (
+          <NoteLabel labels={labels} id={id} isArchived={isArchived} />
+        )}
         <Toolbar
           id={id}
           labels={labels}
@@ -66,9 +68,10 @@ function Note({ note, isArchived }) {
         {showLabel && (
           <Label
             id={id}
+            note={note}
             isArchived={isArchived}
             setShowLabel={setShowLabel}
-            note={note}
+            onExpand={setIsClickOutside}
           />
         )}
       </ToolbarContainer>

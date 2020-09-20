@@ -9,13 +9,6 @@ import Tool from '../../containers/Toolbar/Tool/Tool';
 function NoteBody({ note, clicked, isHovered, isArchived }) {
   const { title, content, id, isChecked, isPinned } = note;
 
-  // // FIXME
-  // const truncateText = (p) => {
-  //   let text;
-  //   p.length > 120 ? (text = p.substr(0, 120)) : (text = p);
-  //   return text;
-  // };
-
   return (
     <div clicked={clicked}>
       {isHovered && (

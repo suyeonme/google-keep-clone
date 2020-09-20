@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 import DeleteIcon from '../../../icons/delete.svg';
@@ -14,10 +14,13 @@ export const TodoListContainer = styled.div`
   padding: 0 11px 0 11px;
   margin: 1px 0;
 
-  &:focus-within {
+  ${({ isEditable }) =>
+    isEditable &&
+    css`
+    &:focus-within {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-  }
+    `}
 `;
 
 export const Checkbox = styled.input`
@@ -51,6 +54,7 @@ function TodoItem({
     <TodoListContainer
       onMouseEnter={isEditable ? () => handleOnMouseOver(id) : null}
       onMouseLeave={isEditable ? () => handleOnMouseLeave(id) : null}
+      isEditable={isEditable}
     >
       <Checkbox
         type="checkbox"

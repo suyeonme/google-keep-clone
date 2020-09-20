@@ -14,9 +14,6 @@ const popup = keyframes`
 
 export const NoteContainer = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   border-radius: 8px;
   border: 1px solid rgba(66, 66, 66, 0.2);
   word-wrap: break-word;
@@ -24,6 +21,9 @@ export const NoteContainer = styled.div`
   cursor: pointer;
   transition: background-color 0.3s ease-in;
   background: ${(props) => props.bgColor};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
@@ -69,9 +69,13 @@ export const NoteTitle = styled.div`
 export const NoteContent = styled.div`
   font-size: 1.5rem;
   line-height: 1.5;
-  padding: 12px 12px 0 12px;
+  padding: 0 12px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
 `;
 
 export const ToolbarContainer = styled.div`
-  position: relative;
+  flex: 0 0 auto;
 `;

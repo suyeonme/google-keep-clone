@@ -66,7 +66,7 @@ function LabelItem({
 }
 
 LabelItem.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   id: PropTypes.string,
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,

@@ -35,9 +35,12 @@ function InputField() {
   const [showLabel, setShowLabel] = useState(false);
 
   const dispatch = useDispatch();
-  const { ref, isClickOutside: isExpand, handleResetClick } = useClickOutside(
-    false,
-  );
+  const {
+    ref,
+    isClickOutside: isExpand,
+    handleResetClick,
+    setIsClickOutside,
+  } = useClickOutside(false);
 
   const handleResetNote = useCallback(() => {
     setNote({ ...initialNote, id: uniqid() });
@@ -167,6 +170,7 @@ function InputField() {
                   setNote={handleAddLabel}
                   setShowLabel={setShowLabel}
                   onRemove={handleRemoveLabel}
+                  onExpand={setIsClickOutside}
                 />
               )}
             </ToolbarContainer>

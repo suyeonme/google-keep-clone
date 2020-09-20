@@ -51,8 +51,8 @@ export const Input = styled.input`
   ${({ isEditableNote }) =>
     isEditableNote &&
     `
-    height: 50px;
-    padding: 12px 12px 0 12px;  
+    height: 40px;
+    padding: 0 12px;
     `};
 `;
 
@@ -72,5 +72,7 @@ export const InputTextArea = styled.textarea`
     `
     font-size: 1.7rem; 
     padding: 0 12px 0 12px;  
+    margin-top: 0;
+    flex: 1 1 auto;
     `};
 `;

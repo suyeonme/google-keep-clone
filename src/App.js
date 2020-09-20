@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Home from './pages/Home';
-import ArchivedNote from './pages/ArchivedNote';
 import Layout from './components/Layout/Layout';
 
-// If authenticated or not
+const ArchivedNote = lazy(() => import('./pages/ArchivedNote'));
+const PageLoader = () => <CircularProgress color="#F3B501" />;
 
 function App() {
   return (
     <div className="App">
       <Layout>
-        <Switch>
-          <Route path="/" exact={true} component={Home} />
-          <Route path="/archive" component={ArchivedNote} />
-        </Switch>
+        <Suspense fallback={PageLoader()}>
+          <Switch>
+            <Route path="/" exact={true} component={Home} />
+            <Route path="/archive" component={ArchivedNote} />
+          </Switch>
+        </Suspense>
       </Layout>
     </div>
   );

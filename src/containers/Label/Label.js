@@ -9,8 +9,6 @@ import LabelCreator from './LabelElements/LabelCreator/LabelCreator';
 import { addLabel, addNoteLabel } from '../../store/actions/notes';
 import { useClickOutside } from '../../hooks/useClickOutside';
 
-// InputField folding issue
-
 const LabelContainer = styled.div`
   position: absolute;
   left: 0;
@@ -43,6 +41,7 @@ function Label({
   setShowLabel,
   note,
   onRemove,
+  onExpand,
 }) {
   const [label, setLabel] = useState('');
 
@@ -50,21 +49,19 @@ function Label({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isClickOutside) setShowLabel(false);
+    onExpand(true);
+    if (!isExpand) setShowLabel(false);
   });
 
-  const { ref, isClickOutside } = useClickOutside(true);
+  const { ref, isClickOutside: isExpand } = useClickOutside(true);
   const handleChange = useCallback((label) => setLabel(label), []);
-  const clearLabel = () => setLabel('');
 
   const addLabelToNote = (id, label, noteType) =>
     dispatch(addNoteLabel(id, label, noteType));
 
   const addGlobalLabel = useCallback(
     (label) => {
-      // InputField is fold!
       dispatch(addLabel(label));
-      clearLabel();
     },
     [dispatch],
   );
@@ -135,6 +132,7 @@ Label.propTypes = {
   setShowLabel: PropTypes.func,
   note: PropTypes.object,
   onRemove: PropTypes.func,
+  onExpand: PropTypes.func,
 };
 
 export default React.memo(Label);

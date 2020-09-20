@@ -9,7 +9,7 @@ const ColorPaletteContainer = styled.div`
   max-width: 128px;
   padding: 0.5rem;
   position: absolute;
-  bottom: ${(props) => (props.isInputField ? '43px' : '30px')};
+  bottom: 30px;
   left: 8px;
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
     0 1px 3px 1px rgba(60, 64, 67, 0.149);
@@ -68,11 +68,7 @@ function ColorPalette({
   };
 
   return (
-    <ColorPaletteContainer
-      isInputField={isInputField}
-      onMouseEnter={onHover}
-      onMouseLeave={onUnHover}
-    >
+    <ColorPaletteContainer onMouseEnter={onHover} onMouseLeave={onUnHover}>
       {colors.map((color, i) => (
         <ColorPaletteBtn
           key={i}
