@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import LogoIcon from '../../icons/logo.svg';
+import LogoIcon from 'icons/logo.svg';
 
 const LogoContainer = styled.a`
   display: flex;

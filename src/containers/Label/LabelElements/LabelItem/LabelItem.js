@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { removeNoteLabel } from '../../../../store/actions/notes';
-import { Checkbox } from '../../../../components/TodoList/TodoItem/TodoItem';
+import { removeNoteLabel } from 'store/actions/notes';
+import { Checkbox } from 'components/TodoList/TodoItem/TodoItem';
 
 const LabelItemContainer = styled.div`
   background: inherit;

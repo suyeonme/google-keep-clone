@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import EditLabelItem from './EditLabelItem/EditLabelItem';
-import { Title } from '../Label';
+import EditLabelItem from 'containers/Label/EditLabel/EditLabelItem/EditLabelItem';
+import { Title } from 'containers/Label/Label';
 
 const Overlay = styled.div`
   position: fixed;

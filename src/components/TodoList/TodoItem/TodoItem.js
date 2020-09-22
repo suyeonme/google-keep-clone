@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
-import DeleteIcon from '../../../icons/delete.svg';
-import Tool from '../../../containers/Toolbar/Tool/Tool';
-import { TodoItemInput } from '../TodoInput/TodoInput';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
+import DeleteIcon from 'icons/delete.svg';
 
 export const TodoListContainer = styled.div`
   display: flex;

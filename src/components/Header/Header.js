@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
+import PropTypes from 'prop-types';
 
-import Logo from './Logo';
-import Hamburger from '../../icons/hamburger.svg';
-import Nav from '../Nav/Nav';
+import Logo from 'components/Header/Logo';
+import Nav from 'components/Nav/Nav';
+import Hamburger from 'icons/hamburger.svg';
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -28,7 +29,7 @@ const Menu = styled.div`
   cursor: pointer;
   margin: 0 4px;
   padding: 12px;
-  : url(${Hamburger}) center center no-repeat;
+  background: url(${Hamburger}) center center no-repeat;
   background-size: 35%;
 
   &:hover {
@@ -37,20 +38,26 @@ const Menu = styled.div`
   }
 `;
 
-function Header() {
+function Header({ isLoggedIn }) {
   const [openNav, setOpenNav] = useState(false);
 
   return (
     <>
       <HeaderContainer>
-        <Tooltip title="Main menu" arrow>
-          <Menu onClick={() => setOpenNav(!openNav)} />
-        </Tooltip>
+        {isLoggedIn && (
+          <Tooltip title="Main menu" arrow>
+            <Menu onClick={() => setOpenNav(!openNav)} />
+          </Tooltip>
+        )}
         <Logo />
       </HeaderContainer>
-      <Nav isHover={openNav} onHover={setOpenNav} />
+      {isLoggedIn && <Nav isHover={openNav} onHover={setOpenNav} />}
     </>
   );
 }
+
+Header.propTypes = {
+  isLogIn: PropTypes.bool,
+};
 
 export default React.memo(Header);

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEditableNote } from '../../store/actions/notes';
 import PropTypes from 'prop-types';
 
-import NoteBody from './NoteBody';
-import { NoteContainer, ToolbarContainer } from './NoteElements';
-import Toolbar from '../../containers/Toolbar/Toolbar';
-import EditableNote from '../EditableNote/EditableNote';
-import Label from '../../containers/Label/Label';
-import NoteLabel from '../../containers/Label/LabelElements/NoteLabel/NoteLabel';
-import { useClickOutside } from '../../hooks/useClickOutside';
+import NoteBody from 'containers/Note/NoteBody';
+import { NoteContainer, ToolbarContainer } from 'containers/Note/NoteElements';
+import Toolbar from 'containers/Toolbar/Toolbar';
+import EditableNote from 'containers/EditableNote/EditableNote';
+import Label from 'containers/Label/Label';
+import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
+import { useClickOutside } from 'hooks/useClickOutside';
 
 function Note({ note, isArchived }) {
   const { id, bgColor, labels } = note;

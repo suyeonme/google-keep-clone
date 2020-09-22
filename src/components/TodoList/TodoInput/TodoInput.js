@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
-import Plus from '../../../icons/plus.svg';
-import { TodoListContainer } from '../TodoItem/TodoItem';
 import uniqid from 'uniqid';
+
+import Plus from 'icons/plus.svg';
+import { TodoListContainer } from 'components/TodoList/TodoItem/TodoItem';
 
 const PlusIcon = styled.div`
   width: 20px;

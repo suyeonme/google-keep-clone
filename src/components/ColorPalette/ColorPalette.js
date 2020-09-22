@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { changeNoteColor } from '../../store/actions/notes';
+import { changeNoteColor } from 'store/actions/notes';
 
 const ColorPaletteContainer = styled.div`
   max-width: 128px;

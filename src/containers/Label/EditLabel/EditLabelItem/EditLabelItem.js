@@ -2,14 +2,14 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Tool from '../../../Toolbar/Tool/Tool';
-import { TodoItemInput } from '../../../../components/TodoList/TodoInput/TodoInput';
-import LabelIcon from '../../../../icons/label-fill.svg';
-import CheckIcon from '../../../../icons/check.svg';
-import PlusIcon from '../../../../icons/plus.svg';
-import DeleteIcon from '../../../../icons/delete.svg';
-import TrashIcon from '../../../../icons/trash-can.svg';
-import PenIcon from '../../../../icons/pencil-fill.svg';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
+import LabelIcon from 'icons/label-fill.svg';
+import CheckIcon from 'icons/check.svg';
+import PlusIcon from 'icons/plus.svg';
+import DeleteIcon from 'icons/delete.svg';
+import TrashIcon from 'icons/trash-can.svg';
+import PenIcon from 'icons/pencil-fill.svg';
 
 const ItemContainer = styled.div`
   width: 100%;

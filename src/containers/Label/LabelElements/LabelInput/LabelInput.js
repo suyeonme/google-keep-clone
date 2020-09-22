@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { TodoItemInput } from '../../../../components/TodoList/TodoInput/TodoInput';
-import Search from '../../../../icons/search.svg';
+import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
+import Search from 'icons/search.svg';
 
 const InputContainer = styled.div`
   position: relative;

@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { Input, InputTextArea } from '../InputField/InputElements';
-import TodoList from '../../components/TodoList/TodoList';
-import Tool from '../../containers/Toolbar/Tool/Tool';
-import { getEditableNote } from '../../store/actions/notes';
-import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
+import { getEditableNote } from 'store/actions/notes';
+import { Input, InputTextArea } from 'containers/InputField/InputElements';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import TodoList from 'components/TodoList/TodoList';
+import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
 
 // TODO
 // saveEditableNote (color, content)

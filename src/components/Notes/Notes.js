@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Note from '../../containers/Note/Note';
-import NotesLayout from './NotesLayout/NotesLayout';
-import Backdrop from '../UI/Backdrop/Backdrop';
+import Note from 'containers/Note/Note';
+import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
+import Backdrop from 'components/UI/Backdrop/Backdrop';
 
 function Notes({ notes, isArchived }) {
   const isPinned = notes.filter((note) => note.isPinned).length > 0;

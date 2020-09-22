@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-
 import { useSelector, useDispatch } from 'react-redux';
-import { hideFlashMessage } from '../../../store/actions/flashMessage';
+
+import { hideFlashMessage } from 'store/actions/flashMessage';
 
 const Message = styled.div`
   position: fixed;

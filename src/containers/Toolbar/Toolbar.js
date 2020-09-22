@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import LabelIcon from '../../icons/label.svg';
-import TranshCanIcon from '../../icons/trash-can.svg';
-import PaintIcon from '../../icons/paintbrush.svg';
-import CheckboxIcon from '../../icons/checkbox.svg';
-import ArchiveIcon from '../../icons/archive.svg';
-import Tool from './Tool/Tool';
-import ColorPalette from '../../components/ColorPalette/ColorPalette';
-import { updateNote } from '../../store/actions/notes';
+import LabelIcon from 'icons/label.svg';
+import TranshCanIcon from 'icons/trash-can.svg';
+import PaintIcon from 'icons/paintbrush.svg';
+import CheckboxIcon from 'icons/checkbox.svg';
+import ArchiveIcon from 'icons/archive.svg';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import ColorPalette from 'components/ColorPalette/ColorPalette';
+import { updateNote } from 'store/actions/notes';
 
 const ToolbarContainer = styled.div`
   width: 100%;

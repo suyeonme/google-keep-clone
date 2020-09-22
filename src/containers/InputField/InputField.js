@@ -7,17 +7,16 @@ import {
   InputForm,
   Input,
   InputTextArea,
-} from './InputElements';
-import Tool from '../../containers/Toolbar/Tool/Tool';
-import Toolbar from '../../containers/Toolbar/Toolbar';
-import { ToolbarContainer } from '../Note/NoteElements';
-import TodoList from '../../components/TodoList/TodoList';
-import Label from '../../containers/Label/Label';
-
-import NoteLabel from '../../containers/Label/LabelElements/NoteLabel/NoteLabel';
-import { convertNoteToTodo, convertTodoToNote } from '../../shared/utility';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { addNote } from '../../store/actions/notes';
+} from 'containers/InputField/InputElements';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import Toolbar from 'containers/Toolbar/Toolbar';
+import { ToolbarContainer } from 'containers/Note/NoteElements';
+import Label from 'containers/Label/Label';
+import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
+import TodoList from 'components/TodoList/TodoList';
+import { addNote } from 'store/actions/notes';
+import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
+import { useClickOutside } from 'hooks/useClickOutside';
 
 const initialNote = {
   title: '',

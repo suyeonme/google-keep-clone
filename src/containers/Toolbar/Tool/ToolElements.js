@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
-import PinIcon from '../../../icons/pin.svg';
-import FilledPinIcon from '../../../icons/pin-fill.svg';
+import PinIcon from 'icons/pin.svg';
+import FilledPinIcon from 'icons/pin-fill.svg';
 
 export const ToolbarBtn = styled.button`
   border-radius: 50%;

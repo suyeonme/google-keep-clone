@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { NoteTitle, NoteContent } from './NoteElements';
-import TodoList from '../../components/TodoList/TodoList';
-import { convertNoteToTodo } from '../../shared/utility';
-import Tool from '../../containers/Toolbar/Tool/Tool';
+import { NoteTitle, NoteContent } from 'containers/Note/NoteElements';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import TodoList from 'components/TodoList/TodoList';
+import { convertNoteToTodo } from 'shared/utility';
 
 function NoteBody({ note, clicked, isHovered, isArchived }) {
   const { title, content, id, isChecked, isPinned } = note;

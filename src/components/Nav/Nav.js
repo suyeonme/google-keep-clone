@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import NavItems from './NavItems/NavItems';
+import NavItems from 'components/Nav/NavItems/NavItems';
 
 const NavContainer = styled.nav`
   position: fixed;

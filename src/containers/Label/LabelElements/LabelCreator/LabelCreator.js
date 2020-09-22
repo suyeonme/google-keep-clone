@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Plus from '../../../../icons/plus.svg';
+import Plus from 'icons/plus.svg';
 
 const Container = styled.div`
   display: flex;

@@ -19,6 +19,13 @@ body {
   min-height: 100vh;
 }
 
+html,
+body,
+#app,
+#app>div {
+  height: 100%;
+}
+
 button {
   cursor: pointer;
   border: none;
@@ -31,4 +38,9 @@ button img {
 
 img {
   cursor: pointer;
+}
+
+input {
+  border: none;
+  outline: none;
 }

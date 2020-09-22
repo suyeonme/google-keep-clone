@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import FlashMessage from '../UI/FlashMessage/FlashMessage';
+import Header from 'components/Header/Header';
+import Footer from 'components/Footer/Footer';
+import FlashMessage from 'components/UI/FlashMessage/FlashMessage';
 
 const Container = styled.div`
   display: flex;
@@ -13,13 +14,17 @@ const Container = styled.div`
 
 const Content = styled.div`
   flex-grow: 1;
+  display: ${(props) => !props.isLoggedIn && 'flex'};
+  align-items: ${(props) => !props.isLoggedIn && 'center'};
 `;
 
 function Layout(props) {
+  const { isLoggedIn } = props;
+
   return (
     <Container>
-      <Content>
-        <Header />
+      <Content isLoggedIn={isLoggedIn}>
+        <Header isLoggedIn={isLoggedIn} />
         {props.children}
         <FlashMessage />
       </Content>
@@ -28,5 +33,9 @@ function Layout(props) {
     </Container>
   );
 }
+
+Layout.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};
 
 export default Layout;

@@ -3,11 +3,10 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import lightIcon from '../../../icons/light.svg';
-import archiveIcon from '../../../icons/archive.svg';
-import penIcon from '../../../icons/pen.svg';
-
-import EditLabel from '../../../containers/Label/EditLabel/EditLabel';
+import EditLabel from 'containers/Label/EditLabel/EditLabel';
+import lightIcon from 'icons/light.svg';
+import archiveIcon from 'icons/archive.svg';
+import penIcon from 'icons/pen.svg';
 
 const Link = styled(NavLink)`
   height: 100%;

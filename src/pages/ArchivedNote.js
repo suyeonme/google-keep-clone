@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import Archive from '../icons/archive.svg';
-import Notes from '../components/Notes/Notes';
+import Archive from 'icons/archive.svg';
+import Notes from 'components/Notes/Notes';
 
 const ArchiveIcon = styled.div`
   width: 95px;

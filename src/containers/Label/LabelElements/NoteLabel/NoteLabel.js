@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Tool from '../../../Toolbar/Tool/Tool';
-import DeleteIcon from '../../../../icons/delete.svg';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import DeleteIcon from 'icons/delete.svg';
 
 const Wrapper = styled.div`
   width: 100%;

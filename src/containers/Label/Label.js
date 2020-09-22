@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import LabelItem from './LabelElements/LabelItem/LabelItem';
-import LabelInput from './LabelElements/LabelInput/LabelInput';
-import LabelCreator from './LabelElements/LabelCreator/LabelCreator';
-import { addLabel, addNoteLabel } from '../../store/actions/notes';
-import { useClickOutside } from '../../hooks/useClickOutside';
+import LabelItem from 'containers/Label/LabelElements/LabelItem/LabelItem';
+import LabelInput from 'containers/Label/LabelElements/LabelInput/LabelInput';
+import LabelCreator from 'containers/Label/LabelElements/LabelCreator/LabelCreator';
+import { addLabel, addNoteLabel } from 'store/actions/notes';
+import { useClickOutside } from 'hooks/useClickOutside';
 
 const LabelContainer = styled.div`
   position: absolute;

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 
-import { clearEditableNote } from '../../../store/actions/notes';
+import { clearEditableNote } from 'store/actions/notes';
 
 const Overlay = styled.div`
   width: 100%;
