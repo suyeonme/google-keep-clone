@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { authService } from 'fbase';
 
 import Github from 'icons/github.svg';
 import Google from 'icons/google.svg';
@@ -16,25 +18,25 @@ import {
   SocialLogInTitle,
 } from 'components/Auth/AuthForm/AuthFormElements';
 
-const SocialIcon = (icon) => {
-  const { bgColor, img, name } = icon.icon;
+const SocialIcon = ({ icon, onClick }) => {
+  const { bgColor, img, title, name } = icon;
 
   return (
-    <IconContainer bgColor={bgColor}>
-      <img src={img} alt={name} />
+    <IconContainer bgColor={bgColor} name={name} onClick={onClick}>
+      <img src={img} alt={title} name={name} />
     </IconContainer>
   );
 };
 
-function AuthForm() {
+function AuthForm({ onClick }) {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' });
   const [newAccount, setNewAccout] = useState(true);
   const [error, setError] = useState('');
   const { email, password } = userInfo;
 
   const socialIcons = [
-    { name: 'Google', img: Google, bgColor: '#3B5998' },
-    { name: 'Github', img: Github, bgColor: '#211F1F' },
+    { title: 'Google', img: Google, bgColor: '#3B5998', name: 'google' },
+    { title: 'Github', img: Github, bgColor: '#211F1F', name: 'github' },
   ];
   const handleToggle = () => setNewAccout((prev) => !prev);
 
@@ -46,20 +48,15 @@ function AuthForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   let data;
-    //   if (newAccount) {
-    //     data = await authService.createUserWithEmailAndPassword(
-    //       email,
-    //       password,
-    //     );
-    //   } else {
-    //     data = await authService.signInWithEmailAndPassword(email, password);
-    //   }
-    //   console.log(data);
-    // } catch (error) {
-    //   setError(error.message);
-    // }
+    try {
+      if (newAccount) {
+        await authService.createUserWithEmailAndPassword(email, password);
+      } else {
+        await authService.signInWithEmailAndPassword(email, password);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -98,7 +95,7 @@ function AuthForm() {
           <SocialLogInTitle>Or</SocialLogInTitle>
           <BtnContainer>
             {socialIcons.map((icon, i) => (
-              <SocialIcon icon={icon} key={i} />
+              <SocialIcon icon={icon} onClick={onClick} key={i} />
             ))}
           </BtnContainer>
         </SocialsContainer>
@@ -106,5 +103,9 @@ function AuthForm() {
     </Container>
   );
 }
+
+AuthForm.propTypes = {
+  onClick: PropTypes.func,
+};
 
 export default AuthForm;

@@ -1,3 +1,17 @@
+import React, { lazy, Suspense, useState, useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { authService } from 'fbase';
+
+// import CircularProgress from '@material-ui/core/CircularProgress';
+import Auth from 'containers/Auth/Auth';
+import Home from 'pages/Home';
+import Layout from 'components/Layout/Layout';
+
+import PageLoader from 'components/UI/PageLoader/PageLoader';
+
+const ArchivedNote = lazy(() => import('./pages/ArchivedNote'));
+// const PageLoader = () => <CircularProgress color="#F3B501" />;
+
 // Implement auth
 // Save notes in firestore
 // Save image and canvas in storage(firebase)
@@ -5,22 +19,39 @@
 // Display label
 // photoUrl (Display social image)
 
-import React, { lazy, Suspense, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import Auth from 'containers/Auth/Auth';
-import Home from 'pages/Home';
-import Layout from 'components/Layout/Layout';
-
-const ArchivedNote = lazy(() => import('./pages/ArchivedNote'));
-const PageLoader = () => <CircularProgress color="#F3B501" />;
+// Log out
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [init, setInit] = useState(false);
+  const [userObj, setUserObj] = useState(null);
+
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+      } else {
+        setUserObj(null);
+      }
+      setInit(true);
+    });
+  }, []);
+
+  // const refreshUser = () => {
+  //   const user = authService.currentUser;
+  //   setUserObj({
+  //     displayName: user.displayName,
+  //     uid: user.uid,
+  //     updateProfile: args => user.updateProfile(args),
+  //   });
+  // };
+
   let routes;
 
-  if (isLoggedIn) {
+  if (userObj) {
     routes = (
       <>
         <Route path="/" exact component={Home} />
@@ -29,17 +60,21 @@ function App() {
     );
   }
 
-  if (!isLoggedIn) {
+  if (!userObj) {
     routes = <Route path="/" exact component={Auth} />;
   }
 
   return (
     <div className="App">
-      <Layout isLoggedIn={isLoggedIn}>
-        <Suspense fallback={PageLoader()}>
-          <Switch>{routes}</Switch>
-        </Suspense>
-      </Layout>
+      {init ? (
+        <Layout isLoggedIn={userObj}>
+          <Suspense fallback={PageLoader()}>
+            <Switch>{routes}</Switch>
+          </Suspense>
+        </Layout>
+      ) : (
+        <PageLoader />
+      )}
     </div>
   );
 }

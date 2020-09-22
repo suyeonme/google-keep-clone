@@ -35,7 +35,7 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.object,
 };
 
 export default Layout;
