@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
 import PropTypes from 'prop-types';
-
 import './NotesLayout.css';
 
 const NotesContainer = styled.div`

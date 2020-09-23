@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEditableNote } from '../../store/actions/notes';
 import PropTypes from 'prop-types';
+import { dbService } from 'fbase';
 
-import NoteBody from 'containers/Note/NoteBody';
-import { NoteContainer, ToolbarContainer } from 'containers/Note/NoteElements';
-import Toolbar from 'containers/Toolbar/Toolbar';
-import EditableNote from 'containers/EditableNote/EditableNote';
-import Label from 'containers/Label/Label';
-import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
-import { useClickOutside } from 'hooks/useClickOutside';
+import { NoteTitle, NoteContent } from 'containers/Note/NoteElements';
+import NoteLayout from 'containers/Note/NoteLayout';
+import { Input, InputTextArea } from 'containers/InputField/InputElements';
+import TodoList from 'components/TodoList/TodoList';
+import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
+import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
 
 function Note({ note, isArchived }) {
-  const { id, bgColor, labels } = note;
-  const [isHovered, setIsHovered] = useState(false);
-  const [showLabel, setShowLabel] = useState(false);
-
-  const editableNote = useSelector((state) => state.notes.editableNote);
-  const editableNoteID = editableNote && editableNote.id;
-  const isClicked = editableNoteID === id;
+  const { title, content, id, isChecked } = note;
+  const [isHovering, setIsHovering] = useState(false);
+  const [newNote, setNewNote] = useState(note);
 
   const dispatch = useDispatch();
+  const editableNote = useSelector((state) => state.notes.editableNote);
+  const editableNoteID = editableNote && editableNote.id;
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (editableNote && editableNote.id === id) {
+      setIsEditing(true);
+    } else {
+      setIsEditing(false);
+    }
+  }, [editableNote, id]);
+
   const handleClick = (e) => {
     if (
       e.target.nodeName !== 'BUTTON' &&
@@ -32,56 +39,85 @@ function Note({ note, isArchived }) {
     }
   };
 
-  const noteProps = {
-    note: note,
-    clicked: isClicked ? 1 : 0,
-    isArchived: isArchived,
+  const handleDelete = async () => {
+    await dbService.doc(`notes/${note.id}`).delete();
   };
 
-  const { setIsClickOutside } = useClickOutside(false);
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setNewNote((prevState) => ({ ...prevState, [name]: value }));
+  }, []);
 
-  return (
-    <NoteContainer
-      bgColor={bgColor}
-      clicked={isClicked ? 1 : 0}
-      onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {isClicked ? (
-        <EditableNote {...noteProps} />
-      ) : (
-        <NoteBody isHovered={isHovered} {...noteProps} />
-      )}
+  const handleBlurTodo = useCallback((todos) => {
+    const newContent = convertTodoToNote(todos);
+    setNewNote((prevState) => ({ ...prevState, content: newContent }));
+  }, []);
 
-      <ToolbarContainer>
-        {labels.length > 0 && (
-          <NoteLabel labels={labels} id={id} isArchived={isArchived} />
-        )}
-        <Toolbar
-          id={id}
-          labels={labels}
-          onHover={isHovered}
-          setShowLabel={setShowLabel}
-          isArchived={isArchived}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await dbService.doc(`notes/${id}`).update(newNote);
+    dispatch(clearEditableNote());
+  };
+
+  const noteLayoutProps = {
+    note,
+    isHovering,
+    clicked: isEditing ? 1 : 0,
+    setIsHovering,
+    setNewNote,
+    onClick: handleClick,
+    onSubmit: handleSubmit,
+    onDelete: handleDelete,
+  };
+
+  if (isEditing) {
+    return (
+      <NoteLayout {...noteLayoutProps}>
+        <Input
+          name="title"
+          placeholder="Title"
+          autoComplete="off"
+          isEditableNote
+          defaultValue={title}
+          onBlur={handleChange}
         />
-        {showLabel && (
-          <Label
+        {isChecked ? (
+          <TodoList
             id={id}
-            note={note}
-            isArchived={isArchived}
-            setShowLabel={setShowLabel}
-            onExpand={setIsClickOutside}
+            todoContent={() => convertNoteToTodo(content)}
+            onSaveEditableNote={handleBlurTodo}
+          />
+        ) : (
+          <InputTextArea
+            name="content"
+            placeholder="Note"
+            autoComplete="off"
+            isEditableNote
+            defaultValue={content}
+            onBlur={handleChange}
           />
         )}
-      </ToolbarContainer>
-    </NoteContainer>
-  );
+      </NoteLayout>
+    );
+  }
+
+  if (!isEditing) {
+    return (
+      <NoteLayout {...noteLayoutProps}>
+        <NoteTitle>{title}</NoteTitle>
+        {isChecked ? (
+          <TodoList todoContent={() => convertNoteToTodo(content)} />
+        ) : (
+          <NoteContent>{content}</NoteContent>
+        )}
+      </NoteLayout>
+    );
+  }
 }
 
 Note.propTypes = {
   note: PropTypes.object.isRequired,
-  isArchived: PropTypes.bool,
+  // isArchived: PropTypes.bool,
 };
 
 export default React.memo(Note);

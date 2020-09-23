@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { getEditableNote } from 'store/actions/notes';
 import { Input, InputTextArea } from 'containers/InputField/InputElements';
 import Tool from 'containers/Toolbar/Tool/Tool';
+import Toolbar from 'containers/Toolbar/Tooo';
 import TodoList from 'components/TodoList/TodoList';
 import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
-
-// TODO
-// saveEditableNote (color, content)
-// Typing - change color - NOT works (old color, old content)
 
 const EditNote = styled.div`
   cursor: text;
@@ -21,27 +17,17 @@ const EditNote = styled.div`
 `;
 
 function EditableNote({ note, isArchived }) {
-  const [editableNote, setEditableNote] = useState(note);
-  const { title, content, id, isChecked, isPinned } = editableNote;
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setEditableNote(note);
-  }, [note]);
-
-  useEffect(() => {
-    dispatch(getEditableNote(editableNote));
-  }, [dispatch, editableNote]);
+  const [newNote, setNewNote] = useState(note);
+  const { title, content, id, isChecked, isPinned } = newNote;
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setEditableNote((prevState) => ({ ...prevState, [name]: value }));
+    setNewNote((prevState) => ({ ...prevState, [name]: value })); // ISSUE
   }, []);
 
   const handleBlurTodo = useCallback((todos) => {
     const newContent = convertTodoToNote(todos);
-    setEditableNote((prevState) => ({ ...prevState, content: newContent }));
+    setNewNote((prevState) => ({ ...prevState, content: newContent })); // ISSUE
   }, []);
 
   return (
@@ -78,6 +64,15 @@ function EditableNote({ note, isArchived }) {
           onBlur={handleChange}
         />
       )}
+
+      <Toolbar
+        id={id}
+        labels={labels}
+        onHover={isHovered}
+        setShowLabel={setShowLabel}
+        isArchived={isArchived}
+        onDelete={handleDelete}
+      />
     </EditNote>
   );
 }

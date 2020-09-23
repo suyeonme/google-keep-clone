@@ -1,20 +1,11 @@
-export const ADD_NOTE = 'ADD_NOTE';
-export const DELETE_NOTE = 'DELETE_NOTE';
-export const UPDATE_NOTE = 'UPDATE_NOTE';
-export const GET_NOTE_COLOR = 'GET_NOTE_COLOR';
-export const CHANGE_NOTE_COLOR = 'CHANGE_NOTE_COLOR';
-export const GET_NOTE_INDEX = 'GET_NOTE_INDEX';
-export const TOGGLE_NOTE_PROPERTY = 'TOGGLE_NOTE_PROPERTY';
+export const INIT_NOTES = 'INIT_NOTES';
+export const INIT_LABELS = 'INIT_LABELS';
 
 export const ADD_LABEL = 'ADD_LABEL';
-export const REMOVE_LABEL = 'REMOVE_LABEL';
 export const RENAME_LABEL = 'RENAME_LABEL';
-export const ADD_NOTE_LABEL = 'ADD_NOTE_LABEL';
-export const REMOVE_NOTE_LABEL = 'REMOVE_NOTE_LABEL';
 
 export const GET_EDITABLE_NOTE = 'GET_EDITABLE_NOTE';
 export const CLEAR_EDITABLE_NOTE = 'CLEAR_EDITABLE_NOTE';
-
 export const ARCHIVE_NOTE = 'ARCHIVE_NOTE';
 export const UNARCHIVE_NOTE = 'UNARCHIVE_NOTE';
 

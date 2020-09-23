@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import CompletedTodo from 'components/TodoList/CompletedTodo/CompletedTodo';
 import TodoItem from 'components/TodoList/TodoItem/TodoItem';
@@ -8,11 +9,9 @@ import TodoInput from 'components/TodoList/TodoInput/TodoInput';
 
 // TODO
 // Issue: Lost check between note -- editable note (todos.isDone)
-
 // Custom Checkbox
 // Add functions (drag, truncate)
 // Trim white space
-import styled from 'styled-components';
 
 const TodoItemContainer = styled.div`
   max-height: 223px;

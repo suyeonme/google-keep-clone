@@ -20,6 +20,16 @@ export const Form = styled.form`
   height: 80%;
   padding: 3rem 4rem;
   border-radius: 8px;
+
+  @media (max-width: 1024px) {
+    width: 35%;
+  }
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+  @media (max-width: 576px) {
+    width: 80%;
+  }
 `;
 
 export const FormInput = styled.input`
@@ -64,6 +74,10 @@ export const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
   img {
     width: 70%;
   }
@@ -71,9 +85,7 @@ export const IconContainer = styled.div`
 
 export const BtnContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 30%;
-  margin: 0 auto;
+  justify-content: center;
 `;
 
 export const SocialsContainer = styled.div`

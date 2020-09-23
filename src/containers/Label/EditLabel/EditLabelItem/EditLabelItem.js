@@ -33,8 +33,6 @@ function EditLabelItem({ label, labelCreator }) {
   const [enteredLabel, setEnteredLabel] = useState('');
 
   const isArchived = window.location.pathname === '/archive' ? true : false;
-  // notes
-  // labels
 
   const handleClearInput = useCallback(() => setEnteredLabel(''), []);
   const handleBlur = (e) => {
@@ -57,7 +55,8 @@ function EditLabelItem({ label, labelCreator }) {
         {isFocused && (
           <Tool
             bgImage={CheckIcon}
-            label={enteredLabel}
+            // label={enteredLabel}
+            newLabel={enteredLabel}
             clearInput={handleClearInput}
             title="Create Label"
             editLabel
@@ -81,7 +80,7 @@ function EditLabelItem({ label, labelCreator }) {
           isArchived={isArchived}
         />
         <EditLabelInput
-          defaultValue={label}
+          defaultValue={label.name}
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
         <Tool
@@ -98,7 +97,7 @@ function EditLabelItem({ label, labelCreator }) {
 }
 
 EditLabelItem.propTypes = {
-  label: PropTypes.string,
+  // label: PropTypes.object,
   labelCreator: PropTypes.bool,
 };
 

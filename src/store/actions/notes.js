@@ -1,42 +1,16 @@
 import * as actions from './actionsTypes';
 
-export const addNote = (note) => {
+export const initNotes = (notes) => {
   return {
-    type: actions.ADD_NOTE,
-    payload: note,
+    type: actions.INIT_NOTES,
+    payload: notes,
   };
 };
 
-export const deleteNote = (id, type) => {
+export const initLabels = (labels) => {
   return {
-    type: actions.DELETE_NOTE,
-    payload: id,
-    noteType: type,
-  };
-};
-
-export const updateNote = (noteType) => {
-  return {
-    type: actions.UPDATE_NOTE,
-    noteType: noteType,
-  };
-};
-
-export const changeNoteColor = (id, noteType, color) => {
-  return {
-    type: actions.CHANGE_NOTE_COLOR,
-    id: id,
-    noteType: noteType,
-    bgColor: color,
-  };
-};
-
-export const toggleNoteProperty = (id, noteType, property) => {
-  return {
-    type: actions.TOGGLE_NOTE_PROPERTY,
-    payload: id,
-    noteType: noteType,
-    property: property,
+    type: actions.INIT_LABELS,
+    labels,
   };
 };
 
@@ -53,36 +27,10 @@ export const clearEditableNote = () => {
   };
 };
 
-// Label
 export const addLabel = (label) => {
   return {
     type: actions.ADD_LABEL,
     payload: label,
-  };
-};
-
-export const addNoteLabel = (id, label, noteType) => {
-  return {
-    type: actions.ADD_NOTE_LABEL,
-    id: id,
-    label: label,
-    noteType: noteType,
-  };
-};
-
-export const removeNoteLabel = (id, label, noteType) => {
-  return {
-    type: actions.REMOVE_NOTE_LABEL,
-    id: id,
-    label: label,
-    noteType: noteType,
-  };
-};
-
-export const removeLabel = (label) => {
-  return {
-    type: actions.REMOVE_LABEL,
-    label: label,
   };
 };
 
@@ -94,7 +42,6 @@ export const renameLabel = (oldLabel, newLabel) => {
   };
 };
 
-// Archives
 export const archiveNote = (id) => {
   return {
     type: actions.ARCHIVE_NOTE,

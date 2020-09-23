@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { removeLabelFromStore } from 'shared/firebase';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import DeleteIcon from 'icons/delete.svg';
 
@@ -36,7 +37,14 @@ const Label = styled.label`
 }
 `;
 
-function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
+function NoteLabel({
+  labels,
+  id,
+  isInputField,
+  onRemove,
+  isArchived,
+  setNewNote,
+}) {
   const [isHover, setIsHover] = useState(false);
   const [hoveredLabel, sethoveredLabel] = useState('');
 
@@ -48,6 +56,12 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
   const handleLeave = () => {
     setIsHover(false);
     sethoveredLabel('');
+  };
+
+  const handleRemove = async (id, label) => {
+    removeLabelFromStore(id, label);
+    const newLabels = labels.filter((l) => l !== label);
+    setNewNote((prev) => ({ ...prev, labels: newLabels }));
   };
 
   const labelList = labels.map((label, i) => (
@@ -64,6 +78,7 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
           bgImage={DeleteIcon}
           title="Remove Label"
           onRemove={onRemove}
+          onRemoveNoteLabel={handleRemove}
           isLabel
           isInputField={isInputField}
           isArchived={isArchived}
@@ -80,6 +95,7 @@ NoteLabel.propTypes = {
   onRemove: PropTypes.func,
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
+  setNewNote: PropTypes.func,
 };
 
 export default React.memo(NoteLabel);

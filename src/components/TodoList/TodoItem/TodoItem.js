@@ -90,6 +90,7 @@ TodoItem.propTypes = {
   onChange: PropTypes.func,
   inputFocus: PropTypes.bool,
   readOnly: PropTypes.bool,
+  isEditable: PropTypes.bool,
 };
 
 export default React.memo(TodoItem);

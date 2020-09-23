@@ -1,9 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-
-import { changeNoteColor } from 'store/actions/notes';
+import { dbService } from 'fbase';
 
 const ColorPaletteContainer = styled.div`
   max-width: 128px;
@@ -14,6 +12,12 @@ const ColorPaletteContainer = styled.div`
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
     0 1px 3px 1px rgba(60, 64, 67, 0.149);
   background-color: white;
+
+  ${({ isInputField }) =>
+    isInputField &&
+    css`
+      bottom: 80px;
+    `}
 `;
 
 const ColorPaletteBtn = styled.button`
@@ -39,7 +43,7 @@ const ColorPaletteBtn = styled.button`
 function ColorPalette({
   id,
   isInputField,
-  isArchived,
+  // isArchived,
   onHover,
   onUnHover,
   onClick,
@@ -55,16 +59,14 @@ function ColorPalette({
     '#c26565',
   ];
 
-  const dispatch = useDispatch();
+  const handleChangeColor = async (color) => {
+    await dbService.doc(`notes/${id}`).update({ bgColor: color });
+  };
 
-  const handleChangeColor = (e, color, id) => {
+  const handleClick = (e, color) => {
     e.preventDefault();
     if (isInputField) onClick(color);
-    if (!isInputField) {
-      isArchived
-        ? dispatch(changeNoteColor(id, 'archives', color))
-        : dispatch(changeNoteColor(id, 'notes', color));
-    }
+    handleChangeColor(color);
   };
 
   return (
@@ -73,7 +75,7 @@ function ColorPalette({
         <ColorPaletteBtn
           key={i}
           color={color}
-          onClick={(e) => handleChangeColor(e, color, id)}
+          onClick={(e) => handleClick(e, color)}
         />
       ))}
     </ColorPaletteContainer>
@@ -83,7 +85,7 @@ function ColorPalette({
 ColorPalette.propTypes = {
   id: PropTypes.string.isRequired,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
+  // isArchived: PropTypes.bool,
   onHover: PropTypes.func.isRequired,
   onUnHover: PropTypes.func.isRequired,
   onClick: PropTypes.func,

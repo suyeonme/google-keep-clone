@@ -16,7 +16,7 @@ import {
   BtnContainer,
   IconContainer,
   SocialLogInTitle,
-} from 'components/Auth/AuthForm/AuthFormElements';
+} from 'components/AuthForm/AuthFormElements';
 
 const SocialIcon = ({ icon, onClick }) => {
   const { bgColor, img, title, name } = icon;
@@ -108,4 +108,4 @@ AuthForm.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default AuthForm;
+export default React.memo(AuthForm);

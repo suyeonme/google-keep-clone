@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Plus from 'icons/plus.svg';
+import { addLabelToStore } from 'shared/firebase';
 
 const Container = styled.div`
   display: flex;
@@ -32,23 +33,21 @@ const Description = styled.p`
 function LabelCreator({
   id,
   label,
-  onClick,
-  onAdd,
-  setNote,
   isInputField,
-  isArchived,
+  addLabelToNote,
+  addLabelToInputField,
 }) {
-  const handleClick = (id, label) => {
-    if (isInputField) setNote(label);
-    if (isArchived) onAdd(id, label, 'archives');
-    else {
-      onAdd(id, label, 'notes');
+  const handleClick = (label) => {
+    if (isInputField) {
+      addLabelToInputField(label);
+      addLabelToStore(label);
     }
-    onClick(label);
+    if (!isInputField) addLabelToNote(id, label);
+    // Notes, Archives
   };
 
   return (
-    <Container onClick={(e) => handleClick(id, label)} id="labelCreator">
+    <Container onClick={(e) => handleClick(label)} id="labelCreator">
       <PlusIcon />
       <Description>
         Create <strong>"{label}"</strong>
@@ -58,13 +57,11 @@ function LabelCreator({
 }
 
 LabelCreator.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string,
+  label: PropTypes.string.isRequired,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
-  onAdd: PropTypes.func,
-  onClick: PropTypes.func.isRequired,
-  setNote: PropTypes.func,
+  addLabelToNote: PropTypes.func,
+  addLabelToInputField: PropTypes.func,
 };
 
 export default React.memo(LabelCreator);

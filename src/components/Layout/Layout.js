@@ -14,17 +14,17 @@ const Container = styled.div`
 
 const Content = styled.div`
   flex-grow: 1;
-  display: ${(props) => !props.isLoggedIn && 'flex'};
-  align-items: ${(props) => !props.isLoggedIn && 'center'};
+  display: ${(props) => !props.userObj && 'flex'};
+  align-items: ${(props) => !props.userObj && 'center'};
 `;
 
 function Layout(props) {
-  const { isLoggedIn } = props;
+  const { userObj } = props;
 
   return (
     <Container>
-      <Content isLoggedIn={isLoggedIn}>
-        <Header isLoggedIn={isLoggedIn} />
+      <Content userObj={userObj}>
+        <Header userObj={userObj} />
         {props.children}
         <FlashMessage />
       </Content>
@@ -35,7 +35,7 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  isLoggedIn: PropTypes.object,
+  userObj: PropTypes.object,
 };
 
 export default Layout;

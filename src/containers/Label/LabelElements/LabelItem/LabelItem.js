@@ -1,9 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { removeNoteLabel } from 'store/actions/notes';
 import { Checkbox } from 'components/TodoList/TodoItem/TodoItem';
 
 const LabelItemContainer = styled.div`
@@ -29,27 +27,24 @@ function LabelItem({
   label,
   id,
   note,
-  onAdd,
   onRemove,
-  setNote,
   isInputField,
-  isArchived,
+  // isArchived,
+  removeLabelFromNote,
+  addLabelToNote,
+  addLabelToInputField,
 }) {
-  const dispatch = useDispatch();
   const isChecked = note.labels.includes(label);
 
   const handleChange = (id, label) => {
     if (isInputField) {
-      isChecked ? onRemove(label) : setNote(label);
-    } else if (isArchived) {
-      isChecked
-        ? dispatch(removeNoteLabel(id, label, 'archives'))
-        : onAdd(id, label, 'archives');
-    } else {
-      isChecked
-        ? dispatch(removeNoteLabel(id, label, 'notes'))
-        : onAdd(id, label, 'notes');
+      isChecked ? onRemove(label) : addLabelToInputField(label);
     }
+
+    if (!isInputField) {
+      isChecked ? removeLabelFromNote(id, label) : addLabelToNote(id, label);
+    }
+    // Note and Archives
   };
 
   return (
@@ -70,10 +65,11 @@ LabelItem.propTypes = {
   id: PropTypes.string,
   isInputField: PropTypes.bool,
   isArchived: PropTypes.bool,
-  onAdd: PropTypes.func,
-  setNote: PropTypes.func,
   note: PropTypes.object,
   onRemove: PropTypes.func,
+  addLabelToNote: PropTypes.func,
+  removeLabelFromNote: PropTypes.func,
+  addLabelToInputField: PropTypes.func,
 };
 
 export default React.memo(LabelItem);

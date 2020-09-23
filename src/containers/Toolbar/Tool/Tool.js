@@ -6,16 +6,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { showFlashMessage, hideFlashMessage } from 'store/actions/flashMessage';
 import { ToolbarBtn } from 'containers/Toolbar/Tool/ToolElements';
 import {
-  toggleNoteProperty,
-  deleteNote,
   archiveNote,
   unarchiveNote,
   clearEditableNote,
-  removeNoteLabel,
   addLabel,
-  removeLabel,
   renameLabel,
 } from 'store/actions/notes';
+import {
+  editLabelFromStore,
+  toggleNotePin,
+  toggleNoteTodo,
+} from 'shared/firebase';
 
 function Tool({
   id,
@@ -29,14 +30,17 @@ function Tool({
   onRemove,
   isInputField,
   isPinned,
-  isArchived,
-  label,
-  newLabel,
   editLabel,
   isLabel,
   clearInput,
   notePin,
   inputPin,
+  onDelete,
+  label,
+  newLabel,
+  onRemoveNoteLabel,
+  isChecked,
+  // isArchived,
 }) {
   const dispatch = useDispatch();
 
@@ -54,24 +58,16 @@ function Tool({
     switch (title) {
       case 'Show Checkbox':
         if (isInputField) onToggle('isChecked');
-        if (isArchived)
-          dispatch(toggleNoteProperty(noteID, 'archives', 'isChecked'));
-        else {
-          dispatch(toggleNoteProperty(noteID, 'notes', 'isChecked'));
-        }
+        if (!isInputField) toggleNoteTodo(noteID, !isChecked);
+        // Notes, Archives
         break;
       case 'Pin Note':
         if (isInputField) onToggle('isPinned');
-        if (isArchived)
-          dispatch(toggleNoteProperty(noteID, 'archives', 'isPinned'));
-        else {
-          dispatch(toggleNoteProperty(noteID, 'notes', 'isPinned'));
-        }
+        if (!isInputField) toggleNotePin(noteID, !isPinned);
+        // Notes, Archives
         break;
       case 'Delete Note':
-        isArchived
-          ? dispatch(deleteNote(noteID, 'archives'))
-          : dispatch(deleteNote(noteID, 'notes'));
+        onDelete();
         break;
       case 'Delete Todo':
         deleteTodo();
@@ -93,19 +89,17 @@ function Tool({
         setShowLabel(true);
         break;
       case 'Create Label':
-        dispatch(addLabel(label));
+        dispatch(addLabel(newLabel));
         clearInput();
         break;
       case 'Remove Label':
         if (isInputField) onRemove(label);
-        if (isArchived) dispatch(removeNoteLabel(noteID, label, 'archives'));
-        if (editLabel) dispatch(removeLabel(label));
-        else {
-          dispatch(removeNoteLabel(noteID, label, 'notes'));
-        }
+        if (!isInputField) onRemoveNoteLabel(id, label);
+        // Notes, Archives
         break;
       case 'Rename Label':
-        dispatch(renameLabel(label, newLabel));
+        dispatch(renameLabel(label.name, newLabel));
+        editLabelFromStore(label.id, newLabel);
         break;
       case 'Cancel':
         clearInput();
@@ -157,6 +151,11 @@ Tool.propTypes = {
   editLabel: PropTypes.bool,
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
+  onDelete: PropTypes.func,
+  // label: PropTypes.object,
+  newLabel: PropTypes.string,
+  onRemoveNoteLabel: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
 
 export default React.memo(Tool);

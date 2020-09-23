@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import uniqid from 'uniqid';
 
 import {
   InputContainer,
@@ -14,14 +12,13 @@ import { ToolbarContainer } from 'containers/Note/NoteElements';
 import Label from 'containers/Label/Label';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import TodoList from 'components/TodoList/TodoList';
-import { addNote } from 'store/actions/notes';
 import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
+import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
 
 const initialNote = {
   title: '',
   content: '',
-  id: uniqid(),
   bgColor: '#fff',
   isChecked: false,
   isPinned: false,
@@ -33,7 +30,6 @@ function InputField() {
   const { title, content, id, bgColor, isChecked, isPinned, labels } = note;
   const [showLabel, setShowLabel] = useState(false);
 
-  const dispatch = useDispatch();
   const {
     ref,
     isClickOutside: isExpand,
@@ -42,20 +38,8 @@ function InputField() {
   } = useClickOutside(false);
 
   const handleResetNote = useCallback(() => {
-    setNote({ ...initialNote, id: uniqid() });
+    setNote({ ...initialNote });
   }, []);
-
-  const handleAddNote = useCallback(
-    (note) => {
-      if (title !== '' && content !== '') {
-        dispatch(addNote(note));
-        handleResetNote();
-        setShowLabel(false);
-        handleResetClick();
-      }
-    },
-    [title, content, dispatch, handleResetNote, handleResetClick],
-  );
 
   const handleUpdateNote = useCallback(
     (e) => {
@@ -72,9 +56,12 @@ function InputField() {
     [note],
   );
 
-  const handleChangeColor = (color) => {
-    setNote({ ...note, bgColor: color });
-  };
+  const handleChangeColor = useCallback(
+    (color) => {
+      setNote({ ...note, bgColor: color });
+    },
+    [note],
+  );
 
   const handleAddTodo = useCallback(
     (newTodo) => {
@@ -85,12 +72,11 @@ function InputField() {
   );
 
   const handleAddLabel = useCallback(
-    (label) => {
-      const isExisted = labels.includes(label);
+    async (label) => {
       const newLabel = labels.concat(label);
-      !isExisted && setNote({ ...note, labels: newLabel });
+      setNote({ ...note, labels: newLabel });
     },
-    [note, labels],
+    [labels, note],
   );
 
   const handleRemoveLabel = useCallback(
@@ -99,6 +85,22 @@ function InputField() {
       setNote({ ...note, labels: newLabels });
     },
     [note, labels],
+  );
+
+  const handleAddNote = useCallback(
+    async (note) => {
+      if (title !== '' && content !== '') {
+        // note = {
+        //   ...note,
+        //   createdAt: Date.now(),
+        // };
+        handleResetNote();
+        setShowLabel(false);
+        handleResetClick();
+        addNoteToStore(note);
+      }
+    },
+    [title, content, handleResetNote, handleResetClick],
   );
 
   // TEXT FIELD
@@ -124,7 +126,7 @@ function InputField() {
 
   return (
     <InputContainer>
-      <InputForm ref={ref} bgColor={bgColor}>
+      <InputForm ref={ref} bgColor={bgColor} onSubmit={handleAddNote}>
         <Input
           name="title"
           value={title}
@@ -135,8 +137,8 @@ function InputField() {
         <Tool
           inputPin
           isInputField
-          isPinned={isPinned}
           title="Pin Note"
+          isPinned={isPinned}
           onToggle={handleToggle}
         />
         {isExpand && (
@@ -144,13 +146,12 @@ function InputField() {
             {textField}
             {labels.length > 0 && (
               <NoteLabel
+                isInputField
                 id={id}
                 labels={labels}
                 onRemove={handleRemoveLabel}
-                isInputField
               />
             )}
-
             <ToolbarContainer>
               <Toolbar
                 id={id}
@@ -163,10 +164,9 @@ function InputField() {
               />
               {showLabel && (
                 <Label
-                  id={id}
                   note={note}
                   isInputField
-                  setNote={handleAddLabel}
+                  addLabelToInputField={handleAddLabel}
                   setShowLabel={setShowLabel}
                   onRemove={handleRemoveLabel}
                   onExpand={setIsClickOutside}

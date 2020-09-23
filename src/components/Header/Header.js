@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
+import Profile from 'components/Header/Profile';
 import Logo from 'components/Header/Logo';
 import Nav from 'components/Nav/Nav';
 import Hamburger from 'icons/hamburger.svg';
@@ -13,7 +14,7 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid rgba(66, 66, 66, 0.2);
   display: flex;
   align-items: center;
-  padding: 5px 8px;
+  padding: 5px 24px 5px 8px;
 
   position: fixed;
   top: 0;
@@ -38,26 +39,32 @@ const Menu = styled.div`
   }
 `;
 
-function Header({ isLoggedIn }) {
+function Header({ userObj }) {
   const [openNav, setOpenNav] = useState(false);
 
   return (
     <>
       <HeaderContainer>
-        {isLoggedIn && (
+        {userObj && (
           <Tooltip title="Main menu" arrow>
             <Menu onClick={() => setOpenNav(!openNav)} />
           </Tooltip>
         )}
         <Logo />
+
+        {userObj && (
+          <>
+            <Nav isHover={openNav} onHover={setOpenNav} />
+            <Profile userObj={userObj} />
+          </>
+        )}
       </HeaderContainer>
-      {isLoggedIn && <Nav isHover={openNav} onHover={setOpenNav} />}
     </>
   );
 }
 
 Header.propTypes = {
-  isLogIn: PropTypes.bool,
+  userObj: PropTypes.object,
 };
 
 export default React.memo(Header);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,6 @@ import CheckboxIcon from 'icons/checkbox.svg';
 import ArchiveIcon from 'icons/archive.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import ColorPalette from 'components/ColorPalette/ColorPalette';
-import { updateNote } from 'store/actions/notes';
 
 const ToolbarContainer = styled.div`
   width: 100%;
@@ -27,7 +26,7 @@ const ToolbarContainer = styled.div`
   }
 `;
 
-const CloseBtn = styled.button`
+const CloseBtn = styled.input`
   background: transparent;
   color: rgba(0, 0, 0, 0.87);
   font-weight: 500;
@@ -52,6 +51,8 @@ function Toolbar({
   isArchived,
   setShowLabel,
   labels,
+  onDelete,
+  isChecked,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
@@ -76,22 +77,16 @@ function Toolbar({
   const editableNote = useSelector((state) => state.notes.editableNote);
   const isEditable = editableNote ? true : false;
 
-  const dispatch = useDispatch();
   const handleShowColorPalette = () => setIsHoverColorPalette(true);
   const handleHideColorPalette = () => setIsHoverColorPalette(false);
-  const handleUpdateEditableNote = () => {
-    isArchived
-      ? dispatch(updateNote('archives'))
-      : dispatch(updateNote('notes'));
-  };
 
   return (
     <ToolbarContainer hovered={onHover}>
       <div>
         {icons.map((icon, i) => (
           <Tool
-            id={id}
             key={i}
+            id={id}
             title={icon.title}
             bgImage={icon.icon}
             labels={labels}
@@ -102,9 +97,10 @@ function Toolbar({
               icon.title === 'Change Color' ? handleHideColorPalette : null
             }
             onToggle={onToggle}
+            setShowLabel={setShowLabel}
             isInputField={isInputField}
             isArchived={isArchived}
-            setShowLabel={setShowLabel}
+            isChecked={isChecked}
           />
         ))}
         {!isInputField && (
@@ -113,13 +109,14 @@ function Toolbar({
             title="Delete Note"
             bgImage={TranshCanIcon}
             isArchived={isArchived}
+            onDelete={onDelete}
           />
         )}
       </div>
-      {isInputField && <CloseBtn onClick={onAddNote}> Close </CloseBtn>}
-      {isEditable && (
-        <CloseBtn onClick={handleUpdateEditableNote}> Close </CloseBtn>
+      {isInputField && (
+        <CloseBtn type="submit" value="Close" onClick={onAddNote} />
       )}
+      {isEditable && <CloseBtn type="submit" value="close" />}
       {isHoverColorPalette && (
         <ColorPalette
           id={id}
@@ -135,7 +132,7 @@ function Toolbar({
 }
 
 Toolbar.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   onHover: PropTypes.bool.isRequired,
   onAddNote: PropTypes.func,
   onToggle: PropTypes.func,
@@ -144,6 +141,8 @@ Toolbar.propTypes = {
   isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
   labels: PropTypes.array,
+  onDelete: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
 
 export default React.memo(Toolbar);

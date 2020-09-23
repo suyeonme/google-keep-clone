@@ -7,6 +7,7 @@ import NavItems from 'components/Nav/NavItems/NavItems';
 const NavContainer = styled.nav`
   position: fixed;
   top: 62px;
+  left: 0;
   z-index: 1;
   overflow: hidden;
   height: 100%;
