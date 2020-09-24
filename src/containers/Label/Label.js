@@ -44,7 +44,6 @@ function Label({
   note,
   onRemove,
   onExpand,
-  setNewNote,
   addLabelToInputField,
 }) {
   const [label, setLabel] = useState('');
@@ -60,32 +59,33 @@ function Label({
 
   const handleChange = useCallback((label) => setLabel(label), []);
 
-  const addLabelNote = async (id, label) => {
-    setNewNote((prev) => ({ ...prev, labels: prev.labels.concat(label) }));
-    addLabelToNote(id, label);
-  };
+  const addLabelNote = useCallback(async (id, label, type) => {
+    addLabelToNote(id, label, type);
+  }, []);
 
-  const handleLabelToNote = async (id, label) => {
-    addLabelNote(id, label);
-    addLabelToStore(label);
-  };
+  const handleLabelToNote = useCallback(
+    async (id, label, type) => {
+      addLabelNote(id, label, type);
+      addLabelToStore(label);
+    },
+    [addLabelNote],
+  );
 
   const labelCreatorProps = {
     id,
     label,
-    addLabelToInputField,
-    isInputField,
     isArchived,
-    setNewNote: setNewNote,
+    isInputField,
+    addLabelToInputField,
     addLabelToNote: handleLabelToNote,
   };
 
   const labelItemProps = {
     id,
-    isInputField,
-    isArchived,
     note,
-    onRemove: onRemove,
+    onRemove,
+    isArchived,
+    isInputField,
     addLabelToInputField,
     removeLabelFromNote,
     addLabelToNote: addLabelNote,
@@ -133,12 +133,11 @@ function Label({
 
 Label.propTypes = {
   isInputField: PropTypes.bool,
-  // isArchived: PropTypes.bool,
+  isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
   note: PropTypes.object,
   onRemove: PropTypes.func,
   onExpand: PropTypes.func,
-  setNewNote: PropTypes.func,
   addLabelToInputField: PropTypes.func,
 };
 

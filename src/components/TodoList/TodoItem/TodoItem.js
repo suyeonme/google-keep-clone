@@ -36,11 +36,13 @@ function TodoItem({
   todo,
   isEditable,
   onCheck,
-  onBlur,
   onDelete,
-  onChange,
   inputFocus,
   readOnly,
+  onChange,
+  onBlur,
+  noteID,
+  todos,
 }) {
   const { id, todoItem, isDone } = todo;
   const [isHover, setIsHover] = useState({ hoverID: '', onHover: false });
@@ -52,9 +54,9 @@ function TodoItem({
 
   return (
     <TodoListContainer
+      isEditable={isEditable}
       onMouseEnter={isEditable ? () => handleOnMouseOver(id) : null}
       onMouseLeave={isEditable ? () => handleOnMouseLeave(id) : null}
-      isEditable={isEditable}
     >
       <Checkbox
         type="checkbox"
@@ -67,15 +69,15 @@ function TodoItem({
         value={todoItem && todoItem}
         autoFocus={inputFocus}
         onChange={(e) => onChange(e, id)}
-        onBlur={onBlur ? (e) => onBlur(e, id) : null}
+        onBlur={onBlur ? () => onBlur(noteID, todos) : null}
         readOnly={readOnly}
       />
       {isEditable && hoverID === id && onHover && (
         <Tool
+          isEditable
           title="Delete Todo"
           bgImage={DeleteIcon}
-          isEditable
-          deleteTodo={() => onDelete(id)}
+          deleteTodo={() => onDelete(noteID, id, todos)}
         />
       )}
     </TodoListContainer>
@@ -91,6 +93,8 @@ TodoItem.propTypes = {
   inputFocus: PropTypes.bool,
   readOnly: PropTypes.bool,
   isEditable: PropTypes.bool,
+  noteID: PropTypes.string,
+  todos: PropTypes.array,
 };
 
 export default React.memo(TodoItem);

@@ -55,7 +55,6 @@ function EditLabelItem({ label, labelCreator }) {
         {isFocused && (
           <Tool
             bgImage={CheckIcon}
-            // label={enteredLabel}
             newLabel={enteredLabel}
             clearInput={handleClearInput}
             title="Create Label"
@@ -75,7 +74,7 @@ function EditLabelItem({ label, labelCreator }) {
         <Tool
           bgImage={isFocused ? TrashIcon : LabelIcon}
           label={label}
-          title="Remove Label"
+          title="Delete Label"
           editLabel
           isArchived={isArchived}
         />
@@ -97,7 +96,7 @@ function EditLabelItem({ label, labelCreator }) {
 }
 
 EditLabelItem.propTypes = {
-  // label: PropTypes.object,
+  label: PropTypes.object,
   labelCreator: PropTypes.bool,
 };
 

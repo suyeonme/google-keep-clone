@@ -1,7 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { dbService } from 'fbase';
 
+import { initArchives } from 'store/actions/notes';
 import Archive from 'icons/archive.svg';
 import Notes from 'components/Notes/Notes';
 
@@ -57,6 +59,18 @@ const Container = styled.div`
 
 function ArchivedNote() {
   const archives = useSelector((state) => state.notes.archives);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dbService.collection('archives').onSnapshot((snapshot) => {
+      const noteArr = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      dispatch(initArchives(noteArr));
+    });
+  }, [dispatch]);
 
   if (archives.length === 0) {
     return (

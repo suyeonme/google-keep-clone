@@ -8,6 +8,14 @@ const initialState = {
   editableNote: null,
 };
 
+const initArchives = (state, action) => {
+  const notes = {
+    ...state,
+    archives: action.payload,
+  };
+  return updateObject(state, notes);
+};
+
 const initNotes = (state, action) => {
   const notes = {
     ...state,
@@ -17,13 +25,14 @@ const initNotes = (state, action) => {
 };
 
 const initLabels = (state, action) => {
-  const labels = { ...state, labels: action.labels };
+  const labels = {
+    ...state,
+    labels: action.labels,
+  };
   return updateObject(state, labels);
 };
 
 const getEditableNote = (state, action) => {
-  // FIXME payload is old value
-  // What if editableNote and note share the same value?
   const updatedNotes = {
     ...state,
     editableNote: action.payload,
@@ -39,38 +48,23 @@ const clearEditableNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const archiveNote = (state, action) => {
-  const archivedNote = state.notes.find((note) => note.id === action.payload);
-  const newNotes = state.notes.filter((note) => note.id !== action.payload);
-
-  const updatedNotes = {
-    ...state,
-    notes: newNotes,
-    archives: [...state.archives, archivedNote],
-  };
-  return updateObject(state, updatedNotes);
-};
-
-const unarchiveNote = (state, action) => {
-  const unarchivedNote = state.archives.find(
-    (note) => note.id === action.payload,
-  );
-  const newNotes = state.archives.filter((note) => note.id !== action.payload);
-
-  const updatedNotes = {
-    ...state,
-    notes: [...state.notes, unarchivedNote],
-    archives: newNotes,
-  };
-  return updateObject(state, updatedNotes);
-};
-
 const addLabel = (state, action) => {
   const updatedLabels = {
     ...state,
     labels: [...state.labels, action.payload],
   };
   return updateObject(state, updatedLabels);
+};
+
+const removeLabel = (state, action) => {
+  const newLabels = state.labels.filter((label) => label.name !== action.label);
+
+  const updatedState = {
+    ...state,
+    labels: newLabels,
+  };
+
+  return updateObject(state, updatedState);
 };
 
 const renameLabel = (state, action) => {
@@ -96,6 +90,8 @@ const renameLabel = (state, action) => {
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.INIT_ARCHIVES:
+      return initArchives(state, action);
     case actionTypes.INIT_NOTES:
       return initNotes(state, action);
     case actionTypes.INIT_LABELS:
@@ -104,12 +100,10 @@ const reducer = (state = initialState, action) => {
       return getEditableNote(state, action);
     case actionTypes.CLEAR_EDITABLE_NOTE:
       return clearEditableNote(state, action);
-    case actionTypes.ARCHIVE_NOTE:
-      return archiveNote(state, action);
-    case actionTypes.UNARCHIVE_NOTE:
-      return unarchiveNote(state, action);
     case actionTypes.ADD_LABEL:
       return addLabel(state, action);
+    case actionTypes.REMOVE_LABEL:
+      return removeLabel(state, action);
     case actionTypes.RENAME_LABEL:
       return renameLabel(state, action);
     default:

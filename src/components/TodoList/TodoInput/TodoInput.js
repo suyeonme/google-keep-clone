@@ -29,7 +29,7 @@ export const TodoItemInput = styled.input`
   letter-spacing: ${(props) => props.addingTodo && '0.5px'};
 `;
 
-function TodoInput({ setTodos }) {
+function TodoInput({ onAdd }) {
   const [todoInput, setTodoInput] = useState('');
 
   const handleChange = (e) => {
@@ -39,7 +39,7 @@ function TodoInput({ setTodos }) {
       isDone: false,
     };
 
-    setTodos(newTodoItem);
+    onAdd(newTodoItem);
     setTodoInput('');
   };
 
@@ -48,17 +48,17 @@ function TodoInput({ setTodos }) {
       <PlusIcon />
       <TodoItemInput
         autoFocus
+        addingTodo
         placeholder="List Item"
         value={todoInput}
         onChange={handleChange}
-        addingTodo
       />
     </TodoListContainer>
   );
 }
 
 TodoInput.propTypes = {
-  setTodos: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
 export default React.memo(TodoInput);

@@ -1,19 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { dbService } from 'fbase';
 
 import { NoteTitle, NoteContent } from 'containers/Note/NoteElements';
 import NoteLayout from 'containers/Note/NoteLayout';
 import { Input, InputTextArea } from 'containers/InputField/InputElements';
 import TodoList from 'components/TodoList/TodoList';
 import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
-import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
+import { convertNoteToTodo } from 'shared/utility';
+import { editNote, removeNoteFromStore } from 'shared/firebase';
 
 function Note({ note, isArchived }) {
   const { title, content, id, isChecked } = note;
   const [isHovering, setIsHovering] = useState(false);
-  const [newNote, setNewNote] = useState(note);
 
   const dispatch = useDispatch();
   const editableNote = useSelector((state) => state.notes.editableNote);
@@ -28,46 +27,53 @@ function Note({ note, isArchived }) {
     }
   }, [editableNote, id]);
 
-  const handleClick = (e) => {
-    if (
-      e.target.nodeName !== 'BUTTON' &&
-      e.target.id !== 'checkbox' &&
-      e.target.id !== 'label' &&
-      !editableNoteID
-    ) {
-      dispatch(getEditableNote(note));
-    }
-  };
+  const handleClick = useCallback(
+    (e) => {
+      if (
+        e.target.nodeName !== 'BUTTON' &&
+        e.target.id !== 'checkbox' &&
+        e.target.id !== 'label' &&
+        !editableNoteID
+      ) {
+        dispatch(getEditableNote(note));
+      }
+    },
+    [dispatch, editableNoteID, note],
+  );
 
-  const handleDelete = async () => {
-    await dbService.doc(`notes/${note.id}`).delete();
-  };
-
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setNewNote((prevState) => ({ ...prevState, [name]: value }));
+  const handleDelete = useCallback(async (id, type) => {
+    removeNoteFromStore(id, type);
   }, []);
 
-  const handleBlurTodo = useCallback((todos) => {
-    const newContent = convertTodoToNote(todos);
-    setNewNote((prevState) => ({ ...prevState, content: newContent }));
-  }, []);
+  const handleBlur = useCallback(
+    async (e, id) => {
+      const { name, value } = e.target;
+      if (isArchived) {
+        editNote(id, name, value, 'archives');
+      } else {
+        editNote(id, name, value, 'notes');
+      }
+    },
+    [isArchived],
+  );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await dbService.doc(`notes/${id}`).update(newNote);
-    dispatch(clearEditableNote());
-  };
+  const handleClose = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(clearEditableNote());
+    },
+    [dispatch],
+  );
 
   const noteLayoutProps = {
     note,
     isHovering,
+    isArchived,
     clicked: isEditing ? 1 : 0,
     setIsHovering,
-    setNewNote,
     onClick: handleClick,
-    onSubmit: handleSubmit,
     onDelete: handleDelete,
+    onClose: handleClose,
   };
 
   if (isEditing) {
@@ -79,13 +85,13 @@ function Note({ note, isArchived }) {
           autoComplete="off"
           isEditableNote
           defaultValue={title}
-          onBlur={handleChange}
+          onBlur={(e) => handleBlur(e, id)}
         />
         {isChecked ? (
           <TodoList
             id={id}
             todoContent={() => convertNoteToTodo(content)}
-            onSaveEditableNote={handleBlurTodo}
+            isArchived={isArchived}
           />
         ) : (
           <InputTextArea
@@ -94,7 +100,7 @@ function Note({ note, isArchived }) {
             autoComplete="off"
             isEditableNote
             defaultValue={content}
-            onBlur={handleChange}
+            onBlur={(e) => handleBlur(e, id)}
           />
         )}
       </NoteLayout>
@@ -117,7 +123,7 @@ function Note({ note, isArchived }) {
 
 Note.propTypes = {
   note: PropTypes.object.isRequired,
-  // isArchived: PropTypes.bool,
+  isArchived: PropTypes.bool,
 };
 
 export default React.memo(Note);

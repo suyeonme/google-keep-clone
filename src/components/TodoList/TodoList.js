@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import CompletedTodo from 'components/TodoList/CompletedTodo/CompletedTodo';
 import TodoItem from 'components/TodoList/TodoItem/TodoItem';
 import TodoInput from 'components/TodoList/TodoInput/TodoInput';
+import { convertTodoToNote } from 'shared/utility';
+import { editNote } from 'shared/firebase';
 
 // TODO
-// Issue: Lost check between note -- editable note (todos.isDone)
 // Custom Checkbox
 // Add functions (drag, truncate)
 // Trim white space
@@ -18,13 +19,13 @@ const TodoItemContainer = styled.div`
   overflow: hidden;
 `;
 
-function TodoList({
-  todoContent = [],
-  id,
-  isInputField,
-  onSaveEditableNote,
-  onSaveNote,
-}) {
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+function TodoList({ todoContent = [], id, setNote, isInputField, isArchived }) {
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
@@ -33,35 +34,46 @@ function TodoList({
   const todoTask = todos && todos.filter((todo) => !todo.isDone);
   const doneTask = todos && todos.filter((todo) => todo.isDone);
 
-  const handleAddTodo = useCallback(
+  const handleAdd = useCallback(
     (newTodo) => {
       todos === undefined ? setTodos([newTodo]) : setTodos([...todos, newTodo]);
     },
     [todos],
   );
 
-  const handleDeleteTodo = useCallback(
-    (id) => {
-      let newTodos = todos.filter((el) => el.id !== id);
+  const handleDelete = useCallback(
+    (noteID, todoID, todos) => {
+      let newTodos = todos.filter((t) => t.id !== todoID);
       setTodos(newTodos);
-      onSaveEditableNote ? onSaveEditableNote(newTodos) : onSaveNote(newTodos);
+      const value = convertTodoToNote(newTodos);
+
+      if (isInputField) {
+        setNote((prev) => ({ ...prev, content: value }));
+      } else if (noteID) {
+        isArchived
+          ? editNote(noteID, 'content', value, 'archives')
+          : editNote(noteID, 'content', value, 'notes');
+      }
     },
-    [onSaveEditableNote, onSaveNote, todos],
+    [isInputField, setNote, isArchived],
   );
 
-  const saveEditedTodo = useCallback(
-    (e, id) => {
-      const newContent = e.currentTarget.value;
-      const editedTodo = todos.map((todo) =>
-        todo.id === id ? { ...todo, todoItem: newContent } : todo,
-      );
-      setTodos(editedTodo);
-      onSaveEditableNote(editedTodo);
+  const handleBlur = useCallback(
+    (noteID, todos) => {
+      const value = convertTodoToNote(todos);
+
+      if (isInputField) {
+        setNote((prev) => ({ ...prev, content: value }));
+      } else if (noteID) {
+        isArchived
+          ? editNote(noteID, 'content', value, 'archives')
+          : editNote(noteID, 'content', value, 'notes');
+      }
     },
-    [onSaveEditableNote, todos],
+    [isInputField, isArchived, setNote],
   );
 
-  const handleChangeTodo = useCallback(
+  const handleChange = useCallback(
     (e, id) => {
       const newTodos = todos.map((todo) =>
         todo.id === id ? { ...todo, todoItem: e.target.value } : todo,
@@ -81,24 +93,30 @@ function TodoList({
     [todos],
   );
 
+  const todoItemProps = {
+    todos,
+    onCheck: handleCheckbox,
+    onChange: handleChange,
+    onBlur: handleBlur,
+    onDelete: handleDelete,
+  };
+
   if (isInputField) {
     if (todos.length === 0) {
       const todoList = todos.map((todo, i, todoArr) => (
         <TodoItem
           key={i}
-          isEditable
           todo={todo}
           inputFocus={i === todoArr.length - 1}
-          onCheck={handleCheckbox}
-          onChange={handleChangeTodo}
-          onBlur={() => onSaveNote(todos)}
           readOnly={isEditable}
+          isEditable
+          {...todoItemProps}
         />
       ));
       return (
         <>
           {todoList}
-          <TodoInput setTodos={handleAddTodo} />
+          <TodoInput onAdd={handleAdd} />
         </>
       );
     }
@@ -107,21 +125,18 @@ function TodoList({
       const todoList = todos.map((todo, i, todoArr) => (
         <TodoItem
           key={i}
-          isEditable
           todo={todo}
           inputFocus={i === todoArr.length - 1}
-          onCheck={handleCheckbox}
-          onChange={handleChangeTodo}
-          onBlur={() => onSaveNote(todos)}
-          onDelete={handleDeleteTodo}
           readOnly={isEditable}
+          isEditable
+          {...todoItemProps}
         />
       ));
 
       return (
         <>
           {todoList}
-          <TodoInput setTodos={handleAddTodo} />
+          <TodoInput onAdd={handleAdd} />
         </>
       );
     }
@@ -130,39 +145,37 @@ function TodoList({
   if (isEditable) {
     if (!todos) {
       setTodos([]);
-      return <TodoInput setTodos={handleAddTodo} />;
+      return <TodoInput onAdd={handleAdd} />;
     }
 
     if (todos) {
       let todoList = todoTask.map((todo, i, todoArr) => (
         <TodoItem
           key={i}
-          isEditable
           todo={todo}
           inputFocus={i === todoArr.length - 1}
-          onCheck={handleCheckbox}
-          onDelete={handleDeleteTodo}
-          onChange={saveEditedTodo}
           readOnly={!isEditable}
+          noteID={id}
+          isEditable
+          {...todoItemProps}
         />
       ));
 
       let doneList = doneTask.map((todo, i) => (
         <TodoItem
           key={i}
-          isEditable
           todo={todo}
-          onCheck={handleCheckbox}
-          onDelete={handleDeleteTodo}
-          onChange={saveEditedTodo}
+          noteID={id}
+          isEditable
+          {...todoItemProps}
         />
       ));
 
       return (
-        <div>
+        <Container>
           {todoList}
           {editableNote && id === editableNote.id && (
-            <TodoInput setTodos={handleAddTodo} />
+            <TodoInput onAdd={handleAdd} />
           )}
           {doneTask.length > 0 && (
             <CompletedTodo
@@ -171,7 +184,7 @@ function TodoList({
             />
           )}
           {showDoneList && doneList}
-        </div>
+        </Container>
       );
     }
   }
@@ -200,11 +213,11 @@ function TodoList({
 }
 
 TodoList.PropTypes = {
-  todoContent: PropTypes.array,
   id: PropTypes.string.isRequired,
   isInputField: PropTypes.bool,
-  onSaveEditableNote: PropTypes.func.isRequired,
-  onSaveNote: PropTypes.func.isRequired,
+  todoContent: PropTypes.array,
+  setNote: PropTypes.func,
+  isArchived: PropTypes.bool,
 };
 
 TodoList.defaultProps = {

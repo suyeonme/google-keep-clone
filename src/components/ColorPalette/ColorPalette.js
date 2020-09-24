@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { dbService } from 'fbase';
+
+import { changeColor } from 'shared/firebase';
 
 const ColorPaletteContainer = styled.div`
   max-width: 128px;
@@ -41,9 +42,9 @@ const ColorPaletteBtn = styled.button`
 `;
 
 function ColorPalette({
+  isArchived,
   id,
   isInputField,
-  // isArchived,
   onHover,
   onUnHover,
   onClick,
@@ -60,7 +61,11 @@ function ColorPalette({
   ];
 
   const handleChangeColor = async (color) => {
-    await dbService.doc(`notes/${id}`).update({ bgColor: color });
+    if (isArchived) {
+      changeColor(color, id, 'archives');
+    } else if (!isInputField) {
+      changeColor(color, id, 'notes');
+    }
   };
 
   const handleClick = (e, color) => {
@@ -83,9 +88,9 @@ function ColorPalette({
 }
 
 ColorPalette.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   isInputField: PropTypes.bool,
-  // isArchived: PropTypes.bool,
+  isArchived: PropTypes.bool,
   onHover: PropTypes.func.isRequired,
   onUnHover: PropTypes.func.isRequired,
   onClick: PropTypes.func,

@@ -45,7 +45,7 @@ function CompletedTodo({ doneTaskCount, clicked, isNote }) {
 
 CompletedTodo.propTypes = {
   doneTaskCount: PropTypes.number.isRequired,
-  clicked: PropTypes.func.isRequired,
+  clicked: PropTypes.func,
   isNote: PropTypes.bool,
 };
 

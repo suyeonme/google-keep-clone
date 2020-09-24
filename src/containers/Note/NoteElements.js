@@ -80,10 +80,6 @@ export const ToolbarContainer = styled.div`
   flex: 0 0 auto;
 `;
 
-export const Form = styled.form`
-  height: 100%;
-`;
-
 export const Container = styled.div`
   height: 100%;
   display: flex;

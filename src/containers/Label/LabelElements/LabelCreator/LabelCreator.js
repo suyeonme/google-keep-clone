@@ -36,14 +36,17 @@ function LabelCreator({
   isInputField,
   addLabelToNote,
   addLabelToInputField,
+  isArchived,
 }) {
   const handleClick = (label) => {
     if (isInputField) {
       addLabelToInputField(label);
       addLabelToStore(label);
+    } else if (isArchived) {
+      addLabelToNote(id, label, 'archives');
+    } else {
+      addLabelToNote(id, label, 'notes');
     }
-    if (!isInputField) addLabelToNote(id, label);
-    // Notes, Archives
   };
 
   return (
@@ -62,6 +65,7 @@ LabelCreator.propTypes = {
   isInputField: PropTypes.bool,
   addLabelToNote: PropTypes.func,
   addLabelToInputField: PropTypes.func,
+  isArchived: PropTypes.bool,
 };
 
 export default React.memo(LabelCreator);

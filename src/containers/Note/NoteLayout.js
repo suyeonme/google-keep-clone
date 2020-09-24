@@ -7,7 +7,6 @@ import Label from 'containers/Label/Label';
 import {
   NoteContainer,
   ToolbarContainer,
-  Form,
   Container,
 } from 'containers/Note/NoteElements';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
@@ -18,14 +17,14 @@ function NoteLayout(props) {
     note,
     clicked,
     onClick,
-    onSubmit,
     onDelete,
     setIsHovering,
     isHovering,
-    setNewNote,
+    onClose,
+    isArchived,
   } = props;
 
-  const { id, isPinned, isChecked, isArchived, labels, bgColor } = note;
+  const { id, isPinned, isChecked, labels, bgColor } = note;
   const [showLabel, setShowLabel] = useState(false);
 
   const { setIsClickOutside } = useClickOutside(false);
@@ -38,47 +37,41 @@ function NoteLayout(props) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Form onSubmit={onSubmit}>
-        <Container clicked={clicked}>
-          <Tool
-            notePin
+      <Container clicked={clicked}>
+        <Tool
+          notePin
+          id={id}
+          isPinned={isPinned}
+          title="Pin Note"
+          isArchived={isArchived}
+        />
+        {props.children}
+        <ToolbarContainer>
+          {labels.length > 0 && (
+            <NoteLabel id={id} isArchived={isArchived} labels={labels} />
+          )}
+          <Toolbar
             id={id}
-            isPinned={isPinned}
+            labels={labels}
+            onHover={isHovering}
+            setShowLabel={setShowLabel}
+            onDelete={onDelete}
+            isChecked={isChecked}
+            onClose={onClose}
+            note={note}
             isArchived={isArchived}
-            title="Pin Note"
           />
-          {props.children}
-          <ToolbarContainer>
-            {labels.length > 0 && (
-              <NoteLabel
-                id={id}
-                isArchived={isArchived}
-                labels={labels}
-                setNewNote={setNewNote}
-              />
-            )}
-            <Toolbar
+          {showLabel && (
+            <Label
               id={id}
-              labels={labels}
+              note={note}
               isArchived={isArchived}
-              onHover={isHovering}
               setShowLabel={setShowLabel}
-              onDelete={onDelete}
-              isChecked={isChecked}
+              onExpand={setIsClickOutside}
             />
-            {showLabel && (
-              <Label
-                id={id}
-                note={note}
-                isArchived={isArchived}
-                setShowLabel={setShowLabel}
-                onExpand={setIsClickOutside}
-                setNewNote={setNewNote}
-              />
-            )}
-          </ToolbarContainer>
-        </Container>
-      </Form>
+          )}
+        </ToolbarContainer>
+      </Container>
     </NoteContainer>
   );
 }
@@ -87,11 +80,11 @@ NoteLayout.propTypes = {
   note: PropTypes.object,
   clicked: PropTypes.number,
   onClick: PropTypes.func,
-  onSubmit: PropTypes.func,
   onDelete: PropTypes.func,
   setIsHovering: PropTypes.func,
   isHovering: PropTypes.bool,
-  setNewNote: PropTypes.func,
+  onClose: PropTypes.func,
+  isArchived: PropTypes.bool,
 };
 
 export default NoteLayout;

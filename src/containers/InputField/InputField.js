@@ -12,7 +12,7 @@ import { ToolbarContainer } from 'containers/Note/NoteElements';
 import Label from 'containers/Label/Label';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import TodoList from 'components/TodoList/TodoList';
-import { convertNoteToTodo, convertTodoToNote } from 'shared/utility';
+import { convertNoteToTodo } from 'shared/utility';
 import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
 
@@ -63,14 +63,6 @@ function InputField() {
     [note],
   );
 
-  const handleAddTodo = useCallback(
-    (newTodo) => {
-      const newTodoItem = convertTodoToNote(newTodo);
-      setNote({ ...note, content: newTodoItem });
-    },
-    [note],
-  );
-
   const handleAddLabel = useCallback(
     async (label) => {
       const newLabel = labels.concat(label);
@@ -90,10 +82,6 @@ function InputField() {
   const handleAddNote = useCallback(
     async (note) => {
       if (title !== '' && content !== '') {
-        // note = {
-        //   ...note,
-        //   createdAt: Date.now(),
-        // };
         handleResetNote();
         setShowLabel(false);
         handleResetClick();
@@ -107,9 +95,7 @@ function InputField() {
   let textField;
   if (isChecked) {
     const todos = convertNoteToTodo(content);
-    textField = (
-      <TodoList todoContent={todos} onSaveNote={handleAddTodo} isInputField />
-    );
+    textField = <TodoList todoContent={todos} setNote={setNote} isInputField />;
   }
 
   if (!isChecked) {

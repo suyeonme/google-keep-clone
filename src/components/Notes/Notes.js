@@ -1,40 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { dbService } from 'fbase';
-// import PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { initNotes, initLabels } from 'store/actions/notes';
 import Note from 'containers/Note/Note';
 import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 
-// Remove isArchived props
-function Notes({ isArchived }) {
-  const notes = useSelector((state) => state.notes.notes);
-  const dispatch = useDispatch();
+function Notes({ notes, isArchived }) {
   const isPinned = notes.filter((note) => note.isPinned).length > 0;
-
-  // Too many rendering
-  useEffect(() => {
-    dbService.collection('notes').onSnapshot((snapshot) => {
-      const noteArr = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      dispatch(initNotes(noteArr));
-    });
-  }, [dispatch]);
-
-  useEffect(() => {
-    dbService.collection('labels').onSnapshot((snapshot) => {
-      const labelArr = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      dispatch(initLabels(labelArr));
-    });
-  }, [dispatch]);
 
   if (isPinned) {
     const pinnedNotes = notes
@@ -71,7 +43,8 @@ function Notes({ isArchived }) {
 }
 
 Notes.propTypes = {
-  // isArchived: PropTypes.bool,
+  notes: PropTypes.array,
+  isArchived: PropTypes.bool,
 };
 
 export default React.memo(Notes);

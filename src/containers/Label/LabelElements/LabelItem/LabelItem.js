@@ -29,7 +29,7 @@ function LabelItem({
   note,
   onRemove,
   isInputField,
-  // isArchived,
+  isArchived,
   removeLabelFromNote,
   addLabelToNote,
   addLabelToInputField,
@@ -39,12 +39,15 @@ function LabelItem({
   const handleChange = (id, label) => {
     if (isInputField) {
       isChecked ? onRemove(label) : addLabelToInputField(label);
+    } else if (isArchived) {
+      isChecked
+        ? removeLabelFromNote(id, label, 'archives')
+        : addLabelToNote(id, label, 'archives');
+    } else {
+      isChecked
+        ? removeLabelFromNote(id, label, 'notes')
+        : addLabelToNote(id, label, 'notes');
     }
-
-    if (!isInputField) {
-      isChecked ? removeLabelFromNote(id, label) : addLabelToNote(id, label);
-    }
-    // Note and Archives
   };
 
   return (

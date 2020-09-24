@@ -26,7 +26,7 @@ const ToolbarContainer = styled.div`
   }
 `;
 
-const CloseBtn = styled.input`
+const CloseBtn = styled.button`
   background: transparent;
   color: rgba(0, 0, 0, 0.87);
   font-weight: 500;
@@ -48,11 +48,13 @@ function Toolbar({
   onToggle,
   onClick,
   isInputField,
-  isArchived,
   setShowLabel,
   labels,
   onDelete,
   isChecked,
+  onClose,
+  note,
+  isArchived,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
   const icons = [
@@ -99,8 +101,9 @@ function Toolbar({
             onToggle={onToggle}
             setShowLabel={setShowLabel}
             isInputField={isInputField}
-            isArchived={isArchived}
             isChecked={isChecked}
+            isArchived={isArchived}
+            note={note}
           />
         ))}
         {!isInputField && (
@@ -113,10 +116,8 @@ function Toolbar({
           />
         )}
       </div>
-      {isInputField && (
-        <CloseBtn type="submit" value="Close" onClick={onAddNote} />
-      )}
-      {isEditable && <CloseBtn type="submit" value="close" />}
+      {isInputField && <CloseBtn onClick={onAddNote}>Close</CloseBtn>}
+      {isEditable && <CloseBtn onClick={onClose}>Close</CloseBtn>}
       {isHoverColorPalette && (
         <ColorPalette
           id={id}
@@ -142,6 +143,7 @@ Toolbar.propTypes = {
   setShowLabel: PropTypes.func,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
+  onClose: PropTypes.func,
   isChecked: PropTypes.bool,
 };
 

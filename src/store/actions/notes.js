@@ -1,5 +1,12 @@
 import * as actions from './actionsTypes';
 
+export const initArchives = (notes) => {
+  return {
+    type: actions.INIT_ARCHIVES,
+    payload: notes,
+  };
+};
+
 export const initNotes = (notes) => {
   return {
     type: actions.INIT_NOTES,
@@ -34,24 +41,17 @@ export const addLabel = (label) => {
   };
 };
 
+export const removeLabel = (label) => {
+  return {
+    type: actions.REMOVE_LABEL,
+    label: label,
+  };
+};
+
 export const renameLabel = (oldLabel, newLabel) => {
   return {
     type: actions.RENAME_LABEL,
     oldLabel: oldLabel,
     newLabel: newLabel,
-  };
-};
-
-export const archiveNote = (id) => {
-  return {
-    type: actions.ARCHIVE_NOTE,
-    payload: id,
-  };
-};
-
-export const unarchiveNote = (id) => {
-  return {
-    type: actions.UNARCHIVE_NOTE,
-    payload: id,
   };
 };

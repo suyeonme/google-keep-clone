@@ -5,17 +5,15 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { showFlashMessage, hideFlashMessage } from 'store/actions/flashMessage';
 import { ToolbarBtn } from 'containers/Toolbar/Tool/ToolElements';
-import {
-  archiveNote,
-  unarchiveNote,
-  clearEditableNote,
-  addLabel,
-  renameLabel,
-} from 'store/actions/notes';
+import { addLabel, renameLabel, removeLabel } from 'store/actions/notes';
 import {
   editLabelFromStore,
+  addLabelToStore,
+  removeLabelFromStore,
   toggleNotePin,
   toggleNoteTodo,
+  changeNoteToArchives,
+  changeArchivesToNotes,
 } from 'shared/firebase';
 
 function Tool({
@@ -40,7 +38,8 @@ function Tool({
   newLabel,
   onRemoveNoteLabel,
   isChecked,
-  // isArchived,
+  note,
+  isArchived,
 }) {
   const dispatch = useDispatch();
 
@@ -52,54 +51,64 @@ function Tool({
     }, 3000);
   };
 
-  const handleClick = (e, title, noteID) => {
+  const handleClick = (e, title, id) => {
     e.preventDefault();
 
     switch (title) {
       case 'Show Checkbox':
-        if (isInputField) onToggle('isChecked');
-        if (!isInputField) toggleNoteTodo(noteID, !isChecked);
-        // Notes, Archives
+        if (isInputField) {
+          onToggle('isChecked');
+        } else if (isArchived) {
+          toggleNoteTodo(id, !isChecked, 'archives');
+        } else {
+          toggleNoteTodo(id, !isChecked, 'notes');
+        }
         break;
       case 'Pin Note':
-        if (isInputField) onToggle('isPinned');
-        if (!isInputField) toggleNotePin(noteID, !isPinned);
-        // Notes, Archives
+        if (isInputField) {
+          onToggle('isPinned');
+        } else if (isArchived) {
+          toggleNotePin(id, !isPinned, 'archives');
+        } else {
+          toggleNotePin(id, !isPinned, 'notes');
+        }
         break;
       case 'Delete Note':
-        onDelete();
+        isArchived ? onDelete(id, 'archives') : onDelete(id, 'notes');
         break;
       case 'Delete Todo':
         deleteTodo();
         break;
       case 'Archive':
-        if (isInputField) showMessage('Note archived');
-        else {
+        if (isInputField) {
           showMessage('Note archived');
-          dispatch(archiveNote(noteID));
-          dispatch(clearEditableNote());
+        } else {
+          showMessage('Note archived');
+          changeNoteToArchives(id, note);
         }
         break;
       case 'Unarchive':
         showMessage('Note uarchived');
-        dispatch(unarchiveNote(noteID));
-        dispatch(clearEditableNote());
+        changeArchivesToNotes(id, note);
         break;
       case 'Add Label':
         setShowLabel(true);
         break;
       case 'Create Label':
         dispatch(addLabel(newLabel));
+        addLabelToStore(newLabel);
         clearInput();
         break;
       case 'Remove Label':
-        if (isInputField) onRemove(label);
-        if (!isInputField) onRemoveNoteLabel(id, label);
-        // Notes, Archives
+        isInputField ? onRemove(label) : onRemoveNoteLabel(id, label);
         break;
       case 'Rename Label':
         dispatch(renameLabel(label.name, newLabel));
         editLabelFromStore(label.id, newLabel);
+        break;
+      case 'Delete Label':
+        dispatch(removeLabel(label));
+        removeLabelFromStore(label.id, label);
         break;
       case 'Cancel':
         clearInput();
@@ -152,10 +161,10 @@ Tool.propTypes = {
   notePin: PropTypes.bool,
   inputPin: PropTypes.bool,
   onDelete: PropTypes.func,
-  // label: PropTypes.object,
   newLabel: PropTypes.string,
   onRemoveNoteLabel: PropTypes.func,
   isChecked: PropTypes.bool,
+  note: PropTypes.object,
 };
 
 export default React.memo(Tool);
