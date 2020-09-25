@@ -1,5 +1,6 @@
 import { dbService } from 'fbase';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export const addLabelToStore = async (label) => {
   await dbService.collection('labels').add({ name: label });
