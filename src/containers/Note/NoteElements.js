@@ -33,7 +33,7 @@ export const NoteContainer = styled.div`
   ${({ clicked }) =>
     clicked &&
     css`
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -84,4 +84,5 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
 `;

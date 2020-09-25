@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { showFlashMessage, hideFlashMessage } from 'store/actions/flashMessage';
-import { ToolbarBtn } from 'containers/Toolbar/Tool/ToolElements';
+import { ToolbarBtn, ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
 import { addLabel, renameLabel, removeLabel } from 'store/actions/notes';
 import {
   editLabelFromStore,
@@ -129,7 +129,7 @@ function Tool({
 
   return (
     <>
-      <Tooltip title={title} arrow>
+      <Tooltip title={<ToolSpan>{title}</ToolSpan>}>
         <ToolbarBtn
           isInputField={isInputField}
           onMouseEnter={showPalette}

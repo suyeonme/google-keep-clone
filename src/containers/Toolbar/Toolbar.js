@@ -24,6 +24,10 @@ const ToolbarContainer = styled.div`
   @media (max-width: 1024px) {
     opacity: 1;
   }
+
+  @media (max-width: 320px) {
+    flex-direction: column;
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -38,6 +42,17 @@ const CloseBtn = styled.button`
   &:hover {
     opacity: 0.87;
     background: rgba(95, 99, 104, 0.157);
+  }
+
+  @media (max-width: 320px) {
+    margin-left: auto;
+    padding: 0;
+  }
+`;
+
+const ToolContaienr = styled.div`
+  @media (max-width: 320px) {
+    margin-left: auto;
   }
 `;
 
@@ -84,7 +99,7 @@ function Toolbar({
 
   return (
     <ToolbarContainer hovered={onHover}>
-      <div>
+      <ToolContaienr>
         {icons.map((icon, i) => (
           <Tool
             key={i}
@@ -115,7 +130,7 @@ function Toolbar({
             onDelete={onDelete}
           />
         )}
-      </div>
+      </ToolContaienr>
       {isInputField && <CloseBtn onClick={onAddNote}>Close</CloseBtn>}
       {isEditable && <CloseBtn onClick={onClose}>Close</CloseBtn>}
       {isHoverColorPalette && (

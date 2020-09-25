@@ -24,8 +24,7 @@ export const TodoItemInput = styled.input`
   cursor: ${(props) => (props.readOnly ? 'pointer' : 'text')};
   background: transparent;
   border-bottom: 1px solid transparent;
-
-  font-size: ${(props) => props.addingTodo && '1.4rem'};
+  font-size: 1.4rem;
   letter-spacing: ${(props) => props.addingTodo && '0.5px'};
 `;
 

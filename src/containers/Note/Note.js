@@ -41,9 +41,13 @@ function Note({ note, isArchived }) {
     [dispatch, editableNoteID, note],
   );
 
-  const handleDelete = useCallback(async (id, type) => {
-    removeNoteFromStore(id, type);
-  }, []);
+  const handleDelete = useCallback(
+    async (id, type) => {
+      dispatch(clearEditableNote());
+      removeNoteFromStore(id, type);
+    },
+    [dispatch],
+  );
 
   const handleBlur = useCallback(
     async (e, id) => {

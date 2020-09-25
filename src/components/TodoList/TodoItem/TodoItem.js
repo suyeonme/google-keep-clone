@@ -10,7 +10,7 @@ export const TodoListContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 30px;
+  min-height: 30px;
   padding: 0 11px 0 11px;
   margin: 1px 0;
 

@@ -6,6 +6,18 @@ import './NotesLayout.css';
 
 const NotesContainer = styled.div`
   margin: 117px 0 30px 0;
+
+  @media (max-width: 576px) {
+    margin: 80px 0 30px 0;
+  }
+
+  &:last-child {
+    margin: 80px 0 30px 0;
+
+    @media (max-width: 576px) {
+      margin: 70px 0 30px 0;
+    }
+  }
 `;
 
 const Title = styled.div`

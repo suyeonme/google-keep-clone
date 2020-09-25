@@ -6,6 +6,7 @@ import { authService } from 'fbase';
 import PropTypes from 'prop-types';
 
 import User from 'icons/user.svg';
+import { ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
 
 const ProfileImg = styled.img`
   width: 40px;
@@ -34,7 +35,7 @@ function Profile({ userObj }) {
   if (displayName && img) {
     return (
       <>
-        <Tooltip title={`${displayName} (${email})`}>
+        <Tooltip title={<ToolSpan>{`${displayName} (${email})`}</ToolSpan>}>
           <ProfileImg src={img} onClick={handleClick} />
         </Tooltip>
         {showSignOut && (

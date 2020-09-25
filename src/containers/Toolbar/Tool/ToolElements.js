@@ -61,4 +61,19 @@ export const ToolbarBtn = styled.button`
       background-size: 80%;
       margin-right: 0;
     `};
+
+  @media (max-width: 320px) {
+    margin-right: 0;
+
+    &:not(:last-child) {
+      margin-right: 3px;
+    }
+  }
+`;
+
+export const ToolSpan = styled.span`
+  font-size: 1.1rem;
+  display: block;
+  margin: auto 0;
+  padding: 0.4rem 0;
 `;

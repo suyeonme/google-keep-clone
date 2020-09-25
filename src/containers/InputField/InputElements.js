@@ -12,7 +12,6 @@ export const InputContainer = styled.div`
 export const InputForm = styled.form`
   position: relative;
   top: 56px;
-
   width: 40%;
   height: auto;
   display: flex;
@@ -46,19 +45,18 @@ export const Input = styled.input`
   font-family: inherit;
   font-weight: 500;
   font-size: 1.6rem;
-  background: inherit;
+  background: transparent;
 
   ${({ isEditableNote }) =>
     isEditableNote &&
     `
-    height: 60px;
+    height: 50px;
     padding: 0 12px;
     `};
 `;
 
 export const InputTextArea = styled.textarea`
   width: 100%;
-  height: 100%;
   border: none;
   outline: none;
   font-family: inherit;
@@ -66,6 +64,7 @@ export const InputTextArea = styled.textarea`
   background: inherit;
   margin-top: 1.2rem;
   resize: none;
+  flex: 1 1 auto;
 
   ${({ isEditableNote }) =>
     isEditableNote &&
@@ -73,6 +72,5 @@ export const InputTextArea = styled.textarea`
     font-size: 1.7rem; 
     padding: 0 12px 0 12px;  
     margin-top: 0;
-    flex: 1 1 auto;
     `};
 `;

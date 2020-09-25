@@ -16,6 +16,11 @@ export const updateAllLabels = (arr, oldLabel, newLabel) => {
   );
 };
 
+/*
+apple
+suyeon
+cherry
+*/
 export const convertNoteToTodo = (str) => {
   if (str) {
     return str.split(/\n/g).reduce((todos, todo, i) => {
@@ -32,5 +37,9 @@ export const convertNoteToTodo = (str) => {
 };
 
 export const convertTodoToNote = (arr) => {
-  return arr.map((todo) => todo.todoItem).join('\r\n');
+  return arr
+    .map((todo) => {
+      return todo.todoItem.replace(/^\s+|\s+$/g, '');
+    })
+    .join('\r\n');
 };

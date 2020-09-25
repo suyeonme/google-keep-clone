@@ -59,6 +59,10 @@ const Container = styled.div`
   }
 `;
 
+const Item = styled.li`
+  list-style: none;
+`;
+
 function NavItems({ isHover, openNav }) {
   const [showEditLabel, setShowEditLabel] = useState(false);
 
@@ -76,7 +80,7 @@ function NavItems({ isHover, openNav }) {
 
   if (isHover) {
     icons = navIcons.map((icon, i) => (
-      <li key={i}>
+      <Item key={i}>
         {icon.link !== '' ? (
           <Link to={icon.link} exact={true} ishover={isHover.toString()}>
             <IconContainer bgImage={icon.image} />
@@ -88,13 +92,13 @@ function NavItems({ isHover, openNav }) {
             <Title>{icon.title}</Title>
           </Container>
         )}
-      </li>
+      </Item>
     ));
   }
 
   if (!isHover) {
     icons = navIcons.map((icon, i) => (
-      <li key={i}>
+      <Item key={i}>
         {icon.link !== '' ? (
           <Link to={icon.link} exact={true}>
             <IconContainer bgImage={icon.image} />
@@ -104,7 +108,7 @@ function NavItems({ isHover, openNav }) {
             <IconContainer bgImage={icon.image} />
           </Container>
         )}
-      </li>
+      </Item>
     ));
   }
 
