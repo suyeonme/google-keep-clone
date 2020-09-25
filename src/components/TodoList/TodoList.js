@@ -12,7 +12,6 @@ import { editNote } from 'shared/firebase';
 // TODO
 // Custom Checkbox
 // Add functions (drag, truncate)
-// Trim white space
 
 const TodoItemContainer = styled.div`
   max-height: 223px;

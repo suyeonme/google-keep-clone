@@ -8,7 +8,7 @@ import { TodoListContainer } from 'components/TodoList/TodoItem/TodoItem';
 
 const PlusIcon = styled.div`
   width: 20px;
-  height: 100%;
+  height: 20px;
   margin-right: 1rem;
   background: url(${Plus}) center center no-repeat;
   background-size: 50%;
