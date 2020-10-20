@@ -124,6 +124,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 - Custom checkbox.
 - Add functionality dragging a label.
 - Add functionality filtering specific notes.
+- Draggable Label
 
 ## Issues
 
