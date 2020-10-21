@@ -36,8 +36,6 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 - Redux-thunk
 - Firebase
 
-## Libraries
-
 - material-ui
 - Styled-components
 - react-masonry-css
@@ -105,7 +103,7 @@ Suyeon Kang - [Github](https://github.com/suyeonme).
 
 ## License
 
-This project is licensed under the MIT License - see the [ LICENSE.md](https://github.com/suyeonme/google-keep-clone/blob/master/LICENSE) for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/suyeonme/google-keep-clone/blob/e501a45b719258c1a1e2de9ac9ddb2233b9d8d88/LICENSE.md) for details
 
 <br>
 
@@ -124,6 +122,7 @@ This project is licensed under the MIT License - see the [ LICENSE.md](https://g
 - Custom checkbox.
 - Add functionality dragging a label.
 - Add functionality filtering specific notes.
+- Draggable Label
 
 ## Issues
 
