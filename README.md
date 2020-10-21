@@ -56,25 +56,23 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 <br>
 
+### Firebase Setup
+
+- Create a project(web) and a clouse firestore.
+- Setup Sign-in method by enabling email/password, google, and github in Authentication tab.
+
 ### Install
 
-- Firebase setup
 - Add the following env variables to .env file
 
 ```
-REACT_APP_FIREBASE_API_KEY={apiKey}
-
-REACT_APP_FIREBASE_AUTH_DOMAIN={authDomain}
-
-REACT_APP_FIREBASE_DATABASE_URL={databaseUrl}
-
-REACT_APP_FIREBASE_PROJECT_ID={projectId}
-
-REACT_APP_FIREBASE_STORAGE_BUCKET={storageBucketURL}
-
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID={messagingSenderId}
-
-REACT_APP_FIREBASE_APP_ID={appId}
+REACT_APP_API_KEY={apiKey}
+REACT_APP_AUTH_DOMAIN={authDomain}
+REACT_APP_DATABASE_URL={databaseUrl}
+REACT_APP_PROJECT_ID={projectId}
+REACT_APP_STORAGE_BUCKET={storageBucketURL}
+REACT_APP_MESSAGING_SENDER_ID={messagingSenderId}
+REACT_APP_APP_ID={appId}
 ```
 
 Make sure to add "REACT*APP*" before variables if you use create-react-app.
@@ -101,7 +99,7 @@ if you encounter an error which opens new tab for login instead of login popup w
 
 ## Author
 
-Suyeon Kange - [Github](https://github.com/suyeonme).
+Suyeon Kang - [Github](https://github.com/suyeonme).
 
 <br>
 

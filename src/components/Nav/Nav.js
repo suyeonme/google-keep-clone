@@ -8,7 +8,7 @@ const NavContainer = styled.nav`
   position: fixed;
   top: 62px;
   left: 0;
-  z-index: 1;
+  z-index: 5;
   overflow: hidden;
   height: 100%;
   display: flex;

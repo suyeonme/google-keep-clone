@@ -104,7 +104,7 @@ function NavItems({ isHover, openNav }) {
             <IconContainer bgImage={icon.image} />
           </Link>
         ) : (
-          <Container ishover={isHover.toString()}>
+          <Container ishover={isHover.toString()} onClick={handleClick}>
             <IconContainer bgImage={icon.image} />
           </Container>
         )}

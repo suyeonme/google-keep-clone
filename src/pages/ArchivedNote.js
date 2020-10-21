@@ -51,6 +51,9 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
+  position: relative;
+  z-index: -1;
+
   @media (max-width: 576px) {
     width: calc(100% - 60px);
     margin-left: auto;

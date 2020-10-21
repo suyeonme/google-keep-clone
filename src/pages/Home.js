@@ -5,6 +5,12 @@ import { dbService } from 'fbase';
 import { initNotes, initLabels } from 'store/actions/notes';
 import InputField from 'containers/InputField/InputField';
 import Notes from 'components/Notes/Notes';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  position: relative;
+  z-index: -1;
+`;
 
 function Home() {
   const notes = useSelector((state) => state.notes.notes);
@@ -31,10 +37,10 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <div>
+    <Container>
       <InputField />
       <Notes notes={notes} />
-    </div>
+    </Container>
   );
 }
 

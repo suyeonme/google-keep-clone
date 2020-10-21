@@ -6,9 +6,11 @@ export const useClickOutside = (initialValue) => {
 
   const handleClickOutside = (e) => {
     if (ref.current && !ref.current.contains(e.target)) {
-      setIsClickOutside(false);
+      // setIsClickOutside(false);
+      console.log('false');
     } else {
-      setIsClickOutside(true);
+      // setIsClickOutside(true);
+      console.log('true');
     }
   };
 
