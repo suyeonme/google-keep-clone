@@ -34,14 +34,22 @@ function EditLabelItem({ label, labelCreator }) {
 
   const isArchived = window.location.pathname === '/archive' ? true : false;
 
-  const handleClearInput = useCallback(() => setEnteredLabel(''), []);
   const handleBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) setIsFocused(false);
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsFocused(false);
+    }
   };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setIsFocused(true);
+  };
+
+  const handleClearInput = useCallback(() => setEnteredLabel(''), []);
 
   if (labelCreator) {
     return (
-      <ItemContainer onFocus={() => setIsFocused(true)} onBlur={handleBlur}>
+      <ItemContainer onFocus={handleClick} onBlur={handleBlur}>
         <Tool
           bgImage={isFocused ? DeleteIcon : PlusIcon}
           title={isFocused ? 'Cancel' : 'Create Label'}
@@ -67,14 +75,11 @@ function EditLabelItem({ label, labelCreator }) {
 
   if (!labelCreator) {
     return (
-      <ItemContainer
-        onClick={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      >
+      <ItemContainer onClick={handleClick} onBlur={handleBlur}>
         <Tool
           bgImage={isFocused ? TrashIcon : LabelIcon}
           label={label}
-          title="Delete Label"
+          title={isFocused ? 'Delete Label' : 'Label'}
           editLabel
           isArchived={isArchived}
         />

@@ -28,7 +28,6 @@ function Layout(props) {
         {props.children}
         <FlashMessage />
       </Content>
-
       <Footer />
     </Container>
   );

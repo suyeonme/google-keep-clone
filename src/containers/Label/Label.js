@@ -15,7 +15,8 @@ import { useClickOutside } from 'hooks/useClickOutside';
 
 const LabelContainer = styled.div`
   position: absolute;
-  left: 0;
+  bottom: ${(props) => props.isEditableNote === 1 && '35px'};
+  left: ${(props) => (props.isEditableNote ? '76px' : 0)};
   z-index: 1;
   width: 225px;
   height: auto;
@@ -28,13 +29,16 @@ const LabelContainer = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: ${(props) => (props.eidtLabel ? '16px' : '14px')};
-  padding: ${(props) => (props.eidtLabel ? '0' : ' 0 12px')};
-  font-weight: ${(props) => (props.eidtLabel ? '500' : '400')};
+  font-size: ${(props) => (props.editLabel ? '16px' : '14px')};
+  padding: ${(props) => (props.editLabel ? '0' : ' 0 12px')};
+  font-weight: ${(props) => (props.editLabel ? '500' : '400')};
 `;
 
 const LabelItemContainer = styled.div`
   padding: 6px 0;
+  height: auto;
+  max-height: 168px;
+  overflow-y: auto;
 `;
 
 function Label({
@@ -45,17 +49,17 @@ function Label({
   onRemove,
   onExpand,
   addLabelToInputField,
+  isEditableNote,
 }) {
   const [label, setLabel] = useState('');
   const labels = useSelector((state) => state.notes.labels);
   const { id } = note;
+  const { ref, isClickOutside: isExpand } = useClickOutside(true);
 
   useEffect(() => {
     onExpand(true);
     if (!isExpand) setShowLabel(false);
   });
-
-  const { ref, isClickOutside: isExpand } = useClickOutside(true);
 
   const handleChange = useCallback((label) => setLabel(label), []);
 
@@ -78,6 +82,7 @@ function Label({
     isInputField,
     addLabelToInputField,
     addLabelToNote: handleLabelToNote,
+    clearLabelInput: setLabel,
   };
 
   const labelItemProps = {
@@ -122,7 +127,12 @@ function Label({
   }
 
   return (
-    <LabelContainer id="label" ref={ref} onClick={(e) => e.stopPropagation()}>
+    <LabelContainer
+      id="label"
+      ref={ref}
+      onClick={(e) => e.stopPropagation()}
+      isEditableNote={isEditableNote}
+    >
       <Title>Label note</Title>
       <LabelInput value={label} onChange={handleChange} labelInput />
       <LabelItemContainer>{labelList}</LabelItemContainer>
@@ -139,6 +149,7 @@ Label.propTypes = {
   onRemove: PropTypes.func,
   onExpand: PropTypes.func,
   addLabelToInputField: PropTypes.func,
+  isEditableNote: PropTypes.number,
 };
 
 export default React.memo(Label);

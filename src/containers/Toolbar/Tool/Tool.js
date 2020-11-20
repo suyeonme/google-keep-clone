@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { showFlashMessage, hideFlashMessage } from 'store/actions/flashMessage';
 import { ToolbarBtn, ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
-import { addLabel, renameLabel, removeLabel } from 'store/actions/notes';
+import { renameLabel, removeLabel } from 'store/actions/notes';
 import {
   editLabelFromStore,
   addLabelToStore,
@@ -95,20 +95,23 @@ function Tool({
         setShowLabel(true);
         break;
       case 'Create Label':
-        dispatch(addLabel(newLabel));
-        addLabelToStore(newLabel);
-        clearInput();
+        if (newLabel !== '') {
+          addLabelToStore(newLabel);
+          clearInput();
+        }
         break;
       case 'Remove Label':
         isInputField ? onRemove(label) : onRemoveNoteLabel(id, label);
         break;
       case 'Rename Label':
-        dispatch(renameLabel(label.name, newLabel));
-        editLabelFromStore(label.id, newLabel);
+        if (newLabel !== '') {
+          editLabelFromStore(label.id, newLabel);
+          dispatch(renameLabel(label.name, newLabel));
+        }
         break;
       case 'Delete Label':
-        dispatch(removeLabel(label));
         removeLabelFromStore(label.id, label);
+        dispatch(removeLabel(label));
         break;
       case 'Cancel':
         clearInput();

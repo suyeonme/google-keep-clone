@@ -44,10 +44,10 @@ function EditLabel({ showNav }) {
   return (
     <Overlay onClick={handleClick}>
       <EditLabelContainer>
-        <Title eidtLabel>Edit labels</Title>
+        <Title editLabel>Edit labels</Title>
         <EditLabelItem labelCreator />
-        {labels.map((label, i) => (
-          <EditLabelItem key={i} label={label} />
+        {labels.map((label) => (
+          <EditLabelItem key={label.name} label={label} />
         ))}
       </EditLabelContainer>
     </Overlay>

@@ -48,13 +48,13 @@ const clearEditableNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const addLabel = (state, action) => {
-  const updatedLabels = {
-    ...state,
-    labels: [...state.labels, action.payload],
-  };
-  return updateObject(state, updatedLabels);
-};
+// const addLabel = (state, action) => {
+//   const updatedLabels = {
+//     ...state,
+//     labels: [...state.labels, action.payload],
+//   };
+//   return updateObject(state, updatedLabels);
+// };
 
 const removeLabel = (state, action) => {
   const newLabels = state.labels.filter((label) => label.name !== action.label);
@@ -100,8 +100,8 @@ const reducer = (state = initialState, action) => {
       return getEditableNote(state, action);
     case actionTypes.CLEAR_EDITABLE_NOTE:
       return clearEditableNote(state, action);
-    case actionTypes.ADD_LABEL:
-      return addLabel(state, action);
+    // case actionTypes.ADD_LABEL:
+    //   return addLabel(state, action);
     case actionTypes.REMOVE_LABEL:
       return removeLabel(state, action);
     case actionTypes.RENAME_LABEL:

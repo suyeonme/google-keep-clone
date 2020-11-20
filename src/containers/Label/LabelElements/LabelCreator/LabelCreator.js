@@ -37,6 +37,7 @@ function LabelCreator({
   addLabelToNote,
   addLabelToInputField,
   isArchived,
+  clearLabelInput,
 }) {
   const handleClick = (label) => {
     if (isInputField) {
@@ -44,13 +45,15 @@ function LabelCreator({
       addLabelToStore(label);
     } else if (isArchived) {
       addLabelToNote(id, label, 'archives');
+      clearLabelInput('');
     } else {
       addLabelToNote(id, label, 'notes');
+      clearLabelInput('');
     }
   };
 
   return (
-    <Container onClick={(e) => handleClick(label)} id="labelCreator">
+    <Container onClick={() => handleClick(label)} id="labelCreator">
       <PlusIcon />
       <Description>
         Create <strong>"{label}"</strong>
@@ -66,6 +69,7 @@ LabelCreator.propTypes = {
   addLabelToNote: PropTypes.func,
   addLabelToInputField: PropTypes.func,
   isArchived: PropTypes.bool,
+  clearLabelInput: PropTypes.func,
 };
 
 export default React.memo(LabelCreator);

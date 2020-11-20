@@ -68,6 +68,8 @@ function NoteLayout(props) {
               isArchived={isArchived}
               setShowLabel={setShowLabel}
               onExpand={setIsClickOutside}
+              ///////
+              isEditableNote={clicked}
             />
           )}
         </ToolbarContainer>
