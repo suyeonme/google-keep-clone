@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import EditLabel from 'containers/Label/EditLabel/EditLabel';
 import lightIcon from 'icons/light.svg';
 import archiveIcon from 'icons/archive.svg';
 import penIcon from 'icons/pen.svg';
+import labelIcon from 'icons/label.svg';
 
 const Link = styled(NavLink)`
   height: 100%;
@@ -65,6 +67,12 @@ const Item = styled.li`
 
 function NavItems({ isHover, openNav }) {
   const [showEditLabel, setShowEditLabel] = useState(false);
+  const labels = useSelector((state) => state.notes.labels);
+
+  let labelIcons;
+  const labelArr = labels.map((label) => {
+    return { image: labelIcon, title: label.name, link: `/${label.name}` };
+  });
 
   let icons;
   const navIcons = [
@@ -79,42 +87,74 @@ function NavItems({ isHover, openNav }) {
   };
 
   if (isHover) {
-    icons = navIcons.map((icon, i) => (
+    labelIcons = labelArr.map((label, i) => (
       <Item key={i}>
-        {icon.link !== '' ? (
-          <Link to={icon.link} exact={true} ishover={isHover.toString()}>
-            <IconContainer bgImage={icon.image} />
-            <Title>{icon.title}</Title>
-          </Link>
-        ) : (
-          <Container ishover={isHover.toString()} onClick={handleClick}>
-            <IconContainer bgImage={icon.image} />
-            <Title>{icon.title}</Title>
-          </Container>
-        )}
+        <Link to={label.link} exact={true} ishover={isHover.toString()} key={i}>
+          <IconContainer bgImage={label.image} />
+          <Title>{label.title}</Title>
+        </Link>
       </Item>
     ));
+
+    icons = navIcons.map((icon, i) => {
+      if (icon.link !== '') {
+        return (
+          <Item key={i}>
+            <Link to={icon.link} exact={true} ishover={isHover.toString()}>
+              <IconContainer bgImage={icon.image} />
+              <Title>{icon.title}</Title>
+            </Link>
+          </Item>
+        );
+      } else {
+        return (
+          <Item key={i}>
+            <Container ishover={isHover.toString()} onClick={handleClick}>
+              <IconContainer bgImage={icon.image} />
+              <Title>{icon.title}</Title>
+            </Container>
+          </Item>
+        );
+      }
+    });
   }
 
   if (!isHover) {
-    icons = navIcons.map((icon, i) => (
+    labelIcons = labelArr.map((label, i) => (
       <Item key={i}>
-        {icon.link !== '' ? (
-          <Link to={icon.link} exact={true}>
-            <IconContainer bgImage={icon.image} />
-          </Link>
-        ) : (
-          <Container ishover={isHover.toString()} onClick={handleClick}>
-            <IconContainer bgImage={icon.image} />
-          </Container>
-        )}
+        <Link to={label.link} exact={true} key={i}>
+          <IconContainer bgImage={label.image} />
+        </Link>
       </Item>
     ));
+
+    icons = navIcons.map((icon, i) => {
+      if (icon.link !== '') {
+        return (
+          <Item key={i}>
+            <Link to={icon.link} exact={true}>
+              <IconContainer bgImage={icon.image} />
+            </Link>
+          </Item>
+        );
+      } else {
+        return (
+          <Item key={i}>
+            <Container ishover={isHover.toString()} onClick={handleClick}>
+              <IconContainer bgImage={icon.image} />
+            </Container>
+          </Item>
+        );
+      }
+    });
   }
 
   return (
     <>
-      <ul>{icons}</ul>
+      <ul>
+        {icons}
+        {labelArr.length > 0 && labelIcons}
+      </ul>
       {showEditLabel && <EditLabel showNav={setShowEditLabel} />}
     </>
   );

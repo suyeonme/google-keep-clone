@@ -111,7 +111,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ## Todo
 
-- Implement CRUD of Edit label component (global label).
 - Delete and update label from all notes having them when delete or update a global label from store.
 - Save "isDone" property of a todo item component in order to save checked value of a checkbox.
 - Implement each label page(also route).
