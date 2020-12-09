@@ -9,10 +9,6 @@ import TodoInput from 'components/TodoList/TodoInput/TodoInput';
 import { convertTodoToNote } from 'shared/utility';
 import { editNote } from 'shared/firebase';
 
-// TODO
-// Custom Checkbox
-// Add functions (drag, truncate)
-
 const TodoItemContainer = styled.div`
   max-height: 223px;
   overflow: hidden;
@@ -25,7 +21,7 @@ const Container = styled.div`
   overflow: auto;
 `;
 
-function TodoList({ todoContent = [], id, setNote, isInputField, isArchived }) {
+function TodoList({ todoContent = [], id, setNote, isInputField }) {
   const [todos, setTodos] = useState(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
@@ -50,12 +46,10 @@ function TodoList({ todoContent = [], id, setNote, isInputField, isArchived }) {
       if (isInputField) {
         setNote((prev) => ({ ...prev, content: value }));
       } else if (noteID) {
-        isArchived
-          ? editNote(noteID, 'content', value, 'archives')
-          : editNote(noteID, 'content', value, 'notes');
+        editNote(noteID, 'content', value);
       }
     },
-    [isInputField, setNote, isArchived],
+    [isInputField, setNote],
   );
 
   const handleBlur = useCallback(
@@ -65,12 +59,10 @@ function TodoList({ todoContent = [], id, setNote, isInputField, isArchived }) {
       if (isInputField) {
         setNote((prev) => ({ ...prev, content: value }));
       } else if (noteID) {
-        isArchived
-          ? editNote(noteID, 'content', value, 'archives')
-          : editNote(noteID, 'content', value, 'notes');
+        editNote(noteID, 'content', value);
       }
     },
-    [isInputField, isArchived, setNote],
+    [isInputField, setNote],
   );
 
   const handleChange = useCallback(
@@ -217,7 +209,6 @@ TodoList.PropTypes = {
   isInputField: PropTypes.bool,
   todoContent: PropTypes.array,
   setNote: PropTypes.func,
-  isArchived: PropTypes.bool,
 };
 
 TodoList.defaultProps = {

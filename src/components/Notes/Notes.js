@@ -5,21 +5,17 @@ import Note from 'containers/Note/Note';
 import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 
-function Notes({ notes, isArchived }) {
+function Notes({ notes }) {
   const isPinned = notes.filter((note) => note.isPinned).length > 0;
 
   if (isPinned) {
     const pinnedNotes = notes
       .filter((note) => note.isPinned)
-      .map((note) => (
-        <Note key={note.id} note={note} isArchived={isArchived} />
-      ));
+      .map((note) => <Note key={note.id} note={note} />);
 
     const otherNotes = notes
       .filter((note) => !note.isPinned)
-      .map((note) => (
-        <Note key={note.id} note={note} isArchived={isArchived} />
-      ));
+      .map((note) => <Note key={note.id} note={note} />);
 
     return (
       <>
@@ -30,9 +26,7 @@ function Notes({ notes, isArchived }) {
     );
   }
 
-  const noteArr = notes.map((note) => (
-    <Note key={note.id} note={note} isArchived={isArchived} />
-  ));
+  const noteArr = notes.map((note) => <Note key={note.id} note={note} />);
 
   return (
     <>
@@ -44,7 +38,6 @@ function Notes({ notes, isArchived }) {
 
 Notes.propTypes = {
   notes: PropTypes.array,
-  isArchived: PropTypes.bool,
 };
 
 export default React.memo(Notes);

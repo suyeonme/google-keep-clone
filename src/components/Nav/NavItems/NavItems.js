@@ -71,7 +71,11 @@ function NavItems({ isHover, openNav }) {
 
   let labelIcons;
   const labelArr = labels.map((label) => {
-    return { image: labelIcon, title: label.name, link: `/${label.name}` };
+    return {
+      image: labelIcon,
+      title: label.name,
+      link: `/label/${label.name}`,
+    };
   });
 
   let icons;

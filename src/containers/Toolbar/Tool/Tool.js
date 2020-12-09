@@ -38,8 +38,6 @@ function Tool({
   newLabel,
   onRemoveNoteLabel,
   isChecked,
-  note,
-  isArchived,
 }) {
   const dispatch = useDispatch();
 
@@ -56,25 +54,13 @@ function Tool({
 
     switch (title) {
       case 'Show Checkbox':
-        if (isInputField) {
-          onToggle('isChecked');
-        } else if (isArchived) {
-          toggleNoteTodo(id, !isChecked, 'archives');
-        } else {
-          toggleNoteTodo(id, !isChecked, 'notes');
-        }
+        isInputField ? onToggle('isChecked') : toggleNoteTodo(id, !isChecked);
         break;
       case 'Pin Note':
-        if (isInputField) {
-          onToggle('isPinned');
-        } else if (isArchived) {
-          toggleNotePin(id, !isPinned, 'archives');
-        } else {
-          toggleNotePin(id, !isPinned, 'notes');
-        }
+        isInputField ? onToggle('isPinned') : toggleNotePin(id, !isPinned);
         break;
       case 'Delete Note':
-        isArchived ? onDelete(id, 'archives') : onDelete(id, 'notes');
+        onDelete(id, 'notes');
         break;
       case 'Delete Todo':
         deleteTodo();
@@ -84,12 +70,12 @@ function Tool({
           showMessage('Note archived');
         } else {
           showMessage('Note archived');
-          changeNoteToArchives(id, note);
+          changeNoteToArchives(id);
         }
         break;
       case 'Unarchive':
         showMessage('Note uarchived');
-        changeArchivesToNotes(id, note);
+        changeArchivesToNotes(id);
         break;
       case 'Add Label':
         setShowLabel(true);
@@ -155,7 +141,6 @@ Tool.propTypes = {
   deleteTodo: PropTypes.func,
   isInputField: PropTypes.bool,
   isPinned: PropTypes.bool,
-  isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
   onRemove: PropTypes.func,
   clearInput: PropTypes.func,
@@ -167,7 +152,6 @@ Tool.propTypes = {
   newLabel: PropTypes.string,
   onRemoveNoteLabel: PropTypes.func,
   isChecked: PropTypes.bool,
-  note: PropTypes.object,
 };
 
 export default React.memo(Tool);

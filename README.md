@@ -21,11 +21,11 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 ## 💫 Features
 
-- Manage your custom note (color, pin, etc)
+- Custom note (color, pin, etc)
 - Todo list
-- Add, delete, and edit label
-- Login (email, google, github)
-- Archive note
+- CRUD of note and label
+- Social login (email, google, github)
+- Archived note
 
 <br>
 
@@ -40,8 +40,6 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 - Styled-components
 - react-masonry-css
 - react-transition-group
-- uniqid
-- prop-types
 
 <br>
 
@@ -95,12 +93,6 @@ if you encounter an error which opens new tab for login instead of login popup w
 
 <br>
 
-## Author
-
-Suyeon Kang - [Github](https://github.com/suyeonme).
-
-<br>
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/suyeonme/google-keep-clone/blob/e501a45b719258c1a1e2de9ac9ddb2233b9d8d88/LICENSE.md) for details
@@ -111,17 +103,15 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ## Todo
 
-- Delete and update label from all notes having them when delete or update a global label from store.
-- Save "isDone" property of a todo item component in order to save checked value of a checkbox.
-- Implement each label page(also route).
+- Save "isDone" property of a todo item in order to save checked value of a checkbox.
+- Update label from all notes when edit a global label
 
 ## Improvements
 
 - Optimize rendering.
-- Custom checkbox.
-- Add functionality dragging a label.
-- Add functionality filtering specific notes.
+- filtering of note.
 - Draggable Label
+- Implement typescript
 
 ## Issues
 

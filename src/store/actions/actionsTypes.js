@@ -1,9 +1,8 @@
 export const INIT_NOTES = 'INIT_NOTES';
-export const INIT_ARCHIVES = 'INIT_ARCHIVES';
 export const INIT_LABELS = 'INIT_LABELS';
 
 export const ADD_LABEL = 'ADD_LABEL';
-export const REMOVE_LABEL = 'REMOVE_LABEL'
+export const REMOVE_LABEL = 'REMOVE_LABEL';
 export const RENAME_LABEL = 'RENAME_LABEL';
 
 export const GET_EDITABLE_NOTE = 'GET_EDITABLE_NOTE';

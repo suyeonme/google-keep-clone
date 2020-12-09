@@ -22,6 +22,7 @@ const initialNote = {
   bgColor: '#fff',
   isChecked: false,
   isPinned: false,
+  isArchived: false,
   labels: [],
 };
 

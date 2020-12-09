@@ -21,7 +21,6 @@ function NoteLayout(props) {
     setIsHovering,
     isHovering,
     onClose,
-    isArchived,
   } = props;
 
   const { id, isPinned, isChecked, labels, bgColor } = note;
@@ -38,18 +37,10 @@ function NoteLayout(props) {
       onMouseLeave={() => setIsHovering(false)}
     >
       <Container clicked={clicked}>
-        <Tool
-          notePin
-          id={id}
-          isPinned={isPinned}
-          title="Pin Note"
-          isArchived={isArchived}
-        />
+        <Tool notePin id={id} isPinned={isPinned} title="Pin Note" />
         {props.children}
         <ToolbarContainer>
-          {labels.length > 0 && (
-            <NoteLabel id={id} isArchived={isArchived} labels={labels} />
-          )}
+          {labels.length > 0 && <NoteLabel id={id} labels={labels} />}
           <Toolbar
             id={id}
             labels={labels}
@@ -59,16 +50,13 @@ function NoteLayout(props) {
             isChecked={isChecked}
             onClose={onClose}
             note={note}
-            isArchived={isArchived}
           />
           {showLabel && (
             <Label
               id={id}
               note={note}
-              isArchived={isArchived}
               setShowLabel={setShowLabel}
               onExpand={setIsClickOutside}
-              ///////
               isEditableNote={clicked}
             />
           )}
@@ -86,7 +74,6 @@ NoteLayout.propTypes = {
   setIsHovering: PropTypes.func,
   isHovering: PropTypes.bool,
   onClose: PropTypes.func,
-  isArchived: PropTypes.bool,
 };
 
 export default NoteLayout;

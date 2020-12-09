@@ -13,7 +13,9 @@ const Container = styled.div`
 `;
 
 function Home() {
-  const notes = useSelector((state) => state.notes.notes);
+  const notes = useSelector((state) => state.notes.notes).filter(
+    (note) => note.isArchived === false,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,6 +24,7 @@ function Home() {
         id: doc.id,
         ...doc.data(),
       }));
+
       dispatch(initNotes(noteArr));
     });
   }, [dispatch]);

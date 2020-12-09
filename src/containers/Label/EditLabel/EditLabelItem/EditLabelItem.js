@@ -32,8 +32,6 @@ function EditLabelItem({ label, labelCreator }) {
   const [isFocused, setIsFocused] = useState(false);
   const [enteredLabel, setEnteredLabel] = useState('');
 
-  const isArchived = window.location.pathname === '/archive' ? true : false;
-
   const handleBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setIsFocused(false);
@@ -81,7 +79,6 @@ function EditLabelItem({ label, labelCreator }) {
           label={label}
           title={isFocused ? 'Delete Label' : 'Label'}
           editLabel
-          isArchived={isArchived}
         />
         <EditLabelInput
           defaultValue={label.name}
@@ -93,7 +90,6 @@ function EditLabelItem({ label, labelCreator }) {
           newLabel={enteredLabel}
           title="Rename Label"
           editLabel
-          isArchived={isArchived}
         />
       </ItemContainer>
     );

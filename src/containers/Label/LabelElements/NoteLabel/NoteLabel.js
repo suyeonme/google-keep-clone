@@ -37,7 +37,7 @@ const Label = styled.label`
 }
 `;
 
-function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
+function NoteLabel({ labels, id, isInputField, onRemove }) {
   const [isHover, setIsHover] = useState(false);
   const [hoveredLabel, sethoveredLabel] = useState('');
 
@@ -51,16 +51,9 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
     sethoveredLabel('');
   };
 
-  const handleRemove = useCallback(
-    async (id, label) => {
-      if (isArchived) {
-        removeLabelFromNote(id, label, 'archives');
-      } else {
-        removeLabelFromNote(id, label, 'notes');
-      }
-    },
-    [isArchived],
-  );
+  const handleRemove = useCallback(async (id, label) => {
+    removeLabelFromNote(id, label);
+  }, []);
 
   const labelList = labels.map((label, i) => (
     <Container
@@ -79,7 +72,6 @@ function NoteLabel({ labels, id, isInputField, onRemove, isArchived }) {
           onRemoveNoteLabel={handleRemove}
           isLabel
           isInputField={isInputField}
-          isArchived={isArchived}
         />
       )}
     </Container>
@@ -92,7 +84,6 @@ NoteLabel.propTypes = {
   id: PropTypes.string,
   onRemove: PropTypes.func,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
 };
 
 export default React.memo(NoteLabel);

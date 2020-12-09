@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { dbService } from 'fbase';
 
-import { initArchives } from 'store/actions/notes';
 import Archive from 'icons/archive.svg';
 import Notes from 'components/Notes/Notes';
 
@@ -61,21 +59,24 @@ const Container = styled.div`
 `;
 
 function ArchivedNote() {
-  const archives = useSelector((state) => state.notes.archives);
-  const dispatch = useDispatch();
+  const [archives, setArchives] = useState([]);
 
   useEffect(() => {
-    dbService.collection('archives').onSnapshot((snapshot) => {
-      const noteArr = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const subscribe = dbService.collection('notes').onSnapshot((snapshot) => {
+      const archivedNotes = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((note) => note.isArchived === true);
 
-      dispatch(initArchives(noteArr));
+      setArchives(archivedNotes);
     });
-  }, [dispatch]);
 
-  if (archives.length === 0) {
+    return () => subscribe();
+  }, []);
+
+  if (archives && archives.length === 0) {
     return (
       <Container>
         <ArchiveIcon />
@@ -84,8 +85,8 @@ function ArchivedNote() {
     );
   }
 
-  if (archives.length > 0) {
-    return <Notes notes={archives} isArchived />;
+  if (archives && archives.length > 0) {
+    return <Notes notes={archives} />;
   }
 }
 

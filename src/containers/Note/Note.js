@@ -10,7 +10,7 @@ import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
 import { convertNoteToTodo } from 'shared/utility';
 import { editNote, removeNoteFromStore } from 'shared/firebase';
 
-function Note({ note, isArchived }) {
+function Note({ note }) {
   const { title, content, id, isChecked } = note;
   const [isHovering, setIsHovering] = useState(false);
 
@@ -49,17 +49,10 @@ function Note({ note, isArchived }) {
     [dispatch],
   );
 
-  const handleBlur = useCallback(
-    async (e, id) => {
-      const { name, value } = e.target;
-      if (isArchived) {
-        editNote(id, name, value, 'archives');
-      } else {
-        editNote(id, name, value, 'notes');
-      }
-    },
-    [isArchived],
-  );
+  const handleBlur = useCallback(async (e, id) => {
+    const { name, value } = e.target;
+    editNote(id, name, value);
+  }, []);
 
   const handleClose = useCallback(
     (e) => {
@@ -72,7 +65,6 @@ function Note({ note, isArchived }) {
   const noteLayoutProps = {
     note,
     isHovering,
-    isArchived,
     clicked: isEditing ? 1 : 0,
     setIsHovering,
     onClick: handleClick,
@@ -92,11 +84,7 @@ function Note({ note, isArchived }) {
           onBlur={(e) => handleBlur(e, id)}
         />
         {isChecked ? (
-          <TodoList
-            id={id}
-            todoContent={() => convertNoteToTodo(content)}
-            isArchived={isArchived}
-          />
+          <TodoList id={id} todoContent={() => convertNoteToTodo(content)} />
         ) : (
           <InputTextArea
             name="content"
@@ -127,7 +115,6 @@ function Note({ note, isArchived }) {
 
 Note.propTypes = {
   note: PropTypes.object.isRequired,
-  isArchived: PropTypes.bool,
 };
 
 export default React.memo(Note);

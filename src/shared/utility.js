@@ -16,11 +16,6 @@ export const updateAllLabels = (arr, oldLabel, newLabel) => {
   );
 };
 
-/*
-apple
-suyeon
-cherry
-*/
 export const convertNoteToTodo = (str) => {
   if (str) {
     return str.split(/\n/g).reduce((todos, todo, i) => {

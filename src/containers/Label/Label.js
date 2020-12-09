@@ -43,7 +43,6 @@ const LabelItemContainer = styled.div`
 
 function Label({
   isInputField,
-  isArchived,
   setShowLabel,
   note,
   onRemove,
@@ -63,8 +62,8 @@ function Label({
 
   const handleChange = useCallback((label) => setLabel(label), []);
 
-  const addLabelNote = useCallback(async (id, label, type) => {
-    addLabelToNote(id, label, type);
+  const addLabelNote = useCallback(async (id, label) => {
+    addLabelToNote(id, label);
   }, []);
 
   const handleLabelToNote = useCallback(
@@ -78,7 +77,6 @@ function Label({
   const labelCreatorProps = {
     id,
     label,
-    isArchived,
     isInputField,
     addLabelToInputField,
     addLabelToNote: handleLabelToNote,
@@ -89,7 +87,6 @@ function Label({
     id,
     note,
     onRemove,
-    isArchived,
     isInputField,
     addLabelToInputField,
     removeLabelFromNote,
@@ -143,7 +140,6 @@ function Label({
 
 Label.propTypes = {
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
   note: PropTypes.object,
   onRemove: PropTypes.func,

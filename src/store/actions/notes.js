@@ -1,12 +1,5 @@
 import * as actions from './actionsTypes';
 
-export const initArchives = (notes) => {
-  return {
-    type: actions.INIT_ARCHIVES,
-    payload: notes,
-  };
-};
-
 export const initNotes = (notes) => {
   return {
     type: actions.INIT_NOTES,

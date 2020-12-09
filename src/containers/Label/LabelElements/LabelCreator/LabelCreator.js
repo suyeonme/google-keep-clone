@@ -36,18 +36,14 @@ function LabelCreator({
   isInputField,
   addLabelToNote,
   addLabelToInputField,
-  isArchived,
   clearLabelInput,
 }) {
   const handleClick = (label) => {
     if (isInputField) {
       addLabelToInputField(label);
       addLabelToStore(label);
-    } else if (isArchived) {
-      addLabelToNote(id, label, 'archives');
-      clearLabelInput('');
     } else {
-      addLabelToNote(id, label, 'notes');
+      addLabelToNote(id, label);
       clearLabelInput('');
     }
   };
@@ -68,7 +64,6 @@ LabelCreator.propTypes = {
   isInputField: PropTypes.bool,
   addLabelToNote: PropTypes.func,
   addLabelToInputField: PropTypes.func,
-  isArchived: PropTypes.bool,
   clearLabelInput: PropTypes.func,
 };
 

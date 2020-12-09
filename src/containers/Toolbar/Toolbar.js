@@ -69,9 +69,10 @@ function Toolbar({
   isChecked,
   onClose,
   note,
-  isArchived,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
+  const isArchived = window.location.pathname === '/archive' ? true : false;
+
   const icons = [
     {
       icon: PaintIcon,
@@ -117,7 +118,6 @@ function Toolbar({
             setShowLabel={setShowLabel}
             isInputField={isInputField}
             isChecked={isChecked}
-            isArchived={isArchived}
             note={note}
           />
         ))}
@@ -126,7 +126,6 @@ function Toolbar({
             id={id}
             title="Delete Note"
             bgImage={TranshCanIcon}
-            isArchived={isArchived}
             onDelete={onDelete}
           />
         )}
@@ -137,7 +136,6 @@ function Toolbar({
         <ColorPalette
           id={id}
           isInputField={isInputField}
-          isArchived={isArchived}
           onUnHover={handleHideColorPalette}
           onHover={handleShowColorPalette}
           onClick={onClick}
@@ -154,7 +152,6 @@ Toolbar.propTypes = {
   onToggle: PropTypes.func,
   onClick: PropTypes.func,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
   setShowLabel: PropTypes.func,
   labels: PropTypes.array,
   onDelete: PropTypes.func,

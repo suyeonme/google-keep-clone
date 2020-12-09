@@ -29,7 +29,6 @@ function LabelItem({
   note,
   onRemove,
   isInputField,
-  isArchived,
   removeLabelFromNote,
   addLabelToNote,
   addLabelToInputField,
@@ -39,14 +38,8 @@ function LabelItem({
   const handleChange = (id, label) => {
     if (isInputField) {
       isChecked ? onRemove(label) : addLabelToInputField(label);
-    } else if (isArchived) {
-      isChecked
-        ? removeLabelFromNote(id, label, 'archives')
-        : addLabelToNote(id, label, 'archives');
     } else {
-      isChecked
-        ? removeLabelFromNote(id, label, 'notes')
-        : addLabelToNote(id, label, 'notes');
+      isChecked ? removeLabelFromNote(id, label) : addLabelToNote(id, label);
     }
   };
 
@@ -67,7 +60,6 @@ LabelItem.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
   note: PropTypes.object,
   onRemove: PropTypes.func,
   addLabelToNote: PropTypes.func,

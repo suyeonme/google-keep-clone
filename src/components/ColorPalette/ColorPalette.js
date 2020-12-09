@@ -41,14 +41,7 @@ const ColorPaletteBtn = styled.button`
   }
 `;
 
-function ColorPalette({
-  isArchived,
-  id,
-  isInputField,
-  onHover,
-  onUnHover,
-  onClick,
-}) {
+function ColorPalette({ id, isInputField, onHover, onUnHover, onClick }) {
   const colors = [
     '#fff',
     '#d9adad',
@@ -61,11 +54,7 @@ function ColorPalette({
   ];
 
   const handleChangeColor = async (color) => {
-    if (isArchived) {
-      changeColor(color, id, 'archives');
-    } else if (!isInputField) {
-      changeColor(color, id, 'notes');
-    }
+    if (!isInputField) changeColor(color, id);
   };
 
   const handleClick = (e, color) => {
@@ -90,7 +79,6 @@ function ColorPalette({
 ColorPalette.propTypes = {
   id: PropTypes.string,
   isInputField: PropTypes.bool,
-  isArchived: PropTypes.bool,
   onHover: PropTypes.func.isRequired,
   onUnHover: PropTypes.func.isRequired,
   onClick: PropTypes.func,

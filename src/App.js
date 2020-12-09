@@ -8,16 +8,7 @@ import Layout from 'components/Layout/Layout';
 import PageLoader from 'components/UI/PageLoader/PageLoader';
 
 const ArchivedNote = lazy(() => import('./pages/ArchivedNote'));
-
-// Update each tool
-// CreatedAt
-
-// Display label
-// notes, isArchives
-// Reducer, action (method)
-
-// Note, EditNote(combine)
-// EditNote: Save label, todoItem
+const LabelPage = lazy(() => import('./pages/LabelPage'));
 
 function App() {
   const [init, setInit] = useState(false);
@@ -47,6 +38,7 @@ function App() {
       <>
         <Route path="/" exact component={Home} />
         <Route path="/archive" component={ArchivedNote} />
+        <Route path="/label/:labelId" component={LabelPage} />
       </>
     );
   }
