@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { dbService } from 'fbase';
 
+import { initLabels } from 'store/actions/notes';
 import EditLabel from 'containers/Label/EditLabel/EditLabel';
 import lightIcon from 'icons/light.svg';
 import archiveIcon from 'icons/archive.svg';
@@ -65,12 +67,26 @@ const Item = styled.li`
   list-style: none;
 `;
 
-function NavItems({ isHover, openNav }) {
+function NavMenu({ isHover, openNav }) {
   const [showEditLabel, setShowEditLabel] = useState(false);
   const labels = useSelector((state) => state.notes.labels);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dbService.collection('labels').onSnapshot((snapshot) => {
+      const labels = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      dispatch(initLabels(labels));
+    });
+  }, [dispatch]);
 
   let labelIcons;
-  const labelArr = labels.map((label) => {
+  let navIcons;
+
+  const labelItems = labels.map((label) => {
     return {
       image: labelIcon,
       title: label.name,
@@ -78,8 +94,7 @@ function NavItems({ isHover, openNav }) {
     };
   });
 
-  let icons;
-  const navIcons = [
+  const navItems = [
     { image: lightIcon, title: 'Notes', link: '/' },
     { image: archiveIcon, title: 'Archive', link: '/archive' },
     { image: penIcon, title: 'Edit labels', link: '' },
@@ -91,7 +106,7 @@ function NavItems({ isHover, openNav }) {
   };
 
   if (isHover) {
-    labelIcons = labelArr.map((label, i) => (
+    labelIcons = labelItems.map((label, i) => (
       <Item key={i}>
         <Link to={label.link} exact={true} ishover={isHover.toString()} key={i}>
           <IconContainer bgImage={label.image} />
@@ -100,7 +115,7 @@ function NavItems({ isHover, openNav }) {
       </Item>
     ));
 
-    icons = navIcons.map((icon, i) => {
+    navIcons = navItems.map((icon, i) => {
       if (icon.link !== '') {
         return (
           <Item key={i}>
@@ -124,7 +139,7 @@ function NavItems({ isHover, openNav }) {
   }
 
   if (!isHover) {
-    labelIcons = labelArr.map((label, i) => (
+    labelIcons = labelItems.map((label, i) => (
       <Item key={i}>
         <Link to={label.link} exact={true} key={i}>
           <IconContainer bgImage={label.image} />
@@ -132,7 +147,7 @@ function NavItems({ isHover, openNav }) {
       </Item>
     ));
 
-    icons = navIcons.map((icon, i) => {
+    navIcons = navItems.map((icon, i) => {
       if (icon.link !== '') {
         return (
           <Item key={i}>
@@ -156,17 +171,17 @@ function NavItems({ isHover, openNav }) {
   return (
     <>
       <ul>
-        {icons}
-        {labelArr.length > 0 && labelIcons}
+        {navIcons}
+        {labelItems.length > 0 && labelIcons}
       </ul>
       {showEditLabel && <EditLabel showNav={setShowEditLabel} />}
     </>
   );
 }
 
-NavItems.propTypes = {
+NavMenu.propTypes = {
   isHover: PropTypes.bool,
   openNav: PropTypes.func,
 };
 
-export default React.memo(NavItems);
+export default React.memo(NavMenu);

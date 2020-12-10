@@ -7,6 +7,7 @@ import Backdrop from 'components/UI/Backdrop/Backdrop';
 
 function Notes({ notes }) {
   const isPinned = notes.filter((note) => note.isPinned).length > 0;
+  const noteArr = notes.map((note) => <Note key={note.id} note={note} />);
 
   if (isPinned) {
     const pinnedNotes = notes
@@ -25,8 +26,6 @@ function Notes({ notes }) {
       </>
     );
   }
-
-  const noteArr = notes.map((note) => <Note key={note.id} note={note} />);
 
   return (
     <>

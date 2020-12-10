@@ -12,3 +12,10 @@ export const hideFlashMessage = (content) => {
     type: actionTypes.HIDE_FLASH_MESSAGE,
   };
 };
+
+export const getSearchQuery = (query) => {
+  return {
+    type: actionTypes.GET_SEARCH_QUERY,
+    payload: query,
+  };
+};

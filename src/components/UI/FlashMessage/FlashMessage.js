@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { hideFlashMessage } from 'store/actions/flashMessage';
+import { hideFlashMessage } from 'store/actions/view';
 
 const Message = styled.div`
   position: fixed;
@@ -47,8 +47,10 @@ const CloseBtn = styled.div`
 `;
 
 function FlashMessage() {
-  const message = useSelector((state) => state.flashMessage.message);
-  const showMessage = useSelector((state) => state.flashMessage.showMessage);
+  const message = useSelector((state) => state.view.flashMessage.message);
+  const showMessage = useSelector(
+    (state) => state.view.flashMessage.showMessage,
+  );
   const dispatch = useDispatch();
 
   return (

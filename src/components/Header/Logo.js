@@ -11,15 +11,15 @@ const LogoContainer = styled.a`
 `;
 
 const LogoImg = styled.img`
-  width: 47px;
-  height: 47px;
-  margin-bottom: 4px;
-  padding-right: 4px;
+  width: 4.7rem;
+  height: 4.7rem;
+  margin-bottom: 0.4rem;
+  padding-right: 0.4rem;
 `;
 
 const LogoText = styled.span`
-  font-size: 22px;
-  line-height: 24px;
+  font-size: 2.2rem;
+  line-height: 2.4rem;
   color: #5f6368;
   padding-left: 4px;
   font-weight: ${(props) => (props.path ? '400' : '300')};

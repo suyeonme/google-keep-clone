@@ -38,3 +38,16 @@ export const convertTodoToNote = (arr) => {
     })
     .join('\r\n');
 };
+
+export const searchNote = (query, notes) => {
+  const rgxp = new RegExp(query, 'gi');
+
+  const searchedNotes = notes.filter((note) => {
+    if (query !== '' && (note.title.match(rgxp) || note.content.match(rgxp))) {
+      return note;
+    }
+    return null;
+  });
+
+  return searchedNotes;
+};

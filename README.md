@@ -3,7 +3,7 @@
 > Clone google keep application using react as a web app.<br>
 > Google keep is a note-taking service.
 
-By developing this app, I focused on react and functional component. I tried to understand an ecosystem of react and optimize its performance, especially reducing unnecessary re-rendering. I also tried to write clean code and logic as much as I could (but I think it was messy in a way 😂).
+By developing this app, I focused on react and functional component. I tried to understand an ecosystem and optimize its performance. I also tried to write clean code and logic.
 
 <br>
 
@@ -21,11 +21,10 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 ## 💫 Features
 
-- Custom note (color, pin, etc)
+- Custom note (color, pin, archive, label)
 - Todo list
 - CRUD of note and label
 - Social login (email, google, github)
-- Archived note
 
 <br>
 

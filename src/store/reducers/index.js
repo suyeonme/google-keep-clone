@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import flashMessage from './flashMessage';
+import view from './view';
 import notes from './notes';
 
 const rootReducer = combineReducers({
-  flashMessage,
+  view,
   notes,
 });
 

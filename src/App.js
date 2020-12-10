@@ -13,6 +13,7 @@ const LabelPage = lazy(() => import('./pages/LabelPage'));
 function App() {
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
+  let routes;
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -31,14 +32,12 @@ function App() {
     });
   }, []);
 
-  let routes;
-
   if (userObj) {
     routes = (
       <>
         <Route path="/" exact component={Home} />
         <Route path="/archive" component={ArchivedNote} />
-        <Route path="/label/:labelId" component={LabelPage} />
+        <Route path="/label/:labelName" component={LabelPage} />
       </>
     );
   }

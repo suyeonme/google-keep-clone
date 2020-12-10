@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { showFlashMessage, hideFlashMessage } from 'store/actions/flashMessage';
+import { showFlashMessage, hideFlashMessage } from 'store/actions/view';
 import { ToolbarBtn, ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
 import { renameLabel, removeLabel } from 'store/actions/notes';
 import {

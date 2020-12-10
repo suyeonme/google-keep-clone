@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { dbService } from 'fbase';
 
 import Archive from 'icons/archive.svg';
 import Notes from 'components/Notes/Notes';
+import { searchNote } from 'shared/utility';
+import NoMatching from 'components/UI/NoMatching/NoMatching';
 
 const ArchiveIcon = styled.div`
   width: 95px;
@@ -60,6 +63,8 @@ const Container = styled.div`
 
 function ArchivedNote() {
   const [archives, setArchives] = useState([]);
+  const query = useSelector((state) => state.view.searchQuery);
+  const searchedNotes = searchNote(query, archives);
 
   useEffect(() => {
     const subscribe = dbService.collection('notes').onSnapshot((snapshot) => {
@@ -76,7 +81,7 @@ function ArchivedNote() {
     return () => subscribe();
   }, []);
 
-  if (archives && archives.length === 0) {
+  if (archives.length === 0) {
     return (
       <Container>
         <ArchiveIcon />
@@ -85,9 +90,15 @@ function ArchivedNote() {
     );
   }
 
-  if (archives && archives.length > 0) {
-    return <Notes notes={archives} />;
+  if (query !== '' && searchedNotes.length > 0) {
+    return <Notes notes={searchedNotes} />;
   }
+
+  if (query !== '' && searchedNotes.length === 0) {
+    return <NoMatching text="No matching results." />;
+  }
+
+  return <Notes notes={archives} />;
 }
 
 export default React.memo(ArchivedNote);

@@ -16,7 +16,7 @@ export const InputForm = styled.form`
   height: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 0.8rem;
   margin: 3rem auto;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
   padding: 12px 16px;

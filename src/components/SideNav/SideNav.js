@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import NavItems from 'components/Nav/NavItems/NavItems';
+import SideNavItems from 'components/SideNav/SideNavItems/SideNavItems';
 
 const NavContainer = styled.nav`
   position: fixed;
-  top: 62px;
+  top: 7.2rem;
   left: 0;
   z-index: 5;
   overflow: hidden;
@@ -27,14 +27,14 @@ const NavContainer = styled.nav`
   }
 `;
 
-function Nav({ isHover, onHover }) {
+function SideNav({ isHover, onHover }) {
   return (
     <NavContainer
       isHover={isHover}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
     >
-      <NavItems isHover={isHover} openNav={onHover} />
+      <SideNavItems isHover={isHover} openNav={onHover} />
     </NavContainer>
   );
 }
@@ -44,4 +44,4 @@ NavContainer.propTypes = {
   onHover: PropTypes.func,
 };
 
-export default React.memo(Nav);
+export default React.memo(SideNav);

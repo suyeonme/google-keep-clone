@@ -5,17 +5,18 @@ import PropTypes from 'prop-types';
 
 import Profile from 'components/Header/Profile';
 import Logo from 'components/Header/Logo';
-import Nav from 'components/Nav/Nav';
+import SideNav from 'components/SideNav/SideNav';
 import Hamburger from 'icons/hamburger.svg';
+import SearchBar from 'components/UI/SearchBar/SearchBar';
 
 const HeaderContainer = styled.header`
   width: 100%;
   background-color: white;
   border-bottom: 1px solid rgba(66, 66, 66, 0.2);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 5px 24px 5px 8px;
-
+  padding: 1rem 2.4rem 1rem 0.8rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -24,8 +25,8 @@ const HeaderContainer = styled.header`
 
 const Menu = styled.div`
   display: inline-block;
-  width: 47px;
-  height: 47px;
+  width: 4.7rem;
+  height: 4.7rem;
   border-radius: 50%;
   cursor: pointer;
   margin: 0 4px;
@@ -45,16 +46,18 @@ function Header({ userObj }) {
   return (
     <>
       <HeaderContainer>
-        {userObj && (
-          <Tooltip title="Main menu" arrow>
-            <Menu onClick={() => setOpenNav(!openNav)} />
-          </Tooltip>
-        )}
-        <Logo />
-
+        <div style={{ display: 'flex' }}>
+          {userObj && (
+            <Tooltip title="Main menu" arrow>
+              <Menu onClick={() => setOpenNav(!openNav)} />
+            </Tooltip>
+          )}
+          <Logo />
+        </div>
         {userObj && (
           <>
-            <Nav isHover={openNav} onHover={setOpenNav} />
+            <SideNav isHover={openNav} onHover={setOpenNav} />
+            <SearchBar />
             <Profile userObj={userObj} />
           </>
         )}
