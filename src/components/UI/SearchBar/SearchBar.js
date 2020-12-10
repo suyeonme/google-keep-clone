@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import searchIcon from 'icons/search.svg';
+import cancelIcon from 'icons/cancel.svg';
 import { getSearchQuery } from 'store/actions/view';
 import useFirstRender from 'hooks/useFirstRender';
-
-// Show input on mobile when click icon
+import { useClickOutside } from 'hooks/useClickOutside';
+import { ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
 
 const Form = styled.form`
   position: relative;
@@ -19,46 +21,57 @@ const Form = styled.form`
     width: 60%;
   }
   @media (max-width: 576px) {
-    background-color: white;
-  }
-
-  input {
-    width: 100%;
-    height: 100%;
-    padding: 0 5rem;
-    font-size: 1.6rem;
-    background-color: inherit;
-    border-radius: 0.8rem;
-    border: 1px solid transparent;
-    transition: background 100ms ease-in, width 100ms ease-out;
-
-    @media (max-width: 576px) {
-      padding: 0;
-      display: none;
-      ${'' /* display: ${(props) => (props.showinput ? 'block' : 'none')}; */}
-    }
-
-    &:focus {
-      background: white;
-      box-shadow: 0 1px 5px rgb(138, 137, 137);
-      outline: none;
-    }
-  }
-
-  img {
     position: absolute;
-    left: 1.7rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.7rem;
-    height: 1.7rem;
+    right: 7rem;
+    width: ${(props) => (props.isshow ? 'calc(100% - 90px)' : '20%')};
+    background-color: ${(props) => (props.isshow ? '#f1f3f4' : 'white')};
+  }
+`;
 
-    @media (max-width: 576px) {
-      right: 2rem;
-      left: auto;
-      width: 2rem;
-      height: 2rem;
-    }
+const Input = styled.input`
+  width: 100%;
+  height: 100%;
+  padding: 0 5rem;
+  font-size: 1.6rem;
+  background-color: inherit;
+  border-radius: 0.8rem;
+  border: 1px solid transparent;
+  transition: background 100ms ease-in, width 100ms ease-out;
+
+  @media (max-width: 576px) {
+    display: ${(props) => (props.isshow ? 'inline-block' : 'none')};
+    background-color: #f1f3f4;
+    padding: 0 1rem;
+  }
+
+  &:focus {
+    background: white;
+    box-shadow: 0 1px 5px rgb(138, 137, 137);
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  position: absolute;
+  left: 1.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: url(${searchIcon}) no-repeat;
+  background-size: cover;
+  width: 1.7rem;
+  height: 1.7rem;
+  z-index: 300;
+
+  @media (max-width: 576px) {
+    width: 2rem;
+    height: 2rem;
+    right: 1rem;
+    left: auto;
+    background: ${(props) =>
+      props.isshow
+        ? `url(${cancelIcon}) no-repeat center center`
+        : `url(${searchIcon}) no-repeat center center`};
+    background-size: cover;
   }
 `;
 
@@ -66,9 +79,12 @@ const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [showInput, setShowInput] = useState(false);
   const dispatch = useDispatch();
+
   const isFirstRender = useFirstRender();
+  const { ref, isClickOutside: isClickForm } = useClickOutside(true);
 
   useEffect(() => {
+    // Prevent 'getSearchQuery' on initial rendering
     if (!isFirstRender) {
       const timeout = setTimeout(() => {
         dispatch(getSearchQuery(query));
@@ -78,6 +94,12 @@ const SearchBar = () => {
     }
   }, [query, dispatch, isFirstRender]);
 
+  useEffect(() => {
+    // Hide search form when click outside form on mobile
+    const isMobile = /Mobi/i.test(window.navigator.userAgent);
+    if (isMobile && !isClickForm) setShowInput(false);
+  }, [isClickForm]);
+
   const handleChange = (e) => setQuery(e.target.value);
   const handleClick = (e) => {
     e.preventDefault();
@@ -85,18 +107,17 @@ const SearchBar = () => {
   };
 
   return (
-    <Form>
-      <button onClick={handleClick}>
-        <img src={searchIcon} alt="Search" />
-      </button>
-      <input
+    <Form isshow={showInput ? 1 : 0} ref={ref}>
+      <Tooltip title={<ToolSpan>Search</ToolSpan>}>
+        <Button onClick={handleClick} isshow={showInput ? 1 : 0} />
+      </Tooltip>
+      <Input
         type="text"
         value={query}
         placeholder="Search"
         autoComplete="off"
         onChange={handleChange}
-        // showinput={showInput.toString()}
-        // showinput={showInput ? 1 : 0}
+        isshow={showInput ? 1 : 0}
       />
     </Form>
   );

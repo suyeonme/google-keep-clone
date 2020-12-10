@@ -21,9 +21,9 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 ## 💫 Features
 
-- Custom note (color, pin, archive, label)
-- Todo list
+- Custom note (color, pin, archive, label, todo list)
 - CRUD of note and label
+- filtering of note.
 - Social login (email, google, github)
 
 <br>
@@ -108,7 +108,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Improvements
 
 - Optimize rendering.
-- filtering of note.
 - Draggable Label
 - Implement typescript
 
