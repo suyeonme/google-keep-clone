@@ -7,7 +7,7 @@ import NoteLayout from 'containers/Note/NoteLayout';
 import { Input, InputTextArea } from 'containers/InputField/InputElements';
 import TodoList from 'components/TodoList/TodoList';
 import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
-import { convertNoteToTodo } from 'shared/utility';
+import { convertNoteToTodo, highlightText } from 'shared/utility';
 import { editNote, removeNoteFromStore } from 'shared/firebase';
 
 function Note({ note }) {
@@ -15,6 +15,7 @@ function Note({ note }) {
   const [isHovering, setIsHovering] = useState(false);
 
   const dispatch = useDispatch();
+  const searchQuery = useSelector((state) => state.view.searchQuery);
   const editableNote = useSelector((state) => state.notes.editableNote);
   const editableNoteID = editableNote && editableNote.id;
   const [isEditing, setIsEditing] = useState(false);
@@ -102,11 +103,11 @@ function Note({ note }) {
   if (!isEditing) {
     return (
       <NoteLayout {...noteLayoutProps}>
-        <NoteTitle>{title}</NoteTitle>
+        <NoteTitle>{highlightText(title, searchQuery)}</NoteTitle>
         {isChecked ? (
           <TodoList todoContent={() => convertNoteToTodo(content)} />
         ) : (
-          <NoteContent>{content}</NoteContent>
+          <NoteContent>{highlightText(content, searchQuery)}</NoteContent>
         )}
       </NoteLayout>
     );

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -50,4 +52,24 @@ export const searchNote = (query, notes) => {
   });
 
   return searchedNotes;
+};
+
+export const highlightText = (text, query) => {
+  if (query !== '' && text.includes(query)) {
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+
+    return (
+      <>
+        {parts.map((part, index) =>
+          part.toLowerCase() === query.toLowerCase() ? (
+            <mark key={index}>{part}</mark>
+          ) : (
+            part
+          ),
+        )}
+      </>
+    );
+  }
+
+  return text;
 };

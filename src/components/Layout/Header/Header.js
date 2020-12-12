@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
-import Profile from 'components/Header/Profile';
-import Logo from 'components/Header/Logo';
-import SideNav from 'components/SideNav/SideNav';
+import Profile from 'components/Layout/Header/Profile';
+import Logo from 'components/Layout/Header/Logo';
+import SideNav from 'components/Layout/SideNav/SideNav';
 import Hamburger from 'icons/hamburger.svg';
 import SearchBar from 'components/UI/SearchBar/SearchBar';
 

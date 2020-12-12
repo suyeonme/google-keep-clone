@@ -112,7 +112,7 @@ const SearchBar = () => {
         <Button onClick={handleClick} isshow={showInput ? 1 : 0} />
       </Tooltip>
       <Input
-        type="text"
+        type="search"
         value={query}
         placeholder="Search"
         autoComplete="off"

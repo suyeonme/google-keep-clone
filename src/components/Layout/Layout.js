@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Header from 'components/Header/Header';
-import Footer from 'components/Footer/Footer';
+import Header from 'components/Layout/Header/Header';
+import Footer from 'components/Layout/Footer/Footer';
 import FlashMessage from 'components/UI/FlashMessage/FlashMessage';
 
 const Container = styled.div`

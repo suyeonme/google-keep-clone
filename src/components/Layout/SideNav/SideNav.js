@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import SideNavItems from 'components/SideNav/SideNavItems/SideNavItems';
+import SideNavItems from 'components/Layout/SideNav/SideNavItems/SideNavItems';
 
 const NavContainer = styled.nav`
   position: fixed;
