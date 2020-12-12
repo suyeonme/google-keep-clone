@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
+import deleteIcon from 'icons/close.svg';
+import dragIcon from 'icons/drag-indicator.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
-import DeleteIcon from 'icons/delete.svg';
 
-export const TodoListContainer = styled.div`
+export const Wrapper = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
   min-height: 30px;
-  padding: 0 11px 0 11px;
+  padding: ${(props) => (props.isEditable ? '0 2.5rem' : '0 1.1rem')};
   margin: 1px 0;
 
   ${({ isEditable }) =>
@@ -30,6 +31,16 @@ export const Checkbox = styled.input`
     text-decoration-line: line-through;
     color: #80868a;
   }
+`;
+
+const DragIcon = styled.div`
+  position: absolute;
+  left: 0.3rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  background: url(${dragIcon}) no-repeat center center;
+  background-size: cover;
+  cursor: move;
 `;
 
 function TodoItem({
@@ -53,11 +64,12 @@ function TodoItem({
     setIsHover({ hoverID: id, onHover: false });
 
   return (
-    <TodoListContainer
+    <Wrapper
       isEditable={isEditable}
       onMouseEnter={isEditable ? () => handleOnMouseOver(id) : null}
       onMouseLeave={isEditable ? () => handleOnMouseLeave(id) : null}
     >
+      {isEditable && hoverID === id && onHover && <DragIcon alt="drag icon" />}
       <Checkbox
         type="checkbox"
         id="checkbox"
@@ -76,11 +88,11 @@ function TodoItem({
         <Tool
           isEditable
           title="Delete Todo"
-          bgImage={DeleteIcon}
+          bgImage={deleteIcon}
           deleteTodo={() => onDelete(noteID, id, todos)}
         />
       )}
-    </TodoListContainer>
+    </Wrapper>
   );
 }
 

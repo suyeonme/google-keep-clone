@@ -5,8 +5,8 @@ import FilledPinIcon from 'icons/pin-fill.svg';
 
 export const ToolbarBtn = styled.button`
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 2.8rem;
+  height: 2.8rem;
   background: ${(props) => `url(${props.bgImage})`} no-repeat center center;
   background-size: 50%;
   margin-right: 10px;

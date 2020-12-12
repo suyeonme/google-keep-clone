@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
 import LabelIcon from 'icons/label-fill.svg';
-import CheckIcon from 'icons/check.svg';
-import PlusIcon from 'icons/plus.svg';
-import DeleteIcon from 'icons/delete.svg';
-import TrashIcon from 'icons/trash-can.svg';
-import PenIcon from 'icons/pencil-fill.svg';
+import checkIcon from 'icons/check.svg';
+import plusIcon from 'icons/plus.svg';
+import deleteIcon from 'icons/close.svg';
+import trashIcon from 'icons/trash-can.svg';
+import penIcon from 'icons/pencil-fill.svg';
 
 const ItemContainer = styled.div`
   width: 100%;
@@ -49,7 +49,7 @@ function EditLabelItem({ label, labelCreator }) {
     return (
       <ItemContainer onFocus={handleClick} onBlur={handleBlur}>
         <Tool
-          bgImage={isFocused ? DeleteIcon : PlusIcon}
+          bgImage={isFocused ? deleteIcon : plusIcon}
           title={isFocused ? 'Cancel' : 'Create Label'}
           clearInput={handleClearInput}
         />
@@ -60,7 +60,7 @@ function EditLabelItem({ label, labelCreator }) {
         />
         {isFocused && (
           <Tool
-            bgImage={CheckIcon}
+            bgImage={checkIcon}
             newLabel={enteredLabel}
             clearInput={handleClearInput}
             title="Create Label"
@@ -75,7 +75,7 @@ function EditLabelItem({ label, labelCreator }) {
     return (
       <ItemContainer onClick={handleClick} onBlur={handleBlur}>
         <Tool
-          bgImage={isFocused ? TrashIcon : LabelIcon}
+          bgImage={isFocused ? trashIcon : LabelIcon}
           label={label}
           title={isFocused ? 'Delete Label' : 'Label'}
           editLabel
@@ -85,7 +85,7 @@ function EditLabelItem({ label, labelCreator }) {
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
         <Tool
-          bgImage={isFocused ? CheckIcon : PenIcon}
+          bgImage={isFocused ? checkIcon : penIcon}
           label={label}
           newLabel={enteredLabel}
           title="Rename Label"

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
@@ -14,9 +16,11 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 
 ReactDom.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <DndProvider backend={HTML5Backend}>
+      <Router>
+        <App />
+      </Router>
+    </DndProvider>
   </Provider>,
   document.querySelector('#root'),
 );

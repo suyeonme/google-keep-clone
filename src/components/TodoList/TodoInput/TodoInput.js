@@ -3,14 +3,27 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 
-import Plus from 'icons/plus.svg';
-import { TodoListContainer } from 'components/TodoList/TodoItem/TodoItem';
+import plus from 'icons/plus.svg';
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 30px;
+  padding: 0 2.5rem;
+  margin: 1px 0;
+
+  &:focus-within {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+`;
 
 const PlusIcon = styled.div`
   width: 20px;
   height: 20px;
   margin-right: 1rem;
-  background: url(${Plus}) center center no-repeat;
+  background: url(${plus}) center center no-repeat;
   background-size: 50%;
 `;
 
@@ -43,7 +56,7 @@ function TodoInput({ onAdd }) {
   };
 
   return (
-    <TodoListContainer isFocus>
+    <Wrapper isFocus>
       <PlusIcon />
       <TodoItemInput
         autoFocus
@@ -52,7 +65,7 @@ function TodoInput({ onAdd }) {
         value={todoInput}
         onChange={handleChange}
       />
-    </TodoListContainer>
+    </Wrapper>
   );
 }
 

@@ -47,11 +47,12 @@ export const Input = styled.input`
   font-size: 1.6rem;
   background: transparent;
 
-  ${({ isEditableNote }) =>
-    isEditableNote &&
+  ${({ isEditable }) =>
+    isEditable &&
     `
+    font-size: 2rem;
     height: 50px;
-    padding: 0 12px;
+    padding: 1rem 1.5rem;
     `};
 `;
 
@@ -66,8 +67,8 @@ export const InputTextArea = styled.textarea`
   resize: none;
   flex: 1 1 auto;
 
-  ${({ isEditableNote }) =>
-    isEditableNote &&
+  ${({ isEditable }) =>
+    isEditable &&
     `
     font-size: 1.7rem; 
     padding: 0 12px 0 12px;  

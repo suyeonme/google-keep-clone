@@ -23,7 +23,8 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 - Custom note (color, pin, archive, label, todo list)
 - CRUD of note and label
-- filtering of note.
+- Filtering of note.
+- Draggable todo item
 - Social login (email, google, github)
 
 <br>

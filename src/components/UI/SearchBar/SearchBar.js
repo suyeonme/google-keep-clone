@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import searchIcon from 'icons/search.svg';
-import cancelIcon from 'icons/cancel.svg';
+import cancelIcon from 'icons/close.svg';
 import { getSearchQuery } from 'store/actions/view';
 import useFirstRender from 'hooks/useFirstRender';
 import { useClickOutside } from 'hooks/useClickOutside';

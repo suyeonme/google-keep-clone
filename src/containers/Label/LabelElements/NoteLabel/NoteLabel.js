@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { removeLabelFromNote } from 'shared/firebase';
 import Tool from 'containers/Toolbar/Tool/Tool';
-import DeleteIcon from 'icons/delete.svg';
+import deleteIcon from 'icons/close.svg';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -66,7 +66,7 @@ function NoteLabel({ labels, id, isInputField, onRemove }) {
         <Tool
           id={id}
           label={label}
-          bgImage={DeleteIcon}
+          bgImage={deleteIcon}
           title="Remove Label"
           onRemove={onRemove}
           onRemoveNoteLabel={handleRemove}

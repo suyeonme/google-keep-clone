@@ -80,7 +80,8 @@ function Note({ note }) {
           name="title"
           placeholder="Title"
           autoComplete="off"
-          isEditableNote
+          // isEditableNote
+          isEditable
           defaultValue={title}
           onBlur={(e) => handleBlur(e, id)}
         />
@@ -91,7 +92,8 @@ function Note({ note }) {
             name="content"
             placeholder="Note"
             autoComplete="off"
-            isEditableNote
+            // isEditableNote
+            isEditable
             defaultValue={content}
             onBlur={(e) => handleBlur(e, id)}
           />
