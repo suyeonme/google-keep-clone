@@ -101,4 +101,4 @@ function ArchivedNote() {
   return <Notes notes={archives} />;
 }
 
-export default React.memo(ArchivedNote);
+export default ArchivedNote;

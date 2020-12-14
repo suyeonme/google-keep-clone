@@ -1,10 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
 
 import { changeColor } from 'shared/firebase';
 
-const ColorPaletteContainer = styled.div`
+const ColorPaletteContainer = styled('div')<{ isInputField?: string }>`
   max-width: 128px;
   padding: 0.5rem;
   position: absolute;
@@ -21,7 +20,7 @@ const ColorPaletteContainer = styled.div`
     `}
 `;
 
-const ColorPaletteBtn = styled.button`
+const ColorPaletteBtn = styled('button')<{ color: string }>`
   width: 25px;
   height: 25px;
   border: 1.5px solid transparent;
@@ -41,8 +40,22 @@ const ColorPaletteBtn = styled.button`
   }
 `;
 
-function ColorPalette({ id, isInputField, onHover, onUnHover, onClick }) {
-  const colors = [
+interface ColorPaletteProp {
+  id: string;
+  isInputField: boolean;
+  onHover: () => void;
+  onUnHover: () => void;
+  onClick: (color: string) => void;
+}
+
+const ColorPalette = ({
+  id,
+  isInputField,
+  onHover,
+  onUnHover,
+  onClick,
+}: ColorPaletteProp) => {
+  const colors: string[] = [
     '#fff',
     '#d9adad',
     '#84a9ac',
@@ -53,35 +66,22 @@ function ColorPalette({ id, isInputField, onHover, onUnHover, onClick }) {
     '#c26565',
   ];
 
-  const handleChangeColor = async (color) => {
-    if (!isInputField) changeColor(color, id);
-  };
-
-  const handleClick = (e, color) => {
+  const handleClick = (e: React.MouseEvent, color: string): void => {
     e.preventDefault();
-    if (isInputField) onClick(color);
-    handleChangeColor(color);
+    isInputField ? onClick(color) : changeColor(color, id);
   };
 
   return (
     <ColorPaletteContainer onMouseEnter={onHover} onMouseLeave={onUnHover}>
-      {colors.map((color, i) => (
+      {colors.map((color) => (
         <ColorPaletteBtn
-          key={i}
+          key={color}
           color={color}
           onClick={(e) => handleClick(e, color)}
         />
       ))}
     </ColorPaletteContainer>
   );
-}
-
-ColorPalette.propTypes = {
-  id: PropTypes.string,
-  isInputField: PropTypes.bool,
-  onHover: PropTypes.func.isRequired,
-  onUnHover: PropTypes.func.isRequired,
-  onClick: PropTypes.func,
 };
 
-export default ColorPalette;
+export default React.memo(ColorPalette);

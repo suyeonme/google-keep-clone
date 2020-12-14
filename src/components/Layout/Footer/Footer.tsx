@@ -14,14 +14,14 @@ const Copyright = styled.p`
   color: rgb(122, 122, 122);
 `;
 
-function Footer() {
-  const currentYear = new Date().getFullYear();
+const Footer: React.FC = () => {
+  const currentYear: number = new Date().getFullYear();
 
   return (
     <FooterContainer>
       <Copyright> Copyright &copy; {currentYear} </Copyright>
     </FooterContainer>
   );
-}
+};
 
 export default Footer;

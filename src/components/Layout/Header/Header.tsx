@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
-import PropTypes from 'prop-types';
 
 import Profile from 'components/Layout/Header/Profile';
 import Logo from 'components/Layout/Header/Logo';
 import SideNav from 'components/Layout/SideNav/SideNav';
 import Hamburger from 'icons/hamburger.svg';
 import SearchBar from 'components/UI/SearchBar/SearchBar';
+
+import { UserObjType } from 'App';
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -40,7 +41,11 @@ const Menu = styled.div`
   }
 `;
 
-function Header({ userObj }) {
+interface HeaderProp {
+  userObj: UserObjType;
+}
+
+const Header = ({ userObj }: HeaderProp) => {
   const [openNav, setOpenNav] = useState(false);
 
   return (
@@ -56,7 +61,7 @@ function Header({ userObj }) {
         </div>
         {userObj && (
           <>
-            <SideNav isHover={openNav} onHover={setOpenNav} />
+            <SideNav ishover={openNav} onHover={setOpenNav} />
             <SearchBar />
             <Profile userObj={userObj} />
           </>
@@ -64,10 +69,6 @@ function Header({ userObj }) {
       </HeaderContainer>
     </>
   );
-}
-
-Header.propTypes = {
-  userObj: PropTypes.object,
 };
 
-export default React.memo(Header);
+export default Header;

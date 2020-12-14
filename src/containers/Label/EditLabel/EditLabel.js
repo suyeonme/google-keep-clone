@@ -58,4 +58,4 @@ EditLabel.propTypes = {
   showNav: PropTypes.func,
 };
 
-export default React.memo(EditLabel);
+export default EditLabel;

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { dbService } from 'fbase';
 
 import { initLabels } from 'store/actions/notes';
@@ -12,7 +11,9 @@ import archiveIcon from 'icons/archive.svg';
 import penIcon from 'icons/pen.svg';
 import labelIcon from 'icons/label.svg';
 
-const Link = styled(NavLink)`
+import { RootState } from 'store/reducers/index';
+
+const Link = styled(NavLink)<{ ishover?: string }>`
   height: 100%;
   display: block;
   text-decoration: none;
@@ -29,7 +30,7 @@ const Link = styled(NavLink)`
   }
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled('div')<{ bgImage: string }>`
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -49,7 +50,7 @@ const Title = styled.span`
   margin-left: 20px;
 `;
 
-const Container = styled.div`
+const Container = styled('div')<{ ishover: string }>`
   width: 100%;
   height: 100%;
   display: block;
@@ -67,9 +68,26 @@ const Item = styled.li`
   list-style: none;
 `;
 
-function NavMenu({ isHover, openNav }) {
+interface NavMenuProp {
+  ishover: boolean;
+  openNav: (bool: boolean) => void;
+}
+
+interface LabelProp {
+  id: string;
+  name: string;
+}
+
+interface ItemProp {
+  image: string;
+  link: string;
+  title?: string;
+  id?: string;
+}
+
+function NavMenu({ ishover, openNav }: NavMenuProp) {
   const [showEditLabel, setShowEditLabel] = useState(false);
-  const labels = useSelector((state) => state.notes.labels);
+  const labels = useSelector((state: RootState) => state.notes.labels);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -85,41 +103,39 @@ function NavMenu({ isHover, openNav }) {
 
   let labelIcons;
   let navIcons;
-
-  const labelItems = labels.map((label) => {
+  const labelItems: ItemProp[] = labels.map((label: LabelProp) => {
     return {
       image: labelIcon,
       title: label.name,
       link: `/label/${label.name}`,
     };
   });
-
-  const navItems = [
+  const navItems: ItemProp[] = [
     { image: lightIcon, title: 'Notes', link: '/' },
     { image: archiveIcon, title: 'Archive', link: '/archive' },
     { image: penIcon, title: 'Edit labels', link: '' },
   ];
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     openNav(false);
     setShowEditLabel(true);
   };
 
-  if (isHover) {
-    labelIcons = labelItems.map((label, i) => (
-      <Item key={i}>
-        <Link to={label.link} exact={true} ishover={isHover.toString()} key={i}>
+  if (ishover) {
+    labelIcons = labelItems.map((label: ItemProp) => (
+      <Item key={label.title}>
+        <Link to={label.link} exact={true} ishover={ishover.toString()}>
           <IconContainer bgImage={label.image} />
           <Title>{label.title}</Title>
         </Link>
       </Item>
     ));
 
-    navIcons = navItems.map((icon, i) => {
+    navIcons = navItems.map((icon: ItemProp) => {
       if (icon.link !== '') {
         return (
-          <Item key={i}>
-            <Link to={icon.link} exact={true} ishover={isHover.toString()}>
+          <Item key={icon.title}>
+            <Link to={icon.link} exact={true} ishover={ishover.toString()}>
               <IconContainer bgImage={icon.image} />
               <Title>{icon.title}</Title>
             </Link>
@@ -127,8 +143,8 @@ function NavMenu({ isHover, openNav }) {
         );
       } else {
         return (
-          <Item key={i}>
-            <Container ishover={isHover.toString()} onClick={handleClick}>
+          <Item key={icon.title}>
+            <Container ishover={ishover.toString()} onClick={handleClick}>
               <IconContainer bgImage={icon.image} />
               <Title>{icon.title}</Title>
             </Container>
@@ -138,19 +154,19 @@ function NavMenu({ isHover, openNav }) {
     });
   }
 
-  if (!isHover) {
-    labelIcons = labelItems.map((label, i) => (
-      <Item key={i}>
-        <Link to={label.link} exact={true} key={i}>
+  if (!ishover) {
+    labelIcons = labelItems.map((label: ItemProp) => (
+      <Item key={label.link}>
+        <Link to={label.link} exact={true}>
           <IconContainer bgImage={label.image} />
         </Link>
       </Item>
     ));
 
-    navIcons = navItems.map((icon, i) => {
+    navIcons = navItems.map((icon: ItemProp) => {
       if (icon.link !== '') {
         return (
-          <Item key={i}>
+          <Item key={icon.image}>
             <Link to={icon.link} exact={true}>
               <IconContainer bgImage={icon.image} />
             </Link>
@@ -158,8 +174,8 @@ function NavMenu({ isHover, openNav }) {
         );
       } else {
         return (
-          <Item key={i}>
-            <Container ishover={isHover.toString()} onClick={handleClick}>
+          <Item key={icon.image}>
+            <Container ishover={ishover.toString()} onClick={handleClick}>
               <IconContainer bgImage={icon.image} />
             </Container>
           </Item>
@@ -178,10 +194,5 @@ function NavMenu({ isHover, openNav }) {
     </>
   );
 }
-
-NavMenu.propTypes = {
-  isHover: PropTypes.bool,
-  openNav: PropTypes.func,
-};
 
 export default React.memo(NavMenu);

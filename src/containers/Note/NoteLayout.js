@@ -12,20 +12,18 @@ import {
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import { useClickOutside } from 'hooks/useClickOutside';
 
-function NoteLayout(props) {
-  const {
-    note,
-    clicked,
-    onClick,
-    onDelete,
-    setIsHovering,
-    isHovering,
-    onClose,
-  } = props;
-
+function NoteLayout({
+  note,
+  clicked,
+  onClick,
+  onDelete,
+  setIsHovering,
+  isHovering,
+  onClose,
+  children,
+}) {
   const { id, isPinned, isChecked, labels, bgColor } = note;
   const [showLabel, setShowLabel] = useState(false);
-
   const { setIsClickOutside } = useClickOutside(false);
 
   return (
@@ -38,7 +36,7 @@ function NoteLayout(props) {
     >
       <Container clicked={clicked}>
         <Tool notePin id={id} isPinned={isPinned} title="Pin Note" />
-        {props.children}
+        {children}
         <ToolbarContainer>
           {labels.length > 0 && <NoteLabel id={id} labels={labels} />}
           <Toolbar

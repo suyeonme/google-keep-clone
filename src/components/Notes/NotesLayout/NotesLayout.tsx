@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
-import PropTypes from 'prop-types';
 import './NotesLayout.css';
 
 const NotesContainer = styled.div`
@@ -29,7 +28,20 @@ const Title = styled.div`
   padding: 8px;
 `;
 
-const breakPointCol = {
+interface breakPoints {
+  default: number;
+  1200: number;
+  1024: number;
+  768: number;
+  576: number;
+}
+
+interface NotesLayout {
+  notes: JSX.Element[];
+  title?: string;
+}
+
+const BREAK_POINTS: breakPoints = {
   default: 5,
   1200: 4,
   1024: 3,
@@ -37,24 +49,22 @@ const breakPointCol = {
   576: 1,
 };
 
-function NotesLayout({ notes, title }) {
-  return (
-    <NotesContainer>
-      {title && <Title>{title}</Title>}
-      <Masonry
-        breakpointCols={breakPointCol}
-        className="grid"
-        columnClassName="col"
-      >
-        {notes}
-      </Masonry>
-    </NotesContainer>
-  );
-}
-
-NotesLayout.propTypes = {
-  notes: PropTypes.array.isRequired,
-  title: PropTypes.string,
+const NotesLayout = ({ notes, title }: NotesLayout) => {
+  if (notes.length > 0) {
+    return (
+      <NotesContainer>
+        {title && <Title>{title}</Title>}
+        <Masonry
+          breakpointCols={BREAK_POINTS}
+          className="grid"
+          columnClassName="col"
+        >
+          {notes}
+        </Masonry>
+      </NotesContainer>
+    );
+  }
+  return null;
 };
 
 export default React.memo(NotesLayout);

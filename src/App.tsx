@@ -10,9 +10,18 @@ import PageLoader from 'components/UI/PageLoader/PageLoader';
 const ArchivedNote = lazy(() => import('./pages/ArchivedNote'));
 const LabelPage = lazy(() => import('./pages/LabelPage'));
 
+export interface UserObj {
+  displayName: string | null;
+  img: string | null;
+  email: string | null;
+  uid?: string;
+  updateProfile?: ((args: any | null) => void) | undefined;
+}
+export type UserObjType = UserObj | null;
+
 function App() {
   const [init, setInit] = useState(false);
-  const [userObj, setUserObj] = useState(null);
+  const [userObj, setUserObj] = useState<UserObjType>(null);
   let routes;
 
   useEffect(() => {
@@ -20,14 +29,13 @@ function App() {
       if (user) {
         setUserObj({
           displayName: user.displayName,
-          uid: user.uid,
-          updateProfile: (args) => user.updateProfile(args),
           img: user.photoURL,
           email: user.email,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
         });
-      } else {
-        setUserObj(null);
       }
+
       setInit(true);
     });
   }, []);

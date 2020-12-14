@@ -16,7 +16,7 @@ import { convertNoteToTodo } from 'shared/utility';
 import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
 
-const initialNote = {
+const INITIAL_NOTE = {
   title: '',
   content: '',
   bgColor: '#fff',
@@ -27,7 +27,7 @@ const initialNote = {
 };
 
 function InputField() {
-  const [note, setNote] = useState(initialNote);
+  const [note, setNote] = useState(INITIAL_NOTE);
   const { title, content, id, bgColor, isChecked, isPinned, labels } = note;
   const [showLabel, setShowLabel] = useState(false);
 
@@ -39,7 +39,7 @@ function InputField() {
   } = useClickOutside(false);
 
   const handleResetNote = useCallback(() => {
-    setNote({ ...initialNote });
+    setNote({ ...INITIAL_NOTE });
   }, []);
 
   const handleUpdateNote = useCallback(

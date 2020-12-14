@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LogoIcon from 'icons/logo.svg';
+import { capitalizeFirstLetter } from 'shared/utility';
 
 const LogoContainer = styled.a`
   display: flex;
@@ -17,7 +18,7 @@ const LogoImg = styled.img`
   padding-right: 0.4rem;
 `;
 
-const LogoText = styled.span`
+const LogoText = styled('span')<{ path: string }>`
   font-size: 2.2rem;
   line-height: 2.4rem;
   color: #5f6368;
@@ -25,13 +26,9 @@ const LogoText = styled.span`
   font-weight: ${(props) => (props.path ? '400' : '300')};
 `;
 
-function Logo(props) {
-  let path = props.location.pathname.slice(1);
+const Logo = ({ location }: RouteComponentProps) => {
+  let path: string = location?.pathname.slice(1)!;
   if (path === 'notes' || path === '') path = 'keep';
-
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
 
   return (
     <LogoContainer href="/">
@@ -41,6 +38,6 @@ function Logo(props) {
       </LogoText>
     </LogoContainer>
   );
-}
+};
 
-export default React.memo(withRouter(Logo));
+export default withRouter(Logo);

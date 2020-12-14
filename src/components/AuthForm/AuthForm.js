@@ -105,6 +105,7 @@ function AuthForm({ onClick }) {
 }
 
 AuthForm.propTypes = {
+  icon: PropTypes.object,
   onClick: PropTypes.func,
 };
 

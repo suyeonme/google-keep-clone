@@ -3,10 +3,11 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Tooltip from '@material-ui/core/Tooltip';
 import { authService } from 'fbase';
-import PropTypes from 'prop-types';
 
 import User from 'icons/user.svg';
 import { ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
+
+import { UserObj } from 'App';
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,15 +34,18 @@ const SignOutBtn = styled.button`
   text-decoration: underline;
 `;
 
-function Profile({ userObj }) {
-  const [showSignOut, setShowSignOut] = useState(false);
+interface ProfileProp {
+  userObj: UserObj;
+}
 
+const Profile = ({ userObj }: ProfileProp) => {
+  const [showSignOut, setShowSignOut] = useState(false);
   const { displayName, email, img } = userObj;
   const history = useHistory();
 
-  const handleClick = () => setShowSignOut(!showSignOut);
+  const handleClick = (): void => setShowSignOut(!showSignOut);
 
-  const handleSignOut = () => {
+  const handleSignOut = (): void => {
     authService.signOut();
     history.push('/');
   };
@@ -73,10 +77,6 @@ function Profile({ userObj }) {
   }
 
   return null;
-}
-
-Profile.propTypes = {
-  userObj: PropTypes.object,
 };
 
-export default React.memo(Profile);
+export default Profile;

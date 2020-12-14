@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 
 import plus from 'icons/plus.svg';
@@ -27,7 +26,10 @@ const PlusIcon = styled.div`
   background-size: 50%;
 `;
 
-export const TodoItemInput = styled.input`
+export const TodoItemInput = styled('input')<{
+  readOnly?: boolean;
+  addingTodo?: boolean;
+}>`
   width: 100%;
   height: 100%;
   outline: none;
@@ -41,11 +43,21 @@ export const TodoItemInput = styled.input`
   letter-spacing: ${(props) => props.addingTodo && '0.5px'};
 `;
 
-function TodoInput({ onAdd }) {
+interface Todo {
+  id: string;
+  todoItem: string;
+  isDone: boolean;
+}
+
+interface TodoInputProp {
+  onAdd: (todoItem: Todo) => void;
+}
+
+const TodoInput = ({ onAdd }: TodoInputProp) => {
   const [todoInput, setTodoInput] = useState('');
 
-  const handleChange = (e) => {
-    const newTodoItem = {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const newTodoItem: Todo = {
       id: uniqid(),
       todoItem: e.target.value,
       isDone: false,
@@ -56,7 +68,7 @@ function TodoInput({ onAdd }) {
   };
 
   return (
-    <Wrapper isFocus>
+    <Wrapper>
       <PlusIcon />
       <TodoItemInput
         autoFocus
@@ -67,10 +79,6 @@ function TodoInput({ onAdd }) {
       />
     </Wrapper>
   );
-}
-
-TodoInput.propTypes = {
-  onAdd: PropTypes.func.isRequired,
 };
 
-export default React.memo(TodoInput);
+export default TodoInput;

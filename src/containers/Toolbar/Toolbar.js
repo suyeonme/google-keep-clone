@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -71,7 +71,9 @@ function Toolbar({
   note,
 }) {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
+  const editableNote = useSelector((state) => state.notes.editableNote);
   const isArchived = window.location.pathname === '/archive' ? true : false;
+  const isEditable = editableNote ? true : false;
 
   const icons = [
     {
@@ -92,11 +94,13 @@ function Toolbar({
     },
   ];
 
-  const editableNote = useSelector((state) => state.notes.editableNote);
-  const isEditable = editableNote ? true : false;
+  const handleShowColorPalette = useCallback(() => {
+    setIsHoverColorPalette(true);
+  }, []);
 
-  const handleShowColorPalette = () => setIsHoverColorPalette(true);
-  const handleHideColorPalette = () => setIsHoverColorPalette(false);
+  const handleHideColorPalette = useCallback(() => {
+    setIsHoverColorPalette(false);
+  }, []);
 
   return (
     <ToolbarContainer hovered={onHover}>

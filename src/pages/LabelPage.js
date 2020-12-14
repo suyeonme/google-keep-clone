@@ -41,4 +41,4 @@ const LabelPage = ({ match }) => {
   return <Notes notes={notes} />;
 };
 
-export default React.memo(LabelPage);
+export default LabelPage;

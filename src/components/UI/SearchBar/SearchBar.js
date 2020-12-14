@@ -84,7 +84,6 @@ const SearchBar = () => {
   const { ref, isClickOutside: isClickForm } = useClickOutside(true);
 
   useEffect(() => {
-    // Prevent 'getSearchQuery' on initial rendering
     if (!isFirstRender) {
       const timeout = setTimeout(() => {
         dispatch(getSearchQuery(query));

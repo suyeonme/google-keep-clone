@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import Header from 'components/Layout/Header/Header';
 import Footer from 'components/Layout/Footer/Footer';
 import FlashMessage from 'components/UI/FlashMessage/FlashMessage';
+
+import { UserObjType } from 'App';
 
 const Container = styled.div`
   display: flex;
@@ -12,29 +13,28 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const Content = styled.div`
+const Content = styled('div')<{ userObj: UserObjType }>`
   flex-grow: 1;
   display: ${(props) => !props.userObj && 'flex'};
   align-items: ${(props) => !props.userObj && 'center'};
 `;
 
-function Layout(props) {
-  const { userObj } = props;
+interface LayoutProp {
+  userObj: UserObjType;
+  children: React.ReactNode;
+}
 
+const Layout = ({ userObj, children }: LayoutProp) => {
   return (
     <Container>
       <Content userObj={userObj}>
         <Header userObj={userObj} />
-        {props.children}
+        {children}
         <FlashMessage />
       </Content>
       <Footer />
     </Container>
   );
-}
-
-Layout.propTypes = {
-  userObj: PropTypes.object,
 };
 
 export default Layout;

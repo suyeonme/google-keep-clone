@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import Arrow from 'icons/arrow.svg';
 
@@ -9,7 +8,7 @@ const GreyLine = styled.div`
   margin: 5px 24px 14px 24px;
 `;
 
-const ArrowIcon = styled.div`
+const ArrowIcon = styled('div')<{ isNote: boolean | undefined }>`
   width: 20px;
   height: 20px;
   background: url(${Arrow}) center center no-repeat;
@@ -17,7 +16,7 @@ const ArrowIcon = styled.div`
   margin-left: ${(props) => (props.isNote ? '11px' : ' 24px')};
 `;
 
-const Title = styled.div`
+const Title = styled('div')<{ isNote: boolean | undefined }>`
   line-height: 1.5;
   letter-spacing: 0.00625em;
   color: #80868a;
@@ -31,7 +30,13 @@ const TitleContainer = styled.div`
   cursor: pointer;
 `;
 
-function CompletedTodo({ doneTaskCount, clicked, isNote }) {
+interface CompletedTodoProp {
+  doneTaskCount: number;
+  clicked?: () => void;
+  isNote?: boolean | undefined;
+}
+
+function CompletedTodo({ doneTaskCount, clicked, isNote }: CompletedTodoProp) {
   return (
     <div onClick={clicked}>
       <GreyLine />
@@ -42,11 +47,5 @@ function CompletedTodo({ doneTaskCount, clicked, isNote }) {
     </div>
   );
 }
-
-CompletedTodo.propTypes = {
-  doneTaskCount: PropTypes.number.isRequired,
-  clicked: PropTypes.func,
-  isNote: PropTypes.bool,
-};
 
 export default React.memo(CompletedTodo);
