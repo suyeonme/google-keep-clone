@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import update from 'immutability-helper';
@@ -10,8 +10,9 @@ import Draggable from 'components/Draggable/Draggable';
 import { convertTodoToNote } from 'shared/utility';
 import { editNote } from 'shared/firebase';
 
+import { Dispatcher } from 'shared/types';
 import { RootState } from 'store/reducers/index';
-import { Note } from 'components/Notes/Notes';
+import { InputFieldNote } from 'shared/types';
 
 const Wrapper = styled.ul`
   max-height: 223px;
@@ -26,19 +27,18 @@ const Container = styled.div`
 `;
 
 export type TodoItemID = string | number;
-export type noteID = string | undefined;
 
 export interface Todo {
-  id: string | number;
+  id: TodoItemID;
   todoItem: string;
   isDone: boolean;
 }
 
 interface TodoListProp {
+  id?: string;
   todoContent: Todo[];
-  id: noteID;
-  setNote: (note: object) => void; // Note
   isInputField: boolean;
+  setNote: Dispatcher<any>; // any
 }
 
 const TodoList = ({
@@ -65,14 +65,14 @@ const TodoList = ({
   );
 
   const handleDelete = useCallback(
-    (noteID: noteID, todoID: TodoItemID, todos: Todo[]): void => {
+    (noteID: string, todoID: TodoItemID, todos: Todo[]): void => {
       let newTodos: Todo[] = todos.filter((t: Todo) => t.id !== todoID);
       setTodos(newTodos);
       const value: string = convertTodoToNote(newTodos);
 
       if (isInputField) {
-        setNote((prev: Note) => ({ ...prev, content: value }));
-      } else if (noteID) {
+        setNote((prev: InputFieldNote) => ({ ...prev, content: value }));
+      } else {
         editNote(noteID, 'content', value);
       }
     },
@@ -80,12 +80,12 @@ const TodoList = ({
   );
 
   const handleBlur = useCallback(
-    (noteID: noteID, todos: Todo[] | undefined): void => {
+    (noteID: string | undefined, todos: Todo[] | undefined): void => {
       const value: string = convertTodoToNote(todos);
 
-      if (isInputField && noteID === '') {
-        setNote((prev: Note) => ({ ...prev, content: value }));
-      } else if (noteID) {
+      if (isInputField) {
+        setNote((prev: InputFieldNote) => ({ ...prev, content: value }));
+      } else {
         editNote(noteID, 'content', value);
       }
     },

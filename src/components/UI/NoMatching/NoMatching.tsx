@@ -10,7 +10,11 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const NoMatching = ({ text }) => {
+interface NoMatchingProp {
+  text: string;
+}
+
+const NoMatching = ({ text }: NoMatchingProp) => {
   return <Wrapper>{text}</Wrapper>;
 };
 

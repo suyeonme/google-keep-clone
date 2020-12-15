@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 
 import { clearEditableNote } from 'store/actions/notes';
+import { RootState } from 'store/reducers/index';
 
 const Overlay = styled.div`
   width: 100%;
@@ -32,8 +33,10 @@ const Overlay = styled.div`
 `;
 
 function Backdrop() {
-  const editableNote = useSelector((state) => state.notes.editableNote);
-  const isEditable = editableNote ? true : false;
+  const editableNote = useSelector(
+    (state: RootState) => state.notes.editableNote,
+  );
+  const isEditable: boolean = editableNote ? true : false;
   const dispatch = useDispatch();
 
   return (

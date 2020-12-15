@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import { removeLabelFromNote } from 'shared/firebase';
 import Tool from 'containers/Toolbar/Tool/Tool';
@@ -37,25 +36,35 @@ const Label = styled.label`
 }
 `;
 
-function NoteLabel({ labels, id, isInputField, onRemove }) {
+interface NoteLabelProp {
+  id: string | undefined;
+  labels: string[];
+  isInputField?: boolean;
+  onRemove: (label: string) => void;
+}
+
+const NoteLabel = ({ labels, id, isInputField, onRemove }: NoteLabelProp) => {
   const [isHover, setIsHover] = useState(false);
   const [hoveredLabel, sethoveredLabel] = useState('');
 
-  const handleHover = (label) => {
+  const handleHover = (label: string): void => {
     setIsHover(true);
     sethoveredLabel(label);
   };
 
-  const handleLeave = () => {
+  const handleLeave = (): void => {
     setIsHover(false);
     sethoveredLabel('');
   };
 
-  const handleRemove = useCallback(async (id, label) => {
-    removeLabelFromNote(id, label);
-  }, []);
+  const handleRemove = useCallback(
+    async (id: string, label: string): Promise<void> => {
+      removeLabelFromNote(id, label);
+    },
+    [],
+  );
 
-  const labelList = labels.map((label, i) => (
+  const labelList = labels.map((label: string, i: number) => (
     <Container
       key={i}
       onMouseEnter={() => handleHover(label)}
@@ -77,13 +86,6 @@ function NoteLabel({ labels, id, isInputField, onRemove }) {
     </Container>
   ));
   return <Wrapper>{labelList}</Wrapper>;
-}
-
-NoteLabel.propTypes = {
-  labels: PropTypes.array,
-  id: PropTypes.string,
-  onRemove: PropTypes.func,
-  isInputField: PropTypes.bool,
 };
 
 export default React.memo(NoteLabel);

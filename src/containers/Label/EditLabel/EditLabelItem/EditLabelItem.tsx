@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import Tool from 'containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
@@ -10,6 +9,8 @@ import plusIcon from 'icons/plus.svg';
 import deleteIcon from 'icons/close.svg';
 import trashIcon from 'icons/trash-can.svg';
 import penIcon from 'icons/pencil-fill.svg';
+
+import { LabelObj } from 'containers/Label/Label';
 
 const ItemContainer = styled.div`
   width: 100%;
@@ -28,17 +29,26 @@ const EditLabelInput = styled(TodoItemInput)`
   }
 `;
 
-function EditLabelItem({ label, labelCreator }) {
+interface EditLabelItemProp {
+  label?: LabelObj;
+  labelCreator?: boolean;
+}
+
+type ClickEvent =
+  | React.FocusEvent<HTMLDivElement>
+  | React.MouseEvent<HTMLDivElement, MouseEvent>;
+
+const EditLabelItem = ({ label, labelCreator }: EditLabelItemProp) => {
   const [isFocused, setIsFocused] = useState(false);
   const [enteredLabel, setEnteredLabel] = useState('');
 
-  const handleBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      setIsFocused(false);
-    }
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>): void => {
+    const target = e.currentTarget as HTMLElement;
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    if (!target.contains(relatedTarget)) setIsFocused(false);
   };
 
-  const handleClick = (e) => {
+  const handleClick = (e: ClickEvent): void => {
     e.preventDefault();
     setIsFocused(true);
   };
@@ -48,57 +58,53 @@ function EditLabelItem({ label, labelCreator }) {
   if (labelCreator) {
     return (
       <ItemContainer onFocus={handleClick} onBlur={handleBlur}>
-        <Tool
+        {/* <Tool
           bgImage={isFocused ? deleteIcon : plusIcon}
           title={isFocused ? 'Cancel' : 'Create Label'}
           clearInput={handleClearInput}
-        />
+        /> */}
         <EditLabelInput
           value={enteredLabel}
           placeholder="Create new label"
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
-        {isFocused && (
+        {/* {isFocused && (
           <Tool
-            bgImage={checkIcon}
-            newLabel={enteredLabel}
-            clearInput={handleClearInput}
-            title="Create Label"
-            editLabel
+          bgImage={checkIcon}
+          newLabel={enteredLabel}
+          clearInput={handleClearInput}
+          title="Create Label"
+          editLabel
           />
-        )}
+        )} */}
       </ItemContainer>
     );
   }
 
-  if (!labelCreator) {
+  if (!labelCreator && label) {
     return (
       <ItemContainer onClick={handleClick} onBlur={handleBlur}>
-        <Tool
-          bgImage={isFocused ? trashIcon : LabelIcon}
-          label={label}
-          title={isFocused ? 'Delete Label' : 'Label'}
-          editLabel
-        />
+        {/* <Tool
+        bgImage={isFocused ? trashIcon : LabelIcon}
+        label={label}
+        title={isFocused ? 'Delete Label' : 'Label'}
+        editLabel
+        /> */}
         <EditLabelInput
           defaultValue={label.name}
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
-        <Tool
-          bgImage={isFocused ? checkIcon : penIcon}
-          label={label}
-          newLabel={enteredLabel}
-          title="Rename Label"
-          editLabel
-        />
+        {/* <Tool
+        bgImage={isFocused ? checkIcon : penIcon}
+        label={label}
+        newLabel={enteredLabel}
+        title="Rename Label"
+        editLabel
+        /> */}
       </ItemContainer>
     );
   }
-}
-
-EditLabelItem.propTypes = {
-  label: PropTypes.object,
-  labelCreator: PropTypes.bool,
+  return null;
 };
 
 export default React.memo(EditLabelItem);

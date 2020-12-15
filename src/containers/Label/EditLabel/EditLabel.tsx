@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import EditLabelItem from 'containers/Label/EditLabel/EditLabelItem/EditLabelItem';
-import { Title } from 'containers/Label/Label';
+import { LabelObj, Title } from 'containers/Label/Label';
+
+import { RootState } from 'store/reducers/index';
+import { Dispatcher } from 'shared/types';
 
 const Overlay = styled.div`
   position: fixed;
@@ -30,11 +32,17 @@ const EditLabelContainer = styled.div`
   overflow-y: auto;
 `;
 
-function EditLabel({ showNav }) {
-  const labels = useSelector((state) => state.notes.labels);
+interface EditLabelProp {
+  showNav: Dispatcher<boolean>;
+}
+
+const EditLabel = ({ showNav }: EditLabelProp) => {
+  const labels: LabelObj[] = useSelector(
+    (state: RootState) => state.notes.labels,
+  );
 
   const handleClick = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       if (e.target !== e.currentTarget) return;
       showNav(false);
     },
@@ -44,18 +52,15 @@ function EditLabel({ showNav }) {
   return (
     <Overlay onClick={handleClick}>
       <EditLabelContainer>
-        <Title editLabel>Edit labels</Title>
+        {/* <Title editLabel>Edit labels</Title> */}
+        <Title>Edit labels</Title>
         <EditLabelItem labelCreator />
-        {labels.map((label) => (
+        {labels.map((label: LabelObj) => (
           <EditLabelItem key={label.name} label={label} />
         ))}
       </EditLabelContainer>
     </Overlay>
   );
-}
-
-EditLabel.propTypes = {
-  showNav: PropTypes.func,
 };
 
 export default EditLabel;

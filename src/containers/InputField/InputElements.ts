@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const InputContainer = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
@@ -9,7 +9,7 @@ export const InputContainer = styled.div`
   }
 `;
 
-export const InputForm = styled.form`
+export const Form = styled('form')<{ bgColor: string }>`
   position: relative;
   top: 56px;
   width: 40%;
@@ -38,7 +38,7 @@ export const InputForm = styled.form`
   }
 `;
 
-export const Input = styled.input`
+export const Input = styled('input')<{ isEditable?: boolean }>`
   width: 100%;
   border: none;
   outline: none;
@@ -56,7 +56,7 @@ export const Input = styled.input`
     `};
 `;
 
-export const InputTextArea = styled.textarea`
+export const TextArea = styled('textarea')<{ isEditable?: boolean }>`
   width: 100%;
   border: none;
   outline: none;

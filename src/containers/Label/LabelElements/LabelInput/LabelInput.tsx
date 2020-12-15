@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
 import Search from 'icons/search.svg';
+
+import { Dispatcher } from 'shared/types';
 
 const InputContainer = styled.div`
   position: relative;
@@ -25,22 +26,22 @@ const LabelItemInput = styled(TodoItemInput)`
   padding: 8px 12px;
 `;
 
-function LabelInput({ label, onChange }) {
+interface LabelInputProp {
+  label: string;
+  setLabel: Dispatcher<string>;
+}
+
+const LabelInput = ({ label, setLabel }: LabelInputProp) => {
   return (
     <InputContainer>
       <LabelItemInput
         placeholder="Enter label name"
         value={label}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => setLabel(e.target.value)}
       />
       <SearchIcon />
     </InputContainer>
   );
-}
-
-LabelInput.propTypes = {
-  label: PropTypes.array,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default React.memo(LabelInput);

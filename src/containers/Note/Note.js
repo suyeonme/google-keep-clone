@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { NoteTitle, NoteContent } from 'containers/Note/NoteElements';
 import NoteLayout from 'containers/Note/NoteLayout';
-import { Input, InputTextArea } from 'containers/InputField/InputElements';
+import { Input, TextArea } from 'containers/InputField/InputElements';
 import TodoList from 'components/TodoList/TodoList';
 import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
 import { convertNoteToTodo, highlightText } from 'shared/utility';
@@ -87,7 +87,7 @@ function Note({ note }) {
         {isChecked ? (
           <TodoList id={id} todoContent={() => convertNoteToTodo(content)} />
         ) : (
-          <InputTextArea
+          <TextArea
             name="content"
             placeholder="Note"
             autoComplete="off"

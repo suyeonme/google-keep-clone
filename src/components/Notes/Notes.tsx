@@ -4,18 +4,19 @@ import Note from 'containers/Note/Note';
 import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 
-interface NotesProp {
-  notes: Note[];
-}
-
 export interface Note {
-  id: string | undefined;
+  id: string;
   title: string;
   isChecked: boolean;
   isPinned: boolean;
   isArchived: boolean;
   bgColor: string;
   content: string;
+  labels: object[]; // string[] | object[];
+}
+
+interface NotesProp {
+  notes: Note[];
 }
 
 const Notes = ({ notes }: NotesProp) => {

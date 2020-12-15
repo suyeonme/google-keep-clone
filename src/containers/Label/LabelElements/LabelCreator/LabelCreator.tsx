@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import Plus from 'icons/plus.svg';
 import { addLabelToStore } from 'shared/firebase';
+
+import { Dispatcher } from 'shared/types';
 
 const Container = styled.div`
   display: flex;
@@ -30,15 +31,24 @@ const Description = styled.p`
   vertical-align: top;
 `;
 
-function LabelCreator({
+interface LabelCreator {
+  id: string;
+  label: string;
+  isInputField?: boolean;
+  addLabelToNote: (id: string, label: string) => void;
+  addLabelToInputField: (label: string) => void;
+  clearLabelInput: Dispatcher<string>;
+}
+
+const LabelCreator = ({
   id,
   label,
   isInputField,
   addLabelToNote,
   addLabelToInputField,
   clearLabelInput,
-}) {
-  const handleClick = (label) => {
+}: LabelCreator) => {
+  const handleClick = (label: string) => {
     if (isInputField) {
       addLabelToInputField(label);
       addLabelToStore(label);
@@ -56,15 +66,6 @@ function LabelCreator({
       </Description>
     </Container>
   );
-}
-
-LabelCreator.propTypes = {
-  id: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  isInputField: PropTypes.bool,
-  addLabelToNote: PropTypes.func,
-  addLabelToInputField: PropTypes.func,
-  clearLabelInput: PropTypes.func,
 };
 
 export default React.memo(LabelCreator);

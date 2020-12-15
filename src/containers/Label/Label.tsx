@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import {
   addLabelToStore,
@@ -13,7 +12,10 @@ import LabelInput from 'containers/Label/LabelElements/LabelInput/LabelInput';
 import LabelCreator from 'containers/Label/LabelElements/LabelCreator/LabelCreator';
 import { useClickOutside } from 'hooks/useClickOutside';
 
-const LabelContainer = styled.div`
+import { Dispatcher, InputFieldNote } from 'shared/types';
+import { RootState } from 'store/reducers';
+
+const LabelContainer = styled('div')<{ isEditableNote?: number }>`
   position: absolute;
   bottom: ${(props) => props.isEditableNote === 1 && '35px'};
   left: ${(props) => (props.isEditableNote ? '76px' : 0)};
@@ -28,7 +30,7 @@ const LabelContainer = styled.div`
     0 2px 6px 2px rgba(60, 64, 67, 0.149);
 `;
 
-export const Title = styled.h3`
+export const Title = styled('h3')<{ editLabel?: boolean }>`
   font-size: ${(props) => (props.editLabel ? '16px' : '14px')};
   padding: ${(props) => (props.editLabel ? '0' : ' 0 12px')};
   font-weight: ${(props) => (props.editLabel ? '500' : '400')};
@@ -41,7 +43,22 @@ const LabelItemContainer = styled.div`
   overflow-y: auto;
 `;
 
-function Label({
+export interface LabelObj {
+  id: string;
+  name: string;
+}
+
+interface LabelProp {
+  note: InputFieldNote;
+  isInputField?: boolean;
+  isEditableNote?: number;
+  setShowLabel: Dispatcher<boolean>;
+  onRemove: (label: string) => void;
+  onExpand: (val: boolean) => void;
+  addLabelToInputField: (label: string) => void;
+}
+
+const Label = ({
   isInputField,
   setShowLabel,
   note,
@@ -49,9 +66,9 @@ function Label({
   onExpand,
   addLabelToInputField,
   isEditableNote,
-}) {
+}: LabelProp) => {
   const [label, setLabel] = useState('');
-  const labels = useSelector((state) => state.notes.labels);
+  const labels = useSelector((state: RootState) => state.notes.labels);
   const { id } = note;
   const { ref, isClickOutside: isExpand } = useClickOutside(true);
 
@@ -60,15 +77,18 @@ function Label({
     if (!isExpand) setShowLabel(false);
   });
 
-  const handleChange = useCallback((label) => setLabel(label), []);
+  const handleChange = useCallback((l: string): void => setLabel(l), []);
 
-  const addLabelNote = useCallback(async (id, label) => {
-    addLabelToNote(id, label);
-  }, []);
+  const addLabelNote = useCallback(
+    async (id: string, label: string): Promise<void> => {
+      addLabelToNote(id, label);
+    },
+    [],
+  );
 
   const handleLabelToNote = useCallback(
-    async (id, label, type) => {
-      addLabelNote(id, label, type);
+    async (id: string, label: string): Promise<void> => {
+      addLabelNote(id, label);
       addLabelToStore(label);
     },
     [addLabelNote],
@@ -95,9 +115,11 @@ function Label({
 
   let labelList;
   let labelCreator;
-  const labelExist = labels.includes(label);
-  const existSubstrOfLable =
-    labels.filter((l) => label !== '' && l.name.includes(label)).length > 0;
+  const labelExist: boolean = labels.includes(label);
+
+  const existSubstrOfLable: boolean =
+    labels.filter((l: LabelObj) => label !== '' && l.name.includes(label))
+      .length > 0;
 
   if (label !== '') {
     if (labels.length === 0 && !labelExist) {
@@ -110,15 +132,15 @@ function Label({
 
     if (labels.length > 0 && existSubstrOfLable) {
       labelList = labels
-        .filter((l) => label === '' || l.name.includes(label))
-        .map((l, i) => (
+        .filter((l: LabelObj) => label === '' || l.name.includes(label))
+        .map((l: LabelObj, i: number) => (
           <LabelItem key={i} label={l.name} {...labelItemProps} />
         ));
     }
   }
 
   if (label === '' && labels.length > 0) {
-    labelList = labels.map((l, i) => (
+    labelList = labels.map((l: LabelObj, i: number) => (
       <LabelItem key={i} label={l.name} {...labelItemProps} />
     ));
   }
@@ -131,21 +153,11 @@ function Label({
       isEditableNote={isEditableNote}
     >
       <Title>Label note</Title>
-      <LabelInput value={label} onChange={handleChange} labelInput />
+      <LabelInput label={label} setLabel={setLabel} />
       <LabelItemContainer>{labelList}</LabelItemContainer>
       {labelCreator}
     </LabelContainer>
   );
-}
-
-Label.propTypes = {
-  isInputField: PropTypes.bool,
-  setShowLabel: PropTypes.func,
-  note: PropTypes.object,
-  onRemove: PropTypes.func,
-  onExpand: PropTypes.func,
-  addLabelToInputField: PropTypes.func,
-  isEditableNote: PropTypes.number,
 };
 
 export default React.memo(Label);

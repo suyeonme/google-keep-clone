@@ -1,22 +1,33 @@
 import React, { useState, useCallback } from 'react';
 
 import {
-  InputContainer,
-  InputForm,
+  Wrapper,
+  Form,
   Input,
-  InputTextArea,
+  TextArea,
 } from 'containers/InputField/InputElements';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import Toolbar from 'containers/Toolbar/Toolbar';
 import { ToolbarContainer } from 'containers/Note/NoteElements';
-import Label from 'containers/Label/Label';
+import Label, { Title } from 'containers/Label/Label';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import TodoList from 'components/TodoList/TodoList';
 import { convertNoteToTodo } from 'shared/utility';
 import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
 
-const INITIAL_NOTE = {
+import { Todo } from 'components/TodoList/TodoList';
+
+import { InputFieldNote } from 'shared/types';
+
+type ToggleTool = 'isChecked' | 'isPinned';
+type UpdateNoteEvent =
+  | React.ChangeEvent<HTMLTextAreaElement>
+  | React.ChangeEvent<HTMLInputElement>;
+
+const INITIAL_NOTE: InputFieldNote = {
+  // id: undefined,
+  id: '',
   title: '',
   content: '',
   bgColor: '#fff',
@@ -26,8 +37,8 @@ const INITIAL_NOTE = {
   labels: [],
 };
 
-function InputField() {
-  const [note, setNote] = useState(INITIAL_NOTE);
+const InputField = () => {
+  const [note, setNote] = useState<InputFieldNote>(INITIAL_NOTE);
   const { title, content, id, bgColor, isChecked, isPinned, labels } = note;
   const [showLabel, setShowLabel] = useState(false);
 
@@ -38,12 +49,12 @@ function InputField() {
     setIsClickOutside,
   } = useClickOutside(false);
 
-  const handleResetNote = useCallback(() => {
+  const handleResetNote = useCallback((): void => {
     setNote({ ...INITIAL_NOTE });
   }, []);
 
   const handleUpdateNote = useCallback(
-    (e) => {
+    (e: UpdateNoteEvent): void => {
       const { name, value } = e.target;
       setNote({ ...note, [name]: value });
     },
@@ -51,37 +62,39 @@ function InputField() {
   );
 
   const handleToggle = useCallback(
-    (toolType) => {
+    (toolType: ToggleTool): void => {
       setNote({ ...note, [toolType]: !note[toolType] });
     },
     [note],
   );
 
   const handleChangeColor = useCallback(
-    (color) => {
+    (color: string): void => {
       setNote({ ...note, bgColor: color });
     },
     [note],
   );
 
+  type NoteLabel = string[] | object[];
+
   const handleAddLabel = useCallback(
-    async (label) => {
-      const newLabel = labels.concat(label);
-      setNote({ ...note, labels: newLabel });
+    async (label: string): Promise<void> => {
+      const newLabels: string[] = labels.concat(label);
+      setNote({ ...note, labels: newLabels });
     },
     [labels, note],
   );
 
   const handleRemoveLabel = useCallback(
-    (label) => {
-      const newLabels = labels.filter((l) => l !== label);
+    (label: string): void => {
+      const newLabels: string[] = labels.filter((l: string) => l !== label);
       setNote({ ...note, labels: newLabels });
     },
     [note, labels],
   );
 
   const handleAddNote = useCallback(
-    async (note) => {
+    async (note): Promise<void> => {
       if (title !== '' && content !== '') {
         handleResetNote();
         setShowLabel(false);
@@ -95,15 +108,15 @@ function InputField() {
   // TEXT FIELD
   let textField;
   if (isChecked) {
-    const todos = convertNoteToTodo(content);
+    const todos: Todo[] = convertNoteToTodo(content);
     textField = <TodoList todoContent={todos} setNote={setNote} isInputField />;
   }
 
   if (!isChecked) {
     textField = (
-      <InputTextArea
+      <TextArea
         name="content"
-        rows="3"
+        rows={3}
         placeholder="Take a note..."
         value={content}
         onChange={handleUpdateNote}
@@ -112,8 +125,8 @@ function InputField() {
   }
 
   return (
-    <InputContainer>
-      <InputForm ref={ref} bgColor={bgColor} onSubmit={handleAddNote}>
+    <Wrapper>
+      <Form ref={ref} bgColor={bgColor} onSubmit={handleAddNote}>
         <Input
           name="title"
           value={title}
@@ -121,26 +134,26 @@ function InputField() {
           autoComplete="off"
           onChange={handleUpdateNote}
         />
-        <Tool
+        {/* <Tool
           inputPin
           isInputField
           title="Pin Note"
           isPinned={isPinned}
           onToggle={handleToggle}
-        />
+        /> */}
         {isExpand && (
           <div>
             {textField}
             {labels.length > 0 && (
               <NoteLabel
                 isInputField
-                id={id}
+                id={id && id}
                 labels={labels}
                 onRemove={handleRemoveLabel}
               />
             )}
             <ToolbarContainer>
-              <Toolbar
+              {/* <Toolbar
                 id={id}
                 isInputField
                 onHover={true}
@@ -148,7 +161,7 @@ function InputField() {
                 onToggle={handleToggle}
                 onClick={handleChangeColor}
                 setShowLabel={setShowLabel}
-              />
+              /> */}
               {showLabel && (
                 <Label
                   note={note}
@@ -162,9 +175,9 @@ function InputField() {
             </ToolbarContainer>
           </div>
         )}
-      </InputForm>
-    </InputContainer>
+      </Form>
+    </Wrapper>
   );
-}
+};
 
 export default React.memo(InputField);

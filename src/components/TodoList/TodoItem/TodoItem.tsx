@@ -6,7 +6,7 @@ import dragIcon from 'icons/drag-indicator.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
 
-import { Todo, TodoItemID, noteID } from 'components/TodoList/TodoList';
+import { Todo, TodoItemID } from 'components/TodoList/TodoList';
 
 export const Wrapper = styled('li')<{ isEditable: boolean }>`
   display: flex;
@@ -50,11 +50,11 @@ interface TodoItemProp {
   isEditable?: boolean;
   readOnly?: boolean;
   inputFocus?: boolean;
-  noteID?: noteID;
+  noteID?: string;
   onCheck?: (id: TodoItemID) => void;
-  onDelete?: (noteID: noteID, todoID: TodoItemID, todos: Todo[]) => void;
+  onDelete?: (noteID: string, todoID: TodoItemID, todos: Todo[]) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, id: TodoItemID) => void;
-  onBlur?: (noteID: noteID, todos: Todo[] | undefined) => void;
+  onBlur?: (noteID: string | undefined, todos: Todo[] | undefined) => void;
 }
 
 interface isHover {

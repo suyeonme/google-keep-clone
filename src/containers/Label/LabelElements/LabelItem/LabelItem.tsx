@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import { Checkbox } from 'components/TodoList/TodoItem/TodoItem';
+
+import { InputFieldNote } from 'shared/types';
 
 const LabelItemContainer = styled.div`
   background: inherit;
@@ -23,7 +24,18 @@ const Label = styled.label`
   width: 100%;
 `;
 
-function LabelItem({
+interface LabelItemProp {
+  label: string;
+  id: string;
+  note: InputFieldNote;
+  onRemove: (label: string) => void;
+  isInputField?: boolean;
+  removeLabelFromNote: (id: string, label: string) => void;
+  addLabelToNote: (id: string, label: string) => void;
+  addLabelToInputField: (label: string) => void;
+}
+
+const LabelItem = ({
   label,
   id,
   note,
@@ -32,10 +44,11 @@ function LabelItem({
   removeLabelFromNote,
   addLabelToNote,
   addLabelToInputField,
-}) {
-  const isChecked = note.labels.includes(label);
+}: LabelItemProp) => {
+  const isChecked: boolean =
+    note.labels.length > 0 && note.labels.includes(label);
 
-  const handleChange = (id, label) => {
+  const handleChange = (id: string, label: string) => {
     if (isInputField) {
       isChecked ? onRemove(label) : addLabelToInputField(label);
     } else {
@@ -54,17 +67,6 @@ function LabelItem({
       <Label htmlFor={label + id}>{label}</Label>
     </LabelItemContainer>
   );
-}
-
-LabelItem.propTypes = {
-  label: PropTypes.string,
-  id: PropTypes.string,
-  isInputField: PropTypes.bool,
-  note: PropTypes.object,
-  onRemove: PropTypes.func,
-  addLabelToNote: PropTypes.func,
-  removeLabelFromNote: PropTypes.func,
-  addLabelToInputField: PropTypes.func,
 };
 
 export default React.memo(LabelItem);

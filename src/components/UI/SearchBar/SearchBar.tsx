@@ -10,7 +10,7 @@ import useFirstRender from 'hooks/useFirstRender';
 import { useClickOutside } from 'hooks/useClickOutside';
 import { ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
 
-const Form = styled.form`
+const Form = styled('form')<{ isshow: number }>`
   position: relative;
   width: 40%;
   height: 4.5rem;
@@ -28,7 +28,7 @@ const Form = styled.form`
   }
 `;
 
-const Input = styled.input`
+const Input = styled('input')<{ isshow: number }>`
   width: 100%;
   height: 100%;
   padding: 0 5rem;
@@ -51,7 +51,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
+const Button = styled('button')<{ isshow: number }>`
   position: absolute;
   left: 1.7rem;
   top: 50%;
@@ -80,7 +80,7 @@ const SearchBar = () => {
   const [showInput, setShowInput] = useState(false);
   const dispatch = useDispatch();
 
-  const isFirstRender = useFirstRender();
+  const isFirstRender: boolean = useFirstRender();
   const { ref, isClickOutside: isClickForm } = useClickOutside(true);
 
   useEffect(() => {
@@ -95,12 +95,15 @@ const SearchBar = () => {
 
   useEffect(() => {
     // Hide search form when click outside form on mobile
-    const isMobile = /Mobi/i.test(window.navigator.userAgent);
+    const isMobile: boolean = /Mobi/i.test(window.navigator.userAgent);
     if (isMobile && !isClickForm) setShowInput(false);
   }, [isClickForm]);
 
-  const handleChange = (e) => setQuery(e.target.value);
-  const handleClick = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    setQuery(e.target.value);
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void => {
     e.preventDefault();
     setShowInput(!showInput);
   };

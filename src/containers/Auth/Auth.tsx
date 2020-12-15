@@ -3,10 +3,10 @@ import { authService, firebaseInstance } from 'fbase';
 
 import AuthForm from 'components/AuthForm/AuthForm';
 
-function Auth() {
-  const handleClickSocial = async (e) => {
+const Auth = () => {
+  const handleClickSocial = async (e: any) => {
     const { name } = e.target;
-    let provider;
+    let provider: any;
 
     if (name === 'google') {
       provider = new firebaseInstance.auth.GoogleAuthProvider();
@@ -18,6 +18,6 @@ function Auth() {
   };
 
   return <AuthForm onClick={handleClickSocial} />;
-}
+};
 
 export default Auth;
