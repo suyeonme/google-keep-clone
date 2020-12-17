@@ -26,6 +26,10 @@ const Title = styled.div`
   color: #5f6368;
   margin-left: 135px;
   padding: 8px;
+
+  @media (max-width: 576px) {
+    margin-left: 75px;
+  }
 `;
 
 interface BreakPoints {

@@ -88,7 +88,11 @@ const InputField = () => {
   );
 
   const handleAddNote = useCallback(
-    async (note): Promise<void> => {
+    async (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      note: Note,
+    ): Promise<void> => {
+      e.preventDefault();
       if (title !== '' && content !== '') {
         handleResetNote();
         setShowLabel(false);
@@ -120,7 +124,7 @@ const InputField = () => {
 
   return (
     <Wrapper>
-      <Form ref={ref} bgColor={bgColor} onSubmit={handleAddNote}>
+      <Form ref={ref} bgColor={bgColor}>
         <Input
           name="title"
           value={title}
@@ -151,7 +155,7 @@ const InputField = () => {
                 id={id}
                 isInputField
                 onHover={true}
-                onAddNote={() => handleAddNote(note)}
+                onAddNote={(e) => handleAddNote(e, note)}
                 onToggle={handleToggle}
                 onClick={handleChangeColor}
                 setShowLabel={setShowLabel}

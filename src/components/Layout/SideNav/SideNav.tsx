@@ -26,6 +26,21 @@ const NavContainer = styled('nav')<{ ishover: boolean }>`
   }
 `;
 
+const Overlay = styled.div`
+  display: none;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 7.2rem;
+  left: 0;
+  z-index: 1;
+
+  @media (max-width: 1024px) {
+    display: block;
+  }
+`;
+
 interface SideNavProp {
   ishover: boolean;
   onHover: (bool: boolean) => void;
@@ -39,6 +54,7 @@ const SideNav = ({ ishover, onHover }: SideNavProp) => {
       onMouseLeave={() => onHover(false)}
     >
       <SideNavItems ishover={ishover} openNav={onHover} />
+      {ishover && <Overlay onClick={() => onHover(false)} />}
     </NavContainer>
   );
 };

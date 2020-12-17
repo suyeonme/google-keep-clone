@@ -19,7 +19,6 @@ const Message = styled.div`
   color: white;
   background: #323232;
   border-radius: 3px;
-  margin: 10px;
   padding: 15px 20px;
   transition: all 0.3s ease-out;
 
@@ -39,12 +38,19 @@ const Message = styled.div`
     opacity: 0;
     transform: translateY(100px);
   }
+
+  @media (max-width: 576px) {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
 `;
 
 const CloseBtn = styled.div`
   font-size: 30px;
   cursor: pointer;
   padding: 5px;
+  margin: 0;
 `;
 
 function FlashMessage() {

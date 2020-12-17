@@ -47,8 +47,8 @@ const Note = ({ note }: NoteProp) => {
       const event = e.target as HTMLElement;
 
       if (
-        event.nodeName !== 'BUTTON' &&
-        event.id !== 'checkbox' &&
+        event.tagName !== 'BUTTON' &&
+        event.getAttribute('type') !== 'checkbox' &&
         event.id !== 'label' &&
         !editableNoteID
       ) {

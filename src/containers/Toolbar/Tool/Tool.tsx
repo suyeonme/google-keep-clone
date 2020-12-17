@@ -102,8 +102,9 @@ const Tool = ({
         deleteTodo && deleteTodo();
         break;
       case 'Archive':
-        if (isInputField) {
+        if (isInputField && onToggle) {
           showMessage('Note archived');
+          onToggle('isArchived');
         } else if (id) {
           showMessage('Note archived');
           changeNoteToArchives(id);

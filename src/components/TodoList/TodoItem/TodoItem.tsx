@@ -47,11 +47,12 @@ interface TodoItemProp {
   todo: Todo;
   todos?: Todo[];
   isEditable?: boolean;
+  isDoneTodo?: boolean;
   readOnly?: boolean;
   inputFocus?: boolean;
   noteID?: string;
   onCheck?: (id: TodoItemID) => void;
-  onDelete?: (noteID: string, todoID: TodoItemID, todos: Todo[]) => void;
+  onDelete?: (todoID: TodoItemID, todos: Todo[], noteID?: string) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, id: TodoItemID) => void;
   onBlur?: (noteID: string | undefined, todos: Todo[] | undefined) => void;
 }
@@ -64,6 +65,7 @@ interface isHover {
 const TodoItem = ({
   todo,
   isEditable,
+  isDoneTodo,
   onCheck,
   onDelete,
   inputFocus,
@@ -89,7 +91,11 @@ const TodoItem = ({
   };
 
   const handleDeleteTodo = () => {
-    if (todos && onDelete && noteID) onDelete(noteID, id, todos);
+    if (todos && onDelete && noteID) {
+      onDelete(id, todos, noteID);
+    } else if (todos && onDelete) {
+      onDelete(id, todos, undefined);
+    }
   };
 
   return (
@@ -98,10 +104,11 @@ const TodoItem = ({
       onMouseEnter={() => handleOnMouseOver(id)}
       onMouseLeave={() => handleOnMouseLeave(id)}
     >
-      {isEditable && hoverID === id && onHover && <DragIcon alt="drag icon" />}
+      {isEditable && hoverID === id && onHover && !isDoneTodo && (
+        <DragIcon alt="drag icon" />
+      )}
       <Checkbox
         type="checkbox"
-        id="checkbox"
         checked={isDone}
         onChange={onCheck ? () => onCheck(id) : undefined}
       />

@@ -25,18 +25,20 @@ export const updateAllLabels = (
 };
 
 export const convertNoteToTodo = (content: string): Todo[] | undefined => {
-  return content
-    .split(/\n/g)
-    .reduce((todos: Todo[], todo: string, i: number) => {
-      return [
-        ...todos,
-        {
-          id: i,
-          todoItem: todo,
-          isDone: false,
-        },
-      ];
-    }, []);
+  if (content !== '') {
+    return content
+      .split(/\n/g)
+      .reduce((todos: Todo[], todo: string, i: number) => {
+        return [
+          ...todos,
+          {
+            id: i,
+            todoItem: todo,
+            isDone: false,
+          },
+        ];
+      }, []);
+  }
 };
 
 export const convertTodoToNote = (

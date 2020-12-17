@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 export type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 export type TodoItemID = string | number;
-export type ToggleTool = 'isChecked' | 'isPinned';
+export type ToggleTool = 'isChecked' | 'isPinned' | 'isArchived';
 
 export interface Note {
   id?: string;

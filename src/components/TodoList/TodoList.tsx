@@ -46,7 +46,7 @@ const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
 
   const handleAdd = useCallback(
     (newTodo: Todo): void => {
-      if (todos === undefined) {
+      if (typeof todos === 'undefined') {
         setTodos([newTodo]);
       } else {
         setTodos([...todos, newTodo]);
@@ -56,14 +56,14 @@ const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
   );
 
   const handleDelete = useCallback(
-    (noteID: string, todoID: TodoItemID, todos: Todo[]): void => {
+    (todoID: TodoItemID, todos: Todo[], noteID?: string): void => {
       let newTodos: Todo[] = todos.filter((t: Todo) => t.id !== todoID);
       setTodos(newTodos);
       const value: string | undefined = convertTodoToNote(newTodos);
 
       if (isInputField && setNote) {
         setNote((prev: Note) => ({ ...prev, content: value }));
-      } else if (value) {
+      } else if (value && noteID) {
         editNote(noteID, 'content', value);
       }
     },
@@ -105,13 +105,13 @@ const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
 
   const handleMove = useCallback(
     (dragIndex: number, hoverIndex: number): void => {
-      const dragCard: Todo = todos[dragIndex];
+      const dragTodo: Todo = todos[dragIndex];
 
       setTodos(
         update(todos, {
           $splice: [
             [dragIndex, 1], // Delete
-            [hoverIndex, 0, dragCard], // Add
+            [hoverIndex, 0, dragTodo], // Add
           ],
         }),
       );
@@ -130,15 +130,15 @@ const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
   if (isInputField) {
     if (todos.length === 0) {
       const todoList = todos.map((todo, i, todoArr) => (
-        <Draggable handleMove={handleMove} index={i} id={todo.id} key={todo.id}>
-          <TodoItem
-            isEditable
-            todo={todo}
-            inputFocus={i === todoArr.length - 1}
-            readOnly={isEditable}
-            {...todoItemProps}
-          />
-        </Draggable>
+        // <Draggable handleMove={handleMove} index={i} id={todo.id} key={todo.id}>
+        <TodoItem
+          isEditable
+          todo={todo}
+          inputFocus={i === todoArr.length - 1}
+          readOnly={isEditable}
+          {...todoItemProps}
+        />
+        // </Draggable>
       ));
       return (
         <>
@@ -194,9 +194,10 @@ const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
         <TodoItem
           todo={todo}
           noteID={id}
-          isEditable
           key={todo.id}
           {...todoItemProps}
+          isEditable
+          isDoneTodo
         />
       ));
 
