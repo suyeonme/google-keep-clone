@@ -1,7 +1,13 @@
-import * as actionTypes from '../actions/actionsTypes';
-import { updateObject } from '../../shared/utility';
+import {
+  ViewState,
+  ViewTypes,
+  ShowFlashMessage,
+  GetSearchQuery,
+} from 'store/actions/view';
+import * as actionTypes from 'store/actions/view';
+import { updateObject } from 'shared/utility';
 
-const initialState = {
+const initialState: ViewState = {
   flashMessage: {
     showMessage: false,
     message: '',
@@ -9,7 +15,7 @@ const initialState = {
   searchQuery: '',
 };
 
-const showFlashMessage = (state, action) => {
+const showFlashMessage = (state: ViewState, action: ShowFlashMessage) => {
   const updatedState = {
     ...state,
     flashMessage: {
@@ -20,11 +26,11 @@ const showFlashMessage = (state, action) => {
   return updateObject(state, updatedState);
 };
 
-const hideFlashMessage = (state) => {
+const hideFlashMessage = (state: ViewState) => {
   return updateObject(state, initialState);
 };
 
-const getSearchQuery = (state, action) => {
+const getSearchQuery = (state: ViewState, action: GetSearchQuery) => {
   const updatedState = {
     ...state,
     searchQuery: action.payload,
@@ -32,12 +38,12 @@ const getSearchQuery = (state, action) => {
   return updateObject(state, updatedState);
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: ViewTypes) => {
   switch (action.type) {
     case actionTypes.SHOW_FLASH_MESSAGE:
       return showFlashMessage(state, action);
     case actionTypes.HIDE_FLASH_MESSAGE:
-      return hideFlashMessage(state, action);
+      return hideFlashMessage(state);
     case actionTypes.GET_SEARCH_QUERY:
       return getSearchQuery(state, action);
     default:

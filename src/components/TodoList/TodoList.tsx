@@ -10,7 +10,7 @@ import Draggable from 'components/Draggable/Draggable';
 import { convertTodoToNote } from 'shared/utility';
 import { editNote } from 'shared/firebase';
 
-import { Dispatcher } from 'shared/types';
+import { Dispatcher, TodoItemID, Todo } from 'shared/types';
 import { RootState } from 'store/reducers/index';
 import { Note } from 'shared/types';
 
@@ -25,14 +25,6 @@ const Container = styled.div`
   height: 100%;
   overflow: auto;
 `;
-
-export type TodoItemID = string | number;
-
-export interface Todo {
-  id: TodoItemID;
-  todoItem: string;
-  isDone: boolean;
-}
 
 interface TodoListProp {
   todoContent: Todo[];

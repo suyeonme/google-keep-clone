@@ -3,7 +3,6 @@ import React from 'react';
 import Note from 'containers/Note/Note';
 import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
-
 import { Note as NoteObj } from 'shared/types';
 
 interface NotesProp {

@@ -25,7 +25,7 @@ function App() {
   let routes;
 
   useEffect(() => {
-    authService.onAuthStateChanged((user) => {
+    const unsubscribe = authService.onAuthStateChanged((user) => {
       if (user) {
         setUserObj({
           displayName: user.displayName,
@@ -34,10 +34,13 @@ function App() {
           uid: user.uid,
           updateProfile: (args) => user.updateProfile(args),
         });
+      } else {
+        // When user signout
+        setUserObj(null);
       }
-
       setInit(true);
     });
+    return () => unsubscribe();
   }, []);
 
   if (userObj) {

@@ -6,7 +6,6 @@ import { authService } from 'fbase';
 
 import User from 'icons/user.svg';
 import { ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
-
 import { UserObj } from 'App';
 
 const Wrapper = styled.div`
@@ -46,8 +45,15 @@ const Profile = ({ userObj }: ProfileProp) => {
   const handleClick = (): void => setShowSignOut(!showSignOut);
 
   const handleSignOut = (): void => {
-    authService.signOut();
-    history.push('/');
+    authService
+      .signOut()
+      .then(() => {
+        console.log('User has been signout');
+        history.push('/');
+      })
+      .catch((error) => {
+        console.log('Error:' + error);
+      });
   };
 
   if (displayName && img) {

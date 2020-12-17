@@ -11,7 +11,7 @@ const Wrapper = styled('div')<{ isdragging: number }>`
 interface DraggableProps {
   handleMove: (dragIndex: number, hoverIndex: number) => void;
   index: number;
-  id: number | string; ////
+  id: number | string;
   children: React.ReactNode;
 }
 

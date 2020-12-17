@@ -15,11 +15,8 @@ import TodoList from 'components/TodoList/TodoList';
 import { convertNoteToTodo } from 'shared/utility';
 import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
+import { Todo, ToggleTool, Note } from 'shared/types';
 
-import { Todo } from 'components/TodoList/TodoList';
-import { Note } from 'shared/types';
-
-export type ToggleTool = 'isChecked' | 'isPinned';
 type UpdateNoteEvent =
   | React.ChangeEvent<HTMLTextAreaElement>
   | React.ChangeEvent<HTMLInputElement>;

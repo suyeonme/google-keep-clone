@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import EditLabelItem from 'containers/Label/EditLabel/EditLabelItem/EditLabelItem';
-import { LabelObj, Title } from 'containers/Label/Label';
-
+import { Title } from 'containers/Label/Label';
 import { RootState } from 'store/reducers/index';
-import { Dispatcher } from 'shared/types';
+import { Dispatcher, LabelObj } from 'shared/types';
 
 const Overlay = styled.div`
   position: fixed;
@@ -52,11 +51,10 @@ const EditLabel = ({ showNav }: EditLabelProp) => {
   return (
     <Overlay onClick={handleClick}>
       <EditLabelContainer>
-        {/* <Title editLabel>Edit labels</Title> */}
-        <Title>Edit labels</Title>
+        <Title editLabel>Edit labels</Title>
         <EditLabelItem labelCreator />
-        {labels.map((label: LabelObj) => (
-          <EditLabelItem key={label.name} label={label} />
+        {labels.map((label: LabelObj, i: number) => (
+          <EditLabelItem key={i} label={label} />
         ))}
       </EditLabelContainer>
     </Overlay>

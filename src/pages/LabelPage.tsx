@@ -20,7 +20,7 @@ const LabelPage = ({ match }: RouteComponentProps<MatchParams>) => {
   const searchedNotes = searchNote(query, notes);
 
   useEffect(() => {
-    const subscribe = dbService.collection('notes').onSnapshot((snapshot) => {
+    const unsubscribe = dbService.collection('notes').onSnapshot((snapshot) => {
       const labeledNotes = snapshot.docs
         .map((doc) => ({
           id: doc.id,
@@ -33,11 +33,9 @@ const LabelPage = ({ match }: RouteComponentProps<MatchParams>) => {
           labels: doc.data().labels,
         }))
         .filter((note: Note) => note.labels.includes(labelName));
-
       setNotes(labeledNotes);
     });
-
-    return () => subscribe();
+    return () => unsubscribe();
   }, [labelName]);
 
   if (query !== '' && searchedNotes.length > 0) {

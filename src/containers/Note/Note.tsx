@@ -11,7 +11,7 @@ import { editNote, removeNoteFromStore } from 'shared/firebase';
 
 import { Note as NoteObj } from 'shared/types';
 import { RootState } from 'store/reducers';
-import { Todo } from 'components/TodoList/TodoList';
+import { Todo } from 'shared/types';
 
 interface NoteProp {
   note: NoteObj;

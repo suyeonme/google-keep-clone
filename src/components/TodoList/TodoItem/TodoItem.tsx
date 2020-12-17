@@ -5,8 +5,7 @@ import deleteIcon from 'icons/close.svg';
 import dragIcon from 'icons/drag-indicator.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
-
-import { Todo, TodoItemID } from 'components/TodoList/TodoList';
+import { TodoItemID, Todo } from 'shared/types';
 
 export const Wrapper = styled('li')<{ isEditable: boolean }>`
   display: flex;

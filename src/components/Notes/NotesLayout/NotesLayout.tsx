@@ -28,7 +28,7 @@ const Title = styled.div`
   padding: 8px;
 `;
 
-interface breakPoints {
+interface BreakPoints {
   default: number;
   1200: number;
   1024: number;
@@ -41,7 +41,7 @@ interface NotesLayout {
   title?: string;
 }
 
-const BREAK_POINTS: breakPoints = {
+const BREAK_POINTS: BreakPoints = {
   default: 5,
   1200: 4,
   1024: 3,

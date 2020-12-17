@@ -3,7 +3,17 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
-const firebaseConfig = {
+interface FirebaseConfig {
+  apiKey?: string;
+  authDomain?: string;
+  databaseURL?: string;
+  projectId?: string;
+  storageBucket?: string;
+  messagingSenderId?: string;
+  appId?: string;
+}
+
+const firebaseConfig: FirebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_DATABASE_URL,
@@ -16,7 +26,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const firebaseInstance = firebase;
-
 export const authService = firebase.auth();
 export const dbService = firebase.firestore();
 export const storageService = firebase.storage();

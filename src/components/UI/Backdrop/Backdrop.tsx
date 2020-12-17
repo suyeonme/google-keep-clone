@@ -32,7 +32,7 @@ const Overlay = styled.div`
   }
 `;
 
-function Backdrop() {
+const Backdrop = () => {
   const editableNote = useSelector(
     (state: RootState) => state.notes.editableNote,
   );
@@ -49,6 +49,6 @@ function Backdrop() {
       <Overlay onClick={() => dispatch(clearEditableNote())} />
     </CSSTransition>
   );
-}
+};
 
 export default Backdrop;

@@ -11,7 +11,7 @@ import LabelItem from 'containers/Label/LabelElements/LabelItem/LabelItem';
 import LabelInput from 'containers/Label/LabelElements/LabelInput/LabelInput';
 import LabelCreator from 'containers/Label/LabelElements/LabelCreator/LabelCreator';
 import { useClickOutside } from 'hooks/useClickOutside';
-import { Dispatcher, Note } from 'shared/types';
+import { Dispatcher, Note, LabelObj } from 'shared/types';
 import { RootState } from 'store/reducers';
 
 const LabelContainer = styled('div')<{ isEditableNote?: number }>`
@@ -41,11 +41,6 @@ const LabelItemContainer = styled.div`
   max-height: 168px;
   overflow-y: auto;
 `;
-
-export interface LabelObj {
-  id: string;
-  name: string;
-}
 
 interface LabelProp {
   note: Note;

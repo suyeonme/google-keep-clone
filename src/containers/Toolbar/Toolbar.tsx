@@ -9,9 +9,8 @@ import CheckboxIcon from 'icons/checkbox.svg';
 import ArchiveIcon from 'icons/archive.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import ColorPalette from 'components/ColorPalette/ColorPalette';
-import { Dispatcher } from 'shared/types';
+import { Dispatcher, ToggleTool } from 'shared/types';
 import { RootState } from 'store/reducers';
-import { ToggleTool } from 'containers/InputField/InputField';
 
 const ToolbarContainer = styled('div')<{ isHover: boolean }>`
   width: 100%;

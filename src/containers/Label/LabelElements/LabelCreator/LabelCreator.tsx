@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import Plus from 'icons/plus.svg';
 import { addLabelToStore } from 'shared/firebase';
-
 import { Dispatcher } from 'shared/types';
 
 const Container = styled.div`

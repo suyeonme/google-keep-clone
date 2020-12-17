@@ -8,7 +8,7 @@ const GreyLine = styled.div`
   margin: 5px 24px 14px 24px;
 `;
 
-const ArrowIcon = styled('div')<{ isNote: boolean | undefined }>`
+const ArrowIcon = styled('div')<{ isNote?: boolean }>`
   width: 20px;
   height: 20px;
   background: url(${Arrow}) center center no-repeat;
@@ -16,7 +16,7 @@ const ArrowIcon = styled('div')<{ isNote: boolean | undefined }>`
   margin-left: ${(props) => (props.isNote ? '11px' : ' 24px')};
 `;
 
-const Title = styled('div')<{ isNote: boolean | undefined }>`
+const Title = styled('div')<{ isNote?: boolean }>`
   line-height: 1.5;
   letter-spacing: 0.00625em;
   color: #80868a;

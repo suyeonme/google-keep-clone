@@ -69,7 +69,7 @@ const ArchivedNote = () => {
   const searchedNotes = searchNote(query, archives);
 
   useEffect(() => {
-    const subscribe = dbService.collection('notes').onSnapshot((snapshot) => {
+    const unsubscribe = dbService.collection('notes').onSnapshot((snapshot) => {
       const archivedNotes: Note[] = snapshot.docs
         .map((doc) => ({
           id: doc.id,
@@ -83,11 +83,9 @@ const ArchivedNote = () => {
           // ...doc.data(),
         }))
         .filter((note) => note.isArchived === true);
-
       setArchives(archivedNotes);
     });
-
-    return () => subscribe();
+    return () => unsubscribe();
   }, []);
 
   if (archives.length === 0) {

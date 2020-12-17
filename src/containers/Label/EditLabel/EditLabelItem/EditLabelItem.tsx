@@ -1,16 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import Tool from 'containers/Toolbar/Tool/Tool';
-import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
 import LabelIcon from 'icons/label-fill.svg';
 import checkIcon from 'icons/check.svg';
 import plusIcon from 'icons/plus.svg';
 import deleteIcon from 'icons/close.svg';
 import trashIcon from 'icons/trash-can.svg';
 import penIcon from 'icons/pencil-fill.svg';
-
-import { LabelObj } from 'containers/Label/Label';
+import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
+import Tool from 'containers/Toolbar/Tool/Tool';
+import { LabelObj } from 'shared/types';
 
 const ItemContainer = styled.div`
   width: 100%;

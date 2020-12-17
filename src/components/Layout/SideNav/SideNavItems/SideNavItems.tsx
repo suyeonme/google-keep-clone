@@ -4,15 +4,14 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { dbService } from 'fbase';
 
-import { initLabels } from 'store/actions/notes';
 import EditLabel from 'containers/Label/EditLabel/EditLabel';
 import lightIcon from 'icons/light.svg';
 import archiveIcon from 'icons/archive.svg';
 import penIcon from 'icons/pen.svg';
 import labelIcon from 'icons/label.svg';
-
 import { RootState } from 'store/reducers/index';
-import { LabelObj as Label } from 'containers/Label/Label';
+import { LabelObj as Label } from 'shared/types';
+import { initLabels } from 'store/actions/notes';
 
 const Link = styled(NavLink)<{ ishover?: string }>`
   height: 100%;
@@ -74,7 +73,7 @@ interface NavMenuProp {
   openNav: (bool: boolean) => void;
 }
 
-interface ItemProp {
+interface NavItemProp {
   image: string;
   link: string;
   title?: string;
@@ -87,26 +86,29 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dbService.collection('labels').onSnapshot((snapshot) => {
-      const labels = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      dispatch(initLabels(labels));
-    });
+    const unsubscribe = dbService
+      .collection('labels')
+      .onSnapshot((snapshot) => {
+        const labels = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          name: doc.data().name,
+          // ...doc.data(),
+        }));
+        dispatch(initLabels(labels));
+      });
+    return () => unsubscribe();
   }, [dispatch]);
 
   let labelIcons;
   let navIcons;
-  const labelItems: ItemProp[] = labels.map((label: Label) => {
+  const labelItems: NavItemProp[] = labels.map((label: Label) => {
     return {
       image: labelIcon,
       title: label.name,
       link: `/label/${label.name}`,
     };
   });
-  const navItems: ItemProp[] = [
+  const navItems: NavItemProp[] = [
     { image: lightIcon, title: 'Notes', link: '/' },
     { image: archiveIcon, title: 'Archive', link: '/archive' },
     { image: penIcon, title: 'Edit labels', link: '' },
@@ -118,7 +120,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
   };
 
   if (ishover) {
-    labelIcons = labelItems.map((label: ItemProp) => (
+    labelIcons = labelItems.map((label: NavItemProp) => (
       <Item key={label.title}>
         <Link to={label.link} exact={true} ishover={ishover.toString()}>
           <IconContainer bgImage={label.image} />
@@ -127,7 +129,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
       </Item>
     ));
 
-    navIcons = navItems.map((icon: ItemProp) => {
+    navIcons = navItems.map((icon: NavItemProp) => {
       if (icon.link !== '') {
         return (
           <Item key={icon.title}>
@@ -151,7 +153,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
   }
 
   if (!ishover) {
-    labelIcons = labelItems.map((label: ItemProp) => (
+    labelIcons = labelItems.map((label: NavItemProp) => (
       <Item key={label.link}>
         <Link to={label.link} exact={true}>
           <IconContainer bgImage={label.image} />
@@ -159,7 +161,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
       </Item>
     ));
 
-    navIcons = navItems.map((icon: ItemProp) => {
+    navIcons = navItems.map((icon: NavItemProp) => {
       if (icon.link !== '') {
         return (
           <Item key={icon.image}>

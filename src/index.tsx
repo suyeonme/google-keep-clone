@@ -11,7 +11,8 @@ import thunk from 'redux-thunk';
 import rootReducer from './store/reducers';
 import './index.css';
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancer =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 
 ReactDom.render(

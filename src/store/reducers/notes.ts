@@ -1,13 +1,23 @@
-import * as actionTypes from '../actions/actionsTypes';
-import { updateObject, updateAllLabels } from '../../shared/utility';
+import {
+  NotesState,
+  NotesTypes,
+  InitNotes,
+  InitLabels,
+  GetEditableNote,
+  ClearEditableNote,
+  RemoveLabel,
+  RenameLabel,
+} from 'store/actions/notes';
+import * as actionTypes from 'store/actions/notes';
+import { updateObject, updateAllLabels } from 'shared/utility';
 
-const initialState = {
+const initialState: NotesState = {
   notes: [],
   labels: [],
   editableNote: null,
 };
 
-const initNotes = (state, action) => {
+const initNotes = (state: NotesState, action: InitNotes) => {
   const notes = {
     ...state,
     notes: action.payload,
@@ -15,15 +25,15 @@ const initNotes = (state, action) => {
   return updateObject(state, notes);
 };
 
-const initLabels = (state, action) => {
+const initLabels = (state: NotesState, action: InitLabels) => {
   const labels = {
     ...state,
-    labels: action.labels,
+    labels: action.payload,
   };
   return updateObject(state, labels);
 };
 
-const getEditableNote = (state, action) => {
+const getEditableNote = (state: NotesState, action: GetEditableNote) => {
   const updatedNotes = {
     ...state,
     editableNote: action.payload,
@@ -31,7 +41,7 @@ const getEditableNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const clearEditableNote = (state, action) => {
+const clearEditableNote = (state: NotesState, action: ClearEditableNote) => {
   const updatedNotes = {
     ...state,
     editableNote: null,
@@ -39,8 +49,10 @@ const clearEditableNote = (state, action) => {
   return updateObject(state, updatedNotes);
 };
 
-const removeLabel = (state, action) => {
-  const newLabels = state.labels.filter((label) => label.name !== action.label);
+const removeLabel = (state: NotesState, action: RemoveLabel) => {
+  const newLabels = state.labels.filter(
+    (label) => label.name !== action.payload,
+  );
 
   const updatedState = {
     ...state,
@@ -50,20 +62,19 @@ const removeLabel = (state, action) => {
   return updateObject(state, updatedState);
 };
 
-const renameLabel = (state, action) => {
+const renameLabel = (state: NotesState, action: RenameLabel) => {
   const oldLabel = action.oldLabel;
   const newLabel = action.newLabel;
 
   const newNotes = updateAllLabels(state.notes, oldLabel, newLabel);
-  const newArchives = updateAllLabels(state.archives, oldLabel, newLabel);
+  // Check
   const newLabels = state.labels.map((label) =>
-    label === oldLabel ? newLabel : label,
+    label.name === oldLabel ? newLabel : label,
   );
 
   const updatedLabels = {
     ...state,
     notes: newNotes,
-    archives: newArchives,
     labels: newLabels,
   };
 
@@ -71,7 +82,7 @@ const renameLabel = (state, action) => {
 };
 
 // REDUCER
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: NotesTypes) => {
   switch (action.type) {
     case actionTypes.INIT_NOTES:
       return initNotes(state, action);

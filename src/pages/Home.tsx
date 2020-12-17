@@ -14,7 +14,6 @@ import { Note } from 'shared/types';
 
 const Container = styled.div`
   position: relative;
-  ${'' /* z-index: -1; */}
 `;
 
 function Home() {
@@ -26,14 +25,22 @@ function Home() {
   const searchedNotes = searchNote(query, notes);
 
   useEffect(() => {
-    dbService.collection('notes').onSnapshot((snapshot) => {
+    const unsubscribe = dbService.collection('notes').onSnapshot((snapshot) => {
       const noteArr = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        title: doc.data().title,
+        isChecked: doc.data().isChecked,
+        isPinned: doc.data().isPinned,
+        isArchived: doc.data().isArchived,
+        bgColor: doc.data().bgColor,
+        content: doc.data().content,
+        labels: doc.data().labels,
+        // ...doc.data(),
       }));
 
       dispatch(initNotes(noteArr));
     });
+    return () => unsubscribe();
   }, [dispatch]);
 
   if (query !== '' && searchedNotes.length > 0) {
