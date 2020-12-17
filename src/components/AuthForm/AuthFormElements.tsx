@@ -66,7 +66,7 @@ export const SubmitBtn = styled.input`
   cursor: pointer;
 `;
 
-export const IconContainer = styled.div`
+export const IconContainer = styled('div')<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor};
   width: 33px;
   height: 33px;

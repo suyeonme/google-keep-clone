@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import LabelIcon from 'icons/label.svg';
 import TranshCanIcon from 'icons/trash-can.svg';
@@ -10,15 +9,18 @@ import CheckboxIcon from 'icons/checkbox.svg';
 import ArchiveIcon from 'icons/archive.svg';
 import Tool from 'containers/Toolbar/Tool/Tool';
 import ColorPalette from 'components/ColorPalette/ColorPalette';
+import { Dispatcher } from 'shared/types';
+import { RootState } from 'store/reducers';
+import { ToggleTool } from 'containers/InputField/InputField';
 
-const ToolbarContainer = styled.div`
+const ToolbarContainer = styled('div')<{ isHover: boolean }>`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2px;
   line-height: 0;
-  opacity: ${(props) => (props.hovered ? 1 : 0)};
+  opacity: ${(props) => (props.isHover ? 1 : 0)};
   transition: opacity 0.3s ease-out;
 
   @media (max-width: 1024px) {
@@ -56,7 +58,25 @@ const ToolContaienr = styled.div`
   }
 `;
 
-function Toolbar({
+interface ToolbarProp {
+  id?: string | undefined;
+  onHover: boolean;
+  onAddNote?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onToggle?: (noteProperty: ToggleTool) => void;
+  onClick?: (color: string) => void;
+  isInputField?: boolean;
+  setShowLabel: Dispatcher<boolean>;
+  onDelete?: (id: string) => void;
+  isChecked?: boolean;
+  onClose?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+interface Icon {
+  icon: string;
+  title: string;
+}
+
+const Toolbar = ({
   id,
   onHover,
   onAddNote,
@@ -64,18 +84,19 @@ function Toolbar({
   onClick,
   isInputField,
   setShowLabel,
-  labels,
   onDelete,
   isChecked,
   onClose,
-  note,
-}) {
+}: ToolbarProp) => {
   const [isHoverColorPalette, setIsHoverColorPalette] = useState(false);
-  const editableNote = useSelector((state) => state.notes.editableNote);
-  const isArchived = window.location.pathname === '/archive' ? true : false;
-  const isEditable = editableNote ? true : false;
+  const editableNote = useSelector(
+    (state: RootState) => state.notes.editableNote,
+  );
+  const isArchived: boolean =
+    window.location.pathname === '/archive' ? true : false;
+  const isEditable: boolean = editableNote ? true : false;
 
-  const icons = [
+  const icons: Icon[] = [
     {
       icon: PaintIcon,
       title: 'Change Color',
@@ -94,35 +115,33 @@ function Toolbar({
     },
   ];
 
-  const handleShowColorPalette = useCallback(() => {
+  const handleShowColorPalette = useCallback((): void => {
     setIsHoverColorPalette(true);
   }, []);
 
-  const handleHideColorPalette = useCallback(() => {
+  const handleHideColorPalette = useCallback((): void => {
     setIsHoverColorPalette(false);
   }, []);
 
   return (
-    <ToolbarContainer hovered={onHover}>
+    <ToolbarContainer isHover={onHover}>
       <ToolContaienr>
-        {icons.map((icon, i) => (
+        {icons.map((icon) => (
           <Tool
-            key={i}
+            key={icon.title}
             id={id}
             title={icon.title}
             bgImage={icon.icon}
-            labels={labels}
             showPalette={
-              icon.title === 'Change Color' ? handleShowColorPalette : null
+              icon.title === 'Change Color' ? handleShowColorPalette : undefined
             }
             hidePalette={
-              icon.title === 'Change Color' ? handleHideColorPalette : null
+              icon.title === 'Change Color' ? handleHideColorPalette : undefined
             }
             onToggle={onToggle}
             setShowLabel={setShowLabel}
             isInputField={isInputField}
             isChecked={isChecked}
-            note={note}
           />
         ))}
         {!isInputField && (
@@ -142,25 +161,11 @@ function Toolbar({
           isInputField={isInputField}
           onUnHover={handleHideColorPalette}
           onHover={handleShowColorPalette}
-          onClick={onClick}
+          onClick={onClick ? onClick : undefined}
         />
       )}
     </ToolbarContainer>
   );
-}
-
-Toolbar.propTypes = {
-  id: PropTypes.string,
-  onHover: PropTypes.bool.isRequired,
-  onAddNote: PropTypes.func,
-  onToggle: PropTypes.func,
-  onClick: PropTypes.func,
-  isInputField: PropTypes.bool,
-  setShowLabel: PropTypes.func,
-  labels: PropTypes.array,
-  onDelete: PropTypes.func,
-  onClose: PropTypes.func,
-  isChecked: PropTypes.bool,
 };
 
 export default React.memo(Toolbar);

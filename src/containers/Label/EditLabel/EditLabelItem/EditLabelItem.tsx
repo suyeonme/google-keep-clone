@@ -53,30 +53,30 @@ const EditLabelItem = ({ label, labelCreator }: EditLabelItemProp) => {
     setIsFocused(true);
   };
 
-  const handleClearInput = useCallback(() => setEnteredLabel(''), []);
+  const handleClearInput = useCallback((): void => setEnteredLabel(''), []);
 
   if (labelCreator) {
     return (
       <ItemContainer onFocus={handleClick} onBlur={handleBlur}>
-        {/* <Tool
+        <Tool
           bgImage={isFocused ? deleteIcon : plusIcon}
           title={isFocused ? 'Cancel' : 'Create Label'}
           clearInput={handleClearInput}
-        /> */}
+        />
         <EditLabelInput
           value={enteredLabel}
           placeholder="Create new label"
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
-        {/* {isFocused && (
+        {isFocused && (
           <Tool
-          bgImage={checkIcon}
-          newLabel={enteredLabel}
-          clearInput={handleClearInput}
-          title="Create Label"
-          editLabel
+            bgImage={checkIcon}
+            newLabel={enteredLabel}
+            clearInput={handleClearInput}
+            title="Create Label"
+            editLabel
           />
-        )} */}
+        )}
       </ItemContainer>
     );
   }
@@ -84,23 +84,23 @@ const EditLabelItem = ({ label, labelCreator }: EditLabelItemProp) => {
   if (!labelCreator && label) {
     return (
       <ItemContainer onClick={handleClick} onBlur={handleBlur}>
-        {/* <Tool
-        bgImage={isFocused ? trashIcon : LabelIcon}
-        label={label}
-        title={isFocused ? 'Delete Label' : 'Label'}
-        editLabel
-        /> */}
+        <Tool
+          bgImage={isFocused ? trashIcon : LabelIcon}
+          label={label}
+          title={isFocused ? 'Delete Label' : 'Label'}
+          editLabel
+        />
         <EditLabelInput
           defaultValue={label.name}
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
-        {/* <Tool
-        bgImage={isFocused ? checkIcon : penIcon}
-        label={label}
-        newLabel={enteredLabel}
-        title="Rename Label"
-        editLabel
-        /> */}
+        <Tool
+          bgImage={isFocused ? checkIcon : penIcon}
+          label={label}
+          newLabel={enteredLabel}
+          title="Rename Label"
+          editLabel
+        />
       </ItemContainer>
     );
   }

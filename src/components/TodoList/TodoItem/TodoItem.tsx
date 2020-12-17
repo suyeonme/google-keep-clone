@@ -89,6 +89,10 @@ const TodoItem = ({
     if (isEditable) setIsHover({ hoverID: id, onHover: false });
   };
 
+  const handleDeleteTodo = () => {
+    if (todos && onDelete && noteID) onDelete(noteID, id, todos);
+  };
+
   return (
     <Wrapper
       isEditable
@@ -110,14 +114,13 @@ const TodoItem = ({
         onBlur={onBlur ? () => onBlur(noteID, todos) : undefined}
         onChange={onChange ? (e) => onChange(e, id) : undefined}
       />
-      {/* {isEditable && hoverID === id && onHover && (
-          <Tool
-            isEditable
-            title="Delete Todo"
-            bgImage={deleteIcon}
-            deleteTodo={onDelete && todos ? () => onDelete(noteID, id, todos) : undefined}
-          />
-        )} */}
+      {isEditable && hoverID === id && onHover && (
+        <Tool
+          title="Delete Todo"
+          bgImage={deleteIcon}
+          deleteTodo={handleDeleteTodo}
+        />
+      )}
     </Wrapper>
   );
 };

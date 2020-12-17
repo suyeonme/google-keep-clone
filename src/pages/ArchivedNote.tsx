@@ -7,6 +7,8 @@ import Archive from 'icons/archive.svg';
 import Notes from 'components/Notes/Notes';
 import { searchNote } from 'shared/utility';
 import NoMatching from 'components/UI/NoMatching/NoMatching';
+import { RootState } from 'store/reducers';
+import { Note } from 'shared/types';
 
 const ArchiveIcon = styled.div`
   width: 95px;
@@ -61,17 +63,24 @@ const Container = styled.div`
   }
 `;
 
-function ArchivedNote() {
-  const [archives, setArchives] = useState([]);
-  const query = useSelector((state) => state.view.searchQuery);
+const ArchivedNote = () => {
+  const [archives, setArchives] = useState<Note[]>([]);
+  const query = useSelector((state: RootState) => state.view.searchQuery);
   const searchedNotes = searchNote(query, archives);
 
   useEffect(() => {
     const subscribe = dbService.collection('notes').onSnapshot((snapshot) => {
-      const archivedNotes = snapshot.docs
+      const archivedNotes: Note[] = snapshot.docs
         .map((doc) => ({
           id: doc.id,
-          ...doc.data(),
+          title: doc.data().title,
+          isChecked: doc.data().isChecked,
+          isPinned: doc.data().isPinned,
+          isArchived: doc.data().isArchived,
+          bgColor: doc.data().bgColor,
+          content: doc.data().content,
+          labels: doc.data().labels,
+          // ...doc.data(),
         }))
         .filter((note) => note.isArchived === true);
 
@@ -99,6 +108,6 @@ function ArchivedNote() {
   }
 
   return <Notes notes={archives} />;
-}
+};
 
 export default ArchivedNote;

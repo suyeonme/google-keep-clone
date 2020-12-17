@@ -9,7 +9,7 @@ import {
 import Tool from 'containers/Toolbar/Tool/Tool';
 import Toolbar from 'containers/Toolbar/Toolbar';
 import { ToolbarContainer } from 'containers/Note/NoteElements';
-import Label, { Title } from 'containers/Label/Label';
+import Label from 'containers/Label/Label';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import TodoList from 'components/TodoList/TodoList';
 import { convertNoteToTodo } from 'shared/utility';
@@ -17,17 +17,14 @@ import { addNoteToStore } from 'shared/firebase';
 import { useClickOutside } from 'hooks/useClickOutside';
 
 import { Todo } from 'components/TodoList/TodoList';
+import { Note } from 'shared/types';
 
-import { InputFieldNote } from 'shared/types';
-
-type ToggleTool = 'isChecked' | 'isPinned';
+export type ToggleTool = 'isChecked' | 'isPinned';
 type UpdateNoteEvent =
   | React.ChangeEvent<HTMLTextAreaElement>
   | React.ChangeEvent<HTMLInputElement>;
 
-const INITIAL_NOTE: InputFieldNote = {
-  // id: undefined,
-  id: '',
+const INITIAL_NOTE: Note = {
   title: '',
   content: '',
   bgColor: '#fff',
@@ -38,7 +35,7 @@ const INITIAL_NOTE: InputFieldNote = {
 };
 
 const InputField = () => {
-  const [note, setNote] = useState<InputFieldNote>(INITIAL_NOTE);
+  const [note, setNote] = useState<Note>(INITIAL_NOTE);
   const { title, content, id, bgColor, isChecked, isPinned, labels } = note;
   const [showLabel, setShowLabel] = useState(false);
 
@@ -108,7 +105,7 @@ const InputField = () => {
   // TEXT FIELD
   let textField;
   if (isChecked) {
-    const todos: Todo[] = convertNoteToTodo(content);
+    const todos: Todo[] | undefined = convertNoteToTodo(content);
     textField = <TodoList todoContent={todos} setNote={setNote} isInputField />;
   }
 
@@ -134,13 +131,13 @@ const InputField = () => {
           autoComplete="off"
           onChange={handleUpdateNote}
         />
-        {/* <Tool
+        <Tool
           inputPin
           isInputField
           title="Pin Note"
           isPinned={isPinned}
           onToggle={handleToggle}
-        /> */}
+        />
         {isExpand && (
           <div>
             {textField}
@@ -153,7 +150,7 @@ const InputField = () => {
               />
             )}
             <ToolbarContainer>
-              {/* <Toolbar
+              <Toolbar
                 id={id}
                 isInputField
                 onHover={true}
@@ -161,7 +158,7 @@ const InputField = () => {
                 onToggle={handleToggle}
                 onClick={handleChangeColor}
                 setShowLabel={setShowLabel}
-              /> */}
+              />
               {showLabel && (
                 <Label
                   note={note}

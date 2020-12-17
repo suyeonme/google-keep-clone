@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { authService } from 'fbase';
 
 import Github from 'icons/github.svg';
@@ -18,7 +17,23 @@ import {
   SocialLogInTitle,
 } from 'components/AuthForm/AuthFormElements';
 
-const SocialIcon = ({ icon, onClick }) => {
+interface Icon {
+  title: string;
+  img: string;
+  bgColor: string;
+  name: string;
+}
+
+interface SocialIconProp {
+  icon: Icon;
+  onClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
+
+interface AuthFormProp {
+  onClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
+
+const SocialIcon = ({ icon, onClick }: SocialIconProp) => {
   const { bgColor, img, title, name } = icon;
 
   return (
@@ -28,24 +43,26 @@ const SocialIcon = ({ icon, onClick }) => {
   );
 };
 
-function AuthForm({ onClick }) {
+const AuthForm = ({ onClick }: AuthFormProp) => {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' });
   const [newAccount, setNewAccout] = useState(true);
   const [error, setError] = useState('');
   const { email, password } = userInfo;
 
-  const socialIcons = [
+  const socialIcons: Icon[] = [
     { title: 'Google', img: Google, bgColor: '#3B5998', name: 'google' },
     { title: 'Github', img: Github, bgColor: '#211F1F', name: 'github' },
   ];
-  const handleToggle = () => setNewAccout((prev) => !prev);
+  const handleToggle = (): void => setNewAccout((prev: boolean) => !prev);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
 
     try {
@@ -102,11 +119,6 @@ function AuthForm({ onClick }) {
       </Form>
     </Container>
   );
-}
-
-AuthForm.propTypes = {
-  icon: PropTypes.object,
-  onClick: PropTypes.func,
 };
 
 export default React.memo(AuthForm);

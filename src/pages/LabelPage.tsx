@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { dbService } from 'fbase';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Notes from 'components/Notes/Notes';
 import { searchNote } from 'shared/utility';
 import NoMatching from 'components/UI/NoMatching/NoMatching';
+import { RootState } from 'store/reducers';
+import { Note } from 'shared/types';
 
-const LabelPage = ({ match }) => {
-  const {
-    params: { labelName },
-  } = match;
+interface MatchParams {
+  labelName: string;
+}
 
-  const [notes, setNotes] = useState([]);
-  const query = useSelector((state) => state.view.searchQuery);
+const LabelPage = ({ match }: RouteComponentProps<MatchParams>) => {
+  const { labelName } = match.params;
+  const [notes, setNotes] = useState<Note[]>([]);
+  const query = useSelector((state: RootState) => state.view.searchQuery);
   const searchedNotes = searchNote(query, notes);
 
   useEffect(() => {
@@ -20,9 +24,15 @@ const LabelPage = ({ match }) => {
       const labeledNotes = snapshot.docs
         .map((doc) => ({
           id: doc.id,
-          ...doc.data(),
+          title: doc.data().title,
+          isChecked: doc.data().isChecked,
+          isPinned: doc.data().isPinned,
+          isArchived: doc.data().isArchived,
+          bgColor: doc.data().bgColor,
+          content: doc.data().content,
+          labels: doc.data().labels,
         }))
-        .filter((note) => note.labels.includes(labelName));
+        .filter((note: Note) => note.labels.includes(labelName));
 
       setNotes(labeledNotes);
     });

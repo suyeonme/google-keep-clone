@@ -9,16 +9,19 @@ import styled from 'styled-components';
 import { searchNote } from 'shared/utility';
 import NoMatching from 'components/UI/NoMatching/NoMatching';
 
+import { RootState } from 'store/reducers';
+import { Note } from 'shared/types';
+
 const Container = styled.div`
   position: relative;
   ${'' /* z-index: -1; */}
 `;
 
 function Home() {
-  const notes = useSelector((state) => state.notes.notes).filter(
-    (note) => note.isArchived === false,
+  const notes = useSelector((state: RootState) => state.notes.notes).filter(
+    (note: Note) => note.isArchived === false,
   );
-  const query = useSelector((state) => state.view.searchQuery);
+  const query = useSelector((state: RootState) => state.view.searchQuery);
   const dispatch = useDispatch();
   const searchedNotes = searchNote(query, notes);
 

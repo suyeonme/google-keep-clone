@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const useClickOutside = (initialValue) => {
+export const useClickOutside = (initialValue: boolean) => {
   const [isClickOutside, setIsClickOutside] = useState(initialValue);
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
 
-  const handleClickOutside = (e) => {
+  const handleClickOutside = (e: any) => {
     if (ref.current && !ref.current.contains(e.target)) {
       setIsClickOutside(false);
     } else {

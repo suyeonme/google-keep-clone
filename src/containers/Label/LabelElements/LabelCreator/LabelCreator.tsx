@@ -32,11 +32,11 @@ const Description = styled.p`
 `;
 
 interface LabelCreator {
-  id: string;
+  id?: string;
   label: string;
   isInputField?: boolean;
   addLabelToNote: (id: string, label: string) => void;
-  addLabelToInputField: (label: string) => void;
+  addLabelToInputField?: (label: string) => void;
   clearLabelInput: Dispatcher<string>;
 }
 
@@ -49,10 +49,10 @@ const LabelCreator = ({
   clearLabelInput,
 }: LabelCreator) => {
   const handleClick = (label: string) => {
-    if (isInputField) {
+    if (isInputField && addLabelToInputField) {
       addLabelToInputField(label);
       addLabelToStore(label);
-    } else {
+    } else if (id) {
       addLabelToNote(id, label);
       clearLabelInput('');
     }

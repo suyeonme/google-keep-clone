@@ -40,7 +40,7 @@ interface NoteLabelProp {
   id: string | undefined;
   labels: string[];
   isInputField?: boolean;
-  onRemove: (label: string) => void;
+  onRemove?: (label: string) => void;
 }
 
 const NoteLabel = ({ labels, id, isInputField, onRemove }: NoteLabelProp) => {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Checkbox } from 'components/TodoList/TodoItem/TodoItem';
 
-import { InputFieldNote } from 'shared/types';
+import { Note } from 'shared/types';
 
 const LabelItemContainer = styled.div`
   background: inherit;
@@ -26,13 +26,13 @@ const Label = styled.label`
 
 interface LabelItemProp {
   label: string;
-  id: string;
-  note: InputFieldNote;
-  onRemove: (label: string) => void;
+  id?: string;
+  note: Note;
+  onRemove?: (label: string) => void;
   isInputField?: boolean;
   removeLabelFromNote: (id: string, label: string) => void;
   addLabelToNote: (id: string, label: string) => void;
-  addLabelToInputField: (label: string) => void;
+  addLabelToInputField?: (label: string) => void;
 }
 
 const LabelItem = ({
@@ -48,10 +48,10 @@ const LabelItem = ({
   const isChecked: boolean =
     note.labels.length > 0 && note.labels.includes(label);
 
-  const handleChange = (id: string, label: string) => {
-    if (isInputField) {
+  const handleChange = (id: string | undefined, label: string) => {
+    if (isInputField && onRemove && addLabelToInputField) {
       isChecked ? onRemove(label) : addLabelToInputField(label);
-    } else {
+    } else if (id) {
       isChecked ? removeLabelFromNote(id, label) : addLabelToNote(id, label);
     }
   };

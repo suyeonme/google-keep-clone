@@ -12,7 +12,10 @@ const popup = keyframes`
     }
 `;
 
-export const NoteContainer = styled.div`
+export const NoteContainer = styled('div')<{
+  clicked: number;
+  bgColor: string;
+}>`
   position: relative;
   border-radius: 8px;
   border: 1px solid rgba(66, 66, 66, 0.2);

@@ -4,33 +4,27 @@ import Note from 'containers/Note/Note';
 import NotesLayout from 'components/Notes/NotesLayout/NotesLayout';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 
-export interface Note {
-  id: string;
-  title: string;
-  isChecked: boolean;
-  isPinned: boolean;
-  isArchived: boolean;
-  bgColor: string;
-  content: string;
-  labels: object[]; // string[] | object[];
-}
+import { Note as NoteObj } from 'shared/types';
 
 interface NotesProp {
-  notes: Note[];
+  notes: NoteObj[];
 }
 
 const Notes = ({ notes }: NotesProp) => {
-  const isPinned = notes.filter((note: Note) => note.isPinned).length > 0;
-  const noteArr = notes.map((note: Note) => <Note key={note.id} note={note} />);
+  const isPinned: boolean =
+    notes.filter((note: NoteObj) => note.isPinned).length > 0;
+  const noteArr = notes.map((note: NoteObj) => (
+    <Note key={note.id} note={note} />
+  ));
 
   if (isPinned) {
     const pinnedNotes = notes
-      .filter((note: Note) => note.isPinned)
-      .map((note: Note) => <Note key={note.id} note={note} />);
+      .filter((note: NoteObj) => note.isPinned)
+      .map((note: NoteObj) => <Note key={note.id} note={note} />);
 
     const otherNotes = notes
-      .filter((note: Note) => !note.isPinned)
-      .map((note: Note) => <Note key={note.id} note={note} />);
+      .filter((note: NoteObj) => !note.isPinned)
+      .map((note: NoteObj) => <Note key={note.id} note={note} />);
 
     return (
       <>

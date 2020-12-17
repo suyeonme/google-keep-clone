@@ -4,7 +4,7 @@
 > Google keep is a note-taking service.
 
 I tried to clone the details of an actual Google Keep application.
-By developing this app, I focused on basic concepts of react, a functional component, and its ecosystem. And I tried to optimize its performance and write clean and simple code as much as I could.
+By developing this app, I focused on basic concepts of react and typescript, a functional component, and its ecosystem. And I tried to optimize its performance and write clean and simple code.
 
 <br>
 
@@ -22,17 +22,18 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 
 ## 💫 Features
 
-- Custom note (color, pin, archive, label, todo list)
-- CRUD of note and label
+- Custom note (color, pin, archive, label, todo list).
+- CRUD of note and label in real time.
 - Filtering of note.
-- Draggable todo item
-- Social login (email, google, github)
+- Draggable todo item.
+- Social login (email, google, github).
 
 <br>
 
 ## Tech and libraries
 
 - React (create-react-app)
+- Typescript
 - Redux
 - Redux-thunk
 - Firebase
@@ -107,9 +108,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Todo
 
 - Save "isDone" property of a todo item in order to save checked value of a checkbox.
-- Update label from all notes when edit a global label
+- Update label from all notes when edit a global label.
 
 ## Improvements
 
 - Optimize rendering.
-- Implement typescript

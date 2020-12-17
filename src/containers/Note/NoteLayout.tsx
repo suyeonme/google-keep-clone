@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Toolbar from 'containers/Toolbar/Toolbar';
 import Tool from 'containers/Toolbar/Tool/Tool';
@@ -11,8 +10,20 @@ import {
 } from 'containers/Note/NoteElements';
 import NoteLabel from 'containers/Label/LabelElements/NoteLabel/NoteLabel';
 import { useClickOutside } from 'hooks/useClickOutside';
+import { Note, Dispatcher } from 'shared/types';
 
-function NoteLayout({
+interface NoteLayoutProp {
+  note: Note;
+  clicked: number;
+  isHovering: boolean;
+  onDelete: (id: string) => void;
+  setIsHovering: Dispatcher<boolean>;
+  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  children: React.ReactNode;
+}
+
+const NoteLayout = ({
   note,
   clicked,
   onClick,
@@ -21,7 +32,7 @@ function NoteLayout({
   isHovering,
   onClose,
   children,
-}) {
+}: NoteLayoutProp) => {
   const { id, isPinned, isChecked, labels, bgColor } = note;
   const [showLabel, setShowLabel] = useState(false);
   const { setIsClickOutside } = useClickOutside(false);
@@ -34,24 +45,21 @@ function NoteLayout({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Container clicked={clicked}>
+      <Container>
         <Tool notePin id={id} isPinned={isPinned} title="Pin Note" />
         {children}
         <ToolbarContainer>
           {labels.length > 0 && <NoteLabel id={id} labels={labels} />}
           <Toolbar
             id={id}
-            labels={labels}
             onHover={isHovering}
             setShowLabel={setShowLabel}
             onDelete={onDelete}
             isChecked={isChecked}
             onClose={onClose}
-            note={note}
           />
           {showLabel && (
             <Label
-              id={id}
               note={note}
               setShowLabel={setShowLabel}
               onExpand={setIsClickOutside}
@@ -62,16 +70,6 @@ function NoteLayout({
       </Container>
     </NoteContainer>
   );
-}
-
-NoteLayout.propTypes = {
-  note: PropTypes.object,
-  clicked: PropTypes.number,
-  onClick: PropTypes.func,
-  onDelete: PropTypes.func,
-  setIsHovering: PropTypes.func,
-  isHovering: PropTypes.bool,
-  onClose: PropTypes.func,
 };
 
 export default NoteLayout;

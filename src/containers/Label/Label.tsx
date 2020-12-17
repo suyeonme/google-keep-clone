@@ -11,8 +11,7 @@ import LabelItem from 'containers/Label/LabelElements/LabelItem/LabelItem';
 import LabelInput from 'containers/Label/LabelElements/LabelInput/LabelInput';
 import LabelCreator from 'containers/Label/LabelElements/LabelCreator/LabelCreator';
 import { useClickOutside } from 'hooks/useClickOutside';
-
-import { Dispatcher, InputFieldNote } from 'shared/types';
+import { Dispatcher, Note } from 'shared/types';
 import { RootState } from 'store/reducers';
 
 const LabelContainer = styled('div')<{ isEditableNote?: number }>`
@@ -49,13 +48,13 @@ export interface LabelObj {
 }
 
 interface LabelProp {
-  note: InputFieldNote;
+  note: Note;
   isInputField?: boolean;
   isEditableNote?: number;
   setShowLabel: Dispatcher<boolean>;
-  onRemove: (label: string) => void;
+  onRemove?: (label: string) => void;
   onExpand: (val: boolean) => void;
-  addLabelToInputField: (label: string) => void;
+  addLabelToInputField?: (label: string) => void;
 }
 
 const Label = ({
@@ -76,8 +75,6 @@ const Label = ({
     onExpand(true);
     if (!isExpand) setShowLabel(false);
   });
-
-  const handleChange = useCallback((l: string): void => setLabel(l), []);
 
   const addLabelNote = useCallback(
     async (id: string, label: string): Promise<void> => {

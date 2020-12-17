@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { TodoItemInput } from 'components/TodoList/TodoInput/TodoInput';
 import Search from 'icons/search.svg';
-
 import { Dispatcher } from 'shared/types';
 
 const InputContainer = styled.div`

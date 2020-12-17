@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { NoteTitle, NoteContent } from 'containers/Note/NoteElements';
 import NoteLayout from 'containers/Note/NoteLayout';
@@ -10,15 +9,30 @@ import { getEditableNote, clearEditableNote } from '../../store/actions/notes';
 import { convertNoteToTodo, highlightText } from 'shared/utility';
 import { editNote, removeNoteFromStore } from 'shared/firebase';
 
-function Note({ note }) {
+import { Note as NoteObj } from 'shared/types';
+import { RootState } from 'store/reducers';
+import { Todo } from 'components/TodoList/TodoList';
+
+interface NoteProp {
+  note: NoteObj;
+}
+
+type BlurEventType =
+  | React.FocusEvent<HTMLInputElement>
+  | React.FocusEvent<HTMLTextAreaElement>;
+
+const Note = ({ note }: NoteProp) => {
   const { title, content, id, isChecked } = note;
   const [isHovering, setIsHovering] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const dispatch = useDispatch();
-  const searchQuery = useSelector((state) => state.view.searchQuery);
-  const editableNote = useSelector((state) => state.notes.editableNote);
-  const editableNoteID = editableNote && editableNote.id;
-  const [isEditing, setIsEditing] = useState(false);
+  const searchQuery = useSelector((state: RootState) => state.view.searchQuery);
+  const editableNote = useSelector(
+    (state: RootState) => state.notes.editableNote,
+  );
+  const editableNoteID: string = editableNote && editableNote.id;
+  const todos: Todo[] | undefined = convertNoteToTodo(content);
 
   useEffect(() => {
     if (editableNote && editableNote.id === id) {
@@ -29,11 +43,13 @@ function Note({ note }) {
   }, [editableNote, id]);
 
   const handleClick = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+      const event = e.target as HTMLElement;
+
       if (
-        e.target.nodeName !== 'BUTTON' &&
-        e.target.id !== 'checkbox' &&
-        e.target.id !== 'label' &&
+        event.nodeName !== 'BUTTON' &&
+        event.id !== 'checkbox' &&
+        event.id !== 'label' &&
         !editableNoteID
       ) {
         dispatch(getEditableNote(note));
@@ -43,20 +59,23 @@ function Note({ note }) {
   );
 
   const handleDelete = useCallback(
-    async (id, type) => {
+    async (id: string): Promise<void> => {
       dispatch(clearEditableNote());
-      removeNoteFromStore(id, type);
+      removeNoteFromStore(id);
     },
     [dispatch],
   );
 
-  const handleBlur = useCallback(async (e, id) => {
-    const { name, value } = e.target;
-    editNote(id, name, value);
-  }, []);
+  const handleBlur = useCallback(
+    async (e: BlurEventType, id: string | undefined): Promise<void> => {
+      const { name, value } = e.target;
+      if (id) editNote(id, name, value);
+    },
+    [],
+  );
 
   const handleClose = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLButtonElement>): void => {
       e.preventDefault();
       dispatch(clearEditableNote());
     },
@@ -85,7 +104,7 @@ function Note({ note }) {
           onBlur={(e) => handleBlur(e, id)}
         />
         {isChecked ? (
-          <TodoList id={id} todoContent={() => convertNoteToTodo(content)} />
+          <TodoList id={id} todoContent={todos} />
         ) : (
           <TextArea
             name="content"
@@ -105,17 +124,14 @@ function Note({ note }) {
       <NoteLayout {...noteLayoutProps}>
         <NoteTitle>{highlightText(title, searchQuery)}</NoteTitle>
         {isChecked ? (
-          <TodoList todoContent={() => convertNoteToTodo(content)} />
+          <TodoList todoContent={todos} />
         ) : (
           <NoteContent>{highlightText(content, searchQuery)}</NoteContent>
         )}
       </NoteLayout>
     );
   }
-}
-
-Note.propTypes = {
-  note: PropTypes.object.isRequired,
+  return null;
 };
 
 export default React.memo(Note);

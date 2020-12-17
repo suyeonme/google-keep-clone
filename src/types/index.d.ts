@@ -9,5 +9,6 @@ declare module 'react' {
     isNote?: boolean | undefined;
     isshow?: number;
     alt?: string;
+    name?: string;
   }
 }

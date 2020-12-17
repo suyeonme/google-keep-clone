@@ -12,6 +12,7 @@ import penIcon from 'icons/pen.svg';
 import labelIcon from 'icons/label.svg';
 
 import { RootState } from 'store/reducers/index';
+import { LabelObj as Label } from 'containers/Label/Label';
 
 const Link = styled(NavLink)<{ ishover?: string }>`
   height: 100%;
@@ -73,11 +74,6 @@ interface NavMenuProp {
   openNav: (bool: boolean) => void;
 }
 
-interface LabelProp {
-  id: string;
-  name: string;
-}
-
 interface ItemProp {
   image: string;
   link: string;
@@ -103,7 +99,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
 
   let labelIcons;
   let navIcons;
-  const labelItems: ItemProp[] = labels.map((label: LabelProp) => {
+  const labelItems: ItemProp[] = labels.map((label: Label) => {
     return {
       image: labelIcon,
       title: label.name,

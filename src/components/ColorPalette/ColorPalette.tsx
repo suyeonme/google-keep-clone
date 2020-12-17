@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { changeColor } from 'shared/firebase';
 
-const ColorPaletteContainer = styled('div')<{ isInputField?: string }>`
+const ColorPaletteContainer = styled('div')<{ isInputField?: boolean }>`
   max-width: 128px;
   padding: 0.5rem;
   position: absolute;
@@ -41,11 +41,11 @@ const ColorPaletteBtn = styled('button')<{ color: string }>`
 `;
 
 interface ColorPaletteProp {
-  id: string;
-  isInputField: boolean;
+  id?: string;
+  isInputField?: boolean;
   onHover: () => void;
   onUnHover: () => void;
-  onClick: (color: string) => void;
+  onClick: ((color: string) => void) | undefined;
 }
 
 const ColorPalette = ({
@@ -68,7 +68,11 @@ const ColorPalette = ({
 
   const handleClick = (e: React.MouseEvent, color: string): void => {
     e.preventDefault();
-    isInputField ? onClick(color) : changeColor(color, id);
+    if (isInputField && onClick) {
+      onClick(color);
+    } else if (id) {
+      changeColor(color, id);
+    }
   };
 
   return (

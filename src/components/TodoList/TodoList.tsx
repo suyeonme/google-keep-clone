@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Dispatch, SetStateAction } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import update from 'immutability-helper';
@@ -12,7 +12,7 @@ import { editNote } from 'shared/firebase';
 
 import { Dispatcher } from 'shared/types';
 import { RootState } from 'store/reducers/index';
-import { InputFieldNote } from 'shared/types';
+import { Note } from 'shared/types';
 
 const Wrapper = styled.ul`
   max-height: 223px;
@@ -35,19 +35,14 @@ export interface Todo {
 }
 
 interface TodoListProp {
-  id?: string;
   todoContent: Todo[];
-  isInputField: boolean;
-  setNote: Dispatcher<any>; // any
+  id?: string;
+  isInputField?: boolean;
+  setNote?: Dispatcher<any>;
 }
 
-const TodoList = ({
-  todoContent = [],
-  id,
-  setNote,
-  isInputField,
-}: TodoListProp) => {
-  const [todos, setTodos] = useState(todoContent);
+const TodoList = ({ todoContent, id, setNote, isInputField }: TodoListProp) => {
+  const [todos, setTodos] = useState<Todo[]>(todoContent);
   const [showDoneList, setShowDoneList] = useState(true);
 
   const editableNote = useSelector(
@@ -59,7 +54,11 @@ const TodoList = ({
 
   const handleAdd = useCallback(
     (newTodo: Todo): void => {
-      todos === undefined ? setTodos([newTodo]) : setTodos([...todos, newTodo]);
+      if (todos === undefined) {
+        setTodos([newTodo]);
+      } else {
+        setTodos([...todos, newTodo]);
+      }
     },
     [todos],
   );
@@ -68,11 +67,11 @@ const TodoList = ({
     (noteID: string, todoID: TodoItemID, todos: Todo[]): void => {
       let newTodos: Todo[] = todos.filter((t: Todo) => t.id !== todoID);
       setTodos(newTodos);
-      const value: string = convertTodoToNote(newTodos);
+      const value: string | undefined = convertTodoToNote(newTodos);
 
-      if (isInputField) {
-        setNote((prev: InputFieldNote) => ({ ...prev, content: value }));
-      } else {
+      if (isInputField && setNote) {
+        setNote((prev: Note) => ({ ...prev, content: value }));
+      } else if (value) {
         editNote(noteID, 'content', value);
       }
     },
@@ -81,11 +80,11 @@ const TodoList = ({
 
   const handleBlur = useCallback(
     (noteID: string | undefined, todos: Todo[] | undefined): void => {
-      const value: string = convertTodoToNote(todos);
+      const value: string | undefined = convertTodoToNote(todos);
 
-      if (isInputField) {
-        setNote((prev: InputFieldNote) => ({ ...prev, content: value }));
-      } else {
+      if (isInputField && setNote) {
+        setNote((prev: Note) => ({ ...prev, content: value }));
+      } else if (noteID && value) {
         editNote(noteID, 'content', value);
       }
     },
@@ -248,6 +247,10 @@ const TodoList = ({
   }
 
   return null;
+};
+
+TodoList.defaultProps = {
+  todoContent: [],
 };
 
 export default React.memo(TodoList);

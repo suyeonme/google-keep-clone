@@ -3,7 +3,16 @@ import styled, { css } from 'styled-components';
 import PinIcon from 'icons/pin.svg';
 import FilledPinIcon from 'icons/pin-fill.svg';
 
-export const ToolbarBtn = styled.button`
+interface ToolbarBtnProp {
+  bgImage?: string;
+  notePin?: boolean;
+  isPinned?: boolean;
+  inputPin?: boolean;
+  isLabel?: boolean;
+  editLabel?: boolean;
+}
+
+export const ToolbarBtn = styled('button')<ToolbarBtnProp>`
   border-radius: 50%;
   width: 2.8rem;
   height: 2.8rem;
@@ -27,7 +36,7 @@ export const ToolbarBtn = styled.button`
       opacity: 0.54;
       background-size: 24px 24px;
       margin-right: 0;
-      background: ${(props) =>
+      background: ${(props: any) =>
           props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
         no-repeat center center;
     `};
@@ -40,7 +49,7 @@ export const ToolbarBtn = styled.button`
       right: 0;
       width: 40px;
       height: 40px;
-      background: ${(props) =>
+      background: ${(props: any) =>
           props.isPinned ? `url(${FilledPinIcon})` : `url(${PinIcon})`}
         no-repeat center center;
     `};
