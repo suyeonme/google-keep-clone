@@ -67,7 +67,7 @@ export const searchNote = (query: string, notes: Note[]): Note[] => {
 };
 
 export const highlightText = (text: string, query: string) => {
-  if (query !== '' && text.includes(query)) {
+  if (query !== '') {
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
 
     return (
@@ -82,7 +82,6 @@ export const highlightText = (text: string, query: string) => {
       </>
     );
   }
-
   return text;
 };
 

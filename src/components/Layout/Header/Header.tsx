@@ -21,8 +21,7 @@ const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
-  z-index: 1000;
+  z-index: 100;
 `;
 
 const Menu = styled.div`

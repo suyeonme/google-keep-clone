@@ -7,7 +7,7 @@ const NavContainer = styled('nav')<{ ishover: boolean }>`
   position: fixed;
   top: 7.2rem;
   left: 0;
-  z-index: 5;
+  z-index: 300;
   overflow: hidden;
   height: 100%;
   display: flex;

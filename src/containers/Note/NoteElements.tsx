@@ -43,7 +43,7 @@ export const NoteContainer = styled('div')<{
       width: 42%;
       height: 60vh;
       max-height: 90vh;
-      z-index: 500;
+      z-index: 800;
       cursor: default;
       animation: ${popup} 0.3s ease-out;
       box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),

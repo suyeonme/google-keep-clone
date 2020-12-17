@@ -12,7 +12,7 @@ const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 500;
   background-color: #e5e5e5;
   opacity: 0.75;
   transition: opacity 0.3s ease-out;

@@ -10,7 +10,6 @@ const Message = styled.div`
   position: fixed;
   bottom: 20px;
   left: 20px;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,6 +20,7 @@ const Message = styled.div`
   border-radius: 3px;
   padding: 15px 20px;
   transition: all 0.3s ease-out;
+  z-index: 1000;
 
   &.slide-enter {
     opacity: 0;

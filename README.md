@@ -1,10 +1,10 @@
 # Clone Google Keep
 
-> Clone google keep application using react as a web app.<br>
-> Google keep is a note-taking service.
+> Google keep is a note-taking service. <br>
+> Clone google keep application using react and typescript as a web app.
 
 I tried to clone the details of an actual Google Keep application.
-By developing this app, I focused on basic concepts of react and typescript, a functional component, and its ecosystem. And I tried to optimize its performance and write clean and simple code.
+By developing this app, I focused on basic concepts of react and typescript, a functional component, and its ecosystem. And I also tried to optimize its performance and write clean and simple code.
 
 <br>
 
@@ -37,13 +37,12 @@ You can check demo [here](https://clone-google-keep.netlify.app).
 - Redux
 - Redux-thunk
 - Firebase
-
+- immutability-helper
+- react-dnd & react-dnd-html5-backend
 - material-ui
 - Styled-components
 - react-masonry-css
 - react-transition-group
-- react-dnd & react-dnd-html5-backend
-- immutability-helper
 
 <br>
 
@@ -105,11 +104,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ---
 
-## Todo
+## Improvements
 
 - Save "isDone" property of a todo item in order to save checked value of a checkbox.
 - Update label from all notes when edit a global label.
-
-## Improvements
-
-- Optimize rendering.
+- Truncate Todo Item.
