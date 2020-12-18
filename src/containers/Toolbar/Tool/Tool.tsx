@@ -4,7 +4,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { showFlashMessage, hideFlashMessage } from 'store/actions/view';
 import { ToolbarBtn, ToolSpan } from 'containers/Toolbar/Tool/ToolElements';
-import { renameLabel, removeLabel } from 'store/actions/notes';
+import {
+  renameLabel,
+  removeLabel,
+  clearEditableNote,
+} from 'store/actions/notes';
 import {
   editLabelFromStore,
   addLabelToStore,
@@ -108,11 +112,15 @@ const Tool = ({
         } else if (id) {
           showMessage('Note archived');
           changeNoteToArchives(id);
+          dispatch(clearEditableNote());
         }
         break;
       case 'Unarchive':
-        showMessage('Note uarchived');
-        if (id) changeArchivesToNotes(id);
+        if (id) {
+          showMessage('Note uarchived');
+          changeArchivesToNotes(id);
+          dispatch(clearEditableNote());
+        }
         break;
       case 'Add Label':
         setShowLabel && setShowLabel(true);
@@ -150,6 +158,9 @@ const Tool = ({
         break;
       case 'Cancel':
         clearInput && clearInput();
+        break;
+      case 'Change Color':
+        if (showPalette) showPalette(); // Mobile
         break;
       default:
         return title;

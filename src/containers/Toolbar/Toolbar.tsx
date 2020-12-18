@@ -58,7 +58,7 @@ const ToolContaienr = styled.div`
 `;
 
 interface ToolbarProp {
-  id?: string | undefined;
+  id?: string;
   onHover: boolean;
   onAddNote?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onToggle?: (noteProperty: ToggleTool) => void;
