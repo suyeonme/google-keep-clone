@@ -63,16 +63,17 @@ const EditLabelItem = ({ label, labelCreator }: EditLabelItemProp) => {
           clearInput={handleClearInput}
         />
         <EditLabelInput
-          value={enteredLabel}
+          type="text"
           placeholder="Create new label"
+          value={enteredLabel}
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
         {isFocused && (
           <Tool
+            title="Create Label"
             bgImage={checkIcon}
             newLabel={enteredLabel}
             clearInput={handleClearInput}
-            title="Create Label"
             editLabel
           />
         )}
@@ -85,19 +86,21 @@ const EditLabelItem = ({ label, labelCreator }: EditLabelItemProp) => {
       <ItemContainer onClick={handleClick} onBlur={handleBlur}>
         <Tool
           bgImage={isFocused ? trashIcon : LabelIcon}
-          label={label}
           title={isFocused ? 'Delete Label' : 'Label'}
+          label={label}
           editLabel
         />
         <EditLabelInput
+          type="text"
+          key={label.id}
           defaultValue={label.name}
           onChange={(e) => setEnteredLabel(e.target.value)}
         />
         <Tool
-          bgImage={isFocused ? checkIcon : penIcon}
-          label={label}
-          newLabel={enteredLabel}
           title="Rename Label"
+          bgImage={isFocused ? checkIcon : penIcon}
+          newLabel={enteredLabel}
+          label={label}
           editLabel
         />
       </ItemContainer>

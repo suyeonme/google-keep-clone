@@ -44,6 +44,15 @@ interface ToolProp {
   onRemoveNoteLabel?: (id: string, label: string) => void;
 }
 
+interface StyleProps {
+  bgImage?: string;
+  notePin?: boolean;
+  inputPin?: boolean;
+  isPinned?: boolean;
+  isLabel?: boolean;
+  editLabel?: boolean;
+}
+
 const Tool = ({
   id,
   title,
@@ -71,103 +80,142 @@ const Tool = ({
 
   const showMessage = (message: string): void => {
     dispatch(showFlashMessage(message));
-
     setTimeout(() => {
       dispatch(hideFlashMessage());
     }, 3000);
   };
 
+  const handleshowCheckbox = (): void => {
+    if (isInputField && onToggle) {
+      onToggle('isChecked');
+    } else if (id) {
+      toggleNoteTodo(id, !isChecked);
+    }
+  };
+
+  const handletoggleNotePin = (): void => {
+    if (isInputField && onToggle) {
+      onToggle('isPinned');
+    } else if (id) {
+      toggleNotePin(id, !isPinned);
+    }
+  };
+
+  const handleDeleteNote = (): void => {
+    if (id && onDelete) onDelete(id);
+  };
+
+  const handleArchive = (): void => {
+    if (isInputField && onToggle) {
+      showMessage('Note archived');
+      onToggle('isArchived');
+    } else if (id) {
+      showMessage('Note archived');
+      changeNoteToArchives(id);
+      dispatch(clearEditableNote());
+    }
+  };
+
+  const handleUnarchive = (): void => {
+    if (id) {
+      showMessage('Note uarchived');
+      changeArchivesToNotes(id);
+      dispatch(clearEditableNote());
+    }
+  };
+
+  const handleAddLabel = (): void => {
+    if (setShowLabel) setShowLabel(true);
+  };
+
+  const handleCreateLabel = (): void => {
+    if (newLabel && newLabel !== '') {
+      addLabelToStore(newLabel);
+      if (clearInput) clearInput();
+    }
+  };
+
+  const handleRemoveLabel = (label: any): void => {
+    const isString = typeof label === 'string';
+
+    if (isInputField && onRemove && isString) {
+      onRemove(label);
+    } else if (onRemoveNoteLabel && isString && id) {
+      onRemoveNoteLabel(id, label);
+    }
+  };
+
+  const handleRenameLabel = (label: any): void => {
+    const isObject = typeof label === 'object';
+
+    if (newLabel && newLabel !== '' && isObject) {
+      const { id, name } = label;
+      editLabelFromStore(id, newLabel);
+      dispatch(renameLabel(name, newLabel));
+    }
+  };
+
+  const handleDeleteLabel = (label: any): void => {
+    const isObject = typeof label === 'object';
+
+    if (isObject) {
+      removeLabelFromStore(label.id);
+      dispatch(removeLabel(label));
+    }
+  };
+
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     title: string,
-    id?: string,
   ) => {
     e.preventDefault();
 
     switch (title) {
       case 'Show Checkbox':
-        if (isInputField && onToggle) {
-          onToggle('isChecked');
-        } else if (id) {
-          toggleNoteTodo(id, !isChecked);
-        }
+        handleshowCheckbox();
         break;
       case 'Pin Note':
-        if (isInputField && onToggle) {
-          onToggle('isPinned');
-        } else if (id) {
-          toggleNotePin(id, !isPinned);
-        }
+        handletoggleNotePin();
         break;
       case 'Delete Note':
-        if (id && onDelete) onDelete(id);
+        handleDeleteNote();
         break;
       case 'Delete Todo':
-        deleteTodo && deleteTodo();
+        if (deleteTodo) deleteTodo();
         break;
       case 'Archive':
-        if (isInputField && onToggle) {
-          showMessage('Note archived');
-          onToggle('isArchived');
-        } else if (id) {
-          showMessage('Note archived');
-          changeNoteToArchives(id);
-          dispatch(clearEditableNote());
-        }
+        handleArchive();
         break;
       case 'Unarchive':
-        if (id) {
-          showMessage('Note uarchived');
-          changeArchivesToNotes(id);
-          dispatch(clearEditableNote());
-        }
+        handleUnarchive();
         break;
       case 'Add Label':
-        setShowLabel && setShowLabel(true);
+        handleAddLabel();
         break;
       case 'Create Label':
-        if (newLabel && newLabel !== '') {
-          addLabelToStore(newLabel);
-          clearInput && clearInput();
-        }
+        handleCreateLabel();
         break;
       case 'Remove Label':
-        if (isInputField && onRemove && typeof label === 'string') {
-          onRemove(label);
-        } else if (onRemoveNoteLabel && typeof label === 'string' && id) {
-          onRemoveNoteLabel(id, label);
-        }
+        handleRemoveLabel(label);
         break;
       case 'Rename Label':
-        if (
-          newLabel &&
-          newLabel !== '' &&
-          typeof label === 'object' &&
-          'id' in label &&
-          'name' in label
-        ) {
-          editLabelFromStore(label.id, newLabel);
-          dispatch(renameLabel(label.name, newLabel));
-        }
+        handleRenameLabel(label);
         break;
       case 'Delete Label':
-        if (typeof label === 'object' && 'id' in label && 'name' in label) {
-          removeLabelFromStore(label.id);
-          dispatch(removeLabel(label));
-        }
+        handleDeleteLabel(label);
         break;
       case 'Cancel':
-        clearInput && clearInput();
+        if (clearInput) clearInput();
         break;
       case 'Change Color':
-        if (showPalette) showPalette(); // Mobile
+        if (showPalette) showPalette();
         break;
       default:
         return title;
     }
   };
 
-  const styleProps = {
+  const styleProps: StyleProps = {
     bgImage,
     notePin,
     inputPin,
@@ -182,7 +230,7 @@ const Tool = ({
         <ToolbarBtn
           onMouseEnter={showPalette}
           onMouseLeave={hidePalette}
-          onClick={(e) => handleClick(e, title, id)}
+          onClick={(e) => handleClick(e, title)}
           {...styleProps}
         />
       </Tooltip>

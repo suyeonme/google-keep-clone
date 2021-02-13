@@ -71,6 +71,7 @@ const TodoInput = ({ onAdd }: TodoInputProp) => {
     <Wrapper>
       <PlusIcon />
       <TodoItemInput
+        type="text"
         autoFocus
         addingTodo
         placeholder="List Item"

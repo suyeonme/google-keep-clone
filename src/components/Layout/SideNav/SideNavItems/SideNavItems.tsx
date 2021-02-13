@@ -103,6 +103,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
   let navIcons;
   const labelItems: NavItemProp[] = labels.map((label: Label) => {
     return {
+      id: label.id,
       image: labelIcon,
       title: label.name,
       link: `/label/${label.name}`,
@@ -121,7 +122,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
 
   if (ishover) {
     labelIcons = labelItems.map((label: NavItemProp) => (
-      <Item key={label.title}>
+      <Item key={label.id}>
         <Link to={label.link} exact={true} ishover={ishover.toString()}>
           <IconContainer bgImage={label.image} />
           <Title>{label.title}</Title>
@@ -154,7 +155,7 @@ function NavMenu({ ishover, openNav }: NavMenuProp) {
 
   if (!ishover) {
     labelIcons = labelItems.map((label: NavItemProp) => (
-      <Item key={label.link}>
+      <Item key={label.id}>
         <Link to={label.link} exact={true}>
           <IconContainer bgImage={label.image} />
         </Link>
